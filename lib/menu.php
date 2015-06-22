@@ -123,6 +123,12 @@ $menu = array(
                                         'tip' => trans('Customers age charts'),
                                         'prio' => 80,
                                 ),
+                                array(
+                                        'name' => trans('New/deleted customers stats'),
+                                        'link' =>'?m=alfa_newcustomersstats',
+                                        'tip' => trans('New/deleted customers stats'),
+                                        'prio' => 90,
+                                ),
 			),		 
 		),
 
