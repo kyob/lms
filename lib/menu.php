@@ -117,6 +117,12 @@ $menu = array(
 					'tip' => trans('Lists and reports printing'),
 					'prio' => 70,
 				),
+                                array(
+                                        'name' => trans('Age stats'),
+                                        'link' =>'?m=alfa_agestats',
+                                        'tip' => trans('Customers age charts'),
+                                        'prio' => 80,
+                                ),
 			),		 
 		),
 
