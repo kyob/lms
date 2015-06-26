@@ -379,56 +379,52 @@
     </TBODY>
 </TABLE>
 <BR>
-<TABLE WIDTH="100%" CELLPADDING="3">
-    <TR class="DARK">
-        <TD WIDTH="98%" CLASS="FleftU" COLSPAN="2" onclick="showOrHide('pppoepanel');">
-            <IMG SRC="img/ppoe/pppor.gif" ALT=""> Sesje PPPoE: <B>{$nodeinfo.name|upper} ({$nodeinfo.id|string_format:"%04d"})</b>  -  Status sesji: <B>{$lastpppoesession.acctstoptime}</B>
-        </TD>
-        <TD width="2%" class="frightu" align="right" nowrap>
-        </TD>
-    </TR>
+<TABLE class="lmsbox" CELLPADDING="3">
+    <THEAD>
+        <TR>
+        <TD CLASS="FleftU" onclick="showOrHide('pppoepanel');" colspan="2">
+	<IMG SRC="img/ppoe/pppor.gif" ALT=""> &nbsp; 
+    	Sesje PPPoE: <B>{$nodeinfo.name|upper} ({$nodeinfo.id|string_format:"%04d"})</b>
+	    </TD>
+        </TR>
+    </THEAD>
+
     <TR CLASS="LIGHT" id="pppoepanel">
-        <TD width="2%" nowrap align="center">
-            {if $lastpppoesession.acctstoptime==""}
-            {elseif $lastpppoesession.acctstoptime=="TRWA"}
-                <img src="img/ppoe/ok.gif" width="30">
-            {else}
-                <img src="img/ppoe/error.gif" width="30">
+    <td>
+        <ul>
+                <li>Status sesji: {$lastpppoesession.acctstoptime}</li>
+	<li>Rozpoczecie sesji: {$lastpppoesession.acctstarttime}</li>
+                <li>Czas trwania sesji: {$lastpppoesession.acctsessiontimeconv}</li>
+                <li>Download w sesji: {$lastpppoesession.download|number_format:2} {$lastpppoesession.downloadunit}</li>
+                <li>Upload w sesji: {$lastpppoesession.upload|number_format:2} {$lastpppoesession.uploadunit}</li>
+                <li>IP koncentratora dla sesji: {$lastpppoesession.nasipaddress}</li>
+	<li>Ostatnie IP klienta: {$lastpppoesession.framedipaddress}</li>
+        </ul>
+    </td>
+    <td>
+            {if isset($ClipsUpdate) }
+            <div style="border:1px solid black;padding:1em;margin:1em;">
+	<p>Zatwierdzone zmiany:</p>
+	<ul>
+	    <li>MAC: <strong>{$ClipsUpdate.mac}</strong></li>
+	    <li>Prędkość pobierania: <strong>{$ClipsUpdate.dl_ceil/1024}</strong> Mb/s</li>
+	    <li>Prędkość wysyłania: <strong>{$ClipsUpdate.up_ceil/1024}</strong> Mb/s</li>
+	    <li>Przekierowanie na stronę: <strong>{$ClipsUpdate.redirect}</strong></li>
+	</ul>
+	</div>
             {/if}
-        </TD>
-        <td COLSPAN="2">
-            <TABLE WIDTH="100%">
-                <TR CLASS="LIGHT">
-                    <TD WIDTH="2%"><IMG SRC="img/ppoe/date.gif" ALT="{t}PPPoE session starttime{/t}"></TD>
-                    <TD WIDTH="32%" COLSPAN="2">Rozpoczecie sesji: {$lastpppoesession.acctstarttime}</TD>
-                    <TD WIDTH="2%"> <IMG SRC="img/time.gif" ALT="{t}PPPoE session stoptime{/t}"></TD>
-                    <TD WIDTH="32%" COLSPAN="2">Status sesji: {$lastpppoesession.acctstoptime}</TD>
-                    <TD WIDTH="2%"><IMG SRC="img/ppoe/time.gif" ALT="{t}PPPoE session duration{/t}"></TD>
-                    <TD WIDTH="32%" COLSPAN="2">Czas trwania sesji: {$lastpppoesession.acctsessiontimeconv}</TD>
-                </TR>
-                <TR CLASS="LIGHT">
-                    <TD WIDTH="2%"><IMG SRC="img/ppoe/upload.gif" ALT="{t}PPPoE session starttime{/t}"></TD>
-                    <TD WIDTH="32%" COLSPAN="2">Upload w sesji: {$lastpppoesession.upload|number_format:2} {$lastpppoesession.uploadunit}</TD>
-                    <TD WIDTH="2%"> <IMG SRC="img/ppoe/download.gif" ALT="{t}PPPoE session stoptime{/t}"></TD>
-                    <TD WIDTH="32%" COLSPAN="2">Download w sesji: {$lastpppoesession.download|number_format:2} {$lastpppoesession.downloadunit}</TD>
-                    <TD WIDTH="2%"><IMG SRC="img/ppoe/ip.gif" ALT="{t}PPPoE session duration{/t}"></TD>
-                    <TD WIDTH="32%" COLSPAN="2">IP koncentratora dla sesji: {$lastpppoesession.nasipaddress}<BR><A HREF="?m=nodeinfo&id={$nodeinfo.id}&killredback=1">Ostatnie IP klienta: {$lastpppoesession.framedipaddress}</A></TD>
-                </TR>
-            </TABLE>
-            {if isset($NewSpeed) }
-                {if is_array($NewSpeed) }
-                    <p>New speed has beed applied for {$NewSpeed[0].mac} DL: {$NewSpeed[0].download} UP: {$NewSpeed[0].upload}</p>
-                {else}
-                    {$NewSpeed}
-                {/if}
-            {else}
-                <a href="./?m=nodeinfo&id={$nodeinfo.id}&updatespeed=1">>>Update speed</a>
+        {if isset($ClipsInfo) }
+                <div style="border:1px solid black;padding:1em;margin:1em;">
+	    <pre>{$ClipsInfo}</pre>
+	</div>
             {/if}
-            {if isset($ClipsInfo) }
-                <pre>{$ClipsInfo}</pre>
-            {else}
-                <a href="./?m=nodeinfo&id={$nodeinfo.id}&clips=1">>>More</a>
-            {/if}
+    </td>
+    </tr>
+    <tr>
+    <td colspan="2" style="margin:1em;padding:1em;">
+    	<a href="./?m=nodeinfo&id={$nodeinfo.id}&updatenode=1">Zatwierdź zmiany!</a> &nbsp; # &nbsp; 
+    	<a href="./?m=nodeinfo&id={$nodeinfo.id}&disconnectnode=1">Zakończ sesję i rozłącz!</a> &nbsp; # &nbsp; 
+    	<a href="./?m=nodeinfo&id={$nodeinfo.id}&clips=1">Pokaż przypisane parametry</a>
         </td>
     </TR>
 </table>

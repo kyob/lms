@@ -116,16 +116,10 @@ if ($authtype != 0) {
 }
 
 // REDBACK CLIPS
-    $nas = $CONFIG['redback']['Identifier'];
-    $context = $CONFIG['redback']['ClipsContext'];
-    $clipsIP = $CONFIG['redback']['clipsip'];
-    $pass = $CONFIG['redback']['pass'];
-    $perlCOA =  $CONFIG['redback']['perlCOA'];
-
 function NodeLastPPPoESession($id) {
     global $DB;
     if ($PPPoESession = $DB->GetRow('SELECT callingstationid, nasipaddress, acctstarttime, acctstoptime, acctsessiontime, acctinputoctets, acctoutputoctets, framedipaddress FROM radacct WHERE username=? ORDER BY radacctid DESC LIMIT 1', array($id))) {
- 
+
         list($PPPoESession['upload'], $PPPoESession['uploadunit']) = setunits($PPPoESession['acctinputoctets']);
         list($PPPoESession['download'], $PPPoESession['downloadunit']) = setunits($PPPoESession['acctoutputoctets']);
         $PPPoESession['acctsessiontimeconv'] = date("z \d\\n\i H:i:s", -3600 + $PPPoESession['acctsessiontime']);
@@ -136,31 +130,17 @@ function NodeLastPPPoESession($id) {
     }
     return $PPPoESession;
 }
- 
+
 $nodeinfo = $LMS->GetNode($nodeid);
 $lastPPPoEsession = NodeLastPPPoESession($nodeinfo['macs'][0]['mac']);
- 
-if (isset($_GET['killredback'])) {
-    global $CONFIG;
-    $mac = strtolower($nodeinfo['macs'][0]['mac']);
-    $nas = $CONFIG[redback][Identifier];
-    $context = $CONFIG[redback][ClipsContext];
-    $clipsIP = $CONFIG['redback']['clipsip'];
-    $pass = $CONFIG['redback']['pass'];
-    echo $cmd = "echo \"User-Name=\"$mac\",NAS-Identifier=\"$nas\",Context-Name=\"$context\"\" | radclient -x $clipsIP:3799 disconnect $pass";
-    exec($cmd);
-    global $DB;
-    $DB->exec("update radacct set acctstoptime=NOW(), acctterminatecause='STATE-CLEARED' where acctstoptime is NULL and username = UPPER(?);", array($mac));
-    $SESSION->redirect('?m=nodeinfo&id=' . $_GET['id']);
-}
- 
+
 function GetClipsInfo($mac) {
     global $CONFIG;
     $ip = $CONFIG['redback']['ip'];
     $user = $CONFIG['redback']['username'];
     $pass = $CONFIG['redback']['pass'];
     $port = $CONFIG['redback']['port'];
- 
+
     $cmd = $CONFIG['redback']['info'] . " " . strtolower($mac);
     if (isset($CONFIG['redback']['pass'])) {
         $methods = array(
@@ -174,7 +154,7 @@ function GetClipsInfo($mac) {
                 'crypt' => '3des-cbc',
                 'mac' => 'hmac-md5',
                 'comp' => 'none'));
- 
+
         $conn = ssh2_connect($ip, $port, $methods);
         $test = ssh2_auth_password($conn, $user, $pass);
         $stream = ssh2_exec($conn, $cmd);
@@ -184,93 +164,65 @@ function GetClipsInfo($mac) {
     }
     return $return;
 }
- 
-function ClearHost($ip) {
-    global $CONFIG;
-    $ip = $CONFIG['redback']['ip'];
-    $user = $CONFIG['redback']['username'];
-    $pass = $CONFIG['redback']['pass'];
-    $port = $CONFIG['redback']['port'];
- 
-    $cmd1 = "context CLIPS";
-    $cmd2 = "clear dhcp host  " . $ip;
-    if (isset($CONFIG['redback']['pass'])) {
-        $methods = array(
-            'kex' => 'diffie-hellman-group1-sha1',
-            'hostkey' => 'ssh-dss',
-            'client_to_server' => array(
-                'crypt' => '3des-cbc',
-                'mac' => 'hmac-md5',
-                'comp' => 'none'),
-            'server_to_client' => array(
-                'crypt' => '3des-cbc',
-                'mac' => 'hmac-md5',
-                'comp' => 'none'));
- 
-        $conn = ssh2_connect($ip, $port, $methods);
-        $test = ssh2_auth_password($conn, $user, $pass);
-        $stream = ssh2_exec($conn, $cmd1);
-        $stream = ssh2_exec($conn, $cmd2);
-        stream_set_blocking($stream, true);
-        $return = stream_get_contents($stream);
-        fclose($stream);
-    }
-    return $return;
-}
- 
-function SetNewSpeed($mac) {
+
+function UpdateClips($nid) {
     global $DB, $CONFIG;
-    if (!$nodeParam = $DB->GetAll('SELECT vclips.id, vclips.mac, vclips.ip, vclips.redirect, vclips.download, vclips.upload FROM vclips WHERE mac=?', array($mac))) {
-        return "nodeParam query faild";
-    }
-//echo "<p>redirect:".$nodeParam[0][redirect]."</p>";
-    if ($nodeParam[0][redirect] == 0) {
+    $node = $DB->GetRow("SELECT lower(m.mac) AS mac,t.downceil AS dl_ceil, t.upceil AS up_ceil, CASE WHEN n.access = 0 OR n.warning = 1 THEN 1 ELSE 0 END AS redirect FROM nodeassignments na INNER JOIN assignments a ON (na.assignmentid = a.id) AND ((UNIX_TIMESTAMP() >= datefrom AND UNIX_TIMESTAMP() <= dateto) OR (UNIX_TIMESTAMP() >= datefrom AND dateto = 0)) INNER JOIN tariffs t ON (a.tariffid = t.id) INNER JOIN nodes n ON (na.nodeid = n.id) INNER JOIN macs m ON (m.nodeid = n.id) WHERE n.id = ?;", array($nid));
+    
+    if ($node[redirect] == 0) {
         $forwardpolicy = "in:CLIPS-DEFAULT";
         $httpredirect = "";
     } else {
         $forwardpolicy = "in:REDIRECT";
         $httpredirect = "KOMUNIKAT";
     }
-//echo $nodeParam[0][ip];
-    $cmd = "$perlCOA -d $clipsIP -e $pass -v \"User-Name=" . $nodeParam[0][mac] . "; NAS-Identifier=ALFASYSTEM; Redback:Qos-Rate-Outbound=" . $nodeParam[0][download] . "; Redback:Qos-Rate-Inbound=" . $nodeParam[0][upload] . "; Redback:Forward-Policy=" . $forwardpolicy . "; Redback:HTTP-Redirect-Profile-Name=" . $httpredirect . "; Redback:Context-Name=CLIPS\" ";
- 
- 
+
     $nas = $CONFIG[redback][Identifier];
     $context = $CONFIG[redback][ClipsContext];
-    $mac = $nodeParam[0][mac];
-    $dl = $nodeParam[0][download];
-    $up = $nodeParam[0][upload];
-//    "HTTP-Redirect-Profile-Name=\"$httpredirect\",";
-//$cmd="echo \"User-Name=\"$mac\",NAS-Identifier=\"$nas\",Qos-Rate-Outbound=\"$dl\", Qos-Rate-Inbound=\"$up\",Forward-Policy=\"$forwardpolicy\", HTTP-Redirect-Profile-Name=\"$httpredirect\", Context-Name=\"$context\"\" | radclient -x $CONFIG['redback']['clipsip']:3799 coa $CONFIG['redback']['pass']";
-//    $cmd="echo \"User-Name=\"$mac\",NAS-Identifier=\"$nas\",Qos-Rate-Outbound=\"$dl\", Qos-Rate-Inbound=\"$up\",Forward-Policy=\"$forwardpolicy\", $redirect Context-Name=\"$context\"\" | radclient -x $CONFIG['redback']['clipsip']:3799 coa $CONFIG['redback']['pass']";
-//exec($cmd);
- 
-    echo "<pre>";
-    print_r($cmd);
-    echo "</pre>";
- 
+    $mac=$node[mac];
+
+    echo $cmd='echo "User-Name='.$mac.',Qos-Rate-Outbound='.$node[dl_ceil].', Qos-Rate-Inbound='.$node[up_ceil].',Forward-Policy='.$forwardpolicy.', HTTP-Redirect-Profile-Name=\''.$httpredirect.'\', Context-Name='.$context.'" | radclient -r 1 -x 91.231.70.33:3799 coa alfaradius';
+
     if (!exec($cmd, $result)) {
         print($result);
         return "cmd not executed: ";
+    }else{
+	return $node;
     }
-    return $nodeParam;
 }
- 
-if (isset($_GET['clear'])) {
-    echo $_GET['host'];
-//    $SMARTY->assign('ClearHost', ClearHost(long2ip($nodeinfo['ipaddr_pub'])));
-    $SMARTY->assign('ClearHost', ClearHost($_GET['host']));
+
+function DeleteClips($nid) {
+    global $DB;
+    $node = $DB->GetRow("SELECT lower(m.mac) AS mac FROM nodes n INNER JOIN macs m ON (m.nodeid = n.id) WHERE n.id = ?;", array($nid));
+    $mac=$node[mac];
+    $cmd='echo "User-Name='.$mac.'" | radclient -r 1 -s -x 91.231.70.33:3799 disconnect alfaradius';
+
+    if (!exec($cmd, $result)) {
+        print($result);
+    }else{
+	$DB->exec("UPDATE radacct SET acctstoptime=NOW(), acctterminatecause='STATE-CLEARED' WHERE acctstoptime IS NULL AND username = UPPER(?);", array($mac));
+        return true;
+    }
 }
- 
- 
+
+// SSH CLIPS INFO
 if (isset($_GET['clips'])) {
     $SMARTY->assign('ClipsInfo', GetClipsInfo($nodeinfo['macs'][0]['mac']));
 }
- 
-if (isset($_GET['updatespeed'])) {
-    $SMARTY->assign('NewSpeed', SetNewSpeed(strtolower($nodeinfo['macs'][0]['mac'])));
+
+// RADCLIENT: COA
+if($_GET['updatenode']==1) {
+    $SMARTY->assign('ClipsUpdate', UpdateClips($_GET['id']));
 }
- 
+
+// RADCLIENT: DISCONNECT
+if($_GET['disconnectnode']==1) {
+    if(DeleteClips($_GET['id'])) {
+	$SESSION->redirect('?m=nodeinfo&id='.$_GET['id']);
+    }else{
+    echo "deleteclips fail";
+    }
+}
 $SMARTY->assign('lastpppoesession', $lastPPPoEsession);
 // END REDBACK CLIPS 
 
