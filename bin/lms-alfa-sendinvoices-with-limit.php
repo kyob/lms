@@ -2,6 +2,33 @@
 <?php
 
 /*
+<<<<<<< HEAD
+=======
+ * LMS version 1.11-git
+ *
+ *  (C) Copyright 2001-2015 LMS Developers
+ *
+ *  Please, see the doc/AUTHORS for more information about authors!
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License Version 2 as
+ *  published by the Free Software Foundation.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  USA.
+ *
+ *  $Id$
+ */
+
+/*
+>>>>>>> sendinvoices-with-limit.feat
  * najlepiej wrzucic wywowalnie skryptu do crontaba np.
  * 0 3 * * * /usr/bin/php /path-to-script/lms-sendinvoices-with-limit.php --offset=0 --limit=200 --> /path-to-log/log/lms-sendinvoices-log/lms-sendinvoices-`date +"\%Y\%m\%d"`.log
  */
@@ -26,28 +53,47 @@ foreach ($parameters as $key => $val) {
 	$short_to_longs[$newkey] = $val;
 }
 $options = getopt(implode('', array_keys($parameters)), $parameters);
+<<<<<<< HEAD
 foreach($short_to_longs as $short => $long)
 	if (array_key_exists($short, $options))
 	{
+=======
+foreach ($short_to_longs as $short => $long)
+	if (array_key_exists($short, $options)) {
+>>>>>>> sendinvoices-with-limit.feat
 		$options[$long] = $options[$short];
 		unset($options[$short]);
 	}
 
+<<<<<<< HEAD
 if (array_key_exists('version', $options))
 {
 	print <<<EOF
 lms-sendinvoices.php
 (C) 2001-2013 LMS Developers
+=======
+if (array_key_exists('version', $options)) {
+	print <<<EOF
+lms-sendinvoices.php
+(C) 2001-2015 LMS Developers
+>>>>>>> sendinvoices-with-limit.feat
 
 EOF;
 	exit(0);
 }
 
+<<<<<<< HEAD
 if (array_key_exists('help', $options))
 {
 	print <<<EOF
 lms-sendinvoices.php
 (C) 2001-2013 LMS Developers
+=======
+if (array_key_exists('help', $options)) {
+	print <<<EOF
+lms-sendinvoices.php
+(C) 2001-2015 LMS Developers
+>>>>>>> sendinvoices-with-limit.feat
 
 -C, --config-file=/etc/lms/lms.ini      alternate config file (default: /etc/lms/lms.ini);
 -h, --help                      print this help and exit;
@@ -57,18 +103,29 @@ lms-sendinvoices.php
 -f, --fakedate=YYYY/MM/DD       override system date;
 -i, --invoiceid=N               send only selected invoice
 -l, --limit=N                   show only specific number of rows;
+<<<<<<< HEAD
 -o, --offset=N                  start rows from picked number;
+=======
+-o, --offset=N                  start rows from picked number
+>>>>>>> sendinvoices-with-limit.feat
 
 EOF;
 	exit(0);
 }
 
 $quiet = array_key_exists('quiet', $options);
+<<<<<<< HEAD
 if (!$quiet)
 {
 	print <<<EOF
 lms-sendinvoices.php
 (C) 2001-2013 LMS Developers
+=======
+if (!$quiet) {
+	print <<<EOF
+lms-sendinvoices.php
+(C) 2001-2015 LMS Developers
+>>>>>>> sendinvoices-with-limit.feat
 
 EOF;
 }
@@ -76,6 +133,7 @@ EOF;
 if (array_key_exists('config-file', $options))
 	$CONFIG_FILE = $options['config-file'];
 else
+<<<<<<< HEAD
 	$CONFIG_FILE = '/etc/lms/lms.ini';
 
 if (!$quiet) {
@@ -84,16 +142,32 @@ if (!$quiet) {
 
 if (!is_readable($CONFIG_FILE))
 	die("Unable to read configuration file [".$CONFIG_FILE."]!\n");
+=======
+	$CONFIG_FILE = DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . 'lms' . DIRECTORY_SEPARATOR . 'lms.ini';
+
+if (!$quiet)
+	echo "Using file ".$CONFIG_FILE." as config." . PHP_EOL;
+
+if (!is_readable($CONFIG_FILE))
+	die("Unable to read configuration file [".$CONFIG_FILE."]!" . PHP_EOL);
+
+define('CONFIG_FILE', $CONFIG_FILE);
+>>>>>>> sendinvoices-with-limit.feat
 
 $CONFIG = (array) parse_ini_file($CONFIG_FILE, true);
 
 // Check for configuration vars and set default values
 $CONFIG['directories']['sys_dir'] = (!isset($CONFIG['directories']['sys_dir']) ? getcwd() : $CONFIG['directories']['sys_dir']);
+<<<<<<< HEAD
 $CONFIG['directories']['lib_dir'] = (!isset($CONFIG['directories']['lib_dir']) ? $CONFIG['directories']['sys_dir'].'/lib' : $CONFIG['directories']['lib_dir']);
+=======
+$CONFIG['directories']['lib_dir'] = (!isset($CONFIG['directories']['lib_dir']) ? $CONFIG['directories']['sys_dir'] . DIRECTORY_SEPARATOR . 'lib' : $CONFIG['directories']['lib_dir']);
+>>>>>>> sendinvoices-with-limit.feat
 
 define('SYS_DIR', $CONFIG['directories']['sys_dir']);
 define('LIB_DIR', $CONFIG['directories']['lib_dir']);
 
+<<<<<<< HEAD
 // Load autloader
 require_once(LIB_DIR.'/autoloader.php');
 
@@ -108,10 +182,20 @@ $_DBHOST = $CONFIG['database']['host'];
 $_DBUSER = $CONFIG['database']['user'];
 $_DBPASS = $CONFIG['database']['password'];
 $_DBNAME = $CONFIG['database']['database'];
+=======
+// Load autoloader
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'autoloader.php');
+
+// Do some checks and load config defaults
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'config.php');
+
+// Init database
+>>>>>>> sendinvoices-with-limit.feat
 
 $DB = null;
 
 try {
+<<<<<<< HEAD
 
     $DB = LMSDB::getDB($_DBTYPE, $_DBHOST, $_DBUSER, $_DBPASS, $_DBNAME);
 
@@ -140,10 +224,29 @@ require_once(LIB_DIR.'/LMS.class.php');
 require_once(LIB_DIR . '/SYSLOG.class.php');
 
 if (check_conf('phpui.logging') && class_exists('SYSLOG'))
+=======
+	$DB = LMSDB::getInstance();
+} catch (Exception $ex) {
+	trigger_error($ex->getMessage(), E_USER_WARNING);
+	// can't working without database
+	die("Fatal error: cannot connect to database!" . PHP_EOL);
+}
+
+// Include required files (including sequence is important)
+
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'language.php');
+include_once(LIB_DIR . DIRECTORY_SEPARATOR . 'definitions.php');
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'unstrip.php');
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'common.php');
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'SYSLOG.class.php');
+
+if (ConfigHelper::checkConfig('phpui.logging') && class_exists('SYSLOG'))
+>>>>>>> sendinvoices-with-limit.feat
 	$SYSLOG = new SYSLOG($DB);
 else
 	$SYSLOG = null;
 
+<<<<<<< HEAD
 $lms_url = (!empty($CONFIG['sendinvoices']['lms_url']) ? $CONFIG['sendinvoices']['lms_url'] : 'http://localhost/lms/');
 $lms_user = (!empty($CONFIG['sendinvoices']['lms_user']) ? $CONFIG['sendinvoices']['lms_user'] : '');
 $lms_password = (!empty($CONFIG['sendinvoices']['lms_password']) ? $CONFIG['sendinvoices']['lms_password'] : '');
@@ -173,16 +276,49 @@ if (empty($sender_email))
 
 if (!empty($CONFIG['mail']['smtp_auth_type']) && !preg_match('/^LOGIN|PLAIN|CRAM-MD5|NTLM$/i', $CONFIG['mail']['smtp_auth_type']))
 	die("Fatal error: smtp_auth setting not supported! Can't continue, exiting.\n");
+=======
+$lms_url = ConfigHelper::getConfig('sendinvoices.lms_url', 'http://localhost/lms/');
+$lms_user = ConfigHelper::getConfig('sendinvoices.lms_user', '');
+$lms_password = ConfigHelper::getConfig('sendinvoices.lms_password', '');
+
+$host = ConfigHelper::getConfig('sendinvoices.smtp_host');
+$port = ConfigHelper::getConfig('sendinvoices.smtp_port');
+$user = ConfigHelper::getConfig('sendinvoices.smtp_user');
+$pass = ConfigHelper::getConfig('sendinvoices.smtp_pass');
+$auth = ConfigHelper::getConfig('sendinvoices.smtp_auth');
+
+$filetype = ConfigHelper::getConfig('invoices.type', '');
+$debug_email = ConfigHelper::getConfig('sendinvoices.debug_email', '');
+$sender_name = ConfigHelper::getConfig('sendinvoices.sender_name', '');
+$sender_email = ConfigHelper::getConfig('sendinvoices.sender_email', '');
+$mail_subject = ConfigHelper::getConfig('sendinvoices.mail_subject', 'Invoice No. %invoice');
+$mail_body = ConfigHelper::getConfig('sendinvoices.mail_body', ConfigHelper::getConfig('mail.sendinvoice_mail_body'));
+$invoice_filename = ConfigHelper::getConfig('sendinvoices.invoice_filename', 'invoice_%docid');
+$notify_email = ConfigHelper::getConfig('sendinvoices.notify_email', '');
+
+if (empty($sender_email))
+	die("Fatal error: sender_email unset! Can't continue, exiting." . PHP_EOL);
+
+$smtp_auth_type = ConfigHelper::getConfig('mail.smtp_auth_type');
+if (($auth || !empty($smtp_auth_type)) && !preg_match('/^LOGIN|PLAIN|CRAM-MD5|NTLM$/i', $auth ? $auth : $smtp_auth_type))
+	die("Fatal error: smtp_auth setting not supported! Can't continue, exiting." . PHP_EOL);
+>>>>>>> sendinvoices-with-limit.feat
 
 $fakedate = (array_key_exists('fakedate', $options) ? $options['fakedate'] : NULL);
 $invoiceid = (array_key_exists('invoiceid', $options) ? $options['invoiceid'] : NULL);
 
 $limit = (array_key_exists('limit', $options) ? $options['limit'] : NULL);
+<<<<<<< HEAD
 
 echo $offset = (array_key_exists('offset', $options) ? $options['offset'] : NULL);
 
 function localtime2()
 {
+=======
+$offset = (array_key_exists('offset', $options) ? $options['offset'] : NULL);
+
+function localtime2() {
+>>>>>>> sendinvoices-with-limit.feat
 	global $fakedate;
 	if (!empty($fakedate)) {
 		$date = explode("/", $fakedate);
@@ -216,11 +352,18 @@ $customergroups = " AND EXISTS (SELECT 1 FROM customergroups g, customerassignme
 	WHERE c.id = ca.customerid 
 	AND g.id = ca.customergroupid 
 	AND (%groups)) ";
+<<<<<<< HEAD
 $groupnames = $CONFIG['sendinvoices']['customergroups'];
 $groupsql = "";
 $groups = preg_split("/[[:blank:]]+/", $groupnames, -1, PREG_SPLIT_NO_EMPTY);
 foreach ($groups as $group)
 {
+=======
+$groupnames = ConfigHelper::getConfig('sendinvoices.customergroups');
+$groupsql = "";
+$groups = preg_split("/[[:blank:]]+/", $groupnames, -1, PREG_SPLIT_NO_EMPTY);
+foreach ($groups as $group) {
+>>>>>>> sendinvoices-with-limit.feat
 	if (!empty($groupsql))
 		$groupsql .= " OR ";
 	$groupsql .= "UPPER(g.name) = UPPER('".$group."')";
@@ -231,29 +374,48 @@ if (!empty($groupsql))
 // Initialize Session, Auth and LMS classes
 
 $AUTH = NULL;
+<<<<<<< HEAD
 $LMS = new LMS($DB, $AUTH, $CONFIG, $SYSLOG);
+=======
+$LMS = new LMS($DB, $AUTH, $SYSLOG);
+>>>>>>> sendinvoices-with-limit.feat
 $LMS->ui_lang = $_ui_language;
 $LMS->lang = $_language;
 
 define('USER_AGENT', "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)");
+<<<<<<< HEAD
 define('COOKIE_FILE', tempnam('/tmp', 'lms-sendinvoices-cookies-'));
 
 if (array_key_exists('test', $options)) {
 	$test = TRUE;
 	printf("WARNING! You are using test mode.\n");
+=======
+define('COOKIE_FILE', tempnam(DIRECTORY_SEPARATOR . 'tmp', 'lms-sendinvoices-cookies-'));
+
+if (array_key_exists('test', $options)) {
+	$test = TRUE;
+	printf("WARNING! You are using test mode." . PHP_EOL);
+>>>>>>> sendinvoices-with-limit.feat
 }
 
 $ch = curl_init();
 if (!$ch)
+<<<<<<< HEAD
 	die("Fatal error: Can't init curl library!\n");
 
 echo $query = "SELECT d.id, d.number, d.cdate, c.email, d.name, d.customerid, n.template 
+=======
+	die("Fatal error: Can't init curl library!" . PHP_EOL);
+
+$query = "SELECT d.id, d.number, d.cdate, c.email, d.name, d.customerid, n.template 
+>>>>>>> sendinvoices-with-limit.feat
 		FROM documents d 
 		LEFT JOIN customers c ON c.id = d.customerid 
 		LEFT JOIN numberplans n ON n.id = d.numberplanid 
 		WHERE c.deleted = 0 AND d.type IN (1,3) AND c.email <> '' AND c.invoicenotice = 1 "
 			. (!empty($invoiceid) ? "AND d.id = " . $invoiceid : "AND d.cdate >= $daystart AND d.cdate <= $dayend")
 			. (!empty($groupnames) ? $customergroups : "")
+<<<<<<< HEAD
 		. " ORDER BY d.number "
 		.(!empty($limit) ? " LIMIT ".$offset.",".$limit : "dupa");
 
@@ -263,6 +425,16 @@ if (!empty($docs)) {
 echo count($docs);
 	foreach ($docs as $doc) {
 		curl_setopt_array($ch, array(
+=======
+		. " ORDER BY d.number"
+		.(!empty($limit) ? " LIMIT ".$offset.",".$limit : "dupa");
+$docs = $DB->GetAll($query);
+
+if (!empty($docs)) {
+	foreach ($docs as $doc) {
+		curl_setopt_array($ch, array(
+			CURLOPT_VERBOSE => FALSE,
+>>>>>>> sendinvoices-with-limit.feat
 			CURLOPT_URL => $lms_url . '/?m=invoice&override=1&original=1&id=' . $doc['id']
 				. '&loginform[login]=' . $lms_user . '&loginform[pwd]=' . $lms_password,
 			CURLOPT_HTTPGET => TRUE,
@@ -270,7 +442,11 @@ echo count($docs);
 			CURLOPT_RETURNTRANSFER => TRUE,
 			CURLOPT_COOKIEJAR => COOKIE_FILE,
 			CURLOPT_COOKIEFILE => COOKIE_FILE,
+<<<<<<< HEAD
 			CURLOPT_SSLVERSION => 3,
+=======
+			//CURLOPT_SSLVERSION => 3,
+>>>>>>> sendinvoices-with-limit.feat
 			CURLOPT_SSL_VERIFYHOST => 2,
 			CURLOPT_SSL_VERIFYPEER => FALSE,
 			CURLOPT_USERAGENT => USER_AGENT
@@ -292,9 +468,16 @@ echo count($docs);
 			$body = str_replace('\n', "\n", $body);
 			$subject = preg_replace('/%invoice/', $invoice_number, $subject);
 			$filename = preg_replace('/%docid/', $doc['id'], $invoice_filename);
+<<<<<<< HEAD
 
 			if (!$quiet || $test)
 				printf("Invoice No. $invoice_number for " . $doc['name'] . " <$custemail>\n");
+=======
+			$doc['name'] = '"' . $doc['name'] . '"';
+
+			if (!$quiet || $test)
+				printf("Invoice No. $invoice_number for " . $doc['name'] . " <$custemail>" . PHP_EOL);
+>>>>>>> sendinvoices-with-limit.feat
 
 			if (!$test) {
 				$headers = array('From' => $from, 'To' => qp_encode($doc['name']) . ' <' . $custemail . '>',
@@ -303,10 +486,17 @@ echo count($docs);
 					$headers['Cc'] = $notify_email;
 				$res = $LMS->SendMail($custemail . ',' . $notify_email, $headers, $body,
 					array(0 => array('content_type' => $ftype, 'filename' => $filename . '.' . $fext,
+<<<<<<< HEAD
 						'data' => $res)));
 
 				if (is_string($res))
 					fprintf(STDERR, "Error sending mail: $res\n");
+=======
+						'data' => $res)), $host, $port, $user, $pass, $auth);
+
+				if (is_string($res))
+					fprintf(STDERR, "Error sending mail: $res" . PHP_EOL);
+>>>>>>> sendinvoices-with-limit.feat
 			}
 		}
 	}

@@ -25,7 +25,10 @@ version 1.11.17 (2015-06-29):
     - in other words more sane multi ewx-pt instance support [chilan]
   - helpdesk notifications: attach all phone contacts [chilan]
   - nodes list can be filtered by nodes without TERYT [kyob]
+<<<<<<< HEAD
 
+=======
+>>>>>>> sendinvoices-with-limit.feat
 
 version 1.11.16 (2015-03-31):
 
