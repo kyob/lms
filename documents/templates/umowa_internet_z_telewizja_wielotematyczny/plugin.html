@@ -1,0 +1,51 @@
+<h1>Wybierz adres instalacji</h1>
+{if $errors neq ''}
+<pre>{$errors|@var_export:true|nl2br}</pre> 
+{else}
+<TABLE cellpadding="3" WIDTH="100%">
+    <TR class="light">
+        <TD width="1%" class="fleftu">
+            <IMG src="img/docum.gif" alt="">
+        </TD>
+        <TD width="1%" class="fbt" NOWRAP>
+            <B>Adres instalacji:</B> 
+        </TD>
+        <TD width="98%" class="frightu" NOWRAP>
+            <SELECT size="1" name="document[location]">
+                {foreach $adresy as $adres}
+                <OPTION value="{$adres.location}">{$adres.location}</OPTION>
+                {/foreach}
+            </select>            
+            <!-- <input name="" type="text" value=""> {trans("Contract number")} -->
+        </TD>
+    </TR>      
+</TABLE>
+{/if}
+
+<!--
+<h1>Oświadczenia abonenta:</h1>
+<table border="1" cellpadding="5" cellspacing="5">
+    <tr>
+        <td>l.p.</td>
+        <td>Zgody</td>
+        <td>Oświadczenie</td>
+    </tr>
+    <tr>
+        <td>1.</td>
+        <td>
+            TAK <input name="document[agreements][dane_osobowe]" type="checkbox">
+        </td>
+        <td>
+            Abonent oświadcza, że wyraża zgodę na przetwarzanie danych osobowych Abonenta przez Operatora w celach marketingowych, promocyjnych i reklamy różnego rodzaju towarów i usług świadczonych przez inne podmioty.
+        </td>     
+    </tr>  
+    <tr>
+        <td>2.</td>
+        <td>
+            TAK <input name="document[agreements][faktury]" type="checkbox">
+        </td>
+        <td>
+            Abonent oświadcza, że wyraża zgodę na otrzymywanie faktur w postaci elektronicznej poprzez system Wirtualnego Biura Obsługi Abonenta (w skrócie BOK) pod adresem internetowym bok.alfa-system.pl        </td>     
+    </tr> 
+</table>
+-->
