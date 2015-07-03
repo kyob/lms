@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wezwanie</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            ol li {
+                line-height:10px
+            }
+            @page  
+            { 
+                size: auto;   /* auto is the initial value */ 
+
+                /* this affects the margin in the printer settings */ 
+                margin-left: 5mm;  
+                margin-right: 5mm;  
+                margin-top: 10mm;  
+                margin-bottom: 10mm;  
+            } 
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Alfa-System: internet, telewizja, telefon, monitoring</h3>
+                    <h4>OSTATECZNE WEZWANIE DO ZAPŁATY</h4>
+                </div>
+            </div>            
+            <div class="row-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-sm-6">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>OPERATOR</strong></p>                                  
+                        <p>Alfa-System M. Piwowarski, A. Widera spółka jawna<br/>ul. Lotników 6<br/>44-196 Knurów</p>
+                    </div>
+                    <div class="col-md-6 col-xs-6 col-sm-6">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>ABONENT</strong></p>                                  
+                        {if $customerinfo.type==1}
+                        <p>
+                            {$customerinfo.customername}<br/>
+                            {$customerinfo.address}<br/>
+                            {$customerinfo.zip} {$customerinfo.city}<br/>
+                            {$customerinfo.ten}
+                        </p>
+                        {else}
+                        <p>
+                            {$customerinfo.customername}<br/>
+                            {$customerinfo.address}<br/>
+                            {$customerinfo.zip} {$customerinfo.city}
+                            {trans("PESEL:")} {$customerinfo.ssn}
+                        </p>
+                        {/if}
+                    </div>
+                </div>              
+                <div class="row" style="page-break-after:always;">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Wezwanie do zapłaty</strong></p>                                  
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                Na podstawie art. 476 Kodeksu cywilnego (Dz. U. z 1964 r. nr 16, poz. 93, z późn. zmianami) wzywamy do natychmiastowego uregulowania należnej sumy w wysokości <strong>{$balancelist.summary|money_format}</strong> na rachunek bankowy nr <strong>{$nrb}</strong> w ciągu 7 dni od daty otrzymania niniejszego wezwania.
+                            </div>
+                        </div>
+                        <p>W przypadku nie przekazania należnej sumy w wyznaczonym terminie. Sprawa zostanie skierowana na drogę postępowania sądowego bez ponownego wezwania do zapłaty.</p>
+                        <p>Jeśli zobowiązania zostały uregulowane przed otrzymaniem wezwania zapłaty, wtedy prosimy o udokumentowanie zaległości.</p>
+                        <br/>
+                        <p>Zestawienie historii operacji finansowych znajduje się na kolejnych stronach niniejszego wezwania.</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Historia operacji</strong></p>                                  
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>{trans("No.")}</th>
+                                    <th>{trans("Date")}</th>
+                                    <th>{trans("Liability")}</th>
+                                    <th>{trans("Income")}</th>
+                                    <th>{trans("After")}</th>
+                                    <th>{trans("Description")}</th>
+                                </tr>
+                            </thead>
+                            {section name=balancelist loop=$balancelist.id}
+                            <TR>
+                                <TD>
+                                    {counter}.
+                                </TD>
+                                <TD>
+                                    {$balancelist.date[balancelist]}
+                                </TD>
+                                <TD>
+                                    {if !$balancelist.type[balancelist]}{($balancelist.value[balancelist]*-1)|money_format}{else}-{/if}
+                                </TD>
+                                <TD>
+                                    {if $balancelist.type[balancelist] && $balancelist.value[balancelist] > 0}{$balancelist.value[balancelist]|money_format}{else}-{/if}
+                                </TD>
+                                <TD>
+                                    {$balancelist.after[balancelist]|money_format}
+                                </TD>
+                                <TD>
+                                    {$balancelist.comment[balancelist]}
+                                </TD>
+                            </TR>
+                            {sectionelse}
+                            <TR>
+                                <TD COLSPAN="6">
+                                    <p>&nbsp;</p>
+                                    <p><B>{trans("No such transactions")}</B></p>
+                                    <p>&nbsp;</p>
+                                </TD>
+                            </TR>
+                            {/section}
+                            <TR>
+                                <TD COLSPAN="2">
+                                    <B>{trans("Total:")}</B>
+                                </TD>
+                                <TD>
+                                    <B>{$balancelist.liability|money_format}</B>
+                                </TD>
+                                <TD>
+                                    <B>{$balancelist.income|money_format}</B>
+                                </TD>
+                                <TD>
+                                    <B>{trans("Balance:")} {$balancelist.summary|money_format}</B>
+                                </TD>
+                            </TR>
+                        </TABLE>    
+                    </div>
+                </div> 
+            </div>
+    </body>
+</html>
+<!-- ANEKS wersja z dnia 21.11.2012 -->
