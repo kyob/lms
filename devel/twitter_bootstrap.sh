@@ -28,7 +28,7 @@ echo $(tput setaf 2)"DONE"$(tput sgr0)
 
 # merging
 echo -n $(tput setaf 4)"Merging: "$(tput sgr0)
-mv dist/ assets/bootstrap/
+mv bootstrap-${RELEASE}-dist/ assets/bootstrap/
 echo $(tput setaf 2)"DONE"$(tput sgr0)
 
 # cleanup
