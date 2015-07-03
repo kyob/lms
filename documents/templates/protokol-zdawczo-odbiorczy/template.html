@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Protokół zdawczo-odbiorczy</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Alfa-System: internet, telewizja, telefon, monitoring</h3>
+                    {assign var=item value="|"|explode:$document.contract}
+                    <h5>Protokół zdawczo-odbiorczy do umowy nr {if $item[0] neq ''}{$item[0]}{else}...................{/if} zawartej w dniu {if $item[1] neq ''}{$item[1]}{else}...................{/if} w Knurowie.</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>OPERATOR</strong></p>                                  
+                    <p>Alfa-System M. Piwowarski, A. Widera spółka jawna<br/>ul. Lotników 6<br/>44-196 Knurów</p>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>ABONENT</strong></p>                                  
+                    {if $customerinfo.type==1}
+                    <p>
+                        {$customerinfo.customername}<br/>
+                        {$customerinfo.address}<br/>
+                        {$customerinfo.zip} {$customerinfo.city}<br/>
+                        {$customerinfo.ten}
+                    </p>
+                    {else}
+                    <p>
+                        {$customerinfo.customername}<br/>
+                        {$customerinfo.address}<br/>
+                        {$customerinfo.zip} {$customerinfo.city}
+                        {trans("PESEL:")} {$customerinfo.ssn}
+                    </p>
+                    {/if}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Urządzenia wydane Abonentowi przez Operatora celem świadczenia Usługi</strong> (niepotrzebne skreślić)</p>                                  
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th width="250">Nazwa Urządzenia</th>
+                                <th>Nr seryjny</th>
+                                <th>Uwagi</th>
+                            </tr>
+                        </thead>
+                        {foreach $document.urzadzenia as $item}
+                        {if isset($item.add)}
+                        <tr>
+                            <td>{if strlen($item.name_from_list)>1}{$item.name_from_list}{else}{$item.name}{/if}</td>
+                            <td>{$item.sn}</td>
+                            <td>{$item.note}</td>
+                        </tr>
+                        {/if}
+                        {/foreach}                     
+                    </table>
+                </div>
+            </div>
+
+                        {foreach $document.urzadzenia as $item}
+                        {if $item.name_from_list=="STB MAG 250"}
+
+	    <div class="row">
+		<div class="col-xs-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>W skład zestawu MAG 250 wchodzą:</strong></p>                
+		    <p>Set Top Box (STB) będący urządzeniem dekodującym sygnał pomiędzy siecią Ethernet i odbiornikiem TV, pilot do obsługi STB, 2 baterie, instrukcja instalacji, kable: zasilający (modele Motorola VIP), Ethernet, SCART, zasilacz sieciowy. Całość zapakowana w oryginalne opakowanie.</p>
+		</div>
+	    </div>
+                        {/if}
+                        {/foreach}                     
+
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Zasady i warunki używania urządzeń</strong></p>                
+                    <ol>
+                        <li><small>Urządzenia pozostają własnością Operatora chyba, że warunki umowy lub promocji stanowią inaczej.</small></li>
+                        <li><small>Operator zobowiązuje się do nieodpłatnej wymiany uszkodzonych Urządzeń, które zostały udostępnione Abonentowi, w przypadku ujawnienia się podczas instalacji lub eksploatacji ukrytych wad technicznych.</small></li>
+                        <li><small>Abonent Usługi korzystający z udostępnionych przez Operatora Urządzeń zobowiązany jest do:</small>
+                            <ul>
+                                <li><small>Korzystania z Urządzeń zgodnie z ich przeznaczeniem i wymaganiami eksploatacyjnymi.</small></li>
+                                <li><small>Niezwłocznego powiadomienia Operatora o wszelkich usterkach, uszkodzeniach lub nieprawidłowościach w pracy Urządzeń lub o ich utracie.</small></li>
+                                <li><small>Niezwłocznej wymiany uszkodzonych lub utraconych Urządzeń.</small></li>
+                                <li><small>Niedokonywania samodzielnie jakichkolwiek ingerencji w Urządzenia, które będą naprawiane, konserwowane lub modyfikowane wyłącznie przez Operatora lub jej upoważnionego przedstawiciela.</small></li>
+                                <li><small>Po zakończeniu trwania Umowy Abonent jest obowiązany udostępnić lokal w ciągu 14 dni od wezwania celem demontażu Urządzeń Usługodawcy. W chwili demontażu Urządzenia powinny być w stanie nie gorszym, niż wynikającym z normalnej eksploatacji.</small></li>
+                            </ul>
+                        </li>
+                        <li><small>Abonent Usługi odpowiedzialny jest za zniszczenie, uszkodzenie lub utratę udostępnionych Urządzeń.</small></li>
+                        <li><small>Abonent zostanie obciążony opłatą określoną z godnie z ceną rynkową w przypadku uszkodzenia Urządzeń z przyczyn innych niż ukryte wady techniczne, zwrócenia niekompletnych Urządzeń, utraty Urządzeń, jak również nie umożliwienia demontażu Urządzeń w terminie 14 dni od daty rezygnacji z udostępnienia Urządzeń lub rozwiązania/wygaśnięcia Umowy.</small></li>
+                        <li><small>Rozwiązanie lub wygaśniecie Umowy jest uważane za rezygnacje z udostępnienia Urządzeń.</small></li>
+                        <li><small>Protokół sporządzono w dwóch jednobrzmiących egzemplarzach po jednej dla każdej ze Stron.</small></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <tr>
+                            <td height="50"></td>
+                            <td><br/>&nbsp;<br/></td>
+                            <td></td>
+                        </tr>  
+                        <tr>
+                            <td style="border-top: 1px solid #999;">Data i podpis Abonenta</td>
+                            <td>&nbsp;</td>
+                            <td style="border-top: 1px solid #999;">Data i podpis przedstawiciela Operatora ( {$layout.logname} )</td>
+                        </tr>  
+                    </table>  
+                </div>
+            </div>      
+        </div>
+    </body>
+</html>
