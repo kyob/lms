@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gwarancja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            @page  
+            { 
+                size: auto;   /* auto is the initial value */ 
+                /* this affects the margin in the printer settings */ 
+                margin-left: 5mm;  
+                margin-right: 5mm;  
+                margin-top: 10mm;  
+                margin-bottom: 10mm;  
+            } 
+            ol { counter-reset: item;}
+            li { display: block }
+            li:before { content: counters(item, ".") ". "; counter-increment: item }      
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Alfa-System: internet, telewizja, telefon, monitoring</h3>
+                    {assign var=item value="|"|explode:$document.contract}
+                    <h5>Data wydania sprzętu: {$smarty.now|date_format:"%d.%m.%Y"}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>SPRZEDAWCA</strong></p>                                  
+                    <p>Alfa-System M. Piwowarski, A. Widera spółka jawna<br/>ul. Lotników 6<br/>44-196 Knurów</p>
+                </div>
+	    </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th width="250">Nazwa Urządzenia</th>
+                                <th>Nr seryjny</th>
+                                <th>Uwagi</th>
+                            </tr>
+                        </thead>
+                        {foreach $document.urzadzenia as $item}
+                        {if isset($item.add)}
+                        <tr>
+                            <td>{if strlen($item.name_from_list)>1}{$item.name_from_list}{else}{$item.name}{/if}</td>
+                            <td>{$item.sn}</td>
+                            <td>{$item.note}</td>
+                        </tr>
+                        {/if}
+                        {/foreach}                     
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Zasady gwarancji</strong></p>
+                    <ol>
+                        <li><small>Gwarancji podlegają wyłącznie wady i uszkodzenia towaru wynikłe w toku jego normalnej eksploatacji. Prawo gwarancji nie obejmuje uszkodzeń mechanicznych towaru zarówno powstałych u Klienta jak i podczas transportu oraz uszkodzeń będących wynikiem nieprzestrzegania elementarych zasad eksploatacji. W szczególności Gwarancja nie obejmuje uszkodzeń spowodowanych zastosowaniem nieprawidłowego systemu zasilania lub uszkodzeń powstałych w wyniku eksploatacji sprzętu w trakcie wyładowań atmosferycznych (burzy) bez zastosowania skutecznych zabezpieczeń.</small></li>
+                        <li><small>Zabezpieczenia w formie nalepek i plomb (stickerów) gwarancyjnych są podstawowym środkiem identyfikacji towaru jako sprzedanego przez Sprzedawcę. Dlatego prawo gwarancji oraz rękojmi nie przysługuje w przypadku zerwania lub naruszenia przez Klienta zabezpieczeń gwarancyjnych (plomb lub nalepek - stickerów). Prawo to nie przysługuje również w przypadku, gdy stan towaru wskazuje że był on otwierany, modyfikowany lub podlegał naprawie bez wiedzy i zgody Sprzedawcy.</small></li>
+                        <li><small>W przypadku braku możliwości naprawy towar podlega wymianie. W przypadku braku możliwości naprawy lub wymiany zastrzegamy sobie prawo do zaoferowania Klientowi ekwiwaletnego towaru o nie niższych możliwościach użytkowych.</small></li>
+                        <li><small>W trakcie trwania okresu naprawy lub wymiany towaru na uzasadnioną prośbę uzytkownika możliwe jest wypożyczenie w naszej firmie sprzętu o analogicznych lub podobnych walorach użytkowych.</small></li>
+                        <li><small>Okres naprawy lub oczekiwania na wymianę towaru jest zaokrąglany "w górę" do pełnego miesiąca kalendarzowego oraz doliczany do czasu trwania gwarancji. Nowy czas trwania gwarancji (po naprawie lub wymianie towaru) jest liczony od dnia zakupu wymienianego towaru i jest sumą czasu trwania gwarancji zakupionego (wymienionego) towaru oraz zaokrąglonego "w górę" do pełnych miesięcy kalendarzowych czasu oczekiwania Klienta na naprawę lub wymianę towaru.</small></li>
+                        <li><small>W przypadku wymiany towaru Klientowi, na żądanie Klienta zgłoszone przed dokonaniem wymiany, wraz z wymienionym towarem może zostać wydana nowa karta gwarancyjna zawierająca numer seryjny towaru po jego wymianie oraz zmieniony (wydłużony jak powyżej) czas trwania gwarancji. W przeciwnym razie ewentualne adnotacje dotyczące nowego numeru seryjnego sprzętu po wymianie i/lub czasu trwania gwarancji są dokonywane wyłacznie w formie protokołu reklamacyjnego wydawanego Klientowi po naprawie lub wymianie gwarancyjnej.</small></li>
+			<li><small>Termin gwarancji 12 miesięcy od daty wydania sprzętu.</small></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <tr>
+                            <td height="50"></td>
+                            <td><br/>&nbsp;<br/></td>
+                            <td></td>
+                        </tr>  
+                        <tr>
+                            <td style="border-top: 1px solid #999;">Data i podpis Abonenta</td>
+                            <td>&nbsp;</td>
+                            <td style="border-top: 1px solid #999;">Data i podpis przedstawiciela Sprzedawcy ( {$layout.logname} )</td>
+                        </tr>  
+                    </table>  
+                </div>
+            </div>      
+        </div>
+    </body>
+</html>
