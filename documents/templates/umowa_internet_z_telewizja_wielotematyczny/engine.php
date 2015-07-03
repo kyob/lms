@@ -30,6 +30,7 @@ $customerinfo = $LMS->GetCustomer($cid);
 $assignments = $LMS->GetCustomerAssignments($cid);
 $customernodes = $LMS->GetCustomerNodes($cid);
 $tariffs = $LMS->GetTariffs();
+$nrb = format_bankaccount($customerinfo['bankaccount']);
 
 unset($customernodes['total']);
 
@@ -66,6 +67,9 @@ $SMARTY->assign(
 			'customeraccounts' => $customeraccounts,
 			'document' => $document,
 			'engine' => $engine,
+			'nrb' => $nrb,
+			'blad' => $blad,
+			'agreements' => $agreements,
 		     )
 		);
 
