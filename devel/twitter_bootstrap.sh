@@ -3,7 +3,7 @@
 # Install Twitter Bootstrap framework to <LMS_DIR>/assets/bootstrap/*
 #
 
-RELEASE="3.3.1"
+RELEASE="3.3.5"
 echo $(tput setaf 7)"TWBS $RELEASE"$(tput sgr0)
 
 # download
