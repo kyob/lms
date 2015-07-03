@@ -38,10 +38,11 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 	$list = $DB->GetAll(
 		'SELECT events.id AS id, title, description, date, begintime, enddate, endtime, customerid, closed, '
 		.$DB->Concat('UPPER(customers.lastname)',"' '",'customers.name').' AS customername,
-		userid, users.name AS username 
+		userid, users.name AS username, customers.address, nodes.location AS location
 		FROM events 
 		LEFT JOIN customers ON (customerid = customers.id)
 		LEFT JOIN users ON (userid = users.id)
+		LEFT JOIN nodes ON (customerid = nodes.ownerid)
 		WHERE ((date >= ? AND date < ?) OR (enddate <> 0 AND date < ? AND enddate >= ?))
 			AND (private = 0 OR (private = 1 AND userid = ?)) '
 		.($customerid ? ' AND customerid = '.intval($customerid) : '')
@@ -49,7 +50,8 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 			SELECT 1 FROM eventassignments 
 			WHERE eventid = events.id AND userid = '.intval($userid).'
 			)' : '')
-		.' ORDER BY date, begintime',
+		.' GROUP BY id
+		 ORDER BY date, begintime',
 		 array($startdate, $enddate, $enddate, $startdate, $AUTH->id));
 
 	$list2 = array();
