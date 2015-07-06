@@ -23,21 +23,10 @@
         <TD CLASS="FALL">Powod zakonczenia: </TD>
         <TD CLASS="FALL">IP koncentratora dla sesji: </TD>
     </TR>
-    {php}
-    $lastdate=date("Y-m-d");
-    {/php}
  
     {cycle values="light,lucid" print=false}
     {section loop=$pppoelist name=pppoelist start=$start max=$pagelimit}
     {assign var=pppoe value=$pppoelist[pppoelist]}
-    {php}
-    //            $zmienna=$this->get_template_vars('pppoe');
-    $currentdate=explode(" ",$zmienna['acctstarttime']);
-    if ($currentdate[0]!=$lastdate) {
-    $lastdate=$currentdate[0];
-    echo "<TR><TD COLSPAN=9 style=\"font-size: 1px;\">&nbsp;</TD></TR>";
-    }
-    {/php}
     <TR class="{cycle}" onmouseover="addClass(this, 'highlight')" onmouseout="removeClass(this, 'highlight')">
         <TD WIDTH="12%">{$pppoe.acctstarttime}</TD>
         <TD WIDTH="12%">{$pppoe.acctstoptime}</TD>

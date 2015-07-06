@@ -16,7 +16,7 @@ function GetPPPoEList($id)
  
     $id=$_GET['id'];
  
- 
+
  
 $pppoelist = GetPPPoEList($id);
 $listdata['total'] = $pppoelist['total'];
@@ -28,14 +28,13 @@ $start = ($page - 1) * $pagelimit;
  
 $layout['pagetitle'] = trans('Sessions List');
 $SESSION->save('backto', $_SERVER['QUERY_STRING']);
- 
+
 $SMARTY->assign('customerlist', $LMS->GetCustomerNames());
 $SMARTY->assign('pppoelist', $pppoelist);
 $SMARTY->assign('pagelimit', $pagelimit);
 $SMARTY->assign('page', $page);
 $SMARTY->assign('start', $start);
 $SMARTY->assign('listdata', $listdata);
- 
 $SMARTY->display('raddstat.html');
  
 ?>
