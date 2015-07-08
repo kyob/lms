@@ -8,8 +8,8 @@ $time_start = microtime(true);
 
 ini_set('error_reporting', E_ALL&~E_NOTICE);
 ini_set("log_errors", 1);
-ini_set("error_log", "/var/log/lms/coa-clips.log");
-error_log("LMS-COA.php: START at ".date('Y-m-d H:i:s'));
+ini_set("error_log", "/var/log/lms/lms-alfa-coa.log");
+error_log("START at ".date('Y-m-d H:i:s'));
 
 $CONFIG_FILE = '/etc/lms/lms.ini';
 
