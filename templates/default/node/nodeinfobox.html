@@ -137,7 +137,7 @@
 			<IMG SRC="img/ip.gif" ALT="{trans("IP address:")}">
 		</TD>
 		<TD style="width: 99%;" COLSPAN="2">
-			<a href="javascript:ping_popup('{$nodeinfo.ip}')">{$nodeinfo.ip}</a>
+			<a href="javascript:ping_popup('{$nodeinfo.ip}')">{$nodeinfo.ip}</a> [ otwórz port: <a href="http://{$nodeinfo.ip}">80</a> # <a href="http://{$nodeinfo.ip}:55555">55555</a> ]
 		</TD>
 	</TR>
 	{if $nodeinfo.ip_pub != "0.0.0.0"}
