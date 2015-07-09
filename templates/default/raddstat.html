@@ -1,29 +1,19 @@
 {include file="header.html"}
 <H1>{$layout.pagetitle}</H1>
-<TABLE WIDTH="100%" CELLPADDING="3">
-    <TR CLASS="DARK">
-        <TD COLSPAN=9 WIDTH="100%" NOWRAP class="frightu" align="right"><B>
- 
-            </B></TD>
+<TABLE class="lmsbox">
+<thead>
+    <TR class="FleftU">
+        <TD>Rozpoczecie sesji: </TD>
+        <TD>Zakonczenie sesji: </TD>
+        <TD>Czas trwania sesji: </TD>
+        <TD>IP klienta: </TD>
+        <TD>Upload w sesji: </TD>
+        <TD>Download w sesji: </TD>
+        <TD>Powod zakonczenia: </TD>
+        <TD>IP koncentratora dla sesji: </TD>
     </TR>
-    {if $listdata.total != 0}
-    <TR CLASS="DARK">
-        <TD CLASS="FALL" COLSPAN=9>
-            {include file="scroller.html" loop=$pppoelist}
-        </TD>
-    </TR>
-    {/if}
-    <TR CLASS="DARK">
-        <TD CLASS="FALL">Rozpoczecie sesji: </TD>
-        <TD CLASS="FALL">Zakonczenie sesji: </TD>
-        <TD CLASS="FALL">Czas trwania sesji: </TD>
-        <TD CLASS="FALL">IP klienta: </TD>
-        <TD CLASS="FALL">Upload w sesji: </TD>
-        <TD CLASS="FALL">Download w sesji: </TD>
-        <TD CLASS="FALL">Powod zakonczenia: </TD>
-        <TD CLASS="FALL">IP koncentratora dla sesji: </TD>
-    </TR>
- 
+</thead> 
+<tbody>
     {cycle values="light,lucid" print=false}
     {section loop=$pppoelist name=pppoelist start=$start max=$pagelimit}
     {assign var=pppoe value=$pppoelist[pppoelist]}
@@ -54,5 +44,6 @@
         </TD>
     </TR>
     {/if}
+</tbody>
 </TABLE>
 {include file="footer.html"}
