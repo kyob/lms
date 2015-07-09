@@ -392,13 +392,13 @@
     <TR CLASS="LIGHT" id="pppoepanel">
     <td>
         <ul>
-                <li>Status sesji: {$lastpppoesession.acctstoptime}</li>
-	<li>Rozpoczecie sesji: {$lastpppoesession.acctstarttime}</li>
-                <li>Czas trwania sesji: {$lastpppoesession.acctsessiontimeconv}</li>
-                <li>Download w sesji: {$lastpppoesession.download|number_format:2} {$lastpppoesession.downloadunit}</li>
-                <li>Upload w sesji: {$lastpppoesession.upload|number_format:2} {$lastpppoesession.uploadunit}</li>
-                <li>IP koncentratora dla sesji: {$lastpppoesession.nasipaddress}</li>
-	<li>Ostatnie IP klienta: {$lastpppoesession.framedipaddress}</li>
+            <li>Status sesji: <b>{$lastpppoesession.acctstoptime}</b></li>
+	    <li>Rozpoczecie sesji: {$lastpppoesession.acctstarttime}</li>
+            <li>Czas trwania sesji: {$lastpppoesession.acctsessiontimeconv}</li>
+            <li>Download w sesji: {$lastpppoesession.download|number_format:2} {$lastpppoesession.downloadunit}</li>
+            <li>Upload w sesji: {$lastpppoesession.upload|number_format:2} {$lastpppoesession.uploadunit}</li>
+            <li>IP koncentratora dla sesji: {$lastpppoesession.nasipaddress}</li>
+	    <li>Ostatnie IP klienta: {$lastpppoesession.framedipaddress}</li>
         </ul>
     </td>
     <td>
