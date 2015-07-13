@@ -31,6 +31,17 @@
  */
 class LMSEventManager extends LMSManager implements LMSEventManagerInterface
 {
+    /**
+     * Returns event tags
+     * 
+     * @return array Tags names
+     */
+    public function getEventTags()
+    {
+        return $this->db->GetAll('SELECT id, name FROM eventtags ORDER BY id ASC');
+    }
+
+
 
     public function EventSearch($search, $order = 'date,asc', $simple = false)
     {

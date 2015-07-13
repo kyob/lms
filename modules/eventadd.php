@@ -87,6 +87,13 @@ if(isset($_POST['event']))
 					VALUES (?, ?)', array($id, $userid));
 		}
 
+		if (!empty($event['taglist'])) {
+			$id = $DB->GetLastInsertID('events');
+			foreach($event['taglist'] as $tagid)
+				$DB->Execute('INSERT INTO eventtagassignments (eventid, tagid) 
+					VALUES (?, ?)', array($id, $tagid));
+		}
+
 		$DB->CommitTrans();
 
 		if(!isset($event['reuse']))
@@ -113,12 +120,15 @@ $layout['pagetitle'] = trans('New Event');
 $SESSION->save('backto', $_SERVER['QUERY_STRING']);
 
 $userlist = $LMS->GetUserNames();
+$taglist = $LMS->GetEventTags();
 
 if (!ConfigHelper::checkValue(ConfigHelper::getConfig('phpui.big_networks', false)))
 {
 	$SMARTY->assign('customerlist', $LMS->GetCustomerNames());
 }
 
+$SMARTY->assign('taglist', $taglist);
+$SMARTY->assign('taglistsize', sizeof($taglist));
 $SMARTY->assign('userlist', $userlist);
 $SMARTY->assign('userlistsize', sizeof($userlist));
 $SMARTY->assign('error', $error);

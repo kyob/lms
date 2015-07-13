@@ -1939,6 +1939,7 @@ CREATE TABLE up_info_changes (
 	PRIMARY KEY (id)
 );
 
+
 /* ---------------------------------------------------
  Functions and Views
 ------------------------------------------------------*/
@@ -2502,4 +2503,27 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015042700');
+/* ---------------------------------------------------
+ Structure of table "eventtagassignemnts"
+------------------------------------------------------*/
+
+DROP TABLE IF EXISTS eventtagassignments;
+CREATE TABLE eventtagassignments (
+  eventid int NOT NULL DEFAULT '0',
+  tagid int NOT NULL DEFAULT '0',
+  CONSTRAINT eventid UNIQUE  (eventid,tagid)
+)  ;
+
+/* ---------------------------------------------------
+ Structure of table "eventtags"
+------------------------------------------------------*/
+DROP TABLE IF EXISTS eventtags;
+CREATE SEQUENCE ;
+
+CREATE TABLE eventtags (
+  id int NOT NULL DEFAULT NEXTVAL ('eventtags_seq'),
+  name varchar(32) NOT NULL,
+  PRIMARY KEY (id)
+)  ;
+
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015071000');

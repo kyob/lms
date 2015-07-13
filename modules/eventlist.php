@@ -61,6 +61,10 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 					FROM eventassignments, users
 					WHERE userid = users.id AND eventid = ? ',
 					array($row['id']));
+			$row['taglist'] = $DB->GetAll('SELECT id, name
+					FROM eventtagassignments, eventtags
+					WHERE tagid = eventtags.id AND eventid = ? ',
+					array($row['id']));
 			$endtime = $row['endtime'];
 			if ($row['enddate']) {
 				$days = round(($row['enddate'] - $row['date']) / 86400);

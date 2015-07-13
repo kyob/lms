@@ -131,6 +131,21 @@
 		</TD>
 	</TR>
 	<TR>
+		<TD width="1%" class="valign-top">
+			<IMG src="img/tags.gif" alt="">
+		</TD>
+		<TD width="1%" class="valign-top">
+			<B>{trans("Tags:")}</B>
+		</TD>
+		<TD width="98%" class="nobr">
+			<SELECT size="{if $taglistsize > 5}5{else}{size of=$taglist}{/if}" name="event[taglist][]" {tip text="Select tag(s) (optional)"} multiple>
+				{foreach $taglist as $tag}
+				<OPTION value="{$tag.id}"{if in_array($tag.id, $event.taglist)} selected{/if}>{$tag.name}</OPTION>
+				{/foreach}
+			</SELECT>
+		</TD>
+	</TR>
+	<TR>
 		<TD align="right" colspan="3">
 			<A href="javascript:document.event.submit();" accesskey="s">{trans("Submit")} <IMG src="img/save.gif" alt=""></A>
 			{if !$event.closed}

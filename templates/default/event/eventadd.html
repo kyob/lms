@@ -132,6 +132,22 @@
 		</TD>
 	</TR>
 	<TR>
+		<TD width="1%">
+			<IMG src="img/tags.gif" alt="">
+		</TD>
+		<TD width="1%">
+			<B>{trans("Tags:")}</B>
+		</TD>
+		<TD width="98%" nowrap>
+			<SELECT size="{if $taglistsize > 5}5{else}{size of=$taglist}{/if}" name="event[taglist][]" {tip text="Select tag(s) (optional)"} multiple>
+				{section name=taglist loop=$taglist}	
+				<OPTION value="{$taglist[taglist].id}">{$taglist[taglist].name}</OPTION>
+				{/section}
+			</SELECT>
+		</TD>
+	</TR>
+
+	<TR>
 		<TD align="right" colspan="3">
 			<A href="javascript:document.event.submit();" accesskey="s">{trans("Submit")} <IMG src="img/save.gif" alt=""></A>
 			<A href="?m=eventlist">{trans("Cancel")} <IMG src="img/cancel.gif" alt=""></A><BR>

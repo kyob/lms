@@ -52,6 +52,12 @@ $eventuserlist = $DB->GetCol('SELECT userid AS id
 				WHERE users.id = userid
 				AND eventid = ?', array($event['id']));
 
+$eventtaglist = $DB->GetCol('SELECT tagid AS id
+				FROM eventtags, eventtagassignments
+				WHERE eventags.id = tagid
+				AND eventid = ?', array($event['id']));
+
+
 if(isset($_POST['event']))
 {
 	$event = $_POST['event'];
@@ -97,6 +103,13 @@ if(isset($_POST['event']))
 					array($event['id'], $userid));
 		}
 
+		if (!empty($event['taglist']) && is_array($event['taglist'])) {
+			$DB->Execute('DELETE FROM eventtagassignments WHERE eventid = ?', array($event['id']));
+			foreach($event['taglist'] as $tagid)
+				$DB->Execute('INSERT INTO eventtagassignments (eventid, tagid) VALUES (?, ?)',
+					 array($event['id'], $tagid));
+		}
+
 		$DB->Execute('UPDATE events SET moddate=?, moduserid=? WHERE id=?',
 			array(time(), $AUTH->id, $event['id']));
 
@@ -104,16 +117,21 @@ if(isset($_POST['event']))
 
 		$SESSION->redirect('?m=eventlist');
 	}
-} else
+} else {
 	$event['userlist'] = $eventuserlist;
+echo	$event['taglist'] = $eventtaglist;
+}
 
 $layout['pagetitle'] = trans('Event Edit');
 
 $SESSION->save('backto', $_SERVER['QUERY_STRING']);
 
 $userlist = $LMS->GetUserNames();
+$taglist = $LMS->GetEventTags();
 
 $SMARTY->assign('customerlist', $LMS->GetCustomerNames());
+$SMARTY->assign('taglist', $taglist);
+$SMARTY->assign('taglistsize', sizeof($taglist));
 $SMARTY->assign('userlist', $userlist);
 $SMARTY->assign('userlistsize', sizeof($userlist));
 $SMARTY->assign('error', $error);

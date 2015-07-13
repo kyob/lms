@@ -109,7 +109,8 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS invprojects;
 DROP TABLE IF EXISTS netnodes;
-
+DROP TABLE IF EXISTS eventtagassignments;
+DROP TABLE IF EXISTS eventtags;
 
 
 # --------------------------------------------------------
@@ -2406,4 +2407,24 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015042700');
+# --------------------------------------------------------
+#
+# Structure of table eventtagassignments
+#
+CREATE TABLE `eventtagassignments` (
+  `eventid` int(11) NOT NULL DEFAULT '0',
+  `tagid` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `eventid` (`eventid`,`tagid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+# --------------------------------------------------------
+#
+# Structure of table eventtags
+#
+CREATE TABLE `eventtags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) COLLATE utf8_polish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015071000');
