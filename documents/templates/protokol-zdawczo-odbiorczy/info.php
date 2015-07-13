@@ -28,6 +28,7 @@ $engine = array(
     'name' => 'protokol-zdawczo-odbiorczy', // template directory
     'engine' => 'protokol-zdawczo-odbiorczy', // engine.php directory
     // you can use other engine
+    'type' => DOC_PROTOCOL,			// it's also possible to use array of document types in this field
     'template' => 'template.html', // template file (in 'name' dir)
     'title' => trans('Protokół zdawczo-odbiorczy'), // description for UI
     'content_type' => 'text/html', // output file type text/html or application/ocetet-stream

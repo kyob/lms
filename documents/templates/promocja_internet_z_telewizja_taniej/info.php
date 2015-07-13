@@ -28,6 +28,7 @@ $engine = array(
 	'name' => 'promocja_internet_z_telewizja_taniej', 	// template directory
 	'engine' => 'promocja_internet_z_telewizja_taniej', 	// engine.php directory
 				// you can use other engine
+	'type' => DOC_OTHER,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
 	'title' => trans('Pakiet promocja: Internet z telewizją taniej BIS'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream

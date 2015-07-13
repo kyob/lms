@@ -28,6 +28,7 @@ $engine = array(
 	'name' => 'promocja_polecam_nie_place', 	// template directory
 	'engine' => 'promocja_polecam_nie_place', 	// engine.php directory
 				// you can use other engine
+	'type' => DOC_OTHER,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
 	'title' => trans('Promocja: Polecam i nie płacę'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream

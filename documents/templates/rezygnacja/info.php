@@ -28,6 +28,7 @@ $engine = array(
 	'name' => 'rezygnacja', 	// template directory
 	'engine' => 'rezygnacja', 	// engine.php directory
 				// you can use other engine
+	'type' => -6,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
 	'title' => trans('Rezygnacja z umowy'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream

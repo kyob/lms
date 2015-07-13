@@ -28,7 +28,7 @@ $engine = array(
 	'name' => 'cennik_01062015', 	// template directory
 	'engine' => 'cennik_01062015', 	// engine.php directory
 				// you can use other engine
-	'type' => DOC_CONTRACT,			// it's also possible to use array of document types in this field
+	'type' => DOC_OTHER,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
 	'title' => trans('Cennik z dnia 2015.06.01'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type

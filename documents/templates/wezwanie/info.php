@@ -28,6 +28,7 @@ $engine = array(
 	'name' => 'wezwanie', 	// template directory
 	'engine' => 'wezwanie', 	// engine.php directory
 				// you can use other engine
+	'type' => -8,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
 	'title' => trans('Wezwanie do zapłaty'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream
