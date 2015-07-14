@@ -181,7 +181,8 @@ function UpdateClips($nid) {
     $context = $CONFIG[redback][ClipsContext];
     $mac=$node[mac];
 
-    echo $cmd='echo "User-Name='.$mac.',Qos-Rate-Outbound='.$node[dl_ceil].', Qos-Rate-Inbound='.$node[up_ceil].',Forward-Policy='.$forwardpolicy.', HTTP-Redirect-Profile-Name=\''.$httpredirect.'\', Context-Name='.$context.'" | radclient -r 1 -x 91.231.70.33:3799 coa alfaradius';
+//    echo $cmd='echo "User-Name='.$mac.',Qos-Rate-Outbound='.$node[dl_ceil].', Qos-Rate-Inbound='.$node[up_ceil].',Forward-Policy='.$forwardpolicy.', HTTP-Redirect-Profile-Name=\''.$httpredirect.'\', Context-Name='.$context.'" | radclient -r 1 -x 91.231.70.33:3799 coa alfaradius';
+    echo $cmd='echo "User-Name='.$mac.',Qos-Rate-Outbound='.$node[dl_ceil].', Qos-Rate-Inbound='.$node[up_ceil].',Forward-Policy='.$forwardpolicy.', HTTP-Redirect-Profile-Name=\''.$httpredirect.'\', Context-Name='.$context.'" | radclient -r 1 -x ' . $CONFIG['redback']['clipsip'] . ':3799 coa '. $CONFIG['redback']['radiuspass'];
 
     if (!exec($cmd, $result)) {
         print($result);
