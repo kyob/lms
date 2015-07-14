@@ -123,7 +123,7 @@
 			<B>{trans("Users:")}</B>
 		</TD>
 		<TD width="98%" class="nobr">
-			<SELECT size="{if $userlistsize > 5}5{else}{size of=$userlist}{/if}" name="event[userlist][]" {tip text="Select user(s) (optional)"} multiple>
+			<SELECT size="{if $userlistsize > 5}15{else}{size of=$userlist}{/if}" name="event[userlist][]" {tip text="Select user(s) (optional)"} multiple>
 				{foreach $userlist as $user}
 				<OPTION value="{$user.id}"{if in_array($user.id, $event.userlist)} selected{/if}>{$user.name}</OPTION>
 				{/foreach}
@@ -138,7 +138,7 @@
 			<B>{trans("Tags:")}</B>
 		</TD>
 		<TD width="98%" class="nobr">
-			<SELECT size="{if $taglistsize > 5}5{else}{size of=$taglist}{/if}" name="event[taglist][]" {tip text="Select tag(s) (optional)"} multiple>
+			<SELECT size="{if $taglistsize > 5}15{else}{size of=$taglist}{/if}" name="event[taglist][]" {tip text="Select tag(s) (optional)"} multiple>
 				{foreach $taglist as $tag}
 				<OPTION value="{$tag.id}"{if in_array($tag.id, $event.taglist)} selected{/if}>{$tag.name}</OPTION>
 				{/foreach}
