@@ -24,7 +24,7 @@
  *  $Id$
  */
 
-function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0)
+function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0, $tagid=0)
 {
 	global $DB, $AUTH;
 
@@ -43,6 +43,7 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 		LEFT JOIN customers ON (customerid = customers.id)
 		LEFT JOIN users ON (userid = users.id)
 		LEFT JOIN nodes ON (customerid = nodes.ownerid)
+		LEFT JOIN eventtagassignments ON (events.id = eventtagassignments.eventid)
 		WHERE ((date >= ? AND date < ?) OR (enddate <> 0 AND date < ? AND enddate >= ?))
 			AND (private = 0 OR (private = 1 AND userid = ?)) '
 		.($customerid ? ' AND customerid = '.intval($customerid) : '')
@@ -50,6 +51,7 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 			SELECT 1 FROM eventassignments 
 			WHERE eventid = events.id AND userid = '.intval($userid).'
 			)' : '')
+		.($tagid ? ' AND eventtagassignments.tagid = '.intval($tagid) : '')
 		.' GROUP BY id
 		 ORDER BY date, begintime',
 		 array($startdate, $enddate, $enddate, $startdate, $AUTH->id));
@@ -96,6 +98,12 @@ else
 	$u = $_GET['u'];
 $SESSION->save('elu', $u);
 
+if(!isset($_GET['t']))
+	$SESSION->restore('elt', $t);
+else 
+	$t = $_GET['t'];
+$SESSION->save('elt', $t);
+
 if($edate = $SESSION->get('edate'))
 	list($year, $month, $day) = explode('/', $SESSION->get('edate'));
 
@@ -121,9 +129,10 @@ $year = (isset($year) ? $year : date('Y',time()));
 
 $layout['pagetitle'] = trans('Timetable');
 
-$eventlist = GetEventList($year, $month, $day, ConfigHelper::getConfig('phpui.timetable_days_forward'), $u, $a);
+$eventlist = GetEventList($year, $month, $day, ConfigHelper::getConfig('phpui.timetable_days_forward'), $u, $a, $t);
 $SESSION->restore('elu', $listdata['customerid']);
 $SESSION->restore('ela', $listdata['userid']);
+$SESSION->restore('elt', $listdata['tagid']);
 
 // create calendars
 for($i=0; $i<ConfigHelper::getConfig('phpui.timetable_days_forward'); $i++)
@@ -145,6 +154,7 @@ for($i=1; $i<$daysnum+1; $i++)
 $SESSION->save('backto', $_SERVER['QUERY_STRING']);
 $SESSION->save('edate', sprintf('%04d/%02d/%02d', $year, $month, $day));
 
+$SMARTY->assign('taglist', $LMS->GetEventTags());
 $SMARTY->assign('period', $DB->GetRow('SELECT MIN(date) AS fromdate, MAX(date) AS todate FROM events'));
 $SMARTY->assign('eventlist',$eventlist);
 $SMARTY->assign('listdata',$listdata);
