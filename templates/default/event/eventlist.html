@@ -65,6 +65,14 @@
 					<OPTION value="{$smarty.section.year.index}"{if $smarty.section.year.index==$year} selected{/if}>{$smarty.section.year.index}</option>
 					{/section}
 				</SELECT>
+				{trans("Tags:")}
+				<SELECT size="1" name="t" OnChange="document.filter.submit();">
+					<OPTION value="0"{if $listdata.tagid == ""} SELECTED{/if}>{trans("- all tags -")}</OPTION>
+					{foreach from=$taglist item=tag}
+					    <OPTION value="{$tag.id}"{if $tag.id == $listdata.tagid} SELECTED{/if}>{$tag.name}</OPTION>
+					{/foreach}
+				</SELECT>
+
 			</FORM>
 		</TD>
 	</TR>
