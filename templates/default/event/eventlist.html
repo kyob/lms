@@ -2,7 +2,15 @@
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
 <!--// $Id$ //-->
+
+
 <H1>{$layout.pagetitle}</H1>
+
+Otwarte zgłoszenia:
+{foreach from=$openeventslist item=oe}
+<strong>{$oe.login}</strong> ({$oe.opened}) |  
+{/foreach}
+
 <P><TABLE class="lmsbox">
     <THEAD>
 	<TR>
