@@ -77,6 +77,7 @@ require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'autoloader.php');
 // Do some checks and load config defaults
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'checkdirs.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'config.php');
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'common.php');
 
 // Init database
 
@@ -92,7 +93,7 @@ try {
 
 // Call any of upgrade process before anything else
 
-require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'upgradedb.php');
+$layout['dbschversion'] = array('DB' => $DB->UpgradeDb());
 
 // Initialize templates engine (must be before locale settings)
 $SMARTY = new LMSSmarty;
@@ -128,7 +129,6 @@ if($_FORCE_SSL && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'language.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'unstrip.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'definitions.php');
-require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'common.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'checkip.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'accesstable.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'SYSLOG.class.php');
@@ -218,11 +218,11 @@ $plugin_manager->executeHook('smarty_initialized', $SMARTY);
 // Check privileges and execute modules
 if ($AUTH->islogged) {
 	// Load plugin files and register hook callbacks
-	$plugins = preg_split('/[;,\s\t\n]+/', ConfigHelper::getConfig('phpui.plugins'), -1, PREG_SPLIT_NO_EMPTY);
+	$plugins = $plugin_manager->getAllPluginInfo(LMSPluginManager::OLD_STYLE);
 	if (!empty($plugins))
-		foreach ($plugins as $plugin_name)
-			if(is_readable(LIB_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin_name . '.php'))
-				require LIB_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+		foreach ($plugins as $plugin_name => $plugin)
+			if ($plugin['enabled'])
+				require(LIB_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin_name . '.php');
 
 	$res = $LMS->ExecHook('access_table_init', array('accesstable' => $access['table']));
 	if (isset($res['accesstable']))
