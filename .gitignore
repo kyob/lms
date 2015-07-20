@@ -1,6 +1,7 @@
 adminer.php
 assets/*
 templates_c/*
+userpanel/*
 userpanel/templates_c/*
 lib/Smarty/*
 nbproject/private
