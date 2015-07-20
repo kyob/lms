@@ -2976,4 +2976,9 @@ $_LANG['Select network device:'] = 'Wybierz urządzenie sieciowe:';
 $_LANG['Click to select network device from map'] = 'Kliknij w celu wybrania urządzenia sieciowego z mapy';
 $_LANG['Replace'] = 'Wymień';
 
+$_LANG['Closed'] = 'Zamknięte';
+$_LANG['Opened'] = 'Otwarte';
+$_LANG['Replace'] = 'Wymień';
+
+
 ?>
