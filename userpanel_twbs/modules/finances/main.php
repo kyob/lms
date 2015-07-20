@@ -3,7 +3,7 @@
 /*
  *  LMS version 1.11-git
  *
- *  (C) Copyright 2001-2012 LMS Developers
+ *  (C) Copyright 2001-2013 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -25,8 +25,7 @@
  */
 
 global $LMS,$SMARTY,$SESSION,$DB;
-$balance = $LMS->GetCustomerBalanceList($SESSION->id,NULL,'DESC');
-//echo "<pre>";print_r($balance);echo "</pre>";
+$balance = $LMS->GetCustomerBalanceList($SESSION->id);
 $userinfo = $LMS->GetCustomer($SESSION->id);
 $assignments = $LMS->GetCustomerAssignments($SESSION->id);
 

@@ -3,7 +3,7 @@
 /*
  * LMS version 1.11-git
  *
- *  (C) Copyright 2001-2012 LMS Developers
+ *  (C) Copyright 2001-2014 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -24,42 +24,44 @@
  *  $Id$
  */
 
-function invoice_body() 
-{
-    global $invoice,$pdf,$CONFIG;
+function invoice_body() {
+	global $invoice,$pdf;
 
-    if(isset($invoice['invoice']))
-	    $template = $CONFIG['invoices']['cnote_template_file'];
-    else
-	    $template = $CONFIG['invoices']['template_file'];
+	if (isset($invoice['invoice']))
+		$template = ConfigHelper::getConfig('invoices.cnote_template_file');
+	else
+		$template = ConfigHelper::getConfig('invoices.template_file');
 
-    switch ($template)
-    {
-	case "standard":
-	    invoice_body_standard();
-	break;
-	case "FT-0100":
-	    invoice_body_ft0100();
-	break;
-	default:
-	    if(file_exists($template))
-                    require($template);
-	    else //go to LMS modules directory
-	            require(MODULES_DIR.'/'.$template);
-    }
+	switch ($template) {
+		case "standard":
+			invoice_body_standard();
+			break;
+		case "FT-0100":
+			invoice_body_ft0100();
+			break;
+		default:
+			if (file_exists($template))
+				require($template);
+			else //go to LMS modules directory
+				require(MODULES_DIR . '/' . $template);
+	 }
 
-    if(!isset($invoice['last'])) $pdf->ezNewPage();
+	if (!isset($invoice['last']))
+		new_page();
 }
 
 global $pdf;
 
-require_once(LIB_DIR.'/pdf.php');
-require_once(MODULES_DIR.'/invoice_pdf.inc.php');
+$pdf_type = ConfigHelper::getConfig('invoices.pdf_type', 'tcpdf');
+if (!in_array($pdf_type, array('ezpdf', 'tcpdf')))
+	$pdf_type = 'tcpdf';
+require_once(LIB_DIR . '/' . $pdf_type . '.php');
+require_once(MODULES_DIR . '/invoice_' . $pdf_type . '.inc.php');
 
 // handle multi-invoice print
 if(!empty($_POST['inv']))
 {
-	$pdf =& init_pdf('A4', 'portrait', trans('Invoices'));
+	$pdf = init_pdf('A4', 'portrait', trans('Invoices'));
 
 	$count = count($_POST['inv']);
         $i = 0;
@@ -98,7 +100,7 @@ if(!isset($invoice['invoice']))
 else
         $title = trans('Credit Note No. $a', $number);
 
-$pdf =& init_pdf('A4', 'portrait', $title);
+$pdf = init_pdf('A4', 'portrait', $title);
 
 $invoice['last'] = TRUE;
 $invoice['type'] = $type;
