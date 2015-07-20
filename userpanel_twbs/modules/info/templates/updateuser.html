@@ -1,0 +1,9 @@
+{include file="header.html"}
+{if !$usernodes.total && check_conf('userpanel.hide_nodesbox')}
+    {include file="module:updateuserinfobox.html"}
+
+{else}
+    {include file="module:updateuserinfobox.html"}
+   
+{/if}
+{include file="footer.html"}

@@ -1,0 +1,29 @@
+<table class="table table-bordered">
+    <tr class="info"><td colspan="3"><strong>Przypisane urządzenia:</strong></td></tr>
+
+
+        <tr class="warning">
+            <td><strong>Opis urządzenia:</strong></td>
+            <td><strong>MAC adres:</strong></td>
+            <td><strong>Publiczne IP:</strong></td>
+        </tr>
+
+{section name=usernodes loop=$usernodes}
+{if $usernodes[usernodes].id}
+    <tr>
+        <td><strong>
+            {if $usernodes[usernodes].access}
+                <span class="positive">{$usernodes[usernodes].name}</span>
+            {else}
+                <span class="negative">{$usernodes[usernodes].name}</span>
+            {/if}</strong>                
+        </td>
+        <td>{$usernodes[usernodes].mac|replace:",":"<br/>"}</td>
+        <td>{$usernodes[usernodes].ip}</td>        
+    </tr>
+{/if}
+{sectionelse}
+    <tr><td colspan="4">{trans("You don't have any computers.")}</td></tr>
+{/section}
+</table>
+{* todo: implement private ip detection: https://mebsd.com/coding-snipits/check-private-ip-function-php.html *}

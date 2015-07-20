@@ -1,0 +1,34 @@
+<!--// $Id$ //-->
+{box title="Request history"}
+<table class="table table-bordered">
+	<tr>
+		<td>{trans("Number:")}</td>
+		<td>{trans("Date:")}</td>
+		<td>{trans("Subject:")}</td>
+		<td>{trans("Last modified:")}</td>
+		<td>{trans("Status:")}</td>
+	</tr>
+	{section name=helpdesklist loop=$helpdesklist start=$limit}
+	<tr {userpaneltip text="Click icon on the left to see request details"}>
+		<td><a href="?m=helpdesk&amp;op=view&amp;id={$helpdesklist[helpdesklist].id}"><b>{$helpdesklist[helpdesklist].id|string_format:"%06d"}</b></a></td>
+		<td>{$helpdesklist[helpdesklist].createtime|date_format:"%Y/%m/%d %H:%M"}</td>
+		<td><b>{$helpdesklist[helpdesklist].subject|escape}</b></td>
+		<td>{$helpdesklist[helpdesklist].lastmod|date_format:"%Y/%m/%d %H:%M"}</td>
+    		<td><b>
+			{if $helpdesklist[helpdesklist].state == 0}{trans("new")}
+			{elseif $helpdesklist[helpdesklist].state == 1}{trans("open")}
+			{elseif $helpdesklist[helpdesklist].state == 2}{trans("resolved")}
+			{else}{trans("dead")}
+			{/if}</b>
+		</td>
+	{sectionelse}
+	<tr>
+		<td colspan="5">
+			<p>&nbsp;</p>
+			<p><b>{trans("No such requests in database.")}</b></p>
+			<p>&nbsp;</p>
+		</td>
+	</tr>
+	{/section}
+</table>
+{/box}

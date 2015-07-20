@@ -1,0 +1,152 @@
+{include file="header.html"}
+<h3>Zarejestrowane zagrożenia sieciowe dla Twoich adresów IP.</h3>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">BOTS-5</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>port źródłowy</th><th>adres IP docelowy</th><th>port docelowy</th><th>nazwa</th></tr>
+    {foreach $arr as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td><td>{$item[5]}</td></tr>
+        {/foreach}
+        {/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">BOTS DRONE POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>port</th><th>protokół</th><th>nazwa</th></tr>
+    {foreach $arr2 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">DNS OPEN RESOLVERS POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>port</th><th>protokół</th><th>wersja DNS</th></tr>
+    {foreach $arr3 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">SINKHOLE HTTP DRONE POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>URL</th><th>HTTP agent</th><th>port docelowy</th><th>adres IP docelowy</th></tr>
+    {foreach $arr4 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td><td>{$item[5]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">NETBIOS POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>port</th><th>nazwa hosta</th><th>tag</th><th>grupa robocza</th><th>nazwa urządzenia</th><th>nazwa użytkownika</th></tr>
+    {foreach $arr5 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td><td>{$item[5]}</td><td>{$item[6]}</td><td>{$item[7]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">NTP POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>port</th><th>protokoł</th><th>nazwa hosta</th><th>wersja</th><th>procesor</th><th>stratum</th><th>system</th></tr>
+    {foreach $arr6 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td><td>{$item[5]}</td><td>{$item[6]}</td><td>{$item[7]}</td><td>{$item[8]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">SNMP POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>protokol</th><th>port</th><th>nazwa hosta</th><th>opis systemu</th><th>nazwa systemu</th><th>wersja</th></tr>
+    {foreach $arr7 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td><td>{$item[5]}</td><td>{$item[6]}</td><td>{$item[7]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">SSDP POLAND</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>protokol</th><th>port</th><th>nazwa hosta</th><th>czas systemowy</th><th>lokalizacja</th><th>server</th></tr>
+    {foreach $arr8 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td><td>{$item[5]}</td><td>{$item[6]}</td><td>{$item[7]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">BOTS-6</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>nazwa bota</th></tr>
+    {foreach $arr9 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[1]}</td><td>{$item[0]}</td><td>{$item[2]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">CERTPL-SINKHOLE-2</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+<!-- time,ip,dst_ip,dst_port,proto,name -->
+    <tr><th>data zdarzenia</th><th>adres IP abonenta</th><th>nazwa bota</th></tr>
+    {foreach $arr10 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[5]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">MALURL-11</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+<!-- timestamp,ip,port,hostname,tag,url,http_host,category,system,detected_since -->
+    <tr><th>data zdarzenia</th><th>źródłowy IP</th><th>źródłowy port</th><th>hostname</th><th>tag</th></tr>
+    {foreach $arr11 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td><td>{$item[2]}</td><td>{$item[3]}</td><td>{$item[4]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+<div class="well well-sm">
+<button type="button" class="btn btn-danger">BOTS-ZEROACCESS</button>
+<table class="table table-hover table-striped table-bordered table-condensed">
+<!-- time,ip -->
+    <tr><th>data zdarzenia</th><th>źródłowy IP</th></tr>
+    {foreach $arr12 as $items}
+    {foreach $items as $item}
+    <tr><td>{$item[0]}</td><td>{$item[1]}</td></tr>
+        {/foreach}
+	{/foreach}
+</table>
+</div>
+
+
+{include file="footer.html"}
