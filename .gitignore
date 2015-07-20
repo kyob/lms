@@ -2,6 +2,7 @@ adminer.php
 assets/*
 templates_c/*
 userpanel/templates_c/*
+userpanel_twbs/templates_c/*
 lib/Smarty/*
 nbproject/private
 lms.ini
