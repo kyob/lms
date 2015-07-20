@@ -1,6 +1,5 @@
 <!--// $Id$ //-->
 
-{$show_speeds = check_conf('userpanel.show_speeds')}
 <table class="table table-bordered table-striped">
     <tr class="info">
         <td colspan="8"><strong>Przypisane taryfy:</strong></td>
@@ -10,10 +9,8 @@
 	<td><strong>Abonament</strong></td>
         <td><strong>{trans("Discount:")}</strong></td>
         <td><strong>{trans("Accounting day:")}</strong></td>
-        {if $show_speeds}
         <td><strong>Prędkość pobierania</strong></td>
 	<td><strong>Prędkość wysyłania</strong></td>
-        {/if}
         <td><strong>{trans("Invoice:")}</strong></td>
         <td><strong>{trans("Period:")}</strong></td>
     </tr>
@@ -21,14 +18,12 @@
 	{foreach from=$assignments item=assignment}
 	{if ($assignment.tariffid || $assignment.liabilityid) && !($assignment.suspended || ($assignment.dateto < $smarty.now && $assignment.dateto) || ($assignment.datefrom > $smarty.now && $assignment.datefrom))}
 	<tr>
-		<td>{if check_conf('userpanel.show_tariffname')}{$assignment.name}{/if}</td>
+		<td>{$assignment.name}</td>
 		<td>{$assignment.value|money_format}</td>
 		<td>{if $assignment.discount > 0}{$assignment.discount}%{/if}</td>
 		<td>{$assignment.payday}</td>
-		{if $show_speeds}
 			<td>{math equation="x / 1024" x=$assignment.downceil} Mb/s</td>
 			<td>{math equation="x / 1024" x=$assignment.upceil} Mb/s</td>
-		{/if}
 		<td>{if $assignment.invoice}{trans("yes")}{else}&nbsp;{/if}</td>
 		<td>
 			{if $assignment.datefrom}{trans("from")} {$assignment.datefrom|date_format:"%Y/%m/%d"}{/if}
@@ -53,10 +48,8 @@
 		<td>{sum array=$assignments column="real_value" string_format=$LANGDEFS.$_language.money_format}</td>
 		<td>({sum array=$assignments column="real_disc_value" string_format=$LANGDEFS.$_language.money_format})</td>
 		<td>&nbsp;</td>
-		{if $show_speeds}
 			<td>{math equation="d / 1024" d=$sum_dl} Mb/s</td>
 			<td>{math equation="u / 1024" u=$sum_up} Mb/s</td>
-		{/if}
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
