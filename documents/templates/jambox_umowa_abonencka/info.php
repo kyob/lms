@@ -30,7 +30,7 @@ $engine = array(
 				// you can use other engine
 	'type' => DOC_CONTRACT,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
-	'title' => trans('Telewizja umowa abonencka'), 	// description for UI
+	'title' => trans('Telewizja: umowa abonencka'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream
 	'output' => 'default.html', 		// output file name default.html
 	'plugin' => 'plugin',			// form plugin (in 'name' dir)
