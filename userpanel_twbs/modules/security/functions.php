@@ -3,7 +3,7 @@ function module_main()
 {
     global $DB,$LMS,$SESSION,$SMARTY,$CONFIG;
 
-    $link = mysqli_connect($CONFIG['aspa']['host'], $CONFIG['aspa']['user'], $CONFIG['aspa']['pass'], $CONFIG['aspa']['database']);
+    $link = mysqli_connect($CONFIG['aspa']['host'], $CONFIG['aspa']['user'], $CONFIG['aspa']['password'], $CONFIG['aspa']['database']);
 
 
 /* check connection */
