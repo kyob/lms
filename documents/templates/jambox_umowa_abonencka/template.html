@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JAMBOX Umowa abonencka</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS {$smarty.server.SERVER_NAME} -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            @page
+            {
+                size: auto;   /* auto is the initial value */
+                /* this affects the margin in the printer settings */
+                margin-left: 5mm;
+                margin-right: 5mm;
+            }
+
+</style>
+    </head>
+    <body>
+	<div class="container">
+    	    <div class="row">
+        	<div class="col-md-12">
+            	    <img src="http://www.jambox.pl/sites/default/files/logo-jambox-white-web.png" alt="SGT JAMBOX" class="img-rounded pull-left"">
+		    <h3 class="text-center">Umowa Abonencka</h3> zawarta w dniu <strong>{$smarty.now|date_format:"%d.%m.%Y"}</strong> roku w Knurowie pomiędzy: 
+		    <strong>Alfa-System M. Piwowarski, A. Widera s.j.</strong>, ul. Lotników 6, 44-196 Knurów, NIP: 969-13-08-017 (Operator)
+		    i
+		     <strong>SGT S.A.</strong> (reprezentowaną przez Operatora), ul. Ligocka 103 budynek 8, 40-568 Katowice, wpisana do Rejestru Przedsiębiorców Krajowego Rejestru Sądowego pod numerem KRS 0000293307, NIP: 6312533927.
+		</div>
+	    </div>
+
+    	    <div class="row">
+        	<div class="col-md-12">
+		    oraz <strong>Abonentem</strong>
+		</div>
+	    </div>
+
+            <div class="row">
+                <div class="col-md-12">
+<table class="table">
+<tr>
+<td>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Dane abonenta:</strong></p>                                  
+                    <p>
+                        Nazwisko i imię: <strong>{$customerinfo.customername}</strong><br/>
+                        PESEL: <strong>{if $customerinfo.ssn neq ''}{$customerinfo.ssn}{else}.............................{/if}</strong><br/>
+                        Typ dokumentu: dowód osobisty</br>
+			Seria i numer: <strong>{if $customerinfo.icn neq ''}{$customerinfo.icn}{else}.............................{/if}</strong><br/>                        
+			Zamieszkałym: <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+			Kod pocztowy i miejscowość: <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+			Telefon: {if $customerinfo.contacts neq ''}{foreach from=$customerinfo.contacts item=b}<strong>{$b.phone}; </strong>{/foreach}{else}.............................{/if}</br>
+			E-mail: <strong>{if $customerinfo.email neq ''}{$customerinfo.email}{else}.............................{/if}</strong><br/>
+			GG: </br>
+			Skype: </br>
+                    </p>
+    </td>
+<td>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>**Adres instalacji:</strong><br/>(wypełnić tylko w przypadku, gdy inny adres niż zamieszkania)</p>
+                    <!-- <ol>{foreach $customernodes as $item}<li>{$item.location}</li>{/foreach}</ol> -->
+		    <p>
+			Adres: {$document.location}<br/>
+			Kod pocztowy i miejscowość: {$document.zip} {$document.city}
+		    </p>
+
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>**Adres koresponedencyjny:</strong><br/>(wypełnić tylko w przypadku, gdy inny adres zamieszkania i instalacji)</p>                                  
+                    <p>
+			Adres: {if $customerinfo.post_address neq ''}{$customerinfo.post_address}{/if}<br/>
+			Kod pocztowy i miejscowość: {$customerinfo.post_zip} {$customerinfo.post_city}
+		    </p>
+                </tr>
+</table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+		    <p>Pola: Imię, nazwisko, nr PESEL, adres miejsca zameldowania na pobyt stały, nazwa, seria i numer dokumentu potwierdzającego tożsamość muszą zostać wypełnione w celu poprawnego świadczenia usług Abonentowi, zgodnie z art. 161 ust. 2 Ustawy – Prawo telekomunikacyjne (Dz. U. 2004.171.1800 ze zm.).</p>
+		    <p><strong>* - pole nieobowiązkowe.</strong> Abonent podaje dane w tym polu dobrowolnie, jak również dobrowolnie wybiera, jakie dane podaje. Abonent niniejszym <strong>wyraża zgodę</strong> na ich przetwarzanie przez Operatora i SGT w związku ze świadczeniem Abonentowi usług zgodnie z niniejszą Umową. Abonent może wycofać zgodę na przetwarzanie w/w danych w każdym momencie, jak również ma prawo dostępu do nich i ich poprawiania.  Operator i SGT będą przetwarzać te dane na podstawie art. 161 ust. 3 Ustawy – Prawo telekomunikacyjne (Dz. U. 2004.171.1800 ze zm.). Podanie tych danych Abonent poświadcza poniższym podpisem.</p>
+		    <p><strong>**</strong>- należy wypełnić tylko, gdy świadczenie usługi zamówionej przez Abonenta wymaga podania takiego adresu, w celu jej świadczenia. W pozostałych przypadkach Abonent może podać takie adresy dobrowolnie i w takim wypadku <strong>wyraża zgodę</strong> na ich przetwarzanie przez Operatora i SGT w związku ze świadczeniem Abonentowi usług zgodnie z niniejszą Umową. Abonent może wycofać zgodę na przetwarzanie w/w danych w każdym momencie (chyba, ze są konieczne dla świadczenia Abonentowi Usług), jak również ma prawo dostępu do nich i ich poprawiania (zgodnie z  art. 161 ust. 3 Ustawy – Prawo telekomunikacyjne (Dz. U. 2004.171.1800 ze zm.). W przypadku, gdy Abonent podaje te dane dobrowolnie, poświadcza zgodę poniższym podpisem.</p>
+		    <p>W przypadku podania adresu e-mail w polu „Inne metody kontaktu” Abonent <strong>wyraża zgodę</strong> na otrzymywanie e-faktur drogą elektroniczną na ten adres.</p>
+		    <p>Abonent oświadcza, że  <strong>wyraża zgodę / nie wyraża</strong>  zgody na przetwarzanie danych osobowych Abonenta przez Operatora i SGT w celach marketingowych, promocyjnych i reklamy różnego rodzaju towarów i usług świadczonych przez inne podmioty powiązane z Operatorem i/lub SGT. Abonent może w każdej chwili wycofać zgodę na przetwarzanie swoich danych w celach marketingowych, wycofać zgodę lub sprzeciwić się przekazywaniu swoich danych innym administratorom danych, jak również żądać zaprzestania przetwarzania dla takich celów z uwagi na swoją szczególną sytuację.</p>
+		    <p>Abonent <strong>wyraża zgodę / nie wyraża zgody</strong> na otrzymywanie informacji handlowych drogą elektroniczną.</p>
+		    <p>W przypadku podania adresu e-mail w polu "Inne metody kontaktu" Abonent </strong>wyraża zgodę / nie wyraża</strong> zgody na otrzymywanie drogą elektroniczną propozycji zmian Umowy, Regulaminów oraz Cennika.</p>
+		    <p>Operator i SGT informują, że zgodnie z art. 23 ust 1 pkt 3 i 5 oraz art. 23 ust 4 Ustawy z dnia 29 sierpnia 1997r. o ochronie danych osobowych (tekst jednolity: Dz. U. 2002r. Nr 101 poz. 926, ze zm.), dane osobowe Abonenta będą przetwarzane w bazach danych Operatora i SGT dla celów realizacji niniejszej umowy oraz marketingu Usług świadczonych przez Operatora i/lub SGT. Abonent oświadcza że został poinformowany o prawie kontroli przetwarzania danych, które go dotyczą, w szczególności o prawie do dostępu do treści swoich danych oraz ich poprawiania, żądania ich uzupełnienia, uaktualnienia i sprostowania.</p>
+                </div>
+            </div>           
+
+            <div class="row">
+                <div class="col-md-offset-8 col-md-4">
+                    	    <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+			    <p class="text-right">Data i podpis Abonenta</p>
+                </div>
+            </div>        
+
+            <div class="row" style="page-break-after: always;">
+                <div class="col-md-12">
+		    <table class="table table-bordered">
+			<tr>
+			    <th class="active" style="width:100px;">jPIN:</th>
+			    <td></td>
+
+			    <th class="active" style="width:100px;">tvPIN:</th>
+			    <td></td>
+
+			    <th class="active" style="width:100px;">Numer ID:</th>
+			    <td></td>
+			</tr>
+		    </table>
+		    <p>Operator zaleca zmianę podanych wyżej numerów PIN na inne, znane jedynie Abonentowi.</p>
+                </div>
+            </div>        
+
+            <!-- PAGE 2 -->
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Wybrane produkty:</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Wybrane produkty:</th>
+                                <th>{trans("Value:")}</th>
+                            </tr>
+                        </thead>
+                        {foreach from=$assignments item=a}
+                        <tr>
+                            <td>{$a.name}</td>
+                            <td>{$a.value|money_format}</td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                    <p>Umowa Abonencka zawarta jest na okres od <strong>{if $document.fromdate neq ''}{$document.fromdate|date_format:"%d.%m.%Y"}{else}.............................{/if}</strong> do <strong>{if $document.todate neq ''}{$document.todate|date_format:"%d.%m.%Y"}{else}.............................{/if}</strong>r. (Dla umowy promocyjnej jest to minimalny okres<br/>wymagany do skorzystania z warunków promocyjnych)</p>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+<ol>
+<!-- 1 -->
+<li>Abonent oświadcza, że zapoznał się i w pełni akceptuje Cennik Usług świadczonych przez Operatora i SGT („Cennik”), Ogólny Regulamin Świadczenia Usług („Regulamin”), ewentualne Regulaminy Dodatkowe i Regulaminy Promocji.</li>
+
+<!-- 2 -->
+<li>Regulamin oraz ewentualnie Regulaminy Dodatkowe i Regulaminy Promocji stanowią integralna część niniejszej Umowy Abonenckiej. Regulaminy Dodatkowe lub Regulaminy Promocji dotyczą jedynie Usług lub ich części wyraźnie w tych regulaminach wskazanych i nie wiążą Abonenta, jeśli nie zamówił on tych Usług.</li>
+
+<!-- 3 -->
+<li>Abonent oświadcza, że posiada prawo do Lokalu, lub zgodę właściciela, pozwalające na wykonanie instalacji w Lokalu.</li>
+
+<!-- 4 -->
+<li>Wartość ulgi przyznanej Abonentowi jest określona w Regulaminie Promocji lub Cenniku.</li>
+
+<!-- 5 -->
+<li>Abonent oświadcza, że instalacja i aktywacja Usług jest zgodna z Zamówieniem na Zawarcie Umowy Abonenckiej, a Usługa jest w pełni sprawna. W chwili podpisania Umowy, zamówione przez Abonenta Usługi są już aktywne i świadczone przez Operatora lub SGT, o ile z przyczyn technicznych Strony w Uwagach do Umowy nie stwierdziły inaczej. W takim przypadku Usługi zostaną uruchomione nie później niż w przeciągu 24 godzin od podpisania Umowy. W przypadku, gdy Regulaminy Dodatkowe lub Regulaminy Promocji przewidują inny termin uruchomienia usługi, termin ten będzie nie dłuższy niż 30 dni od dnia podpisania Umowy. </li>
+
+<!-- 6 -->
+<li>Podpisując niniejszą Umowę, Abonent zobowiązuje się do zapłaty wyszczególnionych w Cenniku lub Regulaminach Promocji kosztów związanych z instalacją i aktywacją Usług oraz do zapłaty comiesięcznych Opłat za zakupione Pakiety i inne Usługi. </li>
+
+<!-- 7 -->
+<li>Okresem rozliczeniowym jest jednomiesięczny okres liczony od początku do końca miesiąca kalendarzowego. Opłaty dotyczące okresów krótszych niż Okres Rozliczeniowy są naliczane proporcjonalnie do czasu świadczenia Usług w danym Okresie Rozliczeniowym.</li>
+
+<!-- 8 -->
+<li>Abonentowi świadczone są usługi telewizyjne. Abonent posiada prawo do zakupu i rezygnacji z Pakietów Dodatkowych i innych Usług udostępnianych przez Operatora lub SGT. Minimalnym zakresem Usług świadczonym przez Operatora i SGT jest usługa telewizyjna zawierająca Pakiet Wielotematyczny. Na opłatę abonamentową składają się: opłata za Pakiet Wielotematyczny, opłata za udostępnienie urządzeń – o ile zostały udostępnione, opłata za dodatkowe usługi lub opcje usług. Regulaminy Dodatkowe mogą wprowadzać inne elementy składające się na opłatę abonamentową. Oprócz opłaty abonamentowej Abonentowi mogą być naliczane opłaty jednorazowe, stosownie do postanowień Cennika czy Regulaminów.</li>
+
+<!-- 9 -->
+<li>Po okresie obowiązywania promocyjnych cen zgodnych z Regulaminami Promocji, zakupione przez Abonenta Pakiety będą świadczone wg cen zamieszczonych w Cenniku.</li>
+
+<!-- 10 -->
+<li>Umowa zawarta na czas określony, równy lub dłuższy niż 30 dni, ulega po upływie okresu, na jaki została zawarta, automatycznemu przedłużeniu na czas nieokreślony, chyba że Abonent przed datą upływu okresu obowiązywania Umowy złoży w siedzibie Operatora lub SGT listownie pisemne oświadczenie o braku woli przedłużenia Umowy.</li>
+
+<!-- 11 -->
+<li>Gdy Umowa Abonencka została zawarta poza lokalem przedsiębiorstwa Operatora lub SGT, Abonent może odstąpić od Umowy bez podania przyczyny w terminie 14 dni. Szczegółowe postanowienia w tym przedmiocie wskazane są w Regulaminie.</li>
+
+<!-- 12 -->
+<li>Abonent po podpisaniu Umowy Abonenckiej może dokonywać zakupu Pakietów Dodatkowych, dodatkowych Usług, materiałów typu VOD (wideo na żądanie) i innych Usług dostępnych w danym momencie na platformie Operatora, zgodnie z Regulaminem, Regulaminami Dodatkowymi, Regulaminami Promocji lub Cennikiem. Minimalnym zakresem Usług jaki Abonent jest zobowiązany posiadać jest usługa telewizyjna zawierająca Pakiet Wielotematyczny.</li>
+
+<!-- 13 -->
+<li>Dopuszcza się możliwość, poza formą pisemną, zmiany warunków Umowy dotyczących świadczonych Usług, okresu na jaki została zawarta Umowa, pakietu taryfowego, sposobu składania zamówień na pakiety taryfowe oraz dodatkowe opcje Usług, Okresu Rozliczeniowego oraz sposobów dokonywania płatności, za pomocą środków porozumiewania się na odległość, w szczególności telefonicznie lub za pomocą poczty elektronicznej. W takim przypadku Operator utrwala oświadczenie Abonenta złożone w powyższy sposób i przechowuje je do końca trwania Umowy na zmienionych warunkach. Jednocześnie Operator potwierdza Abonentowi fakt złożenia oświadczenia o zmianie warunków Umowy oraz jego zakres i termin wprowadzenia zmian w terminie ustalonym z Abonentem, ale nie później niż w ciągu jednego miesiąca od dnia zlecenia zmiany. Abonentowi przysługuje prawo odstąpienia od dokonanej zmiany warunków Umowy, bez podania przyczyn, poprzez złożenie oświadczenia w formie pisemnej w terminie 10 dni od dnia otrzymania potwierdzenia. Do zachowania tego terminu wystarczy wysłanie oświadczenia przed jego upływem. Tak zmieniona Umowa ma skutek zarówno wobec Operatora jak i SGT.</li>
+
+<!-- 14 -->
+<li>Potwierdzenie, o którym mowa w ust. 13, Operator  dostarcza drogą elektroniczną na wskazany przez Abonenta w tym celu adres poczty elektronicznej lub za pomocą podobnego środka porozumiewania się na odległość. Potwierdzenie powinno zawierać:
+    <ol type="a">
+	<li>treść zmiany warunków Umowy dokonanej za pomocą środków porozumiewania się na odległość lub w przypadku, gdy treść zmiany ze względu na jej objętość utrudniać będzie Abonentowi zapoznanie się z nią - odesłanie do miejsca na stronie internetowej Operatora gdzie Abonent może się z nią zapoznać;</li>
+	<li>informację o złożeniu przez Abonenta oświadczenia o zmianie warunków Umowy oraz jej zakresie i terminie wprowadzenia tych zmian.</li>
+    </ol>
+</li>
+
+<!-- 15 -->
+<li>W przypadku braku możliwości dostarczenia potwierdzenia, o którym mowa w ust. 13, w sposób określony w ust. 14 lub na żądanie Abonenta, Operator  dostarczy potwierdzenie w formie pisemnej.</li>
+
+<!-- 16 -->
+<li>Abonentowi nie przysługuje prawo odstąpienia od dokonanej zmiany warunków Umowy, o którym mowa w ust. 13, jeżeli Operator, za zgodą Abonenta, rozpoczął świadczenie Usług zgodnie ze zmienionymi warunkami Umowy.
+
+<!-- 17 -->
+<li>W razie braku potwierdzenia Abonentowi faktu złożenia oświadczenia o zmianie warunków Umowy oraz jego zakresu i terminu wprowadzenia zmian, o których mowa w ust. 13, termin, w którym Abonent może odstąpić od dokonanej zmiany warunków Umowy, wynosi trzy miesiące i liczy się od dnia złożenia oświadczenia o zmianie warunków Umowy. Jeżeli jednak Abonent po rozpoczęciu biegu tego terminu otrzyma potwierdzenie, termin ulega skróceniu do 10 dni od dnia otrzymania tego potwierdzenia.</li>
+
+<!-- 18 -->
+<li>W sprawach nieuregulowanych niniejszą Umową, Regulaminami oraz Cennikiem mają zastosowanie przepisy prawa polskiego, w szczególności Kodeksu cywilnego (Dz.U. 1964, Nr 16, poz. 93 z późn. zm.) oraz Ustawy – Prawo Telekomunikacyjne (Dz. U. 2004, Nr 171, poz. 1800 z późn. zm.)</li>
+
+<!-- 19 -->
+<li>Operator i SGT dopuszczają możliwość rozwiązania powstałego między stronami sporu polubownie.</li>
+
+<!-- 20 -->
+<li>Jeśli wskutek negocjacji nie dojdzie do ugody między stronami, Abonent ma prawo w każdej chwili skierować sprawę do sądu powszechnego lub do mediacji przed Prezesem Urzędu Komunikacji Elektronicznej lub do sądu konsumenckiego działającego przy Prezesie Urzędu Komunikacji Elektronicznej, w trybie wskazanym w art 109 i 110 Ustawy – Prawo Telekomunikacyjne.</li>
+
+<!-- 21 -->
+<li>Niniejsza umowa została sporządzona w trzech jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.</li>
+
+<!-- 22 -->
+<li>Strony, opcjonalnie, mogą zawrzeć niniejszą Umowę na warunkach specjalnych. Szczegółowe zasady zawierania Umów w takim trybie określa Regulamin, Regulaminy Dodatkowe lub Regulaminy Promocji.</li>
+
+<!-- 23 -->
+<li>Dodatkowe, szczegółowe postanowienia obejmujące:
+<ol type="a">
+    <li>sposób składania zamówień na pakiety taryfowe oraz dodatkowe opcje usługi,</li>
+    <li>sposoby dokonywania płatności,</li>
+    <li>okres rozliczeniowy,</li>
+    <li>ograniczenia w zakresie korzystania z udostępnionych Abonentowi urządzeń </li>
+    <li>dane dotyczące funkcjonalności świadczonej Usługi obejmujące informacje:
+	<ol type="i">
+	    <li>czy gromadzone są dane o lokalizacji telekomunikacyjnego urządzenia końcowego, z którego wykonywane jest połączenie,</li>
+	    <li>o wszelkich ograniczeniach w dostępie lub korzystaniu z usług i aplikacji,</li>
+	    <li>o procedurach wprowadzonych przez Operatora lub SGT w celu pomiaru i organizacji ruchu w Sieci, aby zapobiec osiągnięciu lub przekroczeniu pojemności łącza, wraz z informacją o ich wpływie na jakość świadczonych Usług,</li>
+	    <li>o działaniach, jakie Operator lub SGT jest uprawniony podejmować w związku z przypadkami naruszenia bezpieczeństwa lub integralności Sieci i Usług,</li>
+	</ol>
+    </li>
+    <li>dane dotyczące jakości usług,</li>
+    <li>zakres usług serwisowych, </li>
+    <li>zakres odpowiedzialności z tytułu niewykonania lub nienależytego wykonania Umowy, </li>
+    <li>zasady, tryb i terminy składania oraz rozpatrywania reklamacji,</li>
+    <li>informację o polubownych sposobach rozwiązywania sporów,</li>
+    <li>sposób uzyskania informacji o aktualnym Cenniku oraz kosztach usług serwisowych,</li>
+    <li>sposób przekazywania Abonentowi informacji o zagrożeniach związanych ze świadczoną Usługą, w tym o sposobach ochrony bezpieczeństwa, prywatności i danych osobowych;</li>
+    <li>wszelkie opłaty należne w momencie rozwiązania Umowy, w tym warunki zwrotu telekomunikacyjnych urządzeń końcowych ze wskazaniem, na czyj koszt zwrot ma nastąpić,</li>
+</ol>
+- znajdują się w Ogólnym Regulaminie Świadczenia Usług.
+</li>
+
+<!-- 24 -->
+<li>O ile Umowa, Regulamin, Regulaminy Dodatkowe lub Regulaminy Promocji nie stanowią inaczej, Operator reprezentuje SGT wobec Abonenta; Abonent, w sprawach wynikających z niniejszej Umowy, w pierwszej kolejności powinien kontaktować się z Operatorem.</li>
+</ol>
+
+<p>Załączniki do Umowy Abonenckiej:</p>
+<ul>
+<li>Ogólny Regulamin Świadczenia Usług</li>
+<li>Cennik</li>
+<li>Regulamin(y) Promocji</li>
+<li>Protokół Przekazania Sprzętu</li>
+<li>Regulamin(y) Dodatkowy(e) (opcjonalnie)</li>
+<li>Wzór oświadczenia o odstąpieniu od Umowy</li>
+</ul>
+
+<table class="table table-bordered">
+    <tr>
+	<th width="100">Uwagi:</th>
+	<td>&nbsp;</td>
+    </tr>
+</table>
+
+		</div>
+	    </div>
+            
+	    <div class="row">
+                <div class="col-md-12">
+		    <table class="table">
+                    <tr><td>
+		    <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+		    <p>Data i podpis uprawnionego Przestawiciela Operatora</p>
+		    </td><td>
+                    <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+		    <p>Data i podpis uprawnionego Przestawiciela w imieniu SGT</p>
+		    </td><td>
+                    <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+		    <p>Data i podpis Abonenta</p>
+		    </td></tr>
+		    </table>
+                </div>
+            </div>        
+
+	    <div class="row">
+                <div class="col-md-12">
+		    Informacje o aktualnych Promocjach oraz Cennik są dostępne na stronie <strong>www.alfa-system.pl</strong> oraz w Biurze Obsługi Klienta Operatora. TV Panel dostępny na odbiorniku telewizyjnym Abonenta.
+		</div>
+	    </div>
+
+	    <div class="row" style="page-break-after: always;">
+                <div class="col-md-12">
+<table class="table">
+<tr><td>
+		<h4>Kontakt z Operatorem:</h4>
+		<address>
+		  <strong>ALFA-SYSTEM M. Piwowarski, A. Widera spółka jawna</strong><br>
+		  ul. Lotników 6<br>
+		  44-196 Knurów<br>
+		</address>
+</td><td>
+		    <h4>Biuro Obsługi Klienta:</h4>
+		    <address>
+		      <abbr>telefon:</abbr> 32 44 50 218</br>
+		      <abbr>tel. kom.:</abbr> 607 460 308
+		    </address>
+		</tr></table>
+            </div>
+
+        </div>
+    </body>
+</html>
+<!-- UMOWA wersja z dnia 13.07.2013 -->
