@@ -1,0 +1,18 @@
+<!--// $Id$ //-->
+<div class="row">
+<div class="col-md-12">
+{if $userinfo.balance < 0}
+    <div class="alert alert-danger">
+        <h1>Kwota do zapłaty: {$userinfo.balance|money_format}</h1>
+    {if !check_conf('userpanel.disable_transferform')}
+	<a href="?m=finances&amp;f=transferform" target="_blank">Wydrukuj formularz zapłaty.</a>
+    {/if}        
+</div>
+{else}
+    <div class="alert alert-success"><h1>{$userinfo.balance|money_format}</h1>
+    {trans("All your covenants are settled")}.
+    </div>
+{/if}
+</div>
+</div>
+
