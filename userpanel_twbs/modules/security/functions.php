@@ -3,7 +3,7 @@ function module_main()
 {
     global $DB,$LMS,$SESSION,$SMARTY;
 
-    $link = mysqli_connect('aspa.alfa-system.pl', 'aspa_lms', 'KbEmqAPAFdBFCSHn','aspa');
+    $link = mysqli_connect($CONFIG['aspa']['host'], $CONFIG['aspa']['user'], $CONFIG['aspa']['pass'], $CONFIG['aspa']['database']);
 
 
 /* check connection */
