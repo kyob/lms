@@ -48,25 +48,6 @@ elseif (!is_readable($CONFIG_FILE))
 // Parse configuration file
 $CONFIG = (array) parse_ini_file($CONFIG_FILE, true);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $debug = 0;
 
     global $LMS, $SMARTY, $SESSION, $DB;
@@ -79,13 +60,6 @@ $CONFIG = (array) parse_ini_file($CONFIG_FILE, true);
 
 
 // FACEBOOK
- /*
-    $url="https://graph.facebook.com/100002268918757/likes/148815148544441";
-    print_r($url);
-
-    */
-
-
     if ($userinfo[facebook] > 1) {
 
         $filename1 = 'assets/3rdparty/facebook/base_facebook.php';
@@ -134,13 +108,8 @@ $user_id = $facebook->getUser();
         
         $pic = $facebook->api("/110837305666220?fields=picture");
         $likes = $facebook->api("/" . $userinfo[facebook] . "/likes/".$CONFIG['facebook']['fbid'],'GET');
-// 100005155653084  kopiszka
-// 100000253907762 piwo
-        //$likes = $facebook->api("/100000253907762/likes/110837305666220",'GET');
-      //print_r($likes);
 
         if (!empty($likes['data'])) {
-            //$punkty++;
             if ($debug == 1)
                 echo "$userinfo[facebook] I like! <img src=" . $pic['picture']['data']['url'] . ">";
             $facebookid = true;
@@ -150,10 +119,6 @@ $user_id = $facebook->getUser();
             $facebookid = false;
         }
     }
-
-    //echo '<pre>';print_r($userinfo);echo '</pre>';
-    //do testow i sprawdzania
-    //if($userinfo[id]==10) $punkty++;
 
     if (!empty($userinfo[email])) {
         $punkty++;
@@ -192,18 +157,10 @@ $user_id = $facebook->getUser();
 
     //pobierz id taryfy
     $taryfa_id = $assignments[0][tariffid];
-    //$taryfa_id2 = $assignments[1][tariffid]; //jak ktos ma wiecej niz jedna taryfe
-    //echo '<pre>';print_r($assignments);echo '</pre>';    
-    //taryfy, ktore sa objete bonusem, czyli bloki na szkle
     $premiowane_taryfy = array(27, 33, 34, 35);
 
     // sprawdzenie czy obecna taryfa jest taryfa z bonusem
     $taryfy_premium = array(53, 54, 55, 56);
-
-    //if (in_array($taryfa_id2,$premiowane_taryfy))
-    //{
-//	$taryfa_id=$taryfa_id2; //jak druga taryfa jest w premiowanych to przypisz 
-    //}
 
     if (in_array($taryfa_id, $taryfy_premium)) {
         $taryfa_bonus = true;
@@ -260,7 +217,6 @@ $user_id = $facebook->getUser();
 
     //sprawdzanie czy nie odebrac bonusu
     //czyli jesli mial bonus i teraz ma mniej punktow niz punkty_max odbieramy bonus
-//echo 'pkt: '.$punkty.' max: '.$punkty_max . ' bonus: '.$taryfa_bonus;
     if ($punkty < $punkty_max AND $taryfa_bonus === true) {
         $bonus = false;
         if ($taryfa_id == 53)
@@ -284,7 +240,6 @@ $user_id = $facebook->getUser();
     }
 
     $SMARTY->assign('status', $status); // 
-//    $SMARTY->assign('suma_wplat',$suma_wplat); // suma wplat od x miesiecy do czasu w zaleznosci od nr dnia    
     $SMARTY->assign('bonus', $bonus); // true or false - czy zostawic bonus
     $SMARTY->assign('uid', $userinfo[id]); // id customer
     $SMARTY->assign('punkty', $punkty); // punkty integer
