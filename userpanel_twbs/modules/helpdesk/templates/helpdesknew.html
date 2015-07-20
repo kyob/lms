@@ -2,6 +2,18 @@
 <form method="post" action="?m=helpdesk" name="helpdesk">
 {box title="New Request"}
 <table class="table table-bordered">
+    <tr>
+	<td>
+    	    <b>{trans("Queue:")}</b>
+	</td>
+	<td>
+	    <SELECT name="helpdesk[queue]" {userpaneltip text="Select queue" trigger="queue"}>
+		{foreach $queues as $queue}
+		    <OPTION value="{$queue.id}"{if $helpdesk.queue == $queue.id} selected{/if}>{$queue.name}</OPTION>
+		{/foreach}
+	    </SELECT>
+	</td>
+	</tr>
 	<tr>
 		<td>
 			<b>{trans("Subject:")}</b>
