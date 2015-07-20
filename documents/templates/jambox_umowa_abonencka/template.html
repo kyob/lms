@@ -121,18 +121,33 @@
                 <div class="col-md-12">
                     <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Wybrane produkty:</strong></p>
                     <table class="table table-condensed table-bordered">
-                        <thead>
+                        <thead>                            
                             <tr>
                                 <th>Wybrane produkty:</th>
                                 <th>{trans("Value:")}</th>
+                                <th>{trans("Period:")}</th>
                             </tr>
                         </thead>
                         {foreach from=$assignments item=a}
                         <tr>
                             <td>{$a.name}</td>
                             <td>{$a.value|money_format}</td>
+                            <td>
+                                od: {if $a.datefrom neq ''}
+                                        {$a.datefrom|date_format:"%Y/%m/%d"}
+                                    {else}
+                                        .............................
+                                    {/if}
+                                do: {if $a.dateto eq 0}
+                                        -
+                                    {elseif $a.dateto neq ''}
+                                        {$a.dateto|date_format:"%Y/%m/%d"}
+                                    {else}
+                                        .............................
+                                    {/if}
+                            </td>
                         </tr>
-                        {/foreach}
+			{/foreach}
                     </table>
                     <p>Umowa Abonencka zawarta jest na okres od <strong>{if $document.fromdate neq ''}{$document.fromdate|date_format:"%d.%m.%Y"}{else}.............................{/if}</strong> do <strong>{if $document.todate neq ''}{$document.todate|date_format:"%d.%m.%Y"}{else}.............................{/if}</strong>r. (Dla umowy promocyjnej jest to minimalny okres<br/>wymagany do skorzystania z warunków promocyjnych)</p>
                 </div>
