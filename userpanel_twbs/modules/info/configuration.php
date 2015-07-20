@@ -3,7 +3,7 @@
 /*
  *  LMS version 1.11-git
  *
- *  (C) Copyright 2001-2012 LMS Developers
+ *  (C) Copyright 2001-2013 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -27,7 +27,7 @@
 $USERPANEL->AddModule(trans('Info'),	// Display name
 		    'info', 		// Module name - must be the same as directory name
 		    trans('Show basic informations about you'), // Tip 
-		    5,			// Priority
+		    10,			// Priority
 		    trans('This module is for showing basic informations about current logged customer'),	// Description
 		    array(		// Array of submenus in LMS
 		        array(

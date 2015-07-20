@@ -1,5 +1,5 @@
 {include file="header.html"}
-{if !$usernodes.total && check_conf('userpanel.hide_nodesbox')}
+{if !$usernodes.total && ConfigHelper::checkConfig('userpanel.hide_nodesbox')}
     {include file="module:updateuserinfobox.html"}
 
 {else}

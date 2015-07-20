@@ -2,7 +2,7 @@
 <div class="row">
 <div class="cold-md-12">
     {if !$usernodes.total && check_conf('userpanel.hide_nodesbox')}
-	{if get_conf('userpanel.data_consent_text') && !$userinfo.consentdate}
+    {if ConfigHelper::getConfig('userpanel.data_consent_text') && !$userinfo.consentdate}
 		{include file="module:consentbox.html"}
 	{/if}
 
