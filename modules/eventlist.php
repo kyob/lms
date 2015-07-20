@@ -24,8 +24,9 @@
  *  $Id$
  */
 
-function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0, $tagid=0)
+function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0, $tagid=0, $closed=NULL)
 {
+echo $closed;
 	global $DB, $AUTH;
 
 	if(!$year) $year = date('Y',time());
@@ -46,6 +47,7 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 		LEFT JOIN eventtagassignments ON (events.id = eventtagassignments.eventid)
 		WHERE ((date >= ? AND date < ?) OR (enddate <> 0 AND date < ? AND enddate >= ?))
 			AND (private = 0 OR (private = 1 AND userid = ?)) '
+		.($closed!=NULL ? ' AND closed = '.intval($closed) : '')
 		.($customerid ? ' AND customerid = '.intval($customerid) : '')
 		.($userid ? ' AND EXISTS (
 			SELECT 1 FROM eventassignments 
@@ -92,6 +94,13 @@ else
 	$a = $_GET['a'];
 $SESSION->save('ela', $a);
 
+if(!isset($_GET['c']))
+	$SESSION->restore('elc', $c);
+else
+	$c = $_GET['c'];
+$SESSION->save('elc', $c);
+
+
 if(!isset($_GET['u']))
 	$SESSION->restore('elu', $u);
 else 
@@ -129,10 +138,11 @@ $year = (isset($year) ? $year : date('Y',time()));
 
 $layout['pagetitle'] = trans('Timetable');
 
-$eventlist = GetEventList($year, $month, $day, ConfigHelper::getConfig('phpui.timetable_days_forward'), $u, $a, $t);
+$eventlist = GetEventList($year, $month, $day, ConfigHelper::getConfig('phpui.timetable_days_forward'), $u, $a, $t, $c);
 $SESSION->restore('elu', $listdata['customerid']);
 $SESSION->restore('ela', $listdata['userid']);
 $SESSION->restore('elt', $listdata['tagid']);
+$SESSION->restore('elc', $listdata['closed']);
 
 // create calendars
 for($i=0; $i<ConfigHelper::getConfig('phpui.timetable_days_forward'); $i++)

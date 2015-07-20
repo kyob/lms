@@ -2987,4 +2987,10 @@ $_LANG['DB Schema Version:'] = 'Wersja schematu bazy danych:';
 $_LANG['minimal'] = 'minimalny';
 $_LANG['Author:'] = 'Autor:';
 
+$_LANG['Closed'] = 'Zamknięte';
+$_LANG['Opened'] = 'Otwarte';
+$_LANG['Replace'] = 'Wymień';
+
+
+
 ?>
