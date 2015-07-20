@@ -80,7 +80,6 @@ Otwarte zgłoszenia:
 					    <OPTION value="{$tag.id}"{if $tag.id == $listdata.tagid} SELECTED{/if}>{$tag.name}</OPTION>
 					{/foreach}
 				</SELECT>
-{$listdata.closed}
 				{trans("Event status:")}
 				<SELECT size="1" name="c" OnChange="document.filter.submit();">
 					<OPTION value=""{if $listdata.closed|count_characters == ''} SELECTED{/if}>{trans("- all status -")}</OPTION>

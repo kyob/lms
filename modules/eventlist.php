@@ -26,7 +26,6 @@
 
 function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0, $tagid=0, $closed=NULL)
 {
-
 	global $DB, $AUTH;
 
 	if(!$year) $year = date('Y',time());
