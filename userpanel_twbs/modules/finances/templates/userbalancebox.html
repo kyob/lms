@@ -19,7 +19,7 @@
 <tbody>
     {section name=balancelist loop=$balancelist.id step=1}
     <tr>
-        <td>{$balancelist.date[balancelist]}</td>
+        <td>{$balancelist.date[balancelist]|date_format:"%Y-%m-%d"}</td>
       
         {if $balancelist.value[balancelist] > 0}
         <td class="positive center">
