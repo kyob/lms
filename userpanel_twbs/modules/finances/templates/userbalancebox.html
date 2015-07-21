@@ -9,7 +9,7 @@
         <th><strong>{trans("Date")}</strong></th>
         <th class="positive"><strong>Wpłata</strong></th>
         <th class="negative"><strong>Zobowiązanie</strong></th>
-	<!--<th><strong>Saldo</strong></th>-->
+	<th><strong>Saldo</strong></th>
 	<th><strong>Tytuł przelewu / Opis faktury VAT</strong></th>
 	{if !$disable_invoices}
 	<th></th>
@@ -39,8 +39,14 @@
         </td>
         {/if}        
         
-<!--        <td>{if $balancelist.after[balancelist] < 0}<strong>{$balancelist.after[balancelist]|money_format}</strong>{else}{$balancelist.after[balancelist]|money_format}{/if}</td>-->
-	<td >{$balancelist.comment[balancelist]}</td>
+        <td>
+	    {if $balancelist.after[balancelist] < 0}
+		<strong>{$balancelist.after[balancelist]|money_format}</strong>
+	    {else}
+		{$balancelist.after[balancelist]|money_format}
+	    {/if}
+	</td>
+	<td>{$balancelist.comment[balancelist]}</td>
 	{if !$disable_invoices}
 	<td>
             {if $balancelist.doctype[balancelist]==1 || $balancelist.doctype[balancelist]==3}
@@ -53,7 +59,7 @@
     </tr>
     {sectionelse}
     <tr>
-        <td colspan="5">
+        <td colspan="6">
             <p>&nbsp;</p>
             <p><b>{trans("No such transactions on your account.")}</b></p>
             <p>&nbsp;</p>
@@ -63,7 +69,7 @@
 </tbody>
     {if !$disable_invoices}
     <tr>
-        <td colspan="4">&nbsp;</td>
+        <td colspan="5">&nbsp;</td>
         <td>
             {trans("Check all")}&nbsp;<input type="checkbox" name="allbox" id="allbox" onchange="CheckAll('invoices', this)" value="1" />
             <br/><br/>            
@@ -72,7 +78,8 @@
     </tr>
     {/if}
 
-</table>
-</form>
-</div>
+	    </table>
+	</form>
+<p class="bg-info">Kolumna <strong>Saldo</strong> jest w fazie testów. Prosimy zgłaszać zauważone nieprawidłowości pod adres pomoc@alfa-system.pl</p>
+    </div>
 </div>
