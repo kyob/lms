@@ -6,6 +6,8 @@
 <button type="button" class="btn btn-{if $port.status eq 1}danger{else}default{/if}">{$port.port} ({$port.protokol})</button>
 {/foreach}
 </div>
-<p class="text-danger">Kolor czerwony oznacza, że port jest otwarty.</p>
+<div class="alert alert-danger">Kolor czerwony oznacza, że port jest otwarty (dostępny z sieci Internet).</div>
+<div class="alert alert-info">Strona ma charakter informacyjny. Otwarty port oznacza możliwość komunikacji poprzez otwarty port z naszym urządzeniem z sieci Interent.</div>
+
 
 {include file="footer.html"}
