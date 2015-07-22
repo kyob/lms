@@ -163,7 +163,9 @@ for($i=1; $i<$daysnum+1; $i++)
 $SESSION->save('backto', $_SERVER['QUERY_STRING']);
 $SESSION->save('edate', sprintf('%04d/%02d/%02d', $year, $month, $day));
 
+//$SMARTY->assign('openeventslist', $DB->GetAll('SELECT userid, COUNT(userid) AS opened, users.login AS login FROM events LEFT JOIN users ON (events.userid=users.id) WHERE closed=0 GROUP BY userid'));
 $SMARTY->assign('openeventslist', $DB->GetAll('SELECT users.login, eventassignments.userid, count(eventassignments.userid) AS opened FROM eventassignments LEFT JOIN events ON (eventassignments.eventid=events.id) LEFT JOIN users ON (eventassignments.userid=users.id) WHERE events.closed=0 GROUP BY eventassignments.userid'));
+
 $SMARTY->assign('taglist', $LMS->GetEventTags());
 $SMARTY->assign('period', $DB->GetRow('SELECT MIN(date) AS fromdate, MAX(date) AS todate FROM events'));
 $SMARTY->assign('eventlist',$eventlist);

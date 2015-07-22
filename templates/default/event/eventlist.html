@@ -6,12 +6,26 @@
 
 <H1>{$layout.pagetitle}</H1>
 
+<TABLE class="lmsbox">
+<thead>
+<tr>
+<td colspan="14">
 Otwarte zgłoszenia:
+</td>
+</tr>
+</thead>
+<tr>
 {foreach from=$openeventslist item=oe}
-<strong>{$oe.login}</strong> ({$oe.opened}) |  
+    {if $current_userid==$oe.userid}
+    <td><a href="?m=eventlistnotclosed&userid={$oe.userid}"><strong>{$oe.login}</strong> ({$oe.opened})</a></td>
+    {else}
+    <td><a href="?m=eventlistnotclosed&userid={$oe.userid}">{$oe.login} ({$oe.opened})</a></td>
+    {/if}
 {/foreach}
+</tr>
+</table>
 
-<P><TABLE class="lmsbox">
+<TABLE class="lmsbox">
     <THEAD>
 	<TR>
 		<TD width="1%" NOWRAP>
@@ -169,5 +183,5 @@ Otwarte zgłoszenia:
 	</TR>
 	{/section}
     </TBODY>
-</TABLE></P>
+</TABLE>
 {/block}
