@@ -1,0 +1,51 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+<!--// $Id$ //-->
+
+
+<H1>{$layout.pagetitle}</H1>
+
+<TABLE class="lmsbox">
+<thead>
+<tr>
+<td colspan="14">
+Otwarte zgłoszenia:
+</td>
+</tr>
+</thead>
+<tr>
+{foreach from=$openeventslist item=oe}
+    {if $current_userid==$oe.userid}
+    <td><a href="?m=eventlistnotclosed&userid={$oe.userid}"><strong>{$oe.login}</strong> ({$oe.opened})</a></td>
+    {else}
+    <td><a href="?m=eventlistnotclosed&userid={$oe.userid}">{$oe.login} ({$oe.opened})</a></td>
+    {/if}
+{/foreach}
+</tr>
+</table>
+<TABLE class="lmsbox">
+{cycle values="light,lucid" print=false}
+    {section name=eventlist loop=$eventlist}
+    <TR class="highlight {cycle}">
+        <TD onClick="return self.location.href='?m=eventinfo&id={$eventlist[eventlist].id}'">
+	    <B>{$eventlist[eventlist].title}</B>
+        </TD>
+        <TD>
+            {if $eventlist[eventlist].customername}
+                <A href="?m=customerinfo&id={$eventlist[eventlist].customerid}">{$eventlist[eventlist].customername|truncate:"30":"...":true}<br/>{$eventlist[eventlist].location}</A>
+            {/if}
+        </TD>
+        <TD>
+            {if $eventlist[eventlist].closed}
+                <A href="?m=eventedit&id={$eventlist[eventlist].id}&action=open">{trans("Open")}</A>&nbsp;#&nbsp; 
+            {else}
+                <A href="?m=eventedit&id={$eventlist[eventlist].id}&action=close">{trans("Close")}</A>&nbsp;#&nbsp; 
+            {/if}
+                <A href="?m=eventdel&id={$eventlist[eventlist].id}" OnClick="return confirmLink(this, '{trans("Are you sure, you want to delete that event?")}')">{trans("Delete")}</A>&nbsp;#&nbsp; 
+                <A href="?m=eventedit&id={$eventlist[eventlist].id}">{trans("Edit")}</A>
+        </TD>
+    </TR>
+    {/section}
+</TABLE>
+{/block}
