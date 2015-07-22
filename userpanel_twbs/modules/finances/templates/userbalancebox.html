@@ -7,8 +7,8 @@
 <thead>
     <tr class="warning">
         <th><strong>{trans("Date")}</strong></th>
-        <th class="positive"><strong>Wpłata</strong></th>
         <th class="negative"><strong>Zobowiązanie</strong></th>
+        <th class="positive"><strong>Wpłata</strong></th>
 	<th><strong>Saldo</strong></th>
 	<th><strong>Tytuł przelewu / Opis faktury VAT</strong></th>
 	{if !$disable_invoices}
@@ -22,21 +22,22 @@
         <td>{$balancelist.date[balancelist]|date_format:"%Y-%m-%d"}</td>
       
         {if $balancelist.value[balancelist] > 0}
+        <td></td>        
         <td class="positive center">
             {if $balancelist.value[balancelist] > 0 && $balancelist.type[balancelist] != 4}
                 
             {/if}
             {$balancelist.value[balancelist]|money_format}
         </td>
-        <td></td>        
         {else}   
-        <td></td>
+
         <td class="negative center">
             {if $balancelist.type[balancelist] == 4}
                 -
             {/if}
             {$balancelist.value[balancelist]|money_format}          
         </td>
+        <td></td>
         {/if}        
         
         <td>
