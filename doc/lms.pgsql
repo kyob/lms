@@ -1716,8 +1716,17 @@ CREATE TABLE voipaccounts (
 	moddate		integer		NOT NULL DEFAULT 0,
 	creatorid	integer		NOT NULL DEFAULT 0,
 	modid		integer		NOT NULL DEFAULT 0,
+	location varchar(255) DEFAULT NULL,
+	location_city integer
+		REFERENCES location_cities (id) ON DELETE SET NULL ON UPDATE CASCADE,
+	location_street integer
+		REFERENCES location_streets (id) ON DELETE SET NULL ON UPDATE CASCADE,
+	location_house varchar(32) DEFAULT NULL,
+	location_flat varchar(32) DEFAULT NULL,
 	PRIMARY KEY (id)
 );
+CREATE INDEX voipaccounts_location_street_idx ON voipaccounts (location_street);
+CREATE INDEX voipaccounts_location_city_idx ON voipaccounts (location_city, location_street, location_house, location_flat);
 
 /* ---------------------------------------------------
  Structure of table "messages"
@@ -2526,4 +2535,4 @@ CREATE TABLE eventtags (
   PRIMARY KEY (id)
 )  ;
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015071000');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015072300');
