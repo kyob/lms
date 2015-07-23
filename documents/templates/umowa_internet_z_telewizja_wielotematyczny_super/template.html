@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Umowa abonencka</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            @page
+            {
+                size: auto;   /* auto is the initial value */
+                /* this affects the margin in the printer settings */
+                margin-left: 5mm;
+                margin-right: 5mm;
+            }
+            ol2 { counter-reset: item; margin-left:0px; padding-left: 0px }
+            li2 { display: block }
+            li2:before { content: counters(item, ".") ". "; counter-increment: item }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Umowa Abonencka</h3>
+                    <p>o numerze <strong>{$document.nr}</strong> zawarta w dniu <strong>{$smarty.now|date_format:"%d.%m.%Y"}</strong> roku w Knurowie pomiędzy:
+                        Operatorem <strong>Alfa-System M. Piwowarski, A. Widera spółka jawna</strong>, ul. Lotników 6, 44-196 Knurów, NIP: 969-13-08-017
+                        i
+                        <strong>SGT S.A.</strong> (reprezentowaną przez Operatora), ul. Ligocka 103 budynek 8, 40-568 Katowice, wpisana do Rejestru Przedsiębiorców Krajowego Rejestru Sądowego pod numerem KRS 0000293307, NIP: 6312533927.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Dane abonenta:</strong></p>
+                    <p>
+                        {if $customerinfo.type==1}
+                        Nazwa firmy: <br/><strong>{$customerinfo.customername}</strong><br/>
+                        {trans("Address:")} <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+                        {trans("NIP:")} <strong>{if $customerinfo.ten neq ''}{$customerinfo.ten}{else}.............................{/if}</strong><br/>
+                        , zwanym dalej Abonentem.
+                        {else}
+                        Nazwisko i imię: <strong>{$customerinfo.customername}</strong><br/>
+                        {trans("Address:")} <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+                        Seria i numer: <strong>{if $customerinfo.icn neq ''}{$customerinfo.icn}{else}.............................{/if}</strong><br/>
+                        {trans("PESEL:")} <strong>{if $customerinfo.ssn neq ''}{$customerinfo.ssn}{else}.............................{/if}</strong><br/>
+                        , zwanym dalej Abonentem.
+                        {/if}
+                    </p>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;">Nr rachunku do wpłat: <strong>{$nrb}</strong>  </p>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;">Biuro Obsługi Klienta (bok.alfa-system.pl) ID: <strong>{$customerinfo.id|string_format:"%04d"}</strong> &nbsp; PIN: <strong>{$customerinfo.pin}</strong></p>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    {if $customerinfo.post_address neq ''}
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Adres korespondencyjny:</strong></p>
+                    {$customerinfo.post_address}, {$customerinfo.post_zip} {$customerinfo.post_city}
+                    {/if}
+
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Adres instalacji:</strong></p>
+                    <!-- <ol>{foreach $customernodes as $item}<li>{$item.location}</li>{/foreach}</ol> -->
+                    <p>{$document.location}</p>
+
+                    {if $customerinfo.email neq ''}
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>E-mail:</strong></p>
+                    <p>{$customerinfo.email}</p>
+                    {else}
+                    <p>.............................</p>
+                    {/if}
+
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Telefon:</strong></p>
+                    <p>{if $customerinfo.contacts neq ''}{foreach from=$customerinfo.contacts item=b}<strong>{$b.phone}; </strong>{/foreach}{else}.............................{/if}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>JAMBOX ID I PINY:</strong></p>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>jPIN:</td>
+                            <td></td>
+                            <td>tvPIN:</td>
+                            <td></td>
+                            <td>Numer ID:</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Oswiadczenia</strong></p>
+                    <p>Pola: Imię, nazwisko, nr PESEL, adres miejsca zameldowania na pobyt stały, nazwa, seria i numer dokumentu potwierdzającego tożsamość muszą zostać wypełnione w celu poprawnego świadczenia usług Abonentowi, zgodnie z art. 161 ust. 2 Ustawy – Prawo telekomunikacyjne (Dz. U. 2004.171.1800 ze zm.).</p>
+                    <p>W przypadku podania adresu e-mail Abonent wyraża zgodę na otrzymywanie faktur drogą elektroniczną na ten adres.</p>
+                    <p>Abonent oświadcza, że wyraża <strong>{if strlen($customerinfo.consentdate)>1}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na przetwarzanie danych osobowych Abonenta przez Operatora i SGT w celach marketingowych, promocyjnych i reklamy różnego rodzaju towarów i usług świadczonych przez inne podmioty powiązane z Operatorem i/lub SGT. Abonent może w każdej chwili wycofać zgodę na przetwarzanie swoich danych w celach marketingowych, wycofać zgodę lub sprzeciwić się przekazywaniu swoich danych innym administratorom danych, jak również żądać zaprzestania przetwarzania dla takich celów z uwagi na swoją szczególną sytuację.</p>
+                    <p>Abonent <strong>{if isset($customerinfo.einvoice)}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na otrzymywanie informacji handlowych drogą elektroniczną.</p>
+                    <p>W przypadku podania adresu e-mail Abonent <strong>{if isset($customerinfo.einvoice)}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na otrzymywanie drogą elektroniczną propozycji zmian Umowy, Regulaminów oraz Cennika.</p>
+                    <p>Operator i SGT informują, że zgodnie z art. 23 ust 1 pkt 3 i 5 oraz art. 23 ust 4 Ustawy z dnia 29 sierpnia 1997r. o ochronie danych osobowych (tekst jednolity: Dz. U. 2002r. Nr 101 poz. 926, ze zm.), dane osobowe Abonenta będą przetwarzane w bazach danych Operatora i SGT dla celów realizacji niniejszej umowy oraz marketingu Usług świadczonych przez Operatora i/lub SGT. Abonent oświadcza że został poinformowany o prawie kontroli przetwarzania danych, które go dotyczą, w szczególności o prawie do dostępu do treści swoich danych oraz ich poprawiania, żądania ich uzupełnienia, uaktualnienia i sprostowania.</p>
+                </div>
+            </div>
+            <div class="row" style="page-break-after: always;">
+                <div class="col-md-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Potwierdzenie wykonania instalacji oraz uruchomienia usługi</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <td>Data wykonania instalacji:</td>
+                            <td>Data uruchomienia usługi:</td>
+                        </tr>
+                        <tr>
+                            <td>Data i podpis Abonenta:</td>
+                            <td>Data i podpis monterów:</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PAGE 2 -->
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Wybrane usługi</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Taryfa:</th>
+                                <th>{trans("Value:")}</th>
+                                <th>{trans("Period:")}</th>
+                            </tr>
+                        </thead>
+                        {foreach from=$assignments item=a}
+                        <tr>
+                            <td>{$a.name}</td>
+                            <td>{$a.value|money_format}</td>
+                            <td>
+                                od: {if $a.datefrom neq ''}
+                                {$a.datefrom|date_format:"%Y/%m/%d"}
+                                {else}
+                                .............................
+                                {/if}
+                                do: {if $a.dateto eq 0}
+                                -
+                                {elseif $a.dateto neq ''}
+                                {$a.dateto|date_format:"%Y/%m/%d"}
+                                {else}
+                                .............................
+                                {/if}
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                    <p>Umowa zawarta na czas określony od <strong>{if $document.fromdate neq ''}{$document.fromdate|date_format:"%d.%m.%Y"}{else}.............................{/if}</strong> do <strong>{if $document.todate neq ''}{$document.todate|date_format:"%d.%m.%Y"}{else}.............................{/if}</strong>r. Po tym terminie zgodnie z §13 punkt 8 umowa staje się umową na czas nieokreślony.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h6>§1.  Definicje.</h6>
+<p>
+Abonament - opłata miesięczna za możliwość korzystania przez Abonenta z Usług Operatora i SGT oraz za utrzymanie infrastruktury niezbędnej do świadczenia Usług; 
+Abonent - podmiot będący stroną zawartej z Operatorem i SGT Umowy Abonenckiej; 
+Aktywacja - czynności związane z uruchomieniem Usługi na Urządzeniu Operatora lub SGT; 
+Awaria – zdarzenie polegające na braku sygnału telewizyjnego lub nie działanie Usług świadczonych przez Operatora lub SGT, znaczne pogorszenie jakości Usług uniemożliwiające korzystanie z nich; 
+Biuro Obsługi Klienta – miejsce obsługiwania Abonentów w lokalu Operatora; 
+Cennik – zestawienie cen i opisów Usług udostępnianych przez Operatora i SGT, będący integralną częścią Umowy Abonenckiej; 
+Instalacja  - oznacza jednorazową opłatę określoną w Cenniku za wykonanie instalacji w Lokalu; 
+Lokal – pomieszczenie mieszkalne lub użytkowe Abonenta, w którym jest zainstalowany sprzęt umożliwiający korzystanie z Usług; 
+Minimalny okres umowy - oznacza okres na jaki Abonent zawarł umowę liczony od następnego m-ca po m-cu podpisania umowy; 
+Operator – strona świadcząca Usługi Abonentowi współpracująca z SGT S.A. w dziedzinie udostępniania Usług; Operator występuje także jako pełnomocnik SGT w relacjach z Abonentem wynikających z zawarcia Umowy Abonenckiej, Regulaminy Promocji lub Umowa nie stanowią inaczej; 
+Okres Rozliczeniowy – jednomiesięczny okres liczony od początku do końca miesiąca kalendarzowego, chyba że w Umowie Abonenckiej lub Regulaminie Promocji określono inaczej, w którym naliczane są należności za wyświadczone Abonentowi Usługi; 
+Panel – Web Panel lub TV Panel; 
+Web Panel – portal WWW pozwalający na samoobsługę Abonenta; 
+Pakiet – grupa programów telewizyjnych i innych Usług określona w Cenniku; 
+Pakiet Dodatkowy – Pakiet programów telewizyjnych, innych niż zawarte w Pakiecie Wielotematycznym Super, może zawierać kanały o podobnej tematyce (Pakiet Tematyczny) lub kanały Premium (Pakiet Premium); 
+Pakiet Wielotematyczny Super – podstawowy Pakiet programów telewizyjnych wraz z dodatkowymi Usługami; 
+jPIN – osobisty numer identyfikacyjny Abonenta, wykorzystywany m. in. do potwierdzania zakupów Usług, poświadczania zmiany zakupionych Pakietów; 
+tvPIN – służący do konfiguracji swojego profilu na STB oraz blokowania dostępu do wybranych przez Abonenta Usług i programów telewizyjnych (tzw. blokada rodzicielska); 
+Protokół Przekazania Sprzętu – dokument, w którym Abonent potwierdza przyjęcie do używania kompletu Udostępnionego przez Operatora lub SGT Sprzętu; 
+Regulamin Promocji – Regulamin opisujący szczególne warunki świadczenia Usług w ramach Promocji; Abonent nie jest zobligowany do zamawiania danej Promocji; na zasadach określonych w Regulaminach Promocji. Regulamin Promocji nie wiąże Abonenta, jeśli nie zamówił on Usług objętych takim Regulaminem Promocji; 
+Set Top Box (STB) – urządzenie pozwalające na dekodowanie dostarczanego sygnału telewizyjnego w lokalu Abonenta oraz na dostęp do wszelkich innych Usług dostępnych za jego wykorzystaniem i oferowanych przez Operatora lub SGT; urządzenie takie może zostać udostępnione przez Operatora lub SGT w inny sposób na zasadach wskazanych Umową Abonent może wykorzystać własny STB, o ile jest to technicznie możliwe; 
+SGT -  spółka będąca właścicielem platformy cyfrowej IPTV, pozwalającej na świadczenie Usług Abonentom przy współpracy z Operatorem; 
+Udostępniony Sprzęt – sprzęt Operatora przekazany Abonentowi do używania w celu korzystania z Usług Operatora w czasie obowiązywania Umowy Abonenckiej, elementy wchodzące w skład Udostępnionego Sprzętu są wymienione w Protokole Przekazania Sprzętu; o ile nie postanowiono inaczej w Umowie, Sprzęt ten pozostaje własnością Operatora i podlega zwrotowi po rozwiązaniu Umowy; 
+Umowa Abonencka (Umowa) – umowa o świadczeniu Usług podpisywana z Abonentem, w skład umowy wchodzą w szczególności: Umowa Abonencka,ewentualnie dodatkowo Regulaminy Promocji, jeśli Abonent zamówi część oferty Operatora lub SGT objętą takimi Regulaminami; 
+Urządzenie - końcowy aktywny element sieci (np. karta sieciowa, router); 
+Usługa – każda usługa świadczona przez Operatora oraz we współpracy z SGT; 
+Wirtualne Biuro Obsługi Klienta - serwis internetowy http://bok.alfa-system.pl, w którym Abonent po podaniu identyfikatora Klienta oraz hasła (ID i PIN)  ma możliwość dokonywania zdalnych operacji związanych z Usługą; 
+</p>
+                    <h6>§2. Przedmiot umowy.</h6>
+<p>Niniejsza umowa reguluje kwestie instalacji i obsługi Urządzeń umożliwiających dostęp Abonenta do Usług świadczonych przez Operatora i SGT na rzecz Abonenta oraz rozliczeń finansowych pomiędzy stronami z tego tytułu.</p>
+
+                    <h6>§3. Oświadczenia.</h6>
+                    <ol>
+                        <li>Abonent oświadcza, że zapoznał się i w pełni akceptuje Cenniki usług świadczonych przez Operatora i SGT.</li>
+                        <li>Abonent oświadcza, że zapoznał się i w pełni akceptuje Regulaminy Promocji świadczonych przez Operatora i SGT.</li>
+                        <li>Abonent oświadcza, że zapoznał się i w pełni akceptuje parametry techniczne wydanych Urządzeń.</li>
+                        <li>Abonent oświadcza, iż posiada prawo do Lokalu lub zgodę właściciela na wykonanie instalacji w Lokalu.</li>
+                        <li>Regulaminy Promocji stanowią integralną część ninijszej Umowy Abonenckiej. Regulaminy Promocji dotyczą jedynie Usług lub ich części wyraźnie w tych regulaminach wskazanych i nie wiążą Abonenta, jeśli nie zamówił on tych Usług.
+                    </ol>
+
+                    <h6>§4. Zobowiązania Operatora.</h6>
+                    <ol>
+                        <li>Zgodnie z postanowieniami niniejszej umowy. Operator zobowiązuje się uruchomić w lokalu Abonenta pod adresem wskazanym jako Adres miejsca instalacji zamówionej Usługi.</li>
+                        <li>Uruchomienie Usługi nastąpi do 30 dni od daty podpisania umowy przez Abonenta.</li>
+                        <li>Opłata instalacyjna obejmuje montaż oraz pierwszą konfigurację Urządzenia dostępowego u Abonenta.</li>
+                        <li>Instalacja nie obejmuje dostarczenia oprogramowania potrzebnego do efektywnego korzystania przez Abonenta z zamówionych Usług.</li>
+                        <li>Zgodnie z postanowieniami niniejszej umowy, Operator przez okres obowiązywania umowy zobowiązuje się zapewnić serwis Urządzeń i usuwać zgłoszone przez Abonenta lub zauważone przez siebie usterki Urządzeń.</li>
+                        <li>Operator zobowiązuje się do podejmowania racjonalnie uzasadnionych działań w celu zapewnienia nieprzerwanego dostępu Abonenta do usług za pośrednictwem Urządzeń. </li>
+			<li>W ramach Pakietu, Operator i SGT zobowiązują się do udostępniania programów telewizyjnych oraz ew. innych świadczeń wyraźnie wskazanych w opisie takiego Pakietu (programy i świadczenia gwarantowane).  Powyższe nie wyklucza udostępnienia Abonentowi dodatkowych programów lub świadczeń, niewskazanych w opisie Pakietu, lub określonych jako świadczenia dodatkowe i niegwarantowane, według uznania Operatora i SGT. Takie dodatkowe programy lub świadczenia mogą być także, według uznania Operatora lub SGT, zmieniane lub wyłączane.</li>
+			<li>Zmiany zawartości zamówionych przez Abonenta Pakietów w zakresie programów lub świadczeń gwarantowanych traktowane będą jak zmiana treści Umowy.</li>
+			<li>Kanały gwarantowane: TVP1, TVP2, TVP Regionalna, TVN, Polsat, TVN7, TV4, Polsat 2, TVP Kultura, TVP Historia, TV Trwam, TTV, TV Puls, Eurosport, Polsat Sport, AXN, BBC Brit, Kino Polska, FOX Comedy, FOX,Comedy Central, Ale kino+, Cartoon Network, Disney Channel, MiniMini+, TVN24, Polsat News, TVP Info, Discovery Channel, National Geographic, TVN Turbo, TVN Style.</li>
+                    </ol>
+
+                    <h6>§5. Zobowiązania Abonenta.</h6>
+                    <ol>
+<li>Abonent zobowiązuje się udostępnić Operatorowi i SGT nieodpłatnie ustalone przez Strony miejsce w Lokalu i/lub na zewnątrz Lokalu pod instalację Urządzeń przeznaczonych do świadczenia Usługi.</li>
+<li>Abonent zobowiązuje się we własnym zakresie i na swój koszt zasilać energią elektryczną Urządzenia Operatora i SGT niezbędne do świadczenia Usług w Lokalu przez cały okres obowiązywania niniejszej umowy.</li>
+<li>Abonent wyraża zgodę na instalację wszystkich koniecznych Urządzeń.</li>
+<li>Abonent zobowiązuje się, że w trakcie trwania umowy nie udostępni osobom trzecim Usług świadczonych przez Operatora i SGT.</li>
+<li>Abonent przyjmuje do wiadomości, iż jego dane osobowe mogą zostać udostępnione na wezwanie uprawnionym organom państwowym w szczególności sądom oraz prokuratorom.</li>
+
+                    </ol>
+
+                    <h6>§6. Prawo własności urządzeń.</h6>
+                    <p>Strony oświadczają, że:</p>
+                    <ol>
+<li>Urządzenie/a pozostają własnością Operatora przez cały okres umowy.</li>
+<li>Abonent zobowiązany jest zapewnić wszelkie możliwe warunki zabezpieczenia Urządzenia przed uszkodzeniem, kradzieżą i dewastacją, a zwłaszcza uniemożliwić dostęp osób trzecich.</li>
+<li>Abonent odpowiada materialnie za uszkodzenie, zniszczenie lub utratę Urządzeń wymienionych w protokołach przekazania sprzętu.</li>
+<li>W związku z pozostawaniem Urządzeń w Lokalu Abonenta stosuje się odpowiednio przepisy Kodeksu Cywilnego o przechowaniu bez wynagrodzenia.</li>
+<li>Po upływie Minimalnego okresu umowy Abonent nie nabywa prawa własności do wydanych w protokole przekazania Urządzeń. Chyba, że świadczą o tym dodatkowe zapisy w Regulaminach Promocyjnych.</li>
+                    </ol>
+
+                    <h6>§7. Gwarancje Urządzeń.</h6>
+                    <p>Gwarancja na Urządzenia udostępnione przez Operatora obowiązuje przez okres obowiązywania umowy z wykluczeniem urządzeń zakupionych przez Klienta.</p>
+
+                    <h6>§8. Jakość usługi i jej pomiar.</h6>
+                    <ol>
+                        <li>Operator gwarantuje parametry przepustowości Usługi internetowej dla danych wysyłanych i odbieranych z tolerancją 50 %.</li>
+                        <li>Pomiary prędkości do sieci Internet dokonywane będą za pomocą testów dostępnych na stronie www.alfa-system.pl na urządzeniu serwisowym Operatora podłączonym w Lokalu.</li>
+                    </ol>
+
+                    <h6>§9. Obsługa i serwis Urządzeń.</h6>
+                    <ol>
+			<li>Obsługa i serwis Urządzeń prowadzone będą wyłącznie przez osoby upoważnione przez Operatora. Abonent zobowiązuje się zapewnić nielimitowany i nieskrępowany dostęp do Urządzeń w przypadkach wynikających z potrzeb wykonania niniejszej umowy.</li>
+			<li>Abonent zobowiązany jest zawiadomić Operatora o wszelkich zauważonych nieprawidłowościach w pracy lub uszkodzeniach Urządzeń.</li>
+			<li>Naprawy Urządzeń w czasie trwania gwarancji określonym w §7 umowy są dokonywane na koszt Operatora (zastrzeżeniem §9 pkt.8), a po zakończeniu czasu trwania umowy na koszt Abonenta.</li>
+			<li>Naprawy Urządzeń dokonuje wyłącznie Operator. Operator podejmie racjonalnie uzasadnione działania w celu zapewnienia naprawy Urządzeń lub podejmie decyzję o zapewnieniu Abonentowi Urządzeń zastępczych w najkrótszym możliwym czasie.</li>
+			<li>Naprawione urządzenie dostarczone jest na koszt Operatora.</li>
+			<li>Każdorazowo koszty dojazdu Operatora do Abonenta w celu naprawy Urządzenia pokrywa Operator.</li>
+                        <li>Operator ma prawo obciążyć Abonenta kosztami naprawy Urządzeń w przypadku stwierdzenia, że uszkodzenie powstało wskutek:
+                            <ul>
+                                <li>Próby naprawy dokonanej przez inne osoby niż upoważnione przez Operatora.</li>
+                                <li>Świadomego i celowego uszkodzenia Urządzeń.</li>
+                                <li>Eksploatacji Urządzeń przez osoby nieupoważnione.</li>
+                                <li>Naruszenia plomb lub innych założonych przez Operatora zabezpieczeń Urządzeń przed użyciem przez osoby nieupoważnione.</li>
+                            </ul>
+                        </li>
+			<li>W przypadku nie dokonania przez Operatora obciążającej go naprawy Urządzeń w terminie 24 godzin od chwili zgłoszenia usterki przez Abonenta z uwzględnieniem §9 pkt.5, Operator pomniejszy należny Abonament za dany miesiąc o równowartość 1/30 opłaty za każdy dzień zwłoki w dokonaniu naprawy.</li>
+                    </ol>
+
+                    <h6>§10. Odpowiedzialność Operatora.</h6>
+                    <p>Operator i SGT nie ponosi żadnej odpowiedzialności za jakiekolwiek szkody Abonenta wynikłe z korzystania z Usługi świadczonej na mocy niniejszej umowy oraz wynikające z braku dostępu do tej Usługi za wyjątkiem szkód powstałych z winy umyślnej Operatora i SGT. W szczególności Operator i SGT nie bierze odpowiedzialności za szkody wywołane nieprawidłowym funkcjonowaniem urządzeń końcowych Abonenta lub nieprawidłowym ich przyłączeniem, brakiem lub uszkodzeniem oprogramowania potrzebnego do efektywnego korzystania z Usług, wprowadzeniem do systemu komputerowego Abonenta szkodliwego oprogramowania (np. wirusów) za pośrednictwem Usług.</p>
+                    </ol>
+
+                    <h6>§11. Wynagrodzenie Operatora i rozliczenia finansowe.</h6>
+                    <ol>
+<li>Podpisując niniejszą Umowę, Abonent zobowiązuje się do zapłaty wyszczególnionych w Cenniku lub Regulaminie Promocji kosztów związanych z instalacją i aktywacją Usług oraz do zapłaty comiesięcznych opłat za zakupione oraz zamówione Usługi.</li>
+<li>Okresem rozliczeniowym jest jednomiesięczny okres liczony od początku do końca miesiąca kalendarzowego. Opłaty dotyczące okresów krótszych niż Okres Rozliczeniowy są naliczane proporcjonalnie do czasu świadczenia Usług w danym Okresie Rozliczeniowym.</li>
+<li>Kwota abonamentu jest wyliczana z ceny netto dodając podatek VAT. Zmiana podatku VAT wskutek zmian obowiązującego prawa nie jest podstawą do rozwiązania umowy.</li>
+<li>Za dzień zapłaty uważa się dzień wpływu środków na rachunek Operatora. Wszystkie opłaty Abonent zobowiązany jest uiszczać w terminach.</li>
+<li>Wszystkie opłaty i ceny, o których mowa w §11 pkt.1 niniejszego paragrafu Abonent zobowiązuje się uiścić w terminie 7 dni od daty podpisania umowy oraz w przypadku abonamentu miesięcznego do każdego 15 dnia miesiąca poprzedzającego miesiąc, w którym będzie świadczona Usługa.</li>
+<li>Płatności wynikające z niniejszej umowy Abonent zobowiązuje się uiszczać na wskazany rachunek bankowy Operatora znajdujący się na pierwszej stronie niniejszej umowy.</li>
+<li>Faktury VAT i dowody wpłat/przelewu dostępne są w BOK oraz WBOK przez okres obowiązywania niniejszej umowy. Operator nie ma obowiązku drukowania, dostarczania dowodów wpłat/przelewu oraz faktur VAT za świadczoną Usługę.</li>
+<li>Z tytułu opóźnienia w płatnościach przez Abonenta, Operator ma prawo do naliczenia odsetek ustawowych. Dokonywane przez Abonenta wpłaty będą w pierwszej kolejności zaliczane na poczet odsetek, a w dalszej kolejności na poczet należności najdawniej wymagalnych. Opóźnienie płatności ponad 14 dni upoważnia Operatora do zawieszenia świadczenia Usługi, po uprzednim wezwaniu Abonenta do uregulowania zaległości. Ponowna aktywacja zawieszonych Usług może nastąpić po uregulowaniu zaległych opłat wraz z odsetkami ustawowymi. Rozwiązanie Umowy lub zawieszenie świadczenia Usług przez Operatora nie zwalnia Abonenta od uiszczania należności za wykonane na jego rzecz Usługi. </li>
+<li>Wartość ulgi przyznanej Abonentowi jest określona w Regulaminie Promocji lub Cenniku.</li>
+<li>Abonentowi, któremu świadczone są usługi telewizyjne posiada prawo do zakupu i rezygnacji z Pakietów Dodatkowych i innych Usług udostępnianych przez Operatora lub SGT. Minimalny zakresem Usług świadczonym przez Operatora i SGT jest usługa telewizyjna zawierająca Pakiet Wielotematyczny. Na opłate abonamentową składają się: opłata za Pakiet Wielotematyczny Super, opłata za dodatkowe usługi lub opcje usług.</li>
+<li>Po okresie obowiązywania promocyjnych cen zgodnych z Regulaminem Promocji, zakupione przez Abonenta Pakiety będą świadczone wg cen zamieszczonych w Cenniku.</li>
+<li>Abonent po podpisaniu Umowy Abonenckiej może dokonywać zakupu Pakietów Dodatkowych, Usług, materiałów typu VOD (wideo na żądanie) i innych Usług dostępnych w danym momencie na platformie Operatora, zgodnie z Regulaminami Promocji lub Cennikiem. Minimalnym zakresem Usług jaki Abonent jest zobowiązany posiadać jest usługa telewizyjna zawierająca Pakiet Wielotematyczny Super.</li>
+
+                    </ol>
+
+                    <h6>§12. Postępowanie reklamacyjne.</h6>
+                    <ol>
+			<li>W przypadku, gdy nie został osiągnięty określony w umowie poziom jakości świadczonych Usług, Abonentowi przysługuje odszkodowanie w wysokości części ponoszonej przez Abonenta miesięcznej opłaty stałej w wysokości 1/30 za każdy dzień obniżenia poziomu jakości świadczonych Usług.</li>
+			<li>Za moment zgłoszenia reklamacji Usług przez Abonenta strony przyjmują moment otrzymania takiej informacji osobiście w BOK, telefonicznie, pocztą elektroniczną lub poprzez WBOK. Awarie zgłoszone przez Abonenta po godzinie 16:00 dnia roboczego oraz zgłoszone w sobotę, niedzielę, dzień ustawowo wolny od pracy traktowane będą tak, jakby były zgłoszone w pierwszym następnym dniu roboczym o godzinie 8:00.</li>
+			<li>Abonent kwestionując wysokość naliczonych przez Operatora opłat zobowiązany jest wnieść reklamacje w ustawowym terminie za okres, którego kwestionowane opłaty dotyczą. Reklamacja powinna być wniesiona na piśmie bądź pocztą elektroniczną na adres pomoc@alfa-system.pl . Złożenie reklamacji nie zwalnia Abonenta z obowiązku dokonywania płatności.</li>
+			<li>Operator w ustawowym terminie ustosunkuje się do złożonej reklamacji.</li>
+			<li>W przypadku nie uznania reklamacji Operator uzasadni przyczynę odmowy kontaktując się z Abonentem listownie, telefonicznie,  poprzez WBOK lub pocztą elektroniczną.</li>
+			<li>Abonent w przypadku pojawienia się nowych okoliczności może wnieść do Operatora sprzeciw do odmowy reklamacji wtedy procedura reklamacyjna rozpoczyna się od nowa.</li>
+                    </ol>
+
+                    <h6>§13. Okres obowiązywania i wypowiedzenie umowy.</h6>
+                    <ol>
+			<li>Umowa zawarta na czas określony, równy lub dłuższy niż 30 dni, ulega po upływie okresu na jaki została zawarta przedłużeniu na czas nieokreślony, chyba że Abonent przed datą upływu okresu obowiązywania Umowy złoży w siedzibie Operatora listownie lub pocztą elektroniczną za potwierdzeniem odbioru oświadczenie o braku woli przedłużenia Umowy.</li>
+			<li>Umowa zostaje zawarta na czas określony, jednak nie krótszy niż Minimalny okres umowy. Po upływie Minimalnego okresu umowy Operator zastrzega sobie prawo zmian cen i parametrów świadczonych Usług na rzecz Abonenta według obowiązującego Cennika.</li>
+			<li>Po upływie Minimalnego okresu umowy, każda ze stron może wypowiedzieć umowę z zachowaniem miesięcznego okresu wypowiedzenia z tym, że bieg wypowiedzenia rozpoczyna się w ostatnim dniu miesiąca, w którym otrzyma go Operator. Wypowiedzenie uznane będzie za skuteczne, jeżeli zostaje złożone w siedzibie Operatora na piśmie, doręczone listownie lub pocztą elektroniczną za potwierdzeniem odbioru.</li>
+			<li>Rezygnacja przez Abonenta z korzystania z usług Operatora, przed upływem Minimalnego okresu umowy zobowiązuje Abonenta do niezwłocznego zwrotu udzielonych rabatów, upustów i ulg oraz udostępnionego sprzętu przez Operatora, który został wyszczególniony w Protokole Przekazania.</li>
+                        <li>Operator może wypowiedzieć niniejszą umowę bez zachowania okresu wypowiedzenia przed upływem Minimalnego okresu umowy w przypadku:
+                            <ul>
+                                <li>Nieuregulowania opłat należnych Operatorowi za co najmniej 3 (trzy) okresy płatności.</li>
+                                <li>Niemożności doręczenia Abonentowi korespondencji od Operatora z przyczyn leżących po stronie Abonenta.</li>
+                                <li>Próby bezprawnego wejścia do zasobów informatycznych innych użytkowników Usług.</li>
+                                <li>Wprowadzania do sieci Internet informacji z naruszeniem obowiązującego prawa lub oferowania w sieci Internet towarów lub usług, którymi obrót jest prawem zabroniony.</li>
+                                <li>Stwierdzenia próby obsługi Urządzeń przez Abonenta lub osoby nieupoważnione przez Operatora.</li>
+                                <li>Ogłoszenia upadłości lub likwidacji Abonenta.</li>
+                            </ul>
+                        </li>
+			<li>Abonent może odstąpić od Umowy bez podania przyczyny w terminie 14 dni, jeśli umowa został zawarta poza siedzibą Operatora.</li>
+			<li>W przypadku wypowiedzenia Umowy przez Operatora bez zachowania okresu wypowiedzenia z powodów określonych w §13 punkt 5 niezwłocznego zwrotu udzielonych rabatów, upustów i ulg oraz udostępnionego sprzętu przez Operatora, który został wyszczególniony w Protokole Przekazania.</li>
+			<li>Operator ma prawo rozwiązania niniejszej umowy w przypadku, gdy z przyczyn od niego niezależnych nie będzie mógł świadczyć Usługi będącej przedmiotem niniejszej umowy na rzecz Abonenta. </li>
+			<li>Abonent zobowiązuje się do wydania Urządzeń Operatorowi i umożliwienia upoważnionym przez Operatora osobom demontażu Urządzeń w dniu zakończenia obowiązywania umowy lub innym ustalonym z Operatorem terminie nie dłuższym niż 14 dni od momentu zaistnienia sytuacji z §13.pkt 3 do 8. W przypadku nie zwrócenia urządzenia w w/w terminie Operator przeniesie własność urządzenia na Abonenta poprzez sprzedaż urządzenia według Cennika. </li>
+                    </ol>
+
+                    <h6>§14. Siła wyższa.</h6>
+                    <ol>
+                        <li>Wyjąwszy nie wywiązanie się z płatności w terminie, żadna ze stron nie będzie odpowiedzialna z tytułu strat lub szkód wynikających z opóźnienia lub niewykonania jakichkolwiek zobowiązań umownych, powstałych z przyczyn znajdujących się poza jej kontrolą. Siła wyższa obejmuje, między innymi: zdarzenia losowe w tym kradzież, wroga publicznego, działania rządu lub jego departamentu albo agencji, a także pożar, powódź, trzęsienie ziemi, epidemie, kwarantanny, zamieszki, wojny, powstania, embarga na przewóz towarów, konflikty pracownicze oraz wyjątkowo ciężkie warunki pogodowe, zakłócenia spowodowanie działaniem słońca oraz zaniki sygnału z powodu deszczu, śniegu, gradu. </li>
+                        <li>W przypadku zaistnienia siły wyższej strona dotknięta jej działaniem będzie zwolniona z wykonywania Umowy w czasie działania siły wyższej, a termin wykonania zostanie przedłużony o okres czasu równy okresowi o jaki nastąpiło opóźnienie w harmonogramie. W momencie zaistnienia siły wyższej strona dotknięta natychmiast powiadomi drugą stronę o tym fakcie i postara się o zminimalizowanie w jak największym zakresie skutków działania siły wyższej. Jeżeli powód takiego opóźnienia będzie trwać dłużej niż 30 (trzydzieści) dni to strona dotknięta niemożnością wykonywania Umowy przez drugą stronę będzie miała prawo rozwiązać niniejszą Umowę przekazując drugiej stronie wypowiedzenie zgodnie z §13 punkt 2.</li>
+                    </ol>
+
+                    <h6>§15. Postanowienia końcowe.</h6>
+                    <ol style="page-break-after: always;">
+<li>O ile Umowa lub Regulaminy Promocji nie stanowią inaczej, Operator reprezentuje SGT wobec Abonenta. Abonent, w sprawach wynikających z ninijszej Umowy, w pierwszej kolejności powinien kontaktować się z Operatorem.</li>
+<li>Niniejsza umowa nie dotyczy Usług dodatkowych niewymienionych w umowie. W przypadku rozpoczęcia świadczenia dodatkowych Usług przez Operatora. Operator zawiadomi o tym Abonenta przedstawiając ofertę asortymentową i cenową. Cena usług dodatkowych nie będzie wliczona w opłaty, o których mowa w niniejszej umowie chyba, że Operator zdecyduje inaczej. Brak oświadczenia Abonenta w przedmiocie przyjęcia oferty świadczenia przez Operatora usług dodatkowych oznaczać będzie odrzucenie oferty.</li>
+<li>Wszelkie spory, które mogą powstać między stronami w związku z niniejszą umową, w tym spory co do jej ważności, wykładni lub wykonywania strony będą starać się rozstrzygać na drodze polubownej na podstawie wzajemnego porozumienia. Jeżeli takie porozumienie nie zostanie zawarte w terminie 30 (trzydziestu) dni od daty zaproszenia do podjęcia rozmów pojednawczych, każda ze stron może skierować sprawę na drogę postępowania przed sądami powszechnymi.</li>
+<li>Każda ze stron zobowiązuje się do podjęcia wszelkich niezbędnych działań mających na celu zminimalizowanie niebezpieczeństwa powstania szkody i zmniejszenia faktycznej szkody powstałej w wyniku naruszenia przez drugą stronę Umowy.</li>
+<li>Jakiekolwiek zawiadomienia lub oświadczenia przewidziane w niniejszej umowie skierowane do jakiejkolwiek ze stron będą dostarczane osobiście, listem poleconym, faksem lub pocztą elektroniczną na adres pomoc@alfa-system.pl za potwierdzeniem odbioru. Każda ze stron zobowiązuje się do zawiadomienia drugiej strony o zmianie adresu do doręczeń i podania aktualnego adresu w terminie 7 dni od takiej zmiany.</li>
+<li>W sprawach nieuregulowanych niniejszą Umową, Regulaminami oraz Cennikiem mają zastosowanie przepisy prawa polskiego, w szczególności Kodeksu cywilnego (Dz.U. 1964, Nr 16, poz. 93 z późn. zm.) oraz Ustawy - Prawo Telekomunikacyjne (Dz. U. 2004, Nr 171, poz. 1800 z późn. zm).</li>
+<li>Wszelkie zmiany i uzupełnienia umowy dokonywane będą w formie pisemnej pod rygorem nieważności. Zmiana danych rachunku bankowego przewidzianego przez Operatora celem uiszczania opłat, jak również zmiana adresów stron nie stanowią zmiany niniejszej umowy.</li>
+<li>Jeżeli postanowienia umowy byłyby w całości lub w części nieważne, nienadające się do wykonania, bezskuteczne lub zostałyby w całości bądź w części uznane za nieważne przez sąd lub inny właściwy organ, pozostałe postanowienia Umowy pozostają w mocy. W odniesieniu do postanowień dotkniętych wymienionymi wadliwościami Operator zaproponuje zastępcze postanowienia odzwierciedlające pierwotną wolę stron.</li>
+<li>Niniejsza umowa została sporządzona w trzech jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.</li>
+
+                    </ol>
+                </div>
+            </div>
+    <div class="row">
+            <div class="col-md-12">
+    <table class="table">
+                <tr><td>
+    <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+    <p>Data i podpis uprawnionego Przestawiciela Operatora</p>
+    </td><td>
+                <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+<p>Data i podpis uprawnionego Przestawiciela w imieniu SGT</p>
+    </td><td>
+                    <p style="margin-top:50px; border-bottom: 1px solid #000;"></p>
+    <p>Data i podpis Abonenta</p>
+    </td></tr>
+    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Załączniki do Umowy Abonenckiej:</p>
+                    <ol>
+                        <li>Cennik ogólny</li>
+                        <li>Cennik telewizja</li>
+                        <li>Protokół przekazania sprzętu</li>
+                        <li>Regulamin promocji
+</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><br/><br/>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Kontakt z Operatorem</strong></p>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Strona www:</td>
+                            <td>www.alfa-system.pl</td>
+                        </tr>
+                        <tr>
+                            <td>Wirutalne Biuro Obsługi Klienta:</td>
+                            <td>bok.alfa-system.pl</td>
+                        </tr>
+                        <tr>
+                            <td>E-mail:</td>
+                            <td>pomoc@alfa-system.pl</td>
+                        </tr>
+                        <tr>
+                            <td>Tel. biuro:</td>
+                            <td>32 44 50 218</td>
+                        </tr>
+                        <tr>
+                            <td>Tel. serwisowy:</td>
+                            <td>607 460 316</td>
+                        </tr>
+                        <tr>
+                            <td>FAX:</td>
+                            <td>32 336 20 36</td>
+                        </tr>
+                        <tr>
+                            <td>Godziny otwarcia biura:</td>
+                            <td>
+                                Poniedziałek 8:00 - 16:00<br/>
+                                Wtorek 10:00 - 18:00<br/>
+                                Środa 8:00 - 16:00<br/>
+                                Czwartek 8:00 - 16:00<br/>
+                                Piątek 8:00 - 16:00<br/>
+                                Sobota 9:00 - 13:00<br/>
+                                Niedziela nieczynne<br/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<!-- UMOWA wersja z dnia 13.07.2013 -->
