@@ -677,7 +677,7 @@ abstract class LMSDB_common implements LMSDBInterface
 
 	public function UpgradeDb($dbver = DBVERSION, $pluginclass = null, $libdir = null, $docdir = null) {
 		$lastupgrade = null;
-		if ($this->GetOne('SELECT keyvalue FROM dbinfo WHERE keytype = ?',
+		if ($dbversion = $this->GetOne('SELECT keyvalue FROM dbinfo WHERE keytype = ?',
 				array('dbversion' . (is_null($pluginclass) ? '' : '_' . $pluginclass)))) {
 			if ($dbver > $dbversion) {
 				set_time_limit(0);
@@ -687,7 +687,7 @@ abstract class LMSDB_common implements LMSDBInterface
 					$libdir = LIB_DIR;
 
 				$pendingupgrades = array();
-				$upgradelist = getdir($libdir . DIRECTORY_SEPARATOR . 'upgradedb' . DIRECTORY_SEPARATOR . $this->_dbtype . '\.[0-9]{10}\.php$');
+				$upgradelist = getdir($libdir . DIRECTORY_SEPARATOR . 'upgradedb', '^' . $this->_dbtype . '\.[0-9]{10}\.php$');
 				if (!empty($upgradelist))
 					foreach ($upgradelist as $upgrade) {
 						$upgradeversion = preg_replace('/^' . $this->_dbtype . '\.([0-9]{10})\.php$/', '\1', $upgrade);
