@@ -42,8 +42,7 @@ function _smarty_block_box($params, $content, $template, &$repeat)
 		$template->assignGlobal('boxtitle', $title);
 		$template->assignGlobal('boxcontent', $content);
 
-		//return $template->fetch(ConfigHelper::getConfig('directories.userpanel_dir').'/'.$file);
-		return $template->smarty->fetch(ConfigHelper::getConfig('directories.userpanel_dir').'/'.$file);
+		return $template->smarty->fetch(USERPANEL_DIR . DIRECTORY_SEPARATOR . $file);
 	}
 }
 
@@ -67,8 +66,7 @@ function _smarty_function_body($params, $template)
         elseif(file_exists('assets/default/body.html'))
 	        $file = 'assets/default/body.html';
 
-	//return $template->fetch(ConfigHelper::getConfig('directories.userpanel_dir').'/'.$file);
-	return $template->smarty->fetch(ConfigHelper::getConfig('directories.userpanel_dir').'/'.$file);
+	return $template->smarty->fetch(USERPANEL_DIR . DIRECTORY_SEPARATOR . $file);
 }
 
 function _smarty_function_userpaneltip($params, $template)
@@ -116,10 +114,10 @@ function _smarty_function_img($params, $template)
 
     $style = ConfigHelper::getConfig('userpanel.style', 'default');
 
-    if(file_exists('modules/'.$_GET['m'].'/assets/'.$style.'/'.$params['src']))
-	    $file = 'modules/'.$_GET['m'].'/assets/'.$style.'/'.$params['src'];
-    elseif(file_exists('modules/'.$_GET['m'].'/assets/default/'.$params['src']))
-    	    $file = 'modules/'.$_GET['m'].'/assets/default/'.$params['src'];
+    if(file_exists('modules/'.$_GET['m'].'/style/'.$style.'/'.$params['src']))
+	    $file = 'modules/'.$_GET['m'].'/style/'.$style.'/'.$params['src'];
+    elseif(file_exists('modules/'.$_GET['m'].'/style/default/'.$params['src']))
+    	    $file = 'modules/'.$_GET['m'].'/style/default/'.$params['src'];
     elseif(file_exists('assets/'.$style.'/'.$params['src']))
 	    $file = 'assets/'.$style.'/'.$params['src'];
     elseif(file_exists('assets/default/'.$params['src']))

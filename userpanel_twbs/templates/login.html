@@ -39,16 +39,17 @@
                         <div class="col-md-4">
                             <fieldset>
                                 <legend>Przypomnienie ID i PIN</legend>
-                                <form role="form" id="recovery" method="post" action="{$target}" class="well">
+                                <form role="form" id="remind" method="post" action="{$target}" class="well">
                                     <div class="form-group">
-				    <label>{t}E-mail:{/t}</label>
-                                    <input class="form-control" type="text" name="recovery_email" />
+					<label>{trans("E-Mail:")}</label>
+                                	<input class="form-control" type="text" name="remindform[email]" />        
                                     </div>
 				    <div class="form-group">
-				    <label>PESEL:</label>
-                                    <input class="form-control" type="text" name="recovery_pesel" />        
+					<label>{trans("SSN or TEN:")}</label>
+                                	<input class="form-control" type="text" name="remindform[ten]" />        
                                     </div>
-                                    <button type="submit" name="recovery_submit" class="btn btn-default" value="Wyślij przypomnienie">Wyślij przypomnienie!</button>
+				    <input type="hidden" id="emailradio" name="remindform[type]" value="1"/>
+                                    <button type="submit" name="remindform[submit]" class="btn btn-default">{trans("Remind")}</button>
                                 </form>
                             </fieldset>
                             {if $recovery eq 'OK'}
