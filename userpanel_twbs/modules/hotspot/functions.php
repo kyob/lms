@@ -59,67 +59,6 @@ $CONFIG = (array) parse_ini_file($CONFIG_FILE, true);
     $assignments = $LMS->GetCustomerAssignments($SESSION->id);
 
 
-// FACEBOOK
-    if ($userinfo[facebook] > 1) {
-
-        $filename1 = 'assets/3rdparty/facebook/base_facebook.php';
-        $filename2 = 'assets/3rdparty/facebook/facebook.php';
-        if (file_exists($filename1)) {
-            require $filename1;
-        } else {
-            echo "The file $filename1 does not exist";
-        }
-        if (file_exists($filename2)) {
-            require $filename2;
-        } else {
-            echo "The file $filename2 does not exist";
-        }
-// Create our Application instance (replace this with your appId and secret).
-        $facebook = new Facebook(array(
-                    'appId' => $CONFIG['facebook']['appid'],
-                    'secret' => $CONFIG['facebook']['secret'],
-                ));
-        
-//$session = $facebook->getSession();
-$user_id = $facebook->getUser();
-    if($user_id) {
-      // We have a user ID, so probably a logged in user.
-      // If not, we'll get an exception, which we handle below.
-      try {
-        $user_profile = $facebook->api('/'.$userinfo[facebook],'GET');
-        //print_r($user_profile);
-        //echo "Name: " . $user_profile['name'];
-        //print_r($user_profile);
-      } catch(FacebookApiException $e) {
-        // If the user is logged out, you can have a 
-        // user ID even though the access token is invalid.
-        // In this case, we'll get an exception, so we'll
-        // just ask the user to login again here.
-        $login_url = $facebook->getLoginUrl(); 
-        //echo 'Please <a href="' . $login_url . '">login.1</a>';
-        error_log($e->getType());
-        error_log($e->getMessage());
-      }   
-    } else {
-      // No user, print a link for the user to login
-      $login_url = $facebook->getLoginUrl();
-      //echo 'Please <a href="' . $login_url . '">login.2</a>';
-    }
-        
-        $pic = $facebook->api("/110837305666220?fields=picture");
-        $likes = $facebook->api("/" . $userinfo[facebook] . "/likes/".$CONFIG['facebook']['fbid'],'GET');
-
-        if (!empty($likes['data'])) {
-            if ($debug == 1)
-                echo "$userinfo[facebook] I like! <img src=" . $pic['picture']['data']['url'] . ">";
-            $facebookid = true;
-        } else {
-            if ($debug == 1)
-                echo "$userinfo[facebook] not a fan! <img src=" . $pic['picture']['data']['url'] . ">";
-            $facebookid = false;
-        }
-    }
-
     if (!empty($userinfo[email])) {
         $punkty++;
         if ($debug == 1)
@@ -209,11 +148,6 @@ $user_id = $facebook->getUser();
             echo "7. ZOB OK<br>";
     }
 
-    if (!empty($userinfo[facebook])) {
-        //$punkty++;
-        if ($debug == 1)
-            echo "8. FACEBOOK OK - $userinfo[facebook]<br>";
-    }
 
     //sprawdzanie czy nie odebrac bonusu
     //czyli jesli mial bonus i teraz ma mniej punktow niz punkty_max odbieramy bonus
@@ -252,9 +186,6 @@ $user_id = $facebook->getUser();
     $SMARTY->assign('miesiac', $miesiac);
     $SMARTY->assign('brak_regularnych_wplat', $brak_regularnych_wplat);
     $SMARTY->assign('bilans', $userinfo[balance]);
-    $SMARTY->assign('facebook', $facebookid);
-    $SMARTY->assign('facebookid', $userinfo[facebook]);
-    $SMARTY->assign('facebook_login_url',$login_url);
     $SMARTY->display('module:hotspot.html');
 }
 
