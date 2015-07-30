@@ -234,7 +234,7 @@ $hook_data = $LMS->executeHook('nodeinfo_before_display',
 	)
 );
 $nodeinfo = $hook_data['nodeinfo'];
->>>>>>> master
+
 
 $SMARTY->assign('nodesessions', $LMS->GetNodeSessions($nodeid));
 $SMARTY->assign('netdevices', $netdevices);
