@@ -154,7 +154,6 @@ CREATE TABLE customers (
   name varchar(128) 	NOT NULL DEFAULT '',
   status smallint 	NOT NULL DEFAULT '0',
   type smallint		NOT NULL DEFAULT '0',
-  email varchar(255) 	NOT NULL DEFAULT '',
   address varchar(255) 	NOT NULL DEFAULT '',
   zip varchar(10) 	NOT NULL DEFAULT '',
   city varchar(32) 	NOT NULL DEFAULT '',
@@ -1515,11 +1514,11 @@ CREATE TABLE customercontacts (
 	id 		int(11) 	NOT NULL auto_increment,
 	customerid 	int(11) 	NOT NULL,
 	name 		varchar(255) 	NOT NULL DEFAULT '',
-	phone 		varchar(255) 	NOT NULL DEFAULT '',
+	contact		varchar(255) 	NOT NULL DEFAULT '',
 	type        smallint        DEFAULT NULL,
 	PRIMARY KEY (id),
 	INDEX customerid (customerid),
-	INDEX phone (phone),
+	INDEX contact (contact),
 	FOREIGN KEY (customerid) REFERENCES customers (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
@@ -1625,6 +1624,19 @@ CREATE TABLE voipaccounts (
 	INDEX location_street (location_street),
 	FOREIGN KEY (location_city) REFERENCES location_cities (id) ON DELETE SET NULL ON UPDATE CASCADE,
 	FOREIGN KEY (location_street) REFERENCES location_streets (id) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+# --------------------------------------------------------
+#
+# Structure of table plicbdlocalisation
+#
+CREATE TABLE plicbdlocalisation (
+	phone varchar(255) NOT NULL,
+	owner varchar(256) NOT NULL,
+	location varchar(255) NOT NULL,
+	location_city int(11) NOT NULL,
+	KEY location_city (location_city),
+	FOREIGN KEY (location_city) REFERENCES location_cities (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 # --------------------------------------------------------
@@ -2436,4 +2448,4 @@ CREATE TABLE `eventtags` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015072300');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015080700');

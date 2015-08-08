@@ -44,7 +44,6 @@ CREATE TABLE customers (
 	name varchar(128)	DEFAULT '' NOT NULL,
 	status smallint 	DEFAULT 0 NOT NULL,
 	type smallint		DEFAULT 0 NOT NULL,
-	email varchar(255) 	DEFAULT '' NOT NULL,
 	address varchar(255) 	DEFAULT '' NOT NULL,
 	zip varchar(10)		DEFAULT '' NOT NULL,
 	city varchar(32) 	DEFAULT '' NOT NULL,
@@ -1605,7 +1604,7 @@ CREATE TABLE customercontacts (
     customerid 	integer 	NOT NULL
 	    REFERENCES customers (id) ON DELETE CASCADE ON UPDATE CASCADE,
     name 	varchar(255) 	NOT NULL DEFAULT '',
-    phone 	varchar(255) 	NOT NULL DEFAULT '',
+    contact	varchar(255) 	NOT NULL DEFAULT '',
     type    smallint        DEFAULT NULL,
     PRIMARY KEY (id)
 );
@@ -1727,6 +1726,18 @@ CREATE TABLE voipaccounts (
 );
 CREATE INDEX voipaccounts_location_street_idx ON voipaccounts (location_street);
 CREATE INDEX voipaccounts_location_city_idx ON voipaccounts (location_city, location_street, location_house, location_flat);
+
+/* ---------------------------------------------------
+ Structure of table "plicbdlocalisation"
+------------------------------------------------------*/
+CREATE TABLE plicbdlocalisation (
+	phone varchar(255) NOT NULL,
+	owner varchar(256) NOT NULL,
+	location varchar(255) NOT NULL,
+	location_city integer NOT NULL
+		REFERENCES location_cities (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX plicbdlocalisation_location_city_idx ON plicbdlocalisation (location_city);
 
 /* ---------------------------------------------------
  Structure of table "messages"
@@ -2535,4 +2546,5 @@ CREATE TABLE eventtags (
   PRIMARY KEY (id)
 )  ;
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015072300');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015080700');
+
