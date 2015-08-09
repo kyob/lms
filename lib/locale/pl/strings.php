@@ -2991,6 +2991,8 @@ $_LANG['Closed'] = 'Zamknięte';
 $_LANG['Opened'] = 'Otwarte';
 $_LANG['Replace'] = 'Wymień';
 
-
+$_LANG['Contact phones'] = 'Telefony kontaktowe';
+$_LANG['Email addresses'] = 'Adresy email';
+$_LANG['Email address is required!'] = 'Adres email jest wymagany!';
 
 ?>
