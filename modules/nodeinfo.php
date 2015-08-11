@@ -109,7 +109,6 @@ if ($authtype != 0) {
 	$nodeauthtype['eap'] = ($authtype & 4);
 }
 
-<<<<<<< HEAD
 // REDBACK CLIPS
 function NodeLastPPPoESession($id) {
     global $DB;
