@@ -26,6 +26,20 @@
 
 $layout['pagetitle'] = trans('Configuration Reload');
 
+if((int)$_GET['id']>0) {
+    $SMARTY->display('header.html');
+	if($_GET['id']==1){
+	    exec('/usr/bin/php /var/www/lms2.alfa-system.pl/bin/lms-alfa-clear-warnings-with-positive-balance.php',$output);
+	}elseif($_GET['id']==2){
+	    exec('/usr/bin/php /var/www/lms2.alfa-system.pl/bin/lms-alfa-coa.php',$output);
+	}elseif($_GET['id']==3){
+	    exec('/usr/bin/php /var/www/lms2.alfa-system.pl/bin/lms-alfa-coa-night.php',$output);
+	}
+    $SMARTY->assign('output',$output);
+    $SMARTY->assign('id',$_GET['id']);
+    $SMARTY->display('reload.html');
+}else{
+
 $_RELOAD_TYPE = ConfigHelper::getConfig('phpui.reload_type');
 $_EXECCMD = ConfigHelper::getConfig('phpui.reload_execcmd');
 
@@ -145,6 +159,7 @@ switch($_RELOAD_TYPE)
 	break;
 }
 
+}
 $SMARTY->display('footer.html');
 
 ?>

@@ -63,6 +63,19 @@
 </TABLE>
 </FORM>
 </P>
+
+<p>RELOAD:</p>
+
+<ol>
+<li style="padding:1em;"><a href="?m=reload&id=1">Usuń komunikat klientom z dodatnim bilansem.</a> [szybko]</li>
+<li style="padding:1em;"><a href="?m=reload&id=2">Przypisz na nowo dzienne taryfy (prędkość, komunikat, mac, itp.)</a> [wolno około 5min]</li>
+<li style="padding:1em;"><a href="?m=reload&id=3">Przypisz na nowo nocne taryfy (prędkość, komunikat, mac, itp.)</a> [wolno około 5min]</li>
+</ol>
+
+<p>Wybrano zadanie nr {$id}.</p>
+
+<p>Wynik działania zadania nr:<br/>{$output|@print_r}</p>
+
 {if $serverTime}
 <SCRIPT type="text/javascript">
         <!--
