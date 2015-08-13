@@ -221,16 +221,17 @@ $ch = curl_init();
 if (!$ch)
     die("Fatal error: Can't init curl library!" . PHP_EOL);
 
-$query = "SELECT d.id, d.number, d.cdate, c.email, d.name, d.customerid, n.template 
+$query = "SELECT d.id, d.number, d.cdate, d.name, d.customerid, n.template, m.email
 	FROM documents d 
 	LEFT JOIN customers c ON c.id = d.customerid 
+	JOIN (SELECT customerid, " . $DB->GroupConcat('contact') . " AS email
+	    FROM customercontacts WHERE type = ? GROUP BY customerid) m ON m.customerid = c.id
 	LEFT JOIN numberplans n ON n.id = d.numberplanid 
-	WHERE c.deleted = 0 AND d.type IN (1,3) AND c.email <> '' AND c.invoicenotice = 1 "
+	WHERE c.deleted = 0 AND d.type IN (1,3) AND c.invoicenotice = 1"
 	    . (!empty($invoiceid) ? "AND d.id = " . $invoiceid : "AND d.cdate >= $daystart AND d.cdate <= $dayend")
 	    . (!empty($groupnames) ? $customergroups : "")
-	. " ORDER BY d.number"
-	.(!empty($limit) ? " LIMIT ".$offset.",".$limit : "dupa");
-$docs = $DB->GetAll($query);
+	. " ORDER BY d.number";
+$docs = $DB->GetAll($query, array(CONTACT_EMAIL));
 
 if (!empty($docs)) {
     foreach ($docs as $doc) {
