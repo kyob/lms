@@ -230,7 +230,9 @@ $query = "SELECT d.id, d.number, d.cdate, d.name, d.customerid, n.template, m.em
 	WHERE c.deleted = 0 AND d.type IN (1,3) AND c.invoicenotice = 1"
 	    . (!empty($invoiceid) ? "AND d.id = " . $invoiceid : "AND d.cdate >= $daystart AND d.cdate <= $dayend")
 	    . (!empty($groupnames) ? $customergroups : "")
-	. " ORDER BY d.number";
+	. " ORDER BY d.number"
+	.(!empty($limit) ? " LIMIT ".$offset.",".$limit : "dupa");
+
 $docs = $DB->GetAll($query, array(CONTACT_EMAIL));
 
 if (!empty($docs)) {
