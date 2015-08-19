@@ -1,7 +1,7 @@
 {include file="header.html"}
 <h1>Nowi i usunięci</h1>
 <form method="get" name="formpbx" action="?m=alfa_newcustomersstats&year={$year}&$month={$month}">
-    <INPUT TYPE="HIDDEN" NAME="m" VALUE="newcustomers">
+    <INPUT TYPE="HIDDEN" NAME="m" VALUE="alfa_newcustomersstats">
     <select size="1" name="year">
         {section name=y max=($currentYear-$firstYear+1) loop=$currentYear+1 step=-1}
         <option {if ($smarty.get.year eq $smarty.section.y.index)}  selected {/if} value={$smarty.section.y.index}>{$smarty.section.y.index}</option>
