@@ -67,15 +67,28 @@
                     <!-- <ol>{foreach $customernodes as $item}<li>{$item.location}</li>{/foreach}</ol> -->
 		    <p>{$document.location}</p>
 
-                    {if $customerinfo.email neq ''}
+
                     <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>E-mail:</strong></p>
-                    <p>{$customerinfo.email}</p>
+		    <ul class="list-inline">
+                    {if $customerinfo.emails neq ''}
+			{foreach from=$customerinfo.emails item=e}
+			    <li><strong>{$e.email}; </strong></li>
+			{/foreach}
                     {else}
-                    <p>.............................</p>
+			    <li>.............................</li>
                     {/if}
+		    </ul>
 
                     <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Telefon:</strong></p>
-                    <p>{if $customerinfo.contacts neq ''}{foreach from=$customerinfo.contacts item=b}<strong>{$b.phone}; </strong>{/foreach}{else}.............................{/if}</p>
+		    <ul class="list-inline">
+                    {if $customerinfo.contacts neq ''}
+			{foreach from=$customerinfo.contacts item=b}
+			    <li><strong>{$b.phone}</strong></li>
+			{/foreach}
+		    {else}
+			<li>.............................</li>
+		    {/if}
+		    </ul>
                 </div>
             </div>
 
