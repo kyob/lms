@@ -7,6 +7,23 @@
 {$xajax}
 <script type="text/javascript">
 <!--
+	function fromto(){
+	    poczatek=document.getElementById('fromdate');
+	    koniec=document.getElementById('todate');
+	    if(poczatek.value == "" && koniec.value == "") {
+		alert("Okres od i do jest pusty!");
+		return false;
+	    } else if (poczatek.value != "" && koniec.value == "") {
+		alert("Okres do jest pusty!");
+		return false;
+	    } else if (poczatek.value == "" && koniec.value != "") {
+		alert("Okres od jest pusty!");
+		return false;
+	    } else {
+		return true;
+	    }
+	}
+
 	function getplugin() {
 		reset_login_timeout();
 		xajax_plugin(document.forms['documentadd'].elements['document[templ]'].value, document.forms['documentadd'].elements['customerid'].value);
@@ -217,6 +234,7 @@
 	</TR>
 	<TR>
 		<TD colspan="3" align="right" NOWRAP>
+			<input style="background: red; color: white;" onclick="return fromto();" type="submit" value="Sprawdź przed wysłaniem!"/>
 			<A href="javascript: document.documentadd.submit();">{trans("Submit")} <IMG SRC="img/save.gif" alt=""></A>
 			<A href="javascript: print_document();">{trans("Print")} <IMG SRC="img/print.gif" alt=""></A>
 			<A href="?m=documentlist">{trans("Cancel")} <IMG src="img/cancel.gif" alt=""></A><BR>
