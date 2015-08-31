@@ -57,22 +57,23 @@
 			Kod pocztowy i miejscowość: <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
 			Telefon: {if $customerinfo.contacts neq ''}{foreach from=$customerinfo.contacts item=b}<strong>{$b.phone}; </strong>{/foreach}{else}.............................{/if}</br>
 			E-mail: <strong>{if $customerinfo.email neq ''}{$customerinfo.email}{else}.............................{/if}</strong><br/>
-			Nr rachunku do wpłat: <strong>{$nrb}</strong></br>
                     </p>
     </td>
 <td>
-                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>**Adres instalacji:</strong><br/>(wypełnić tylko w przypadku, gdy inny adres niż zamieszkania)</p>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>**Adres instalacji:</strong> (wypełnić tylko w przypadku, gdy inny adres niż zamieszkania)</p>
                     <!-- <ol>{foreach $customernodes as $item}<li>{$item.location}</li>{/foreach}</ol> -->
 		    <p>
 			Adres: {$document.location}<br/>
 			Kod pocztowy i miejscowość: {$document.zip} {$document.city}
 		    </p>
 
-                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>**Adres koresponedencyjny:</strong><br/>(wypełnić tylko w przypadku, gdy inny adres zamieszkania i instalacji)</p>                                  
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>**Adres koresponedencyjny:</strong> (wypełnić tylko w przypadku, gdy inny adres zamieszkania i instalacji)</p>                                  
                     <p>
 			Adres: {if $customerinfo.post_address neq ''}{$customerinfo.post_address}{/if}<br/>
 			Kod pocztowy i miejscowość: {$customerinfo.post_zip} {$customerinfo.post_city}
 		    </p>
+
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;">Nr rachunku do wpłat: <strong>{$nrb}</strong></p>                                  
                 </tr>
 </table>
             </div>
@@ -102,13 +103,13 @@
 		    <table class="table table-bordered">
 			<tr>
 			    <th class="active" style="width:100px;">jPIN:</th>
-			    <td></td>
+			    <td>{$document.jambox_jpin}</td>
 
 			    <th class="active" style="width:100px;">tvPIN:</th>
-			    <td></td>
+			    <td>{$document.jambox_tvpin}</td>
 
 			    <th class="active" style="width:100px;">Numer ID:</th>
-			    <td></td>
+			    <td>{$document.jambox_numer_id}</td>
 			</tr>
 		    </table>
 		    <p>Operator zaleca zmianę podanych wyżej numerów PIN na inne, znane jedynie Abonentowi.</p>

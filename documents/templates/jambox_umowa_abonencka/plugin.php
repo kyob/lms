@@ -2,7 +2,7 @@
 
 global $SMARTY, $LMS, $DB, $SESSION;
 
-$fixlink = "http://lms2.alfa-system.pl/?m=customeredit&id=";
+$fixlink = "$_SERVER[HTTP_HOST]/?m=customeredit&id=";
 $nodes = 0;
 if (isset($_POST['document'])) {
     $ci = $LMS->GetCustomer($document['customerid']);
