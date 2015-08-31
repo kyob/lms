@@ -2995,4 +2995,15 @@ $_LANG['Contact phones'] = 'Telefony kontaktowe';
 $_LANG['Email addresses'] = 'Adresy email';
 $_LANG['Email address is required!'] = 'Adres email jest wymagany!';
 
+$_LANG['Select document status'] = 'Wybierz status dokumentu';
+$_LANG['confirmed'] = 'zatwierdzony';
+$_LANG['unconfirmed'] = 'niezatwierdzony';
+
+$_LANG['Customer ID and PIN'] = 'ID klienta i PIN';
+$_LANG['Phone number and PIN'] = 'Numer telefonu i PIN';
+$_LANG['Document number and PIN'] = 'Numer dokumentu i PIN';
+$_LANG['Customer e-mail and PIN'] = 'E-mail klienta i PIN';
+$_LANG['Document number:'] = 'Numer dokumentu:';
+$_LANG['Customer e-mail:'] = 'E-mail klienta:';
+
 ?>

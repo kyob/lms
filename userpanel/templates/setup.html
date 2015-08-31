@@ -76,6 +76,18 @@
 		</TD>
 	</TR>
 	<TR>
+		<TD style="width: 1%;" class="nobr">
+			<label for="auth_type">{trans("Authentication type:")}</label>
+		</TD>
+		<TD style="width: 99%;">
+			<SELECT name="auth_type" {tip text="Userpanel authentication type"}>
+				{foreach $_USERPANEL_ID_TYPES as $typeidx => $type}
+				<OPTION value="{$typeidx}"{if $auth_type == $typeidx} selected{/if}>{$type.selection}</OPTION>
+				{/foreach}
+			</SELECT>
+		</TD>
+	</TR>
+	<TR>
 		<TD class="buttons" colspan="2">
 			 <A HREF="javascript:document.config.submit();" accesskey="S">{trans("Submit")} <IMG src="img/save.gif" alt=""></A>
 		</TD>

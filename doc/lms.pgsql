@@ -2194,6 +2194,7 @@ INSERT INTO uiconfig (section, var, value, description, disabled) VALUES
 ('userpanel', 'logout_url', '', '', 0),
 ('userpanel', 'owner_stats', '0', '', 0),
 ('userpanel', 'default_categories', '1', '', 0),
+('userpanel', 'auth_type', '1', '', 0),
 ('directories', 'userpanel_dir', 'userpanel', '', 0);
 
 INSERT INTO netdeviceproducers (id, name) VALUES
@@ -2523,6 +2524,7 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
+<<<<<<< HEAD
 /* ---------------------------------------------------
  Structure of table "eventtagassignemnts"
 ------------------------------------------------------*/
@@ -2547,4 +2549,3 @@ CREATE TABLE eventtags (
 )  ;
 
 INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015080700');
-
