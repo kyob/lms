@@ -10,6 +10,9 @@
 	function fromto(){
 	    poczatek=document.getElementById('fromdate');
 	    koniec=document.getElementById('todate');
+
+
+
 	    if(poczatek.value == "" && koniec.value == "") {
 		alert("Okres od i do jest pusty!");
 		return false;
@@ -140,8 +143,8 @@
 		</TD>
 		<TD width="98%">
 			<div class="calendar">
-			{trans("from:")} <INPUT type="TEXT" name="document[fromdate]" value="{if $document.fromdate}{$document.fromdate}{/if}" {tip text="Enter start date in YYYY/MM/DD format (optional)" trigger="fromdate"} size="10">&nbsp;
-			{trans("to:")} <INPUT type="TEXT" name="document[todate]" value="{if $document.todate}{$document.todate}{/if}" {tip text="Enter end date in YYYY/MM/DD format (optional)" trigger="todate"} size="10"><BR>
+			{trans("from:")} <INPUT id="fromdate" type="TEXT" name="document[fromdate]" value="{if $document.fromdate}{$document.fromdate}{/if}" {tip text="Enter start date in YYYY/MM/DD format (optional)" trigger="fromdate"} size="10">&nbsp;
+			{trans("to:")} <INPUT id="todate" type="TEXT" name="document[todate]" value="{if $document.todate}{$document.todate}{/if}" {tip text="Enter end date in YYYY/MM/DD format (optional)" trigger="todate"} size="10"><BR>
 			</div>
 		</TD>
 	</TR>
