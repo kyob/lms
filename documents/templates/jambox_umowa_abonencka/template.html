@@ -57,8 +57,7 @@
 			Kod pocztowy i miejscowość: <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
 			Telefon: {if $customerinfo.contacts neq ''}{foreach from=$customerinfo.contacts item=b}<strong>{$b.phone}; </strong>{/foreach}{else}.............................{/if}</br>
 			E-mail: <strong>{if $customerinfo.email neq ''}{$customerinfo.email}{else}.............................{/if}</strong><br/>
-			GG: </br>
-			Skype: </br>
+			Nr rachunku do wpłat: <strong>{$nrb}</strong></br>
                     </p>
     </td>
 <td>
