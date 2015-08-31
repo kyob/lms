@@ -10,10 +10,14 @@
             <td><strong>Imię i nazwisko / Nazwa firmy</strong></td>
             <td>{$userinfo.customername} ({$userinfo.id|string_format:"%04d"})</td>
 	</tr>
-        {if $userinfo.email}
+        {if $userinfo.emails}
 	<tr>
             <td><strong>E-mail:</strong></td>
-            <td>{$userinfo.email}</td>
+            <td>
+		{foreach $userinfo.emails as $email}
+		    {$email.email}{if !$email@last}<BR />{/if}
+		{/foreach}
+	    </td>
 	</tr>
         {/if}
 	<tr>

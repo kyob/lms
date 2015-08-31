@@ -23,16 +23,28 @@
     {/if}
 
     {if $rights.info.edit_contact || $rights.info.edit_contact_ack}
-    <tr>
-        <td>E-mail:</td>
-        <td><INPUT TYPE="TEXT" NAME="userdata[email]" VALUE="{$userinfo.email}" SIZE=50 {userpaneltip text="Enter e-mail address"}></td>
-    </tr>    
+    {foreach $userinfo.emails as $email}
+	<tr>
+    	    <td>E-mail:</td>
+    	    <td><INPUT TYPE="TEXT" NAME="userdata[email][{$email.id}]" VALUE="{$email.email}" SIZE=50 {userpaneltip text="Enter e-mail address"}></td>
+	</tr>    
+    {foreachelse}
+	<tr>
+    	    <td>E-mail:</td>
+    	    <td><INPUT TYPE="TEXT" NAME="userdata[email][0]" VALUE="{$userinfo.email}" SIZE=50 {userpaneltip text="Enter e-mail address"}></td>
+	</tr>    
+    {/foreach}
     {else}
     <tr>
         <td>E-mail:</td>
-        <td>{$userinfo.email}</td>
+        <td>
+	    {foreach $userinfo.emails as $email}
+		{$email.email}{if !$email@last}<BR />{/if}
+	    {/foreach}
+	</td>
     </tr>      
     {/if}
+
 
     {if $rights.info.edit_addr || $rights.info.edit_addr_ack}
     <tr>

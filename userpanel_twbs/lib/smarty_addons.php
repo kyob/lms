@@ -34,10 +34,10 @@ function _smarty_block_box($params, $content, $template, &$repeat)
 
 		$style = ConfigHelper::getConfig('userpanel.style', 'default');
 
-		if(file_exists('assets/'.$style.'/box.html'))
-			$file = 'assets/'.$style.'/box.html';
-		elseif(file_exists('assets/default/box.html'))
-			$file = 'assets/default/box.html';
+		if(file_exists('style/'.$style.'/box.html'))
+			$file = 'style/'.$style.'/box.html';
+		elseif(file_exists('style/default/box.html'))
+			$file = 'style/default/box.html';
 
 		$template->assignGlobal('boxtitle', $title);
 		$template->assignGlobal('boxcontent', $content);
@@ -50,21 +50,21 @@ function _smarty_function_stylefile($params, $template)
 {
 	$style = ConfigHelper::getConfig('userpanel.style', 'default');
 
-        if(file_exists('assets/'.$style.'/style.css'))
-	        return 'assets/'.$style.'/style.css';
+        if(file_exists('style/'.$style.'/style.css'))
+	        return 'style/'.$style.'/style.css';
 
-	if(file_exists('assets/default/style.css'))
-	        return 'assets/default/style.css';
+	if(file_exists('style/default/style.css'))
+	        return 'style/default/style.css';
 }
 
 function _smarty_function_body($params, $template)
 {
 	$style = ConfigHelper::getConfig('userpanel.style', 'default');
 
-        if(file_exists('assets/'.$style.'/body.html'))
-	        $file = 'assets/'.$style.'/body.html';
-        elseif(file_exists('assets/default/body.html'))
-	        $file = 'assets/default/body.html';
+        if(file_exists('style/'.$style.'/body.html'))
+	        $file = 'style/'.$style.'/body.html';
+        elseif(file_exists('style/default/body.html'))
+	        $file = 'style/default/body.html';
 
 	return $template->smarty->fetch(USERPANEL_DIR . DIRECTORY_SEPARATOR . $file);
 }
@@ -118,10 +118,10 @@ function _smarty_function_img($params, $template)
 	    $file = 'modules/'.$_GET['m'].'/style/'.$style.'/'.$params['src'];
     elseif(file_exists('modules/'.$_GET['m'].'/style/default/'.$params['src']))
     	    $file = 'modules/'.$_GET['m'].'/style/default/'.$params['src'];
-    elseif(file_exists('assets/'.$style.'/'.$params['src']))
-	    $file = 'assets/'.$style.'/'.$params['src'];
-    elseif(file_exists('assets/default/'.$params['src']))
-    	    $file = 'assets/default/'.$params['src'];
+    elseif(file_exists('style/'.$style.'/'.$params['src']))
+	    $file = 'style/'.$style.'/'.$params['src'];
+    elseif(file_exists('style/default/'.$params['src']))
+    	    $file = 'style/default/'.$params['src'];
 
     $result  = '<img ';
     $result .= 'src="'.$file.'" ';
