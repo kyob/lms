@@ -34,15 +34,16 @@ function GetUserID() {
 }
  
 if (!$_GET['year'] > 0)
-    $_GET['year'] = gmdate("Y", mktime());
+    $_GET['year'] = date("Y", mktime());
  
  
  
 $newcustomers = newCustomers($_GET['year']);
 foreach ($newcustomers as $item) {
-    $month = $month . "'" . gmdate("M", mktime(0, 0, 0, $item['month'])) . "',";
+    $month = $month . "'" . date("M", mktime(0, 0, 0, $item['month'])) . "',";
     $sum = $sum . $item['suma'] . ',';
 }
+
 $SMARTY->assign('month', "''," . substr($month, 0, -1));
 $SMARTY->assign('sum', "''," . substr($sum, 0, -1));
 $SMARTY->assign('newcustomers', newCustomers($_GET['year']));
@@ -51,7 +52,7 @@ $SMARTY->assign('newcustomers', newCustomers($_GET['year']));
  
 $deletedcustomers = deletedCustomers($_GET['year']);
 foreach ($deletedcustomers as $item) {
-    $month2 = $month2 . "'" . gmdate("M", mktime(0, 0, 0, $item['month'])) . "',";
+    $month2 = $month2 . "'" . date("M", mktime(0, 0, 0, $item['month'])) . "',";
     $sum2 = $sum2 . $item['suma'] . ',';
 }
 $SMARTY->assign('month2', "''," . substr($month2, 0, -1));
@@ -66,7 +67,7 @@ for ($m = 0; $m < 12; $m++) {
 //echo '<pre>';print_r($bilans);
  
 foreach ($bilans as $item) {
-    $month3 = $month3 . "'" . gmdate("M", mktime(0, 0, 0, $item['month'])) . "',";
+    $month3 = $month3 . "'" . date("M", mktime(0, 0, 0, $item['month'])) . "',";
     $sum3 = $sum3 . $item['suma'] . ',';
 }
 //echo '<pre>';die(print_r($month3));
@@ -78,7 +79,7 @@ $SMARTY->assign('sum3', "''," . substr($sum3, 0, -1));
  
  
 $SMARTY->assign('user', GetUserID());
-$SMARTY->assign('firstYear', gmdate("Y", getFirstYear()));
-$SMARTY->assign('currentYear', gmdate("Y", mktime()));
+$SMARTY->assign('firstYear', date("Y", getFirstYear()));
+$SMARTY->assign('currentYear', date("Y", mktime()));
 $SMARTY->display('alfa_newcustomersstats.html');
 ?>
