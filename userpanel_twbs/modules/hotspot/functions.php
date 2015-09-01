@@ -57,9 +57,7 @@ $CONFIG = (array) parse_ini_file($CONFIG_FILE, true);
 
     $userinfo = $LMS->GetCustomer($SESSION->id);
     $assignments = $LMS->GetCustomerAssignments($SESSION->id);
-
-
-    if (!empty($userinfo[email])) {
+    if (count($userinfo[emails])>0) {
         $punkty++;
         if ($debug == 1)
             echo "1. EMAIL OK<br>";
@@ -124,21 +122,21 @@ $CONFIG = (array) parse_ini_file($CONFIG_FILE, true);
             $taryfa_premium = 56; //pro
     }
 
-
 //echo $userinfo[balance];
-    if ((date("j") > 15) AND ($userinfo[balance] >= 0)) {
+    if ($userinfo[balance] >= -99) {
         $punkty++;
         if ($debug == 1)
             echo "6. bilans > 15 OK<br>";
         $brak_regularnych_wplat = 1;
     }
+/*
     elseif ((date("j") < 16) AND (($userinfo[balance] + $taryfa_kwota) >= 0)) {
         $punkty++;
         if ($debug == 1)
             echo "6. bilans < 16 OK<br>";
         $brak_regularnych_wplat = 1;
     }
-
+*/
 
     $miesiecy_wstecz = 6;
     $ilosc_wplat = $DB->GetOne('SELECT COUNT(value) as ile FROM cash WHERE customerid = ? AND value < ?', array($SESSION->id, 0));
