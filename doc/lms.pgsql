@@ -1740,6 +1740,18 @@ CREATE TABLE plicbdlocalisation (
 CREATE INDEX plicbdlocalisation_location_city_idx ON plicbdlocalisation (location_city);
 
 /* ---------------------------------------------------
+ Structure of table "plicbdoperators"
+------------------------------------------------------*/
+CREATE TABLE plicbdoperators (
+	name varchar(255) NOT NULL,
+	id integer NOT NULL,
+	rpt integer NOT NULL,
+	ten varchar(16) NOT NULL DEFAULT '',
+	PRIMARY KEY (id)
+);
+CREATE INDEX plicbdoperators_rpt_idx ON plicbdoperators (rpt);
+
+/* ---------------------------------------------------
  Structure of table "messages"
 ------------------------------------------------------*/
 DROP SEQUENCE IF EXISTS messages_id_seq;
@@ -2043,6 +2055,11 @@ SELECT st.ident AS woj, d.ident AS pow, b.ident AS gmi, b.type AS rodz_gmi,
     JOIN location_districts d ON (b.districtid = d.id)
     JOIN location_states st ON (d.stateid = st.id);
 
+CREATE VIEW customermailsview AS
+		SELECT customerid, array_to_string(array_agg(contact), ',') AS email
+			FROM customercontacts
+			WHERE type = 8 AND contact <> ''
+			GROUP BY customerid;
 
 /* ---------------------------------------------------
  Data records
@@ -2524,7 +2541,6 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-<<<<<<< HEAD
 /* ---------------------------------------------------
  Structure of table "eventtagassignemnts"
 ------------------------------------------------------*/
@@ -2548,4 +2564,4 @@ CREATE TABLE eventtags (
   PRIMARY KEY (id)
 )  ;
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015080700');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015090400');
