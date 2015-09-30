@@ -57,6 +57,9 @@ $eventtaglist = $DB->GetCol('SELECT tagid AS id
 				WHERE eventags.id = tagid
 				AND eventid = ?', array($event['id']));
 
+if ($eventuserlist === null) {
+    $eventuserlist = array();
+}
 
 if(isset($_POST['event']))
 {
