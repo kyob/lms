@@ -25,12 +25,12 @@
  */
 
 $engine = array(
-	'name' => 'promocja_internet_lato_2015', 	// template directory
-	'engine' => 'promocja_internet_lato_2015', 	// engine.php directory
+	'name' => 'promocja_internet_jesien_2015', 	// template directory
+	'engine' => 'promocja_internet_jesien_2015', 	// engine.php directory
 				// you can use other engine
 	'type' => DOC_OTHER,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
-	'title' => trans('Promocja: Internet Lato 2015'), 	// description for UI
+	'title' => trans('Promocja: Internet jesien 2015'), 	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream
 	'output' => 'default.html', 		// output file name default.html
 	'plugin' => 'plugin',			// form plugin (in 'name' dir)
