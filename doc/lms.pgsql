@@ -13,7 +13,7 @@ CREATE TABLE users (
 	email varchar(255) 	DEFAULT '' NOT NULL,
 	phone varchar(32)   DEFAULT NULL,
 	position varchar(255) 	DEFAULT '' NOT NULL,
-	rights varchar(64) 	DEFAULT '' NOT NULL,
+	rights text 	DEFAULT '' NOT NULL,
 	hosts varchar(255) 	DEFAULT '' NOT NULL,
 	passwd varchar(255) 	DEFAULT '' NOT NULL,
 	ntype smallint      DEFAULT NULL,
@@ -1762,6 +1762,7 @@ CREATE TABLE messageitems (
 	status 		smallint	DEFAULT 0 NOT NULL,
 	error 		text		DEFAULT NULL,
 	lastreaddate 	integer		DEFAULT 0 NOT NULL,
+	externalmsgid	integer		DEFAULT 0 NOT NULL,
         PRIMARY KEY (id)
 ); 
 
@@ -2540,4 +2541,4 @@ CREATE TABLE eventtags (
   PRIMARY KEY (id)
 )  ;
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015091300');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015100101');
