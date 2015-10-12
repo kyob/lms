@@ -1,0 +1,25 @@
+<table class="lmsbox-inner">
+    <colgroup>
+        <col style="width: 1%;"/>
+        <col style="width: 1%;"/>
+        <col style="width: 98%;"/>
+    </colgroup>
+    <thead>
+        <tr>
+            <th colspan="3">{trans('Block level options')}:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td>{t}Levels{/t}</td>
+            <td>
+                <select MULTIPLE="multiple" name="voipaccountedit[blocklevels][]" {tip text="Select block levels. Hold ctrl to select multiple items" trigger="autoactivation_date"} style="width:250px;">
+                    {foreach from=$blocklevels item=level}
+                    <option value="{$level.level}" {if is_array($voipaccountinfo.blocklevels) && in_array($level.level, $voipaccountinfo.blocklevels)}selected{/if}>{$level.friendlyName}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>													
+    </tbody>
+</table>

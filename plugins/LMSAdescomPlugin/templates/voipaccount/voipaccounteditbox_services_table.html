@@ -1,0 +1,149 @@
+<table class="lmsbox-inner">
+    <colgroup>
+        <col style="width: 1%;"/>
+        <col style="width: 1%;"/>
+        <col style="width: 98%;"/>
+    </colgroup>
+    <thead>
+        <tr>
+            <th colspan="3">{trans('Services options')}:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td>{t}CLIP{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[clip]" {if $voipaccountinfo.clip}CHECKED{/if} {tip text="Select to enable CLIP" trigger="clip"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CLIR{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[clir]" {if $voipaccountinfo.clir}CHECKED{/if} {tip text="Select to enable CLIR" trigger="clir"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CLIR allowed{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[clir_allowed]" {if $voipaccountinfo.clir_allowed}CHECKED{/if} {tip text="Select to allow user to modify CLIR settings" trigger="clir_allowed"}></td>
+        </tr>				
+        <tr>
+            <td></td>
+            <td>{t}ACREJ{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[acrej]" {if $voipaccountinfo.acrej}CHECKED{/if} {tip text="Select to enable ACREJ" trigger="acrej"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}ACREJ allowed{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[acrej_allowed]" {if $voipaccountinfo.acrej_allowed}CHECKED{/if} {tip text="Select to allow user to modify ACREJ settings" trigger="acrej_allowed"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CLIR Override{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[clirovr]" {if $voipaccountinfo.clirovr}CHECKED{/if} {tip text="Select to enable CLIR override" trigger="clirovr"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}DND{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[dnd]" {if $voipaccountinfo.dnd}CHECKED{/if} {tip text="Select to enable DND" trigger="dnd"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}DND allowed{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[dnd_allowed]" {if $voipaccountinfo.dnd_allowed}CHECKED{/if} {tip text="Select to allow user to modify DND settings" trigger="dnd_allowed"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Hotline extension{/t}</td>
+            <td><input type="text" name="voipaccountedit[hotline]" value="{$voipaccountinfo.hotline}" {tip text="Select to enable hotline" trigger="hotline"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Hotline allowed{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[hotline_allowed]" {if $voipaccountinfo.hotline_allowed}CHECKED{/if} {tip text="Select to allow user to modify hotline settings" trigger="hotline_allowed"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Call waiting{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[cw]" {if $voipaccountinfo.cw}CHECKED{/if} {tip text="Select to enable call waiting" trigger="cw"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Call waiting allowed{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[cw_allowed]" {if $voipaccountinfo.cw_allowed}CHECKED{/if} {tip text="Select to allow user to modify call waiting settings" trigger="cw_allowed"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}3-way calls{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[nway]" {if $voipaccountinfo.nway}CHECKED{/if} {tip text="Select to enable 3-way calls" trigger="nway"}></td>
+        </tr>				
+        <tr>
+            <td></td>
+            <td>{t}Wake-up calls{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[alarm]" {if $voipaccountinfo.alarm}CHECKED{/if} {tip text="Select to allow wake up calls" trigger="alarm"}></td>
+        </tr>								
+        <tr>
+            <td></td>
+            <td>{t}Allow forwarding{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[forwarding]" {if $voipaccountinfo.forwarding}CHECKED{/if} {tip text="Select to enable forwarding" trigger="forwarding"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CFU{/t}</td>
+            <td><input type="text" name="voipaccountedit[cfu]" value="{$voipaccountinfo.cfu}" {tip text="Enter phone number for unconditional forward" trigger="cfu"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CFB{/t}</td>
+            <td><input type="text" name="voipaccountedit[cfb]" value="{$voipaccountinfo.cfb}" {tip text="Enter phone number for forward when busy" trigger="cfb"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CFNR{/t}</td>
+            <td><input type="text" name="voipaccountedit[cfnr]" value="{$voipaccountinfo.cfnr}" {tip text="Enter phone number for forward when no response" trigger="cfnr"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}CFUR{/t}</td>
+            <td><input type="text" name="voipaccountedit[cfur]" value="{$voipaccountinfo.cfur}" {tip text="Enter phone number for forward when unreachable" trigger="cfur"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Allow Fax2Mail forwarding{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[f2m]" {if $voipaccountinfo.f2m}CHECKED{/if} {tip text="Select to enable Fax2Mail forwarding" trigger="f2m"}></td>
+        </tr>			
+        <tr>
+            <td></td>
+            <td>{t}Unconditional forward{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[uf2m]" {if $voipaccountinfo.uf2m}CHECKED{/if} {tip text="Select to enable unconditional Fax2Mail forward" trigger="uf2m"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Forward when unreachable{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[nrf2m]" {if $voipaccountinfo.nrf2m}CHECKED{/if} {tip text="Select to enable Fax2Mail forward when unreacheable" trigger="nrf2m"}></td>
+        </tr>				
+        <tr>
+            <td></td>
+            <td>{t}Allow blind transfers{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[blind_xfer]" {if $voipaccountinfo.blind_xfer}CHECKED{/if} {tip text="Select to allow blind transfers" trigger="blind_xfer"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}Allow attended transfers{/t}</td>
+            <td><input type="checkbox" value="1" name="voipaccountedit[at_xfer]" {if $voipaccountinfo.at_xfer}CHECKED{/if} {tip text="Select to allow attended transfers" trigger="at_xfer"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}OCB allowed{/t}</td>
+            <td><input type="checkbox" name="voipaccountedit[ocb_allowed]" {if $voipaccountinfo.ocb_allowed}CHECKED{/if} {tip text="Select to allow user to modify OCB settings" trigger="ocb_allowed"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}OCB level{/t}</td>
+            <td><input type="text" name="voipaccountedit[ocb]" value="{$voipaccountinfo.ocb}" {tip text="Select OCB level" trigger="ocb"}></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{t}OCB password{/t}</td>
+            <td><input type="text" name="voipaccountedit[ocb_password]" value="{$voipaccountinfo.ocb_password}" {tip text="Enter OCB password" trigger="ocb_password"}></td>
+        </tr>				
+    </tbody>
+</table>

@@ -1,0 +1,119 @@
+{extends file="voipaccount/voipaccountedit.html"}
+
+{block name=extra_content}
+{$xajax}
+{literal}
+<script language="javascript">
+    
+    onload = function () {
+        if (document.getElementsByClassName == undefined) {
+            document.getElementsByClassName = function (className)
+            {
+                var hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
+                var allElements = document.getElementsByTagName("*");
+                var results = [];
+
+                var element;
+                for (var i = 0; (element = allElements[i]) != null; i++) {
+                    var elementClass = element.className;
+                    if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
+                        results.push(element);
+                }
+
+                return results;
+            }
+        }
+    }
+    
+    function toggleVoiceMailConfiguration(value)
+    {
+        var voice_mail_configuration_elems = document.getElementsByClassName('voicemail_configuration');
+        for (i = 0; i < voice_mail_configuration_elems.length; i++) {
+            if (value) {
+                voice_mail_configuration_elems[i].style.display = '';
+            } else {
+                voice_mail_configuration_elems[i].style.display = 'none';
+            }
+        }
+    }
+    
+    function passwdReset(elem)
+    {
+        if (!elem.reset) {
+            elem.value = '';
+            elem.reset = true;
+        }   
+    }
+    
+    function getSelectedPool()
+    {
+        var element = document.getElementById('voipaccountedit_poolid');
+        if (element === null) {
+            return null;
+        }
+
+        return element.options[element.selectedIndex].value;
+    }
+
+    function getPoolFirstFree()
+    {
+        var value = getSelectedPool();
+        if (value) {
+            xajax_pool_first_free(value);
+        }
+    }
+
+    function searchPool()
+    {
+        var value = getSelectedPool();
+        var element = document.createElement("input");
+        element.id = "pool_search";
+        element.name = "pool_search";
+        element.type = "hidden";
+        element.value = value;
+        document.editvoipaccount.appendChild(element);
+        document.editvoipaccount.submit();
+    }
+
+    function chargePrepaid()
+    {
+        var element = document.createElement("input");
+        element.id = "charge_prepaid";
+        element.name = "charge_prepaid";
+        element.type = "hidden";
+        element.value = 1;
+        document.editvoipaccount.appendChild(element);
+        document.editvoipaccount.submit();
+    }
+
+    function invalidatePrepaidPostpaidPanels(value)
+    {
+        var prepaid_panel = document.getElementById('prepaid_configuration');
+        var postpaid_panel = document.getElementById('postpaid_configuration');
+        var was_prepaid = {/literal}{if $was_prepaid}1{else}0{/if}{literal};
+        if (value) {
+            if (was_prepaid) {
+            prepaid_panel.style.display = '';
+            }
+            postpaid_panel.style.display = 'none';
+        } else {
+            if (was_prepaid) {
+                prepaid_panel.style.display = 'none';
+            }
+            postpaid_panel.style.display = '';
+        }
+    }
+
+    function invalidateActivationDatePanel(value)
+    {
+        var panel = document.getElementById('autoactivation_date_panel');
+        if (value) {
+            panel.style.display = 'none';
+        } else {
+            panel.style.display = '';
+        }
+    }
+</script>
+{/literal}
+{/block}
+

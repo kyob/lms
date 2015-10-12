@@ -1,0 +1,66 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+<H1>{$layout.pagetitle}</H1>
+<FORM method="POST" action="?m=voippooledit&id={$voippooledit.id}" name="voippooledit">
+    <INPUT type="submit" class="hiddenbtn">
+    <TABLE width="100%" cellpadding="3">
+        <TR class="dark">
+            <TD width="1%" class="fleftu">
+            </TD>
+            <TD width="1%" class="fbt">
+                <B>{t}Name:{/t}</B>
+            </TD>
+            <TD width="98%" class="frightu">
+                <INPUT type="text" name="voippooledit[name]" value="{$voippooledit.name}" size="50" {tip text="Enter pool name" trigger="name"}>
+            </TD>
+        </TR>
+        <TR class="light">
+            <TD width="1%" class="fleft">
+            </TD>
+            <TD width="1%" nowrap>
+                <B>{t}Country code:{/t}</B>
+            </TD>
+            <TD width="98%" class="fright">
+                <INPUT type="text" name="voippooledit[countrycode]" value="{$voippooledit.countrycode}" size="10" {tip text="Enter pool country code" trigger="countrycode"}>
+            </TD>
+        </TR>
+        <TR class="light">
+            <TD width="1%" class="fleft">
+            </TD>
+            <TD width="1%">
+                <B>{t}Area code:{/t}</B>
+            </TD>
+            <TD width="98%" class="fright">
+                <INPUT type="text" name="voippooledit[areacode]" value="{$voippooledit.areacode}" size="10" {tip text="Enter pool area code"}>
+            </TD>
+        </TR>
+        <TR class="light">
+            <TD width="1%" class="fleft">
+            </TD>
+            <TD width="1%" nowrap>
+                <B>{t}From number:{/t}</B>
+            </TD>
+            <TD width="98%" class="fright">
+                <INPUT type="text" name="voippooledit[fromnumber]" value="{$voippooledit.fromnumber}" size="20" {tip text="Enter first number (7-digits) from pool" trigger="fromnumber"}>
+            </TD>
+        </TR>
+        <TR class="light">
+            <TD width="1%" class="fleft">
+            </TD>
+            <TD width="1%" nowrap>
+                <B>{t}To number:{/t}</B>
+            </TD>
+            <TD width="98%" class="fright">
+                <INPUT type="text" name="voippooledit[tonumber]" value="{$voippooledit.tonumber}" size="20" {tip text="Enter last number (7-digits) from pool" trigger="tonumber"}>
+            </TD>
+        </TR>
+        <TR class="light">
+            <TD class="fbottomu" align="right" colspan="3">
+                <A href="javascript:document.voippooledit.submit();" accesskey="s">{t}Submit{/t} <IMG src="img/save.gif" alt=""></A>
+                <A href="?m=voippools">{t}Cancel{/t} <IMG src="img/cancel.gif" alt=""></A><BR>
+            </TD>
+        </TR>
+    </TABLE>
+</form>
+{/block}

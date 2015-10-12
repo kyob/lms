@@ -1,0 +1,179 @@
+<table class="lmsbox-inner">
+    <colgroup>
+        <col style="width: 1%;"/>
+        <col style="width: 1%;"/>
+        <col style="width: 98%;"/>
+    </colgroup>
+    <thead>
+        <tr>
+            <th colspan="3">{trans('VoIP options')}:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td>
+                {t}CTM:{/t}
+            </td>
+            <td>
+                <select size="1" name="voipaccountdata[ctmid]" {tip text="Select Adescom CTM node" trigger="ctmid"} style="max-width:250px;">
+                    {foreach from=$ctms item=ctm}
+                    <option value="{$ctm.id}"{if $voipaccountdata.ctmid == $ctm.id} selected{/if}>{$ctm.name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Registration type:{/t}
+            </td>
+            <td>
+                <select size="1" name="voipaccountdata[registration_type]" {tip text="Select phone registration type" trigger="registration_type"} style="max-width:250px;">
+                    <option value="country+area+local" {if $voipaccountdata.registration_type == 'country+area+local'} selected{/if}>country+area+local</option>
+                    <option value="area+local" {if $voipaccountdata.registration_type == 'area+local'} selected{/if}>area+local</option>
+                    <option value="local" {if $voipaccountdata.registration_type == 'local'} selected{/if}>local</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Phone profile:{/t}
+            </td>
+            <td>
+                <select size="1" name="voipaccountdata[phoneid]" {tip text="Select phone profile" trigger="phoneid"} style="max-width:250px;" onchange="xajax_select_phone(this.value);"  id="phone_profile_input">
+                    <option value="0"{if $voipaccountdata.phoneid == 0} selected='selected'{/if}></option>
+                    {foreach from=$phones item=phone}
+                    <option value="{$phone.id}"{if $voipaccountdata.phoneid == $phone.id} selected='selected'{/if}>{$phone.name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Phone line:{/t}
+            </td>
+            <td id="voipaccountdata_line_parent">
+                {if $selected_phone}
+                <select size="1" name="voipaccountdata[line]" {tip text="Select phone line" trigger="line"} style="max-width:250px;">
+                    {foreach from=$selected_phone.lines item=line}
+                    <option value="{$line}" {if $voipaccountdata.line == $line}selected{/if}>{$line}</option>
+                    {/foreach}
+                </select>
+                {else}
+                {t}Select phone profile first...{/t}
+                {/if}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Display name:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[displayname]" value="{$voipaccountdata.displayname}" {tip text="Enter friendly display name" trigger="displayname"}>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}E-mail:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[email]" value="{$voipaccountdata.email}" {tip text="Enter e-mail address" trigger="email"}>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Context:{/t}
+            </td>
+            <td>
+                <select size="1" name="voipaccountdata[context]" {tip text="Select phone context" trigger="context"} style="max-width:250px;">
+                    {foreach from=$contexts item=context}
+                    <option value="{$context.name}"{if $voipaccountdata.context == $context.name} selected='selected'{/if}>{$context.name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Emergency context:{/t}
+            </td>
+            <td>
+                <select size="1" name="voipaccountdata[emergencycontext]" {tip text="Select emergency context" trigger="emergencycontext"} style="max-width:250px;">
+                    {foreach from=$contexts item=context}
+                    <option value="{$context.name}"{if $voipaccountdata.emergency_context == $context.name} selected='selected'{/if}>{$context.name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}IP address:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[host]" id="voipaccountdata_host" value="{$voipaccountdata.host}" {tip text="Enter host IP address ('dynamic' for address from DHCP server)" trigger="host"}>
+                <img src="img/ip.gif" alt="{t}Host IP address from DHCP server{/t}" title="{t}Host IP address from DHCP server{/t}" style="cursor: pointer" ONCLICK="document.getElementById('voipaccountdata_host').value = 'dynamiczny'">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Hostname:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[hostname]" value="{$voipaccountdata.hostname}" {tip text="Enter phone device host name" trigger="hostname"}>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}MAC address:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[mac_address]" value="{$voipaccountdata.mac_address}" {tip text="Enter MAC address of phone device" trigger="mac_address"}>
+            </td>
+        </tr>	
+        <tr>
+            <td></td>
+            <td>
+                {t}Serial number:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[serial_number]" value="{$voipaccountdata.serial_number}" {tip text="Enter serial number of phone device" trigger="serial_number"}>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {t}Enable voicemail:{/t}
+            </td>
+            <td>
+                <input type="checkbox" value="1" name="voipaccountdata[voicemail]" {if $voipaccountdata.voicemail}CHECKED{/if} {tip text="Select to enable voicemail" trigger="voicemail"} onclick="toggleVoiceMailConfiguration(this.checked)">
+            </td>
+        </tr>
+        <tr id="voicemail_password_row" class="voicemail_configuration" {if ! $voipaccountdata.voicemail}style="display: none"{/if}>
+            <td></td>
+            <td>
+                {t}Voicemail password:{/t}
+            </td>
+            <td>
+                <input type="text" name="voipaccountdata[voicemailpassword]" value="{$voipaccountdata.voicemailpassword}" {tip text="Enter voicemail password" trigger="voicemailpassword"}>
+            </td>
+        </tr>
+        <tr id="voicemail_attach_row" class="voicemail_configuration" {if ! $voipaccountdata.voicemail}style="display: none"{/if}>
+            <td></td>
+            <td>
+                {t}Send voicemail messages via e-mail:{/t}
+            </td>
+            <td>
+                <input type="checkbox" name="voipaccountdata[voicemailattach]" {if $voipaccountdata.voicemailattach}CHECKED{/if} {tip text="Select to enabled sending of voice messages via e-mail" trigger="voicemailattach"}>
+            </td>
+        </tr>
+    </tbody>
+</table>

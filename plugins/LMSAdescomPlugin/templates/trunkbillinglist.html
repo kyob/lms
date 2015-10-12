@@ -1,0 +1,129 @@
+{include file="header.html"}
+<!--// $Id: customerlist.html,v 1.16 2010/03/03 15:38:27 alec Exp $ //-->
+{include file="calendar_js.html"}
+<H1>{$layout.pagetitle}</H1>
+<P>
+<TABLE cellpadding="3" WIDTH="100%">
+	<TR CLASS="DARK">
+		<TD CLASS="fleft ftop fright" colspan="8">
+			<FORM METHOD="POST" ACTION="?m=voiptrunkbilling" NAME="filter">
+				<INPUT type="submit" class="hiddenbtn">
+				<B>{t}Filter:{/t}</B><BR>
+				<DIV STYLE="float: left; padding-right: 10px">
+					{t}Range:{/t}
+					<BR>
+					<INPUT TYPE="CHECKBOX" NAME="filter[incoming]" {if $filter.incoming}CHECKED{/if} {tip text="Select to include incoming calls" trigger="incoming"}>{t}Incoming{/t}
+					<BR>
+					<INPUT TYPE="CHECKBOX" NAME="filter[outgoing]" {if $filter.outgoing}CHECKED{/if} {tip text="Select to include outgoing calls" trigger="outgoing"}>{t}Outgoing{/t}
+				</DIV>								
+				<DIV STYLE="float: left; padding-right: 10px">
+					{t}Remote number:{/t}
+					<BR>
+					<INPUT TYPE="TEXT" NAME="filter[remotenumber]" VALUE="{$filter.remotenumber}" {tip text="Enter remote number or its part" trigger="remotenumber"}>
+				</DIV>
+				<DIV STYLE="float: left; padding-right: 10px">
+					{t}Date/time from:{/t}
+					<BR>
+					<INPUT TYPE="TEXT" NAME="filter[fromdate]" SIZE="18" VALUE="{$filter.fromdate}" OnClick="javascript:cal1.popup();" {tip text="Enter or select lower bound of billing data (click to open calendar)" trigger="fromdate"}>
+				</DIV>
+				<DIV STYLE="float: left; padding-right: 10px">
+					{t}Date/time to:{/t}
+					<BR>
+					<INPUT TYPE="TEXT" NAME="filter[todate]" SIZE="18" VALUE="{$filter.todate}" OnClick="javascript:cal2.popup();" {tip text="Enter or select upper bound of billing data (click to open calendar)" trigger="todate"}>
+				</DIV>
+				<DIV STYLE="float: left; padding-right: 10px">
+					{t}Options:{/t}
+					<BR>
+					<INPUT TYPE="CHECKBOX" NAME="filter[includezero]" {if $filter.includezero}CHECKED{/if} {tip text="Select to include calls with zero duration" trigger="includezero"}>{t}Include zero billsec{/t}
+				</DIV>				
+			</FORM>
+		</TD>
+	</TR>
+	<TR CLASS="dark">
+		<TD CLASS="fleft fbottomu fright" WIDTH="100%" COLSPAN="8" ALIGN="right">
+			<A ACCESSKEY="S" href="javascript:document.filter.submit()">{t}Search{/t} <IMG SRC="img/search.gif" alt=""></A>&nbsp;
+		</TD>
+	</TR>
+	<TR CLASS="light">
+		<TD COLSPAN="8">&nbsp</TD>
+	</TR>	
+	{if $listdata.total != 0}
+	<TR CLASS="DARK">
+		<TD COLSPAN="8" CLASS="FALL">
+			{include file="scroller.html" loop=$records}
+		</TD>
+	</TR>
+	{/if}
+	<TR class="dark">
+		<TD width="1%" class="fleftu" VALIGN="top" NOWRAP><B>{t}Start date{/t}</B></TD>
+		<TD width="1%" class="fbt" VALIGN="top" NOWRAP><B>{t}Source{/t}</B></TD>
+		<TD width="1%" class="fbt" VALIGN="top" NOWRAP><B>{t}Destination{/t}</B></TD>
+		<TD width="1%" class="fbt" VALIGN="top" NOWRAP><B>{t}Trunk IN{/t}</B></TD>
+		<TD width="1%" class="fbt" VALIGN="top" NOWRAP><B>{t}Trunk OUT{/t}</B></TD>
+		<TD width="1%" class="fbt" VALIGN="top" NOWRAP><B>{t}Duration{/t}</B></TD>
+		<TD width="1%" class="fbt" VALIGN="top" NOWRAP><B>{t}Price{/t}</B></TD>
+		<TD width="1%" class="frightu" VALIGN="top" NOWRAP><B>{t}Direction{/t}</B></TD>
+	</TR>
+	{cycle values="light,lucid" print=false}
+	{section name=records loop=$records start=$start max=$pagelimit}
+	{assign var='tg_in' value=$records[records].tg_in}
+	{assign var='tg_out' value=$records[records].tg_out}
+	<TR CLASS="{cycle}">
+		<TD class="fleft">{$records[records].start_date|date_format:"%Y-%m-%d %H:%M:%S"}</TD>
+		<TD>{$records[records].source}</TD>
+		<TD>{$records[records].destination}</TD>
+		<TD>
+			{if $tg_in && $tg_in != -1}
+				{if $trunknames.$tg_in}
+					{$trunknames.$tg_in}&nbsp;({$tg_in})
+				{else}
+					{$tg_in}
+				{/if}
+			{else}
+				{t}None{/t}
+			{/if}
+		</TD>
+		<TD>
+			{if $tg_out && $tg_out != -1}
+				{if $trunknames.$tg_out}
+					{$trunknames.$tg_out}&nbsp;({$tg_out})
+				{else}
+					{$tg_out}
+				{/if}
+			{else}
+				{t}None{/t}
+			{/if}
+		</TD>
+		<TD>{$records[records].duration|secs2hms}</TD>
+		<TD>{$records[records].price}</TD>
+		<TD class="fright">{if $records[records].fraction}{$records[records].fraction}<br />{/if}{if $records[records].prefix_name}{$records[records].prefix_name}<br />{/if}</TD>
+	</TR>
+	{sectionelse}
+	<TR CLASS="light">
+		<TD COLSPAN="8" CLASS="FALL" ALIGN="CENTER">{t}Nothing found{/t}</TD>
+	</TR>	
+	{/section}
+	{if $listdata.total != 0}
+	<TR CLASS="DARK">
+		<TD COLSPAN="8" CLASS="FALL">
+			{include file="scroller.html" loop=$records}
+		</TD>
+	</TR>
+	{/if}
+	<TR class="dark">
+		<TD class="fleftu frightu"><B>{t a=$listdata.total|default:"0"}Total count: $a{/t}</B></TD>
+		<TD class="fleftu frightu"><B>{t a=$listdata.totalPrice|default:"0"|money_format}Total price: $a{/t}</B></TD>
+		<TD class="fleftu frightu"><B>{t a=$listdata.totalDuration|secs2hms}Total duration: $a{/t}</B></TD>
+		<TD class="fleftu frightu" colspan="5"></TD>
+	</TR>		
+</TABLE>
+</P>
+<SCRIPT type="text/javascript">
+<!--
+var cal1 = new calendar(document.filter.elements['filter[fromdate]']);
+cal1.time_comp = true;
+var cal2 = new calendar(document.filter.elements['filter[todate]']);
+cal2.time_comp = true;
+//-->
+</SCRIPT>
+{include file="footer.html"}
