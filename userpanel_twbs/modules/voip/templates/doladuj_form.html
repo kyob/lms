@@ -1,0 +1,101 @@
+{include file="header.html"}
+{include file="module:header_inne.html"}
+
+<div class="container">
+{include file="module:nav.html"}
+<script>
+    $(document).on("click", "#doladujButton", function(e) {
+    e.preventDefault();
+ bootbox.dialog({
+  message: "Czy na pewno chcesz doładować konto prepaid?",
+  title: "Doładowanie konta", backdrop: true, 
+  buttons: {
+    doladuj: {
+      label: "Doladuj",
+       icon: "icon-trash",
+      className: "btn-danger",
+      callback: function() {
+        $('#loading').show();
+        $('#formDoladuj').submit();
+   }
+    },
+    anuluj: {
+      label: "Anuluj",
+      className: "btn btn-default",
+    },
+  }
+});
+});
+</script>
+
+
+<div class="row">
+
+<div class="col-md-3"></div>
+
+<div class="col-md-6">
+<form action="?m=voip&f=doladuj&action=submit" method="post" name="formDoladuj" id="formDoladuj" role="form" data-toggle="validator">
+<div class="panel panel-info">
+ <div class="panel-heading">
+    <h3 class="panel-title text-center">Doładowanie</h3>
+ </div>
+<div class="panel-body">
+   <div class="row">
+	<div class="col-md-1">
+	</div>
+	<div class="col-md-4">
+        Numer <br />
+	<select name="callerID" id="callerID" class="form-control">
+	{foreach $numery as $clids}
+	    {if $clids.isPrepaid  == 1}
+		<option value="{$clids.callerID}" {if $clids.callerID === $smarty.post.callerID}selected{/if} >{$clids.callerID}</option>
+	    {/if}
+	{/foreach}
+    </select>
+	</div>
+
+	<div class="col-md-4">
+	Kwota<br />
+	<select name="kwota" id="kwota" class="text-right form-control">
+	<option value="20">20 zł</option>
+	<option value="50">50 zł</option>
+	<option value="100">100 zł</option>
+	</select>
+	<input type="hidden" name="submit_edit" value="1">
+	</div>
+	<div class="col-md-1">
+	<br />
+        <div id="loading" style="display:none; clear:both;"><img src="modules/voip/style/billing/images/loader.gif" alt="" /></div>
+	</div>
+	<div class="col-md-1 text-right">
+	<br />
+	<input type="submit" value="Doładuj" id="doladujButton" name="doladujButton" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn btn-danger" />
+
+	</div>
+	<div class="col-md-1">
+	</div>
+
+    </div>
+</div>
+</form>
+</div>
+<div class="col-md-3"></div>
+
+</div>
+</div>
+
+
+    {if $error ne ""}
+	<div class="row">
+	<div class="col-md-6">
+    	    <div style="clear:both; float:left; font-size:13px; color:#ff0000">
+    	    {if $error eq "kwota_format"}Niewłaściwy format kwoty. Kwota musi być liczbowa i większa od 0 zł.
+    	    {elseif $error eq "kwota_empty"} Proszę podać kwotę doładowania.
+    	    {elseif $error eq "no_numbers"} Prawdopodobnie nie posiadasz numerów prepaid.
+	    {/if}
+	</div>
+    </div>
+    </div>    
+{/if}
+
+{include file="footer.html"}

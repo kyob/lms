@@ -1,0 +1,51 @@
+<div class="container">
+
+<div class="row">
+<div class="col-md-12">
+
+<table data-page-size="10" class="footable" style="width:100%">
+<thead>
+<tr>
+<th data-type="alpha" data-sort-initial="descending" style="display:table-cell; width:120px; max-width:120px; min-width:120px; text-align:center">Data</th>
+<th data-type="numeric" style="display:table-cell; width:130px;  max-width:130px; min-width:130px; text-align:center">{if $post.typpol==2}Numer docelowy{else}Numer źródłowy{/if}</th>
+<th data-type="numeric"  style="display:table-cell; width:70px;  max-width:100px; min-width:100px; text-align:center">Czas [s]</th>
+{if $post.typpol==2}
+<th data-type="numeric"  style="display:table-cell; width:410px; max-width:410px; min-width:410px; text-align:center">Kierunek</th>
+<th  data-type="numeric"  style="display:table-cell; width:120px;  max-width:120px; min-width:120px; text-align:center">Cena (brutto) [zł]</th>
+{/if}
+</tr>
+</thead>
+<tbody>
+
+{foreach $data as $items}
+{if $items|@count gt 0}
+    {foreach $items as $rec} 
+    <tr bgcolor="{cycle values='#ffffff,#eeeeee'}">
+    <td style="text-align:center; display:table-cell;">{$rec.start_date|date_format:"%Y-%m-%d %H:%M:%S"}</td>
+    <td style="text-align:center; display:table-cell;">{if $post.typpol==2}{$rec.destination}{else}{$rec.source}{/if}</td>
+    <td style="text-align:center; display:table-cell;">{$rec.duration}</td>
+{if $post.typpol==2}
+     <td style="text-align:center; display:table-cell;">{$rec.fraction}</td>
+    <td style="text-align:center; display:table-cell;">{$rec.price|number_format:2}</td>
+{/if}
+    </tr>
+   {/foreach}
+{else}
+    <tr>
+    <td colspan="5" style="color:#ff0000; background-color: #ffffff; text-align: center; font-weight:bold">Nie znaleziono połączeń !</td>
+    </tr>
+{/if}
+{/foreach}
+<tfoot>
+<tr>
+<td colspan="5">
+<div class="pagination pagination-centered hide-if-no-paging"></div>
+</td>
+</tr>
+</tfoot>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
