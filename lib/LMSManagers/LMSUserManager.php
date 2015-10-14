@@ -95,7 +95,7 @@ class LMSUserManager extends LMSManager implements LMSUserManagerInterface
     public function getUserList()
     {
         $userlist = $this->db->GetAll(
-            'SELECT id, login, name, lastlogindate, lastloginip, passwdexpiration, passwdlastchange, access, accessfrom, accessto  
+            'SELECT id, login, name, lastlogindate, lastloginip, passwdexpiration, passwdlastchange, access, swekey_id, accessfrom, accessto  
             FROM users 
             WHERE deleted=0 
             ORDER BY login ASC'
@@ -257,7 +257,7 @@ class LMSUserManager extends LMSManager implements LMSUserManagerInterface
      */
     public function userAccess($id, $access)
     {
-        $this->db->Execute('UPDATE users SET access = ? WHERE id = ? ;', array($access, $id));
+        $this->db->Execute('UPDATE users SET access = ? WHERE id = ?', array($access, $id));
     }
 
     /**
@@ -341,6 +341,7 @@ class LMSUserManager extends LMSManager implements LMSUserManagerInterface
             'rights' => $user['rights'],
             'hosts' => $user['hosts'],
             'position' => $user['position'],
+            'swekey_id' => !empty($user['use_swekey']) ? $user['swekey_id'] : null,
             'ntype' => !empty($user['ntype']) ? $user['ntype'] : null,
             'phone' => !empty($user['phone']) ? $user['phone'] : null,
             'passwdexpiration' => !empty($user['passwdexpiration']) ? $user['passwdexpiration'] : 0,
@@ -350,7 +351,7 @@ class LMSUserManager extends LMSManager implements LMSUserManagerInterface
             $SYSLOG_RESOURCE_KEYS[SYSLOG_RES_USER] => $user['id']
         );
         $res = $this->db->Execute('UPDATE users SET login=?, name=?, email=?, rights=?,
-				hosts=?, position=?, ntype=?, phone=?, passwdexpiration=?, access=?, accessfrom=?, accessto=? WHERE id=?', array_values($args));
+				hosts=?, position=?, swekey_id=?, ntype=?, phone=?, passwdexpiration=?, access=?, accessfrom=?, accessto=? WHERE id=?', array_values($args));
         if ($res && $this->syslog) {
             $this->syslog->AddMessage(SYSLOG_RES_USER, SYSLOG_OPER_UPDATE, $args, array($SYSLOG_RESOURCE_KEYS[SYSLOG_RES_USER]));
         }
@@ -365,26 +366,13 @@ class LMSUserManager extends LMSManager implements LMSUserManagerInterface
      */
     public function getUserRights($id)
     {
-        if (!($mask = $this->cache->getCache('users', $id, 'rights'))) {
-            $mask = $this->db->GetOne('SELECT rights FROM users WHERE id = ?', array($id));
+        if (!($rights = $this->cache->getCache('users', $id, 'rights'))) {
+            $rights = $this->db->GetOne('SELECT rights FROM users WHERE id = ?', array($id));
         }
 
-        $len = strlen($mask);
-        $bin = '';
-        $result = array();
+		$rights = explode(',', $rights);
 
-        for ($cnt = $len; $cnt > 0; $cnt--) {
-            $bin = sprintf('%04b', hexdec($mask[$cnt - 1])) . $bin;
-        }
-
-        $len = strlen($bin);
-        for ($cnt = $len - 1; $cnt >= 0; $cnt--) {
-            if ($bin[$cnt] == '1') {
-                $result[] = $len - $cnt - 1;
-            }
-        }
-
-        return $result;
+        return $rights;
     }
 
 }

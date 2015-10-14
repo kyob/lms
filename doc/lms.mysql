@@ -124,7 +124,7 @@ CREATE TABLE users (
   email varchar(255)    NOT NULL DEFAULT '',
   phone varchar(32)     DEFAULT NULL,
   position varchar(255) NOT NULL DEFAULT '',
-  rights varchar(64)    NOT NULL DEFAULT '',
+  rights text           NOT NULL DEFAULT '',
   hosts varchar(255)    NOT NULL DEFAULT '',
   passwd varchar(255)   NOT NULL DEFAULT '',
   ntype smallint        DEFAULT NULL,
@@ -1627,19 +1627,6 @@ CREATE TABLE voipaccounts (
 
 # --------------------------------------------------------
 #
-# Structure of table plicbdlocalisation
-#
-CREATE TABLE plicbdlocalisation (
-	phone varchar(255) NOT NULL,
-	owner varchar(256) NOT NULL,
-	location varchar(255) NOT NULL,
-	location_city int(11) NOT NULL,
-	KEY location_city (location_city),
-	FOREIGN KEY (location_city) REFERENCES location_cities (id) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB;
-
-# --------------------------------------------------------
-#
 # Structure of table messages
 #
 CREATE TABLE messages (
@@ -1668,6 +1655,7 @@ CREATE TABLE messageitems (
 	status 		smallint	DEFAULT '0' NOT NULL,
 	error 		text		DEFAULT NULL,
 	lastreaddate 	int(11)		DEFAULT '0' NOT NULL,
+	externalmsgid	int(6)		DEFAULT '0' NOT NULL,
         PRIMARY KEY (id),
 	INDEX messageid (messageid),
 	INDEX customerid (customerid)
@@ -1873,6 +1861,12 @@ SELECT st.ident AS woj, d.ident AS pow, b.ident AS gmi, b.type AS rodz_gmi,
     JOIN location_boroughs b ON (c.boroughid = b.id)
     JOIN location_districts d ON (b.districtid = d.id)
     JOIN location_states st ON (d.stateid = st.id);
+
+CREATE VIEW customermailsview AS
+		SELECT customerid, GROUP_CONCAT(contact SEPARATOR ',') AS email
+			FROM customercontacts
+			WHERE type = 8 AND contact <> ''
+			GROUP BY customerid;
 
 DROP FUNCTION IF EXISTS mask2prefix;
 CREATE FUNCTION mask2prefix(mask bigint) RETURNS smallint DETERMINISTIC
@@ -2428,4 +2422,4 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015082700');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015100101');

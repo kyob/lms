@@ -2,6 +2,18 @@ $Id$
 
 version ?.??.?? (????-??-??):
 
+  - updated lms swekey code to be conformed with PHP 7 [prezes_kk]
+  - added support for message delivery status [Jarosław Dziubek]
+  - rewrite of user access rights code completely - it can require
+    related adjustments in 3rd party plugins and patches [chilan]
+  - introduced new hook which allows to attach handlers for all LMS modules
+    before smarty template displaying (*_before_module_display) [chilan]
+  - don't use smarty prefilter for document directory [chilan]
+  - multiple files can be send by email when we create mail message [chilan]
+  - selection of phones and emails is possible when we send message to customer [chilan]
+
+version 1.11.18 (2015-10-01):
+
   - added support of new style plugins in userpanel - hooks executed before
     module load have 'userpanel_*_on_load' name pattern [chilan]
   - added support of new style plugins in userpanel module setup part [chilan]
@@ -31,6 +43,9 @@ version ?.??.?? (????-??-??):
   - userpanel: selection of authentication type is possible from lms user interface [chilan]
   - userpanel urgent notices are working independently from userpanel style and are completely separated
     from userpanel code core [chilan]
+  - added support for invoicenew_save_{before,after}_submit plugin hooks [chilan]
+  - daemon: fixed parser module compilation on centos 7 (and probably on other newer linux
+    distributions) [chilan]
 
 version 1.11.17 (2015-06-29):
 

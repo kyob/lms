@@ -1,9 +1,9 @@
 <?php
 
 /*
- * LMS version 1.11-git
+ *  LMS version 1.11-git
  *
- *  (C) Copyright 2001-2015 LMS Developers
+ *  Copyright (C) 2001-2015 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -24,9 +24,15 @@
  *  $Id$
  */
 
+$this->BeginTrans();
 
-$LMS->UserAccess(intval($_GET['id']),intval($_GET['access']));
+$this->Execute("
+ALTER TABLE plicbdoperators ADD CONSTRAINT plicbdoperators_pkey PRIMARY KEY (id);
+DROP INDEX plicbdoperators_id_idx;
+");
 
-$SESSION->redirect('?' . $SESSION->get('backto'));
+$this->Execute("UPDATE dbinfo SET keyvalue = ? WHERE keytype = ?", array('2015090400', 'dbversion'));
+
+$this->CommitTrans();
 
 ?>

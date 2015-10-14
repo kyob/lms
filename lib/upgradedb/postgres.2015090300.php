@@ -1,9 +1,9 @@
 <?php
 
 /*
- * LMS version 1.11-git
+ *  LMS version 1.11-git
  *
- *  (C) Copyright 2001-2015 LMS Developers
+ *  Copyright (C) 2001-2015 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -24,9 +24,19 @@
  *  $Id$
  */
 
+$CONTACT_EMAIL = 8;
 
-$LMS->UserAccess(intval($_GET['id']),intval($_GET['access']));
+$this->BeginTrans();
 
-$SESSION->redirect('?' . $SESSION->get('backto'));
+$this->Execute("
+	CREATE VIEW customermailsview AS
+		SELECT customerid, array_to_string(array_agg(contact), ',') AS email
+			FROM customercontacts
+			WHERE type = ? AND contact <> ''
+			GROUP BY customerid", array($CONTACT_EMAIL));
+
+$this->Execute("UPDATE dbinfo SET keyvalue = ? WHERE keytype = ?", array('2015090300', 'dbversion'));
+
+$this->CommitTrans();
 
 ?>

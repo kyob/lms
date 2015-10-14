@@ -130,9 +130,6 @@ if (isset($_POST['customeradd']))
         elseif(!preg_match('/^[0-9]{4,6}$/', $customeradd['pin']))
 	        $error['pin'] = trans('Incorrect PIN code!');
 
-	if($customeradd['email']!='' && !check_emails($customeradd['email']))
-		$error['email'] = trans('Incorrect email!');
-
 	foreach($customeradd['uid'] as $idx => $val)
 	{
 		$val = trim($val);
@@ -161,7 +158,7 @@ if (isset($_POST['customeradd']))
 		$email = trim($val['email']);
 		$name = trim($val['name']);
 
-		if ($email != '' && !check_emails($email))
+		if ($email != '' && !check_email($email))
 			$error['email' . $idx] = trans('Incorrect email!');
 		elseif ($name && !$email)
 			$error['email' . $idx] = trans('Email address is required!');
@@ -282,6 +279,9 @@ else
 $default_zip = ConfigHelper::getConfig('phpui.default_zip');
 $default_city = ConfigHelper::getConfig('phpui.default_city');
 $default_address = ConfigHelper::getConfig('phpui.default_address');
+$default_stateid = ConfigHelper::getConfig('phpui.default_stateid');
+$default_countryid = ConfigHelper::getConfig('phpui.default_countryid');
+$default_status = ConfigHelper::getConfig('phpui.default_status');
 
 if (!isset($customeradd['zip']) && $default_zip) {
 	$customeradd['zip'] = $default_zip;
@@ -289,6 +289,12 @@ if (!isset($customeradd['zip']) && $default_zip) {
 	$customeradd['city'] = $default_city;
 } if (!isset($customeradd['address']) && $default_address) {
 	$customeradd['address'] = $default_address;
+} if (!isset($customeradd['default_stateid']) && $default_stateid) {
+	$customeradd['stateid'] = $default_stateid;
+} if (!isset($customeradd['default_countryid']) && $default_countryid) {
+	$customeradd['countryid'] = $default_countryid;
+} if (!isset($customeradd['default_status']) && $default_status) {
+        $customeradd['status'] = $default_status;
 }
 
 $layout['pagetitle'] = trans('New Customer');

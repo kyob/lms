@@ -1,9 +1,9 @@
 <?php
 
 /*
- * LMS version 1.11-git
+ *  LMS version 1.11-git
  *
- *  (C) Copyright 2001-2015 LMS Developers
+ *  Copyright (C) 2001-2015 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -24,9 +24,21 @@
  *  $Id$
  */
 
+$this->BeginTrans();
 
-$LMS->UserAccess(intval($_GET['id']),intval($_GET['access']));
+$this->Execute("
+	CREATE TABLE plicbdoperators (
+		name varchar(255) NOT NULL,
+		id integer NOT NULL,
+		rpt integer NOT NULL,
+		ten varchar(16) NOT NULL DEFAULT ''
+	);
+	CREATE INDEX plicbdoperators_id_idx ON plicbdoperators (id);
+	CREATE INDEX plicbdoperators_rpt_idx ON plicbdoperators (rpt);
+");
 
-$SESSION->redirect('?' . $SESSION->get('backto'));
+$this->Execute("UPDATE dbinfo SET keyvalue = ? WHERE keytype = ?", array('2015090200', 'dbversion'));
+
+$this->CommitTrans();
 
 ?>

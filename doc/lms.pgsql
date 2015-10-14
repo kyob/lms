@@ -13,7 +13,7 @@ CREATE TABLE users (
 	email varchar(255) 	DEFAULT '' NOT NULL,
 	phone varchar(32)   DEFAULT NULL,
 	position varchar(255) 	DEFAULT '' NOT NULL,
-	rights varchar(64) 	DEFAULT '' NOT NULL,
+	rights text 	DEFAULT '' NOT NULL,
 	hosts varchar(255) 	DEFAULT '' NOT NULL,
 	passwd varchar(255) 	DEFAULT '' NOT NULL,
 	ntype smallint      DEFAULT NULL,
@@ -1609,7 +1609,7 @@ CREATE TABLE customercontacts (
     PRIMARY KEY (id)
 );
 CREATE INDEX customercontacts_customerid_idx ON customercontacts (customerid);
-CREATE INDEX customercontacts_phone_idx ON customercontacts (phone);
+CREATE INDEX customercontacts_contact_idx ON customercontacts (contact);
 
 /* ---------------------------------------------------
  Structure of table "excludedgroups"
@@ -1728,18 +1728,6 @@ CREATE INDEX voipaccounts_location_street_idx ON voipaccounts (location_street);
 CREATE INDEX voipaccounts_location_city_idx ON voipaccounts (location_city, location_street, location_house, location_flat);
 
 /* ---------------------------------------------------
- Structure of table "plicbdlocalisation"
-------------------------------------------------------*/
-CREATE TABLE plicbdlocalisation (
-	phone varchar(255) NOT NULL,
-	owner varchar(256) NOT NULL,
-	location varchar(255) NOT NULL,
-	location_city integer NOT NULL
-		REFERENCES location_cities (id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX plicbdlocalisation_location_city_idx ON plicbdlocalisation (location_city);
-
-/* ---------------------------------------------------
  Structure of table "messages"
 ------------------------------------------------------*/
 DROP SEQUENCE IF EXISTS messages_id_seq;
@@ -1774,6 +1762,7 @@ CREATE TABLE messageitems (
 	status 		smallint	DEFAULT 0 NOT NULL,
 	error 		text		DEFAULT NULL,
 	lastreaddate 	integer		DEFAULT 0 NOT NULL,
+	externalmsgid	integer		DEFAULT 0 NOT NULL,
         PRIMARY KEY (id)
 ); 
 
@@ -2042,6 +2031,11 @@ SELECT st.ident AS woj, d.ident AS pow, b.ident AS gmi, b.type AS rodz_gmi,
     JOIN location_districts d ON (b.districtid = d.id)
     JOIN location_states st ON (d.stateid = st.id);
 
+CREATE VIEW customermailsview AS
+		SELECT customerid, array_to_string(array_agg(contact), ',') AS email
+			FROM customercontacts
+			WHERE type = 8 AND contact <> ''
+			GROUP BY customerid;
 
 /* ---------------------------------------------------
  Data records
@@ -2523,4 +2517,4 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015082700');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015100101');
