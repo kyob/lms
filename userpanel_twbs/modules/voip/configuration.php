@@ -24,7 +24,7 @@
  *  $Id: configuration.php,v 1.4 2010/03/11 13:07:55 alec Exp $
  */
 
-$USERPANEL->AddModule(trans('VOIP'),	// Display name
+$USERPANEL->AddModule(trans('Telefon'),	// Display name
 		    'voip', 		// Module name - must be the same as directory name
 		    trans('Voip panel'), // Tip 
 		    98,			// Priority
