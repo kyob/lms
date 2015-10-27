@@ -11,6 +11,13 @@ version ?.??.?? (????-??-??):
   - don't use smarty prefilter for document directory [chilan]
   - multiple files can be send by email when we create mail message [chilan]
   - selection of phones and emails is possible when we send message to customer [chilan]
+  - fixed liability reports when assignments with many tax rates for customer was
+    assigned [chilan]
+  - sms.transliterate_message config variable introduced - allows to
+    getting rid of national characters in sms messages [chilan]
+  - added contract filter for customer list and report [chilan]
+  - invoices.customer_credentials and invoices.customer_balance_in_form configuration
+    settings were introduced [chilan]
 
 version 1.11.18 (2015-10-01):
 
