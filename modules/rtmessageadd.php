@@ -284,18 +284,18 @@ if(isset($_POST['message']))
 				{
 					$info = $DB->GetRow('SELECT id, pin, '.$DB->Concat('UPPER(lastname)',"' '",'name').' AS customername,
 							address, zip, city FROM customers WHERE id = ?', array($cid));
-					$info['contacts'] = $DB->GetAll('SELECT contact, name FROM customercontacts
+					$info['contacts'] = $DB->GetAll('SELECT contact, name, type FROM customercontacts
 						WHERE customerid = ?', array($cid));
 
 					$emails = array();
 					$phones = array();
 					if (!empty($info['contacts']))
 						foreach ($info['contacts'] as $contact) {
-							$contact = $contact['contact'] . (strlen($contact['name']) ? ' (' . $contact['name'] . ')' : '');
+							$target = $contact['contact'] . (strlen($contact['name']) ? ' (' . $contact['name'] . ')' : '');
 							if ($contact['type'] == CONTACT_EMAIL)
-								$emails[] = $contact;
+								$emails[] = $target;
 							else
-								$phones[] = $contact;
+								$phones[] = $target;
 						}
 
 					$body .= "\n\n-- \n";

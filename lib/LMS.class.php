@@ -1656,6 +1656,9 @@ class LMS
 
         $message = preg_replace("/\r/", "", $message);
 
+		if (ConfigHelper::checkConfig('sms.transliterate_message'))
+			$message = iconv('UTF-8', 'ASCII//TRANSLIT', $message);
+
         $max_length = ConfigHelper::getConfig('sms.max_length');
         if (!empty($max_length) && intval($max_length) > 6 && $msg_len > intval($max_length))
             $message = mb_substr($message, 0, $max_length - 6) . ' [...]';
@@ -1820,7 +1823,7 @@ class LMS
                 }
 
                 $filename = $dir . DIRECTORY_SEPARATOR . 'lms-' . $messageid . '-' . $number;
-                $latin1 = iconv('UTF-8', 'ISO-8859-15', $message);
+                $latin1 = iconv('UTF-8', 'ASCII', $message);
                 $alphabet = '';
                 if (strlen($latin1) != mb_strlen($message, 'UTF-8')) {
                     $alphabet = "Alphabet: UCS2\n";
