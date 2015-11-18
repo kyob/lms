@@ -24,7 +24,7 @@
  *  $Id$
  */
 
-function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0, $tagid=0, $closed=NULL)
+function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customerid=0, $userid=0)
 {
 	global $DB, $AUTH;
 
@@ -38,23 +38,18 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 	$list = $DB->GetAll(
 		'SELECT events.id AS id, title, description, date, begintime, enddate, endtime, customerid, closed, events.type, '
 		.$DB->Concat('UPPER(customers.lastname)',"' '",'customers.name').' AS customername,
-		userid, users.name AS username, customers.address, nodes.location AS location
+		userid, users.name AS username 
 		FROM events 
 		LEFT JOIN customers ON (customerid = customers.id)
 		LEFT JOIN users ON (userid = users.id)
-		LEFT JOIN nodes ON (customerid = nodes.ownerid)
-		LEFT JOIN eventtagassignments ON (events.id = eventtagassignments.eventid)
 		WHERE ((date >= ? AND date < ?) OR (enddate <> 0 AND date < ? AND enddate >= ?))
 			AND (private = 0 OR (private = 1 AND userid = ?)) '
-		.($closed!=NULL ? ' AND closed = '.intval($closed) : '')
 		.($customerid ? ' AND customerid = '.intval($customerid) : '')
 		.($userid ? ' AND EXISTS (
 			SELECT 1 FROM eventassignments 
 			WHERE eventid = events.id AND userid = '.intval($userid).'
 			)' : '')
-		.($tagid ? ' AND eventtagassignments.tagid = '.intval($tagid) : '')
-		.' GROUP BY id
-		 ORDER BY date, begintime',
+		.' ORDER BY date, begintime',
 		 array($startdate, $enddate, $enddate, $startdate, $AUTH->id));
 
 	$list2 = array();
@@ -63,10 +58,6 @@ function GetEventList($year=NULL, $month=NULL, $day=NULL, $forward=0, $customeri
 			$row['userlist'] = $DB->GetAll('SELECT userid AS id, users.name
 					FROM eventassignments, users
 					WHERE userid = users.id AND eventid = ? ',
-					array($row['id']));
-			$row['taglist'] = $DB->GetAll('SELECT id, name
-					FROM eventtagassignments, eventtags
-					WHERE tagid = eventtags.id AND eventid = ? ',
 					array($row['id']));
 			$endtime = $row['endtime'];
 			if ($row['enddate'] && $row['enddate'] - $row['date']) {
@@ -93,24 +84,11 @@ else
 	$a = $_GET['a'];
 $SESSION->save('ela', $a);
 
-if(!isset($_GET['c']))
-	$SESSION->restore('elc', $c);
-else
-	$c = $_GET['c'];
-$SESSION->save('elc', $c);
-
-
 if(!isset($_GET['u']))
 	$SESSION->restore('elu', $u);
 else 
 	$u = $_GET['u'];
 $SESSION->save('elu', $u);
-
-if(!isset($_GET['t']))
-	$SESSION->restore('elt', $t);
-else 
-	$t = $_GET['t'];
-$SESSION->save('elt', $t);
 
 if($edate = $SESSION->get('edate'))
 	list($year, $month, $day) = explode('/', $SESSION->get('edate'));
@@ -137,11 +115,9 @@ $year = (isset($year) ? $year : date('Y',time()));
 
 $layout['pagetitle'] = trans('Timetable');
 
-$eventlist = GetEventList($year, $month, $day, ConfigHelper::getConfig('phpui.timetable_days_forward'), $u, $a, $t, $c);
+$eventlist = GetEventList($year, $month, $day, ConfigHelper::getConfig('phpui.timetable_days_forward'), $u, $a);
 $SESSION->restore('elu', $listdata['customerid']);
 $SESSION->restore('ela', $listdata['userid']);
-$SESSION->restore('elt', $listdata['tagid']);
-$SESSION->restore('elc', $listdata['closed']);
 
 // create calendars
 for($i=0; $i<ConfigHelper::getConfig('phpui.timetable_days_forward'); $i++)
@@ -163,10 +139,6 @@ for($i=1; $i<$daysnum+1; $i++)
 $SESSION->save('backto', $_SERVER['QUERY_STRING']);
 $SESSION->save('edate', sprintf('%04d/%02d/%02d', $year, $month, $day));
 
-//$SMARTY->assign('openeventslist', $DB->GetAll('SELECT userid, COUNT(userid) AS opened, users.login AS login FROM events LEFT JOIN users ON (events.userid=users.id) WHERE closed=0 GROUP BY userid'));
-$SMARTY->assign('openeventslist', $DB->GetAll('SELECT users.login, eventassignments.userid, count(eventassignments.userid) AS opened FROM eventassignments LEFT JOIN events ON (eventassignments.eventid=events.id) LEFT JOIN users ON (eventassignments.userid=users.id) WHERE events.closed=0 GROUP BY eventassignments.userid'));
-
-$SMARTY->assign('taglist', $LMS->GetEventTags());
 $SMARTY->assign('period', $DB->GetRow('SELECT MIN(date) AS fromdate, MAX(date) AS todate FROM events'));
 $SMARTY->assign('eventlist',$eventlist);
 $SMARTY->assign('listdata',$listdata);

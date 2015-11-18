@@ -2,30 +2,8 @@
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
 <!--// $Id$ //-->
-
-
 <H1>{$layout.pagetitle}</H1>
-
-<TABLE class="lmsbox">
-<thead>
-<tr>
-<td colspan="14">
-Otwarte zgłoszenia:
-</td>
-</tr>
-</thead>
-<tr>
-{foreach from=$openeventslist item=oe}
-    {if $current_userid==$oe.userid}
-    <td><a href="?m=eventlistnotclosed&userid={$oe.userid}"><strong>{$oe.login}</strong> ({$oe.opened})</a></td>
-    {else}
-    <td><a href="?m=eventlistnotclosed&userid={$oe.userid}">{$oe.login} ({$oe.opened})</a></td>
-    {/if}
-{/foreach}
-</tr>
-</table>
-
-<TABLE class="lmsbox">
+<P><TABLE class="lmsbox">
     <THEAD>
 	<TR>
 		<TD width="1%" NOWRAP>
@@ -90,20 +68,6 @@ Otwarte zgłoszenia:
 					<OPTION value="{$smarty.section.year.index}"{if $smarty.section.year.index==$year} selected{/if}>{$smarty.section.year.index}</option>
 					{/section}
 				</SELECT>
-				{trans("Tags:")}
-				<SELECT size="1" name="t" OnChange="document.filter.submit();">
-					<OPTION value="0"{if $listdata.tagid == ""} SELECTED{/if}>{trans("- all tags -")}</OPTION>
-					{foreach from=$taglist item=tag}
-					    <OPTION value="{$tag.id}"{if $tag.id == $listdata.tagid} SELECTED{/if}>{$tag.name}</OPTION>
-					{/foreach}
-				</SELECT>
-				{trans("Event status:")}
-				<SELECT size="1" name="c" OnChange="document.filter.submit();">
-					<OPTION value=""{if $listdata.closed|count_characters == ''} SELECTED{/if}>{trans("- all status -")}</OPTION>
-					    <OPTION value="0"{if $listdata.closed == '0'} SELECTED{/if}>{trans("Opened")}</OPTION>
-					    <OPTION value="1"{if $listdata.closed == 1} SELECTED{/if}>{trans("Closed")}</OPTION>
-				</SELECT>
-
 			</FORM>
 		</TD>
 	</TR>
@@ -139,21 +103,7 @@ Otwarte zgłoszenia:
                             {if $eventlist[eventlist].date == $daylist[daylist]}
                             {math equation="x+1" x=$counter assign=counter}
                             <TR class="highlight {cycle}{if $eventlist[eventlist].closed} blend{/if}"  >
-                                <TD>
-                                        {foreach item=tag from=$eventlist[eventlist].taglist}
-					    {if $tag.name=="awaria"}
-						{assign var="tagcolor" value="danger"}
-					    {elseif $tag.name=="płatność"}
-						{assign var="tagcolor" value="success"}
-					    {elseif $tag.name=="montaż"}
-						{assign var="tagcolor" value="primary"}
-					    {else}
-						{assign var="tagcolor" value="default"}
-					    {/if} 
-					<span class="label label-{$tagcolor}">{$tag.name}</span><br/>
-                                        {/foreach}
-                                </TD>
-                                <TD onClick="return self.location.href='?m=eventinfo&id={$eventlist[eventlist].id}'">
+                                <TD width="1%" align="left" onClick="return self.location.href='?m=eventinfo&id={$eventlist[eventlist].id}'" nowrap>
                                         <IMG src="img/time.gif" alt=""><B>
                                         {math equation="floor(x/100)" x=$eventlist[eventlist].begintime format="%02d"}:{math equation="x % 100" x=$eventlist[eventlist].begintime format="%02d"}
                                         {if $eventlist[eventlist].begintime != $eventlist[eventlist].endtime}
@@ -168,17 +118,17 @@ Otwarte zgłoszenia:
                                         <IMG src="img/calendar.gif" alt=""> <B>{$eventlist[eventlist].title}</B><BR>
                                         <IMG src="img/info1.gif" alt=""> {$eventlist[eventlist].description}
                                 </TD>
-                                <TD>
+                                <TD width="1%">
                                         {foreach item=user from=$eventlist[eventlist].userlist}
                                                 <NOBR><A href="?m=userinfo&id={$user.id}">{$user.name|truncate:"25":"...":true}</A></NOBR><BR>
                                         {/foreach}
                                 </TD>
-                                <TD>
+                                <TD width="1%" nowrap>
                                         {if $eventlist[eventlist].customername}
-                                                <A href="?m=customerinfo&id={$eventlist[eventlist].customerid}">{$eventlist[eventlist].customername|truncate:"30":"...":true}<br/>{$eventlist[eventlist].location}</A>
+                                                <A href="?m=customerinfo&id={$eventlist[eventlist].customerid}">{$eventlist[eventlist].customername|truncate:"30":"...":true}</A>
                                         {/if}
                                 </TD>
-                                <TD>
+                                <TD width="1%" align="right" nowrap>
                                         {if $eventlist[eventlist].closed}
                                         <A href="?m=eventedit&id={$eventlist[eventlist].id}&action=open"><IMG src="img/resolved.gif" alt="[ {trans("Open")} ]" title="[ {trans("Open")} ]"></A> 
                                         {else}
@@ -196,5 +146,5 @@ Otwarte zgłoszenia:
 	</TR>
 	{/section}
     </TBODY>
-</TABLE>
+</TABLE></P>
 {/block}

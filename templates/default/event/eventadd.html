@@ -139,29 +139,13 @@
 			<B>{trans("Users:")}</B>
 		</TD>
 		<TD width="98%" nowrap>
-			<SELECT size="{if $userlistsize > 5}15{else}{size of=$userlist}{/if}" name="event[userlist][]" {tip text="Select user(s) (optional)"} multiple>
+			<SELECT size="{if $userlistsize > 5}5{else}{size of=$userlist}{/if}" name="event[userlist][]" {tip text="Select user(s) (optional)"} multiple>
 				{section name=userlist loop=$userlist}	
 				<OPTION value="{$userlist[userlist].id}">{$userlist[userlist].name}</OPTION>
 				{/section}
 			</SELECT>
 		</TD>
 	</TR>
-	<TR>
-		<TD width="1%">
-			<IMG src="img/tags.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Tags:")}</B>
-		</TD>
-		<TD width="98%" nowrap>
-			<SELECT size="{if $taglistsize > 5}15{else}{size of=$taglist}{/if}" name="event[taglist][]" {tip text="Select tag(s) (optional)"} multiple>
-				{section name=taglist loop=$taglist}	
-				<OPTION value="{$taglist[taglist].id}">{$taglist[taglist].name}</OPTION>
-				{/section}
-			</SELECT>
-		</TD>
-	</TR>
-
 	<TR>
 		<TD align="right" colspan="3">
 			<A href="javascript:document.event.submit();" accesskey="s">{trans("Submit")} <IMG src="img/save.gif" alt=""></A>
