@@ -2663,7 +2663,7 @@ $_LANG['Host should be selected!'] = 'Powinien zostać wybrany host!';
 $_LANG['cash registry administration'] = 'administracja rejestrami kasowymi';
 
 $_LANG['Node Sessions:'] = 'Sesje komputera:';
-$_LANG['(last 10 sessions)'] = '(ostatnie 10 sesji)';
+$_LANG['(last $a sessions)'] = '(ostatnie $a sesji)';
 $_LANG['Started:'] = 'Rozpoczęto:';
 $_LANG['Finished:'] = 'Zakończono:';
 $_LANG['Time Duration:'] = 'Czas trwania:';
@@ -3030,4 +3030,5 @@ $_LANG['Cancellation of a traditional invoice (agreement on an electronic invoic
 $_LANG['Check if send notification'] = 'Zaznacz, jeżeli chcesz wysyłać powiadomienia';
 $_LANG['Notification'] = 'Powiadomienia';
 
+$_LANG['Use customer location:'] = 'Użyj lokalizacji klienta:';
 ?>
