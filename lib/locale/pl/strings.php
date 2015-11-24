@@ -3031,4 +3031,5 @@ $_LANG['Check if send notification'] = 'Zaznacz, jeżeli chcesz wysyłać powiad
 $_LANG['Notification'] = 'Powiadomienia';
 
 $_LANG['Use customer location:'] = 'Użyj lokalizacji klienta:';
+$_LANG['Changes of customers waiting for approval:'] = 'Zmiany klientów oczekujące na zatwierdzenie:';
 ?>
