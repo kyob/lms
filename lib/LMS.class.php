@@ -405,10 +405,10 @@ class LMS
         return $manager->CustomerAdd($customeradd);
     }
 
-    public function DeleteCustomer($id)
+    public function DeleteCustomer($id, $permanent = false)
     {
         $manager = $this->getCustomerManager();
-        return $manager->DeleteCustomer($id);
+        return $manager->DeleteCustomer($id, $permanent);
     }
 
     public function CustomerUpdate($customerdata)
@@ -475,6 +475,12 @@ class LMS
     {
         $manager = $this->getCustomerManager();
         return $manager->getCustomerNodes($id, $count);
+    }
+
+    public function GetCustomerNetworks($id, $count = null)
+    {
+        $manager = $this->getCustomerManager();
+        return $manager->GetCustomerNetworks($id, $count);
     }
 
     public function GetCustomerBalance($id, $totime = null)
