@@ -136,7 +136,7 @@ if (!ConfigHelper::checkValue(ConfigHelper::getConfig('phpui.big_networks', fals
 	$SMARTY->assign('customerlist', $LMS->GetCustomerNames());
 }
 
-$SMARTY->assign('self_adjust_userlistsize', ConfigHelper::getConfig('phpui.events_self_adjust_userlistsize'));
+$SMARTY->assign('max_userlist_size', ConfigHelper::getConfig('phpui.event_max_userlist_size'));
 $SMARTY->assign('userlist', $userlist);
 $SMARTY->assign('userlistsize', sizeof($userlist));
 $SMARTY->assign('error', $error);

@@ -3066,6 +3066,6 @@ $_LANG['send copy to sender'] = 'wyślij kopię do nadawcy';
 
 $_LANG['Assign network to customer'] = 'Przypisz sieć do klienta';
 
-$_LANG['Automatically adjusts the size of the selection list to the number of users.'] = 'Automatyczne dopasowanie wielokości listy wyboru do ilości użytkowników.';
+$_LANG['Automatically adjusts the size of the selection list to the number of users when set to 0.'] = 'Automatyczne dopasowanie wielokości listy wyboru do ilości użytkowników jeśli ustawione na 0.';
 
 ?>

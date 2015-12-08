@@ -23,7 +23,7 @@
 
 $this->BeginTrans();
 
-$this->Execute("INSERT INTO uiconfig (section, var, value) VALUES(?, ?, ?)", array('phpui', 'events_self_adjust_userlistsize', '0'));
+$this->Execute("INSERT INTO uiconfig (section, var, value) VALUES(?, ?, ?)", array('phpui', 'event_max_userlist_size', '0'));
 
 $this->Execute("UPDATE dbinfo SET keyvalue = ? WHERE keytype = ?", array('2015120800', 'dbversion'));
 
