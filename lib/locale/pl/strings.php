@@ -1721,6 +1721,9 @@ $_LANG['Cause:'] = 'Przyczyna:';
 $_LANG['company\'s side'] = 'po stronie firmy';
 $_LANG['customer\'s side'] = 'po stronie klienta';
 $_LANG['Enter customer ID'] = 'Wprowadź ID klienta';
+$_LANG['Enter customer ID (optional)'] = 'Wprowadź ID klienta (opcjonalnie)';
+$_LANG['Navigate to the customer'] = 'Przejdź na kartę klienta';
+$_LANG['Customer with the specified ID does not exist'] = 'Klient o podanym ID nie istnieje!';
 $_LANG['Select request cause'] = 'Wybierz przyczynę zgłoszenia';
 $_LANG['unknown/other'] = 'nieznana/inna';
 $_LANG['unknown/other<!plural>'] = 'nieznane/inne';
@@ -3060,5 +3063,7 @@ $_LANG['Customer $a has been permanently removed.'] = 'Klient $a został trwale 
 
 $_LANG['Check if you want do send message copy to sender'] = 'Zaznacz, jeśli ma być wysyłana kopia wiadomości do nadawcy';
 $_LANG['send copy to sender'] = 'wyślij kopię do nadawcy';
+
+$_LANG['Assign network to customer'] = 'Przypisz sieć do klienta';
 
 ?>
