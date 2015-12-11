@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aneks Jambox Online do umowy Jambox z pakietem Wielotematycznym</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            ol li {
+                line-height:10px
+            }
+            @page  
+            { 
+                size: auto;   /* auto is the initial value */ 
+                /* this affects the margin in the printer settings */ 
+                margin-left: 5mm;  
+                margin-right: 5mm;  
+                margin-top: 10mm;  
+                margin-bottom: 10mm;  
+            } 
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Alfa-System: internet, telewizja, telefon, monitoring</h3>
+                    {assign var=item value="|"|explode:$document.contract}
+		    <p>Aneks o numerze <strong>{$document.nr}</strong> zawarty dnia <strong>{$smarty.now|date_format:"%d.%m.%Y"}</strong> roku w Knurowie do umowy nr <strong>{$item[0]}</strong> z dnia <strong>{$item[1]|date_format:"%d.%m.%Y"}</strong> pomiędzy: Operatorem Alfa-System M. Piwowarski, A. Widera spółka jawna, ul. Lotników 6, 44-196 Knurów, NIP: 969-13-08pomiędzy: Operatorem Alfa-System M. Piwowarski, A. Widera spółka jawna, ul. Lotników 6, 44-196 Knurów, NIP: 969-13-08-017 i SGT S.A. (reprezentowaną przez Operatora), ul. Ligocka 103 budynek 8, 40-568 Katowice, wpisana do Rejestru Przedsiębiorców Krajowego Rejestru Sądowego pod numerem KRS 0000293307, NIP: 6312533927.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Dane abonenta:</strong></p>                                  
+                    <p>
+                        {if $customerinfo.type==1}
+                        Nazwa firmy: <strong>{$customerinfo.customername}</strong><br/>
+                        {trans("Address:")} <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+                        {trans("NIP:")} <strong>{if $customerinfo.ten neq ''}{$customerinfo.ten}{else}.............................{/if}</strong><br/>
+                        , zwanym dalej Abonentem.
+                        {else}
+                        Nazwisko i imię: <strong>{$customerinfo.customername}</strong><br/>
+                        {trans("Address:")} <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+                        {trans("PESEL:")} <strong>{if $customerinfo.ssn neq ''}{$customerinfo.ssn}{else}.............................{/if}</strong><br/>
+                        , zwanym dalej Abonentem.
+                        {/if}                
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Zakupiona dodatkowa usługa Jambox Online:</strong></p> 
+                    <ol>
+			<li>Aneks do umowy reguluje zasady świadczenia dostępu do zakupionej usługi Jambox Online.</li>
+			<li>Warunki ustalone aneksem do umowy obowiązują przez czas nieokreślony.</li>
+			<li>Abonent ma prawo do rezygnacji z wykupionej na czas nieokreślony usługi Jambox Online z jednomiesięcznym terminem wypowiedzenia ze skutkiem na koniec miesiąca następującego po miesiącu w którym złożone zostanie wypowiedzenie.</li>
+			<li>Wypowiedzenie usługi Jambox Online powinno być złożone na piśmie osobiście, pocztą elektroniczną lub listownie.</li>
+                        <li>Usługa Jambox Online (wymaga pakietu Wielotematycznego) - abonament 2,46 zł z VAT miesięcznie.</li>
+                        <li>Niniejszy Aneks został sporządzony w trzech jednobrzmiących egzemplarzach, po jednym dla każdej ze stron. </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Aneks:</strong></p>                               
+                    <ol>
+                        <li>Pozostałe postanowienia umowy nie ulegają zmianie.</li>
+                        <li>Zmiana danych obowiązuje od następnego okresu rozliczeniowego.</li>
+                        <li>Aneks sporządzono w dwóch jednobrzmiących egzemplarzach dla każdej ze stron.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Oswiadczenia</strong></p>                                  
+                    <p>Operator informuje, że zgodnie z art. 23 ust 1 pkt 3 i 5 oraz art. 23 ust 4 Ustawy z dnia 29 sierpnia 1997r. o ochronie danych osobowych (tekst jednolity: Dz. U. 2002r. Nr 101 poz. 926, ze zm.), dane osobowe Abonenta będą przetwarzane w bazie danych Operatora dla celów realizacji niniejszej umowy oraz marketingu Usług świadczonych przez Operatora.</p>
+                    <p>Abonent oświadcza, że został poinformowany o prawie kontroli przetwarzania danych, które go dotyczą w szczególności o prawie dostępu do treści swoich danych oraz ich poprawiania, żądania ich uzupełnienia, uaktualnienia i sprostowania.</p>
+                    <p>Abonent oświadcza, że <strong>{if strlen($customerinfo.consentdate)>1}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na przetwarzanie danych osobowych Abonenta przez Operatora w celach marketingowych, promocyjnych i reklamy różnego rodzaju towarów i usług świadczonych przez inne podmioty.</p>
+                    <p>Abonent oświadcza, że <strong>{if isset($customerinfo.einvoice)}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na otrzymywanie faktur w postaci elektronicznej poprzez system Wirtualnego Biura Obsługi Abonenta pod adresem internetowym https://bok.alfa-system.pl</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <table class="table table-striped">
+                        <tr>
+                            <td height="50"></td>
+                            <td><br/>&nbsp;<br/></td>
+                            <td></td>
+                        </tr>  
+                        <tr>
+                            <td style="border-top: 1px solid #999;">Data i podpis Abonenta</td>
+                            <td>&nbsp;</td>
+                            <td style="border-top: 1px solid #999;">Data i podpis przedstawiciela Operatora ( {$layout.logname} )</td>
+                        </tr>  
+                    </table>  
+                </div>
+            </div>        
+        </div>
+    </body>
+</html>
