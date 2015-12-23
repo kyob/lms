@@ -114,7 +114,7 @@ function GetRecipients($filter, $type = MSG_MAIL) {
 		. ($type == MSG_SMS ? 'x.phone, ' : '')
 		. $LMS->DB->Concat('c.lastname', "' '", 'c.name') . ' AS customername,
 		COALESCE(b.value, 0) AS balance
-		FROM customersview c 
+		FROM customerview c 
 		LEFT JOIN (
 			SELECT SUM(value) AS value, customerid
 			FROM cash GROUP BY customerid
@@ -179,7 +179,7 @@ function GetRecipient($customerid) {
 	return $DB->GetRow('SELECT c.id, pin, '
 		. $DB->Concat('c.lastname', "' '", 'c.name') . ' AS customername,
 		COALESCE((SELECT SUM(value) FROM cash WHERE customerid = c.id), 0) AS balance
-		FROM customersview c WHERE c.id = ?', array($customerid));
+		FROM customerview c WHERE c.id = ?', array($customerid));
 }
 
 function BodyVars(&$body, $data)
@@ -409,8 +409,7 @@ if(isset($_POST['message']))
 					VALUES (?, ?, ?, ?)', array(
 						$msgid,
 						isset($row['id']) ? $row['id'] : 0,
-						$destination,
-						MSG_NEW,
+						$destination, MSG_NEW,
 					));
 		}
 
@@ -467,7 +466,7 @@ if(isset($_POST['message']))
 						$destination .= ',' . $message['sender'];
 					$result = $LMS->SendMail($destination, $headers, $body, $files);
 				} elseif ($message['type'] == MSG_WWW || $message['type'] == MSG_USERPANEL || $message['type'] == MSG_USERPANEL_URGENT)
-					$result = MSG_NEW;
+					$result = MSG_SENT;
 				else
 					$result = $LMS->SendSMS($destination, $body, $msgid);
 
@@ -502,7 +501,7 @@ if(isset($_POST['message']))
 	{
 		$message['customer'] = $DB->GetOne('SELECT '
 			.$DB->Concat('UPPER(lastname)',"' '",'name').'
-			FROM customersview
+			FROM customerview
 			WHERE id = ?', array($message['customerid']));
 
 		$message['phones'] = $DB->GetAll('SELECT contact, name FROM customercontacts
@@ -525,7 +524,7 @@ else if (!empty($_GET['customerid']))
 {
 	$message = $DB->GetRow('SELECT id AS customerid, '
 		.$DB->Concat('UPPER(lastname)',"' '",'name').' AS customer
-		FROM customersview
+		FROM customerview
 		WHERE id = ?', array($_GET['customerid']));
 
 	$message['phones'] = $DB->GetAll('SELECT contact, name FROM customercontacts
