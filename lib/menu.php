@@ -129,18 +129,6 @@ $menu = array(
 					'tip' => trans('Lists and reports printing'),
 					'prio' => 70,
 				),
-                                array(
-                                        'name' => trans('Age stats'),
-                                        'link' =>'?m=alfa_agestats',
-                                        'tip' => trans('Customers age charts'),
-                                        'prio' => 80,
-                                ),
-                                array(
-                                        'name' => trans('New/deleted customers stats'),
-                                        'link' =>'?m=alfa_newcustomersstats',
-                                        'tip' => trans('New/deleted customers stats'),
-                                        'prio' => 90,
-                                ),
 			),		 
 		),
 
@@ -194,12 +182,6 @@ $menu = array(
 					'tip' => trans('Lists and reports printing'),
 					'prio' => 70,
 				),
-                                array(
-                                        'name' => trans('IP change logs'),
-                                        'link' => '?m=alfa_ipchangelogs',
-                                        'tip' => trans('IP change logs'),
-                                        'prio' => 90,
-                                ),
 			),
 		),
 
@@ -411,18 +393,6 @@ $menu = array(
 					'tip' => trans('Lists and reports printing'),
 					'prio' => 130,
 				),
-                                array(
-                                        'name' => trans('Income'),
-                                        'link' => '?m=alfa_income',
-                                        'tip' => trans('Income count by day or month'),
-                                        'prio' => 140,
-                                ),
-                                array(
-                                        'name' => trans('Import OKBANK'),
-                                        'link' => '?m=alfa_cashimportokbank',
-                                        'tip' => trans('Import OKBANK'),
-                                        'prio' => 150,
-                                ),
 			),
 		),
 
