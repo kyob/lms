@@ -13,7 +13,7 @@ class AdescomLMSCustomerManager extends LMSCustomerManager
      * 
      * @param int $id Customer id
      */
-    public function deleteCustomer($id)
+    public function deleteCustomer($id, $permanent = false)
     {
         $this->db->BeginTrans();
         parent::deleteCustomer($id);
