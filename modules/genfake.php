@@ -1985,6 +1985,7 @@ if(isset($_GET['l']) && sprintf('%d',$_GET['l']) > 0 && sprintf('%d',$_GET['l'])
 		$customeradd['countryid'] = 0;
 		$customeradd['consentdate'] = 0;
 		$customeradd['paytime'] = -1;
+		$customeradd['extid'] = 0;
 
 		$id = $LMS->CustomerAdd($customeradd);
 		$LMS->AddAssignment(array(
@@ -2024,6 +2025,7 @@ if(isset($_GET['l']) && sprintf('%d',$_GET['l']) > 0 && sprintf('%d',$_GET['l'])
 			$nodedata['location'] = '';
 			$nodedata['chkmac'] = 1;
 			$nodedata['halfduplex'] = 0;
+			$nodedata['authtype'] = 0;
 			if($nodeid = $LMS->NodeAdd($nodedata))
 				$DB->Execute('UPDATE nodes SET lastonline=? WHERE id=? ', array(mt_rand(time()-2592000,time()+2592000),$nodeid));
 		}
@@ -2055,6 +2057,7 @@ if(isset($_GET['l']) && sprintf('%d',$_GET['l']) > 0 && sprintf('%d',$_GET['l'])
 			'secret' => '',
 			'community' => '',
 			'clients' => 0,
+			'status' => 0,
 		));
 		$ports = mt_rand(4,14);
 		for($j = 0; $j < $ports; $j++)
