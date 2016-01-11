@@ -147,7 +147,7 @@ if (isset($_POST['submit'])) {
     if (!exec($cmd)) {
         return "COA: cmd not executed";
     }
-    header('Location: http://alfa-system.pl');
+    header('Location: https://alfa-system.pl');
 } else {
     $customerinfo = $LMS->GetCustomer($customerid);
     $SMARTY->assign('customerinfo', $customerinfo);

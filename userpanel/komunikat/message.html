@@ -7,7 +7,7 @@
 
 <title>KOMUNIKAT</title>
         <!-- BOOTSTRAP STYLES -->
-        <link href="http://alfa-system.pl/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -25,7 +25,7 @@
 			    <p>W/w kwotę należy wpłacić na konto: <strong>{format_bankaccount($customerinfo.bankaccount)}</strong></p>
 			</div>
 			
-			<div class="alert alert-info"><a href="http://bok.alfa-system.pl/?m=finances">Sprawdź szczegóły dotyczące płatności ma stronie <strong>Wirtualnego Biura Obsługi Klienta</strong>.</a></div>
+			<div class="alert alert-info"><a href="https://bok.alfa-system.pl/?m=finances">Sprawdź szczegóły dotyczące płatności ma stronie <strong>Wirtualnego Biura Obsługi Klienta</strong>.</a></div>
 			<p><button name="submit" id="submit" type="submit" class="btn btn-danger btn-lg"><strong>Kliknij tutaj</strong>, aby wyłączyć komunikat.</button></p>
 		    {elseif $nodeinfo.access eq 0}
 			<div class="alert alert-danger">
@@ -33,7 +33,7 @@
 			Aktualny bilans płatności: <strong>{$customerinfo.balance} zł</strong><br/><br/>
 			W/w kwotę należy wpłacić na konto: <strong>{$customerinfo.bankaccount}</strong>
 			</div>
-			<div class="alert alert-info"><a href="http://bok.alfa-system.pl/?m=finances">Sprawdź szczegóły dotyczące płatności ma stronie <strong>Wirtualnego Biura Obsługi Klienta</strong>.</a></div>
+			<div class="alert alert-info"><a href="https://bok.alfa-system.pl/?m=finances">Sprawdź szczegóły dotyczące płatności ma stronie <strong>Wirtualnego Biura Obsługi Klienta</strong>.</a></div>
 			<!-- <button name="submit" id="submit" type="submit" class="btn">Kliknij, aby potwierdzić przeczytanie komunikatu.</button> -->
 			
 	    
