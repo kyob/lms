@@ -39,13 +39,13 @@
     <input type="text" id="to" name="to" class="ui-button ui-widget ui-state-default ui-corner-all" style="height:34px; width:120px;" readonly  title="Wybierz datę końcową." value="{if $smarty.post.to}{$smarty.post.to}{else}{$to}{/if}" />
     </div>
 
-    <div class="col-md-2 text-right;">
+    <div class="col-md-2 text-right; background-color:yellow">
     <div style="text-align:left; clear:both; float:left;">Typ połączeń</div>
 
-    <div style="text-align:left; clear:none; float:left">Wychodzące</div>
+    <div style="text-align:left; clear:left; float:left">Wychodzące</div>
     <div style="text-align:right; clear:right; float:right;"><input type="radio"  name="typpol" {if $smarty.post.typpol == 2 || !$smarty.post.typpol}checked="checked"{/if} value="2" /></div>
 
-    <div style="text-align:left; clear:none; float:left">Przychodzące</div>
+    <div style="text-align:left; clear:left; float:left">Przychodzące</div>
     <div style="text-align:right; clear:right; float:right"><input type="radio" name="typpol" {if $smarty.post.typpol == 1}checked="checked"{/if} value="1" /></div>
 
     <div style="text-align:left; clear:none; float:left">Zerowy czas</div>
