@@ -686,6 +686,7 @@ $_LANG['Incorrect Tax Exempt Number! If you are sure you want to accept it, then
 $_LANG['Incorrect tax rate percentage value (non-zero value and taxing not checked)!'] = 'Nieprawidłowa wartość procentowa podatku (wartość niezerowa i nie zaznaczono opodatkowania)!';
 $_LANG['Incorrect value!'] = 'Błędna wartość!';
 $_LANG['Incorrect value! Valid values are: 1|t|true|y|yes|on and 0|n|no|off|false'] = 'Niepoprawna wartość! Poprawne wartości to: 1|t|true|y|yes|on i 0|n|no|off|false';
+$_LANG['Incorrect value! Valid values are: html, pdf!'] = 'Niepoprawna wartość! Poprawne wartości to: html, pdf!';
 $_LANG['Incorrect WINS server IP address!'] = 'Niepoprawny adres IP serwera WINS!';
 $_LANG['Incorrect ZIP code! If you are sure you want to accept it, then click "Submit" again.'] = 'Niepoprawny kod pocztowy! Jeśli chcesz zaakceptować, to ponownie kliknij "Zapisz".';
 $_LANG['in debt'] = 'zadłużeni';
@@ -723,6 +724,7 @@ $_LANG['Invalid month value: $a.\\nAllowed range is 01-12.'] = 'Błędny numer m
 $_LANG['Invalid month value: $a.\\nAllowed values are unsigned integers.'] = 'Błędny numer miesiąca: $a.\\nDozwolone są liczby całkowite bez znaku.';
 $_LANG['Invalid year value: $a.\\nAllowed values are unsigned integers.'] = 'Błędny rok: $a.\\nDozwolone są liczby całkowite bez znaku.';
 $_LANG['Invoice'] = 'Faktura';
+$_LANG['invoices'] = 'faktury';
 $_LANG['Invoice:'] = 'Faktura:';
 $_LANG['Invoice draw-up place.'] = 'Miejsce wystawienia.';
 $_LANG['Invoice Edit: $a'] = 'Edycja Faktury: $a';
@@ -1002,7 +1004,6 @@ $_LANG['Option exists!'] = 'Opcja juz istnieje!';
 $_LANG['Option name contains forbidden characters!'] = 'Nazwa opcji zawiera niedozwolone znaki.';
 $_LANG['Option name is required!'] = 'Nazwa opcji jest wymagana!';
 $_LANG['Option name is too long (max.64 characters)!'] = 'Nazwa opcji jest wymagana (maks 64 znaki)!';
-$_LANG['Option with empty value not allowed!'] = 'Opcja z pustą wartością nie jest dozwolona!';
 $_LANG['Option with specified name exists in that instance!'] = 'Opcja o podanej nazwie istnieje w tej instancji!';
 $_LANG['OR'] = 'LUB';
 $_LANG['or Customer ID:'] = 'lub ID klienta:';
@@ -1560,6 +1561,7 @@ $_LANG['24 hour:'] = '24 godzin:';
 $_LANG['30 days:'] = '30 dni:';
 $_LANG['hour:'] = 'godziny:';
 $_LANG['Traffic stats from last (download/upload):'] = 'Statystyki ruchu z ostatnich (download/upload):';
+$_LANG['Traffic stats (download/upload):'] = 'Statystyki ruchu (download/upload):';
 $_LANG['disposable'] = 'jednorazowo';
 $_LANG['Enter accounting time. For disposable accounting enter date in format YYYY/MM/DD, for weekly accounting enter day of week (Monday = 1), for monthly accounting enter day of month (1 to 28), for yearly accounting enter day and month in format DD/MM (15/09 means September 15th), for half-yearly DD/MM (MM <=6) and for quarterly DD/MM (MM <= 3)'] = 'Wprowadź czas naliczania. Dla jednorazowego naliczania wprowadź datę w formacie RRRR/MM/DD, dla tygodniowego naliczania wprowadź dzień tygodnia (poniedziałek = 1), dla miesięcznego wprowadź dzień miesiąca (1 do 28), dla rocznego wprowadź dzień i miesiąc w formacie DD/MM (15/09 znaczy 15 Września), dla półrocznego DD/MM (MM <=6), a dla kwartalnego DD/MM (MM <=3)';
 $_LANG['Enter liability name/description (tariffless liabilities only)'] = 'Wprowadź nazwę/opis zobowiązania (tylko zobowiązania beztaryfowe)';
@@ -3040,7 +3042,7 @@ $_LANG['Not visible by the customer in electronic Customer Service Representativ
 $_LANG['If the customer wants to receive an electronic invoice must be checked e-mail address to which to send e-invoices'] = 'Jeśli klient chce otrzymywać fakturę elektroniczną musi zostać zaznaczony adres e-mail na który mają być wysyłane e-faktury';
 $_LANG['Cancellation of a traditional invoice (agreement on an electronic invoice):'] = 'Rezygnacja z faktury tradycyjnej (zgoda na fakturę elektroniczną):';
 $_LANG['Check if send notification'] = 'Zaznacz, jeżeli chcesz wysyłać powiadomienia';
-$_LANG['Notification'] = 'Powiadomienia';
+$_LANG['notifications'] = 'powiadomienia';
 
 $_LANG['Use customer location:'] = 'Użyj lokalizacji klienta:';
 $_LANG['Ticket\'s state has been changed from $a to $b.'] = 'Status zgłoszenia został zmieniony z $a na $b.';
@@ -3095,5 +3097,21 @@ $_LANG['You already used this password!'] = 'Takie hasło było już używane!';
 $_LANG['Credit Note for Invoice Edit: $a'] = 'Edycja faktury korygującej: $a';
 
 $_LANG['$a (clone)'] = '$a (klon)';
+
+$_LANG['Alternative bank accounts'] = 'Alternatywne rachunki bankowe';
+$_LANG['Bank accounts'] = 'Rachunki bankowe';
+$_LANG['Enter bank account (optional)'] = 'Wprowadź rachunek bankowy (opcjonalnie)';
+$_LANG['Check if bank account should be visible on invoice'] = 'Zaznacz, jeśli rachunek bankowy powinien być widoczny na fakturze';
+$_LANG['Check if bank account should be disabled'] = 'Zaznacz, jeśli rachunek bankowy ma być wyłączony';
+$_LANG['Incorrect bank account!'] = 'Niepoprawny numer rachunku bankowego!';
+$_LANG['Bank account is required!'] = 'Rachunek bankowy jest wymagany!';
+
+$_LANG['boolean'] = 'wartość logiczna';
+$_LANG['integer greater than 0'] = 'liczba całkowita większa od 0';
+$_LANG['document type'] = 'typ dokumentu';
+$_LANG['reload type'] = 'typ przeładowania';
+$_LANG['margins'] = 'marginesy';
+$_LANG['Margins should consist of 4 numbers separated by commas!'] = 'Marginesy powinny się składać z 4 liczb oddzielonymi przecinkami!';
+$_LANG['Select config type'] = 'Wybierz typ opcji';
 
 ?>

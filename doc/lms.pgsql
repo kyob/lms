@@ -1366,6 +1366,7 @@ CREATE TABLE uiconfig (
     value 	text 		NOT NULL DEFAULT '',
     description text 		NOT NULL DEFAULT '',
     disabled 	smallint 	NOT NULL DEFAULT 0,
+    type 	smallint 	NOT NULL DEFAULT 0,
     PRIMARY KEY (id),
     CONSTRAINT uiconfig_section_key UNIQUE (section, var)
 );
@@ -2031,7 +2032,7 @@ CREATE VIEW customerview AS
 			ELSE street || ' ' || building || '/' || apartment END) END) AS address,
 		(CASE WHEN post_street IS NULL THEN '' ELSE
 			(CASE WHEN post_building IS NULL THEN post_street ELSE (CASE WHEN post_apartment IS NULL THEN post_street || ' ' || post_building
-				ELSE post_street || ' ' || post_building || '/' || 'post_apartment' END)
+				ELSE post_street || ' ' || post_building || '/' || post_apartment END)
 			END)
 		END) AS post_address
 	FROM customers c
@@ -2047,7 +2048,7 @@ CREATE VIEW contractorview AS
 			ELSE street || ' ' || building || '/' || apartment END) END) AS address,
 		(CASE WHEN post_street IS NULL THEN '' ELSE
 			(CASE WHEN post_building IS NULL THEN post_street ELSE (CASE WHEN post_apartment IS NULL THEN post_street || ' ' || post_building
-				ELSE post_street || ' ' || post_building || '/' || 'post_apartment' END)
+				ELSE post_street || ' ' || post_building || '/' || post_apartment END)
 			END)
 		END) AS post_address
 	FROM customers c
@@ -2059,7 +2060,7 @@ CREATE VIEW customeraddressview AS
 			ELSE street || ' ' || building || '/' || apartment END) END) AS address,
 		(CASE WHEN post_street IS NULL THEN '' ELSE
 			(CASE WHEN post_building IS NULL THEN post_street ELSE (CASE WHEN post_apartment IS NULL THEN post_street || ' ' || post_building
-				ELSE post_street || ' ' || post_building || '/' || 'post_apartment' END)
+				ELSE post_street || ' ' || post_building || '/' || post_apartment END)
 			END)
 		END) AS post_address
 	FROM customers c
@@ -2231,6 +2232,7 @@ INSERT INTO uiconfig (section, var, value, description, disabled) VALUES
 ('phpui', 'logging', 'false', '', 0),
 ('phpui', 'hide_toolbar', 'false', '', 0),
 ('phpui', 'add_customer_group_required', 'false', '', 0),
+('phpui', 'document_margins', '10,5,15,5', '', 0),
 ('invoices', 'template_file', 'invoice.html', '', 0),
 ('invoices', 'content_type', 'text/html', '', 0),
 ('invoices', 'cnote_template_file', 'invoice.html', '', 0),
@@ -2612,4 +2614,4 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2015122300');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2016011900');

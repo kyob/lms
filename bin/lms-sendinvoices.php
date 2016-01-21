@@ -4,7 +4,7 @@
 /*
  * LMS version 1.11-git
  *
- *  (C) Copyright 2001-2015 LMS Developers
+ *  (C) Copyright 2001-2016 LMS Developers
  *
  *  Please, see the doc/AUTHORS for more information about authors!
  *
@@ -35,6 +35,7 @@ $parameters = array(
 	't' => 'test',
 	'f:' => 'fakedate:',
 	'i:' => 'invoiceid:',
+	'e:' => 'extra-file:',
 );
 
 foreach ($parameters as $key => $val) {
@@ -52,7 +53,7 @@ foreach ($short_to_longs as $short => $long)
 if (array_key_exists('version', $options)) {
 	print <<<EOF
 lms-sendinvoices.php
-(C) 2001-2015 LMS Developers
+(C) 2001-2016 LMS Developers
 
 EOF;
 	exit(0);
@@ -61,7 +62,7 @@ EOF;
 if (array_key_exists('help', $options)) {
 	print <<<EOF
 lms-sendinvoices.php
-(C) 2001-2015 LMS Developers
+(C) 2001-2016 LMS Developers
 
 -C, --config-file=/etc/lms/lms.ini      alternate config file (default: /etc/lms/lms.ini);
 -h, --help                      print this help and exit;
@@ -70,6 +71,7 @@ lms-sendinvoices.php
 -q, --quiet                     suppress any output, except errors;
 -f, --fakedate=YYYY/MM/DD       override system date;
 -i, --invoiceid=N               send only selected invoice
+-e, --extra-file=/tmp/file.pdf  send additional file as an attachment
 
 EOF;
 	exit(0);
@@ -79,7 +81,7 @@ $quiet = array_key_exists('quiet', $options);
 if (!$quiet) {
 	print <<<EOF
 lms-sendinvoices.php
-(C) 2001-2015 LMS Developers
+(C) 2001-2016 LMS Developers
 
 EOF;
 }
@@ -112,9 +114,6 @@ define('SMARTY_TEMPLATES_DIR', $CONFIG['directories']['smarty_templates_dir']);
 
 // Load autoloader
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'autoloader.php');
-
-// Do some checks and load config defaults
-require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'config.php');
 
 // Init database
 
@@ -208,6 +207,10 @@ if (($auth || !empty($smtp_auth_type)) && !preg_match('/^LOGIN|PLAIN|CRAM-MD5|NT
 
 $fakedate = (array_key_exists('fakedate', $options) ? $options['fakedate'] : NULL);
 $invoiceid = (array_key_exists('invoiceid', $options) ? $options['invoiceid'] : NULL);
+
+$extrafile = (array_key_exists('extra-file', $options) ? $options['extra-file'] : NULL);
+if($extrafile && !is_readable($extrafile))
+	die("Unable to read additional file [".$extrafile."]!" . PHP_EOL);
 
 function localtime2() {
 	global $fakedate;
@@ -327,13 +330,26 @@ if (!empty($docs)) {
 			printf("Invoice No. $invoice_number for $mailto" . PHP_EOL);
 
 		if (!$test) {
+			$files[] = array(
+				'content_type' => $ftype,
+				'filename' => $filename . '.' . $fext,
+				'data' => $res
+			);
+
+			if($extrafile) {
+				$files[] = array(
+					'content_type' => mime_content_type($extrafile),
+					'filename' => basename($extrafile),
+					'data' => file_get_contents($extrafile)
+				);
+			}
+
 			$headers = array('From' => $from, 'To' => $mailto_qp_encoded,
 				'Subject' => $subject);
 			if (!empty($notify_email))
 				$headers['Cc'] = $notify_email;
 			$res = $LMS->SendMail($custemail . ',' . $notify_email, $headers, $body,
-				array(0 => array('content_type' => $ftype, 'filename' => $filename . '.' . $fext,
-					'data' => $res)), $host, $port, $user, $pass, $auth);
+				$files, $host, $port, $user, $pass, $auth);
 
 			if (is_string($res))
 				fprintf(STDERR, "Error sending mail: $res" . PHP_EOL);
