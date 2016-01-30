@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+        <title>{trans("Virtual Customer Service")}</title>
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header"><a href="http://alfa-system.pl"><img src="media/logo.png" alt="Alfa-System" /></a></div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <fieldset>
+                                <legend>{t}Virtual Customer Service{/t}</legend>
+                                <form id="login" method="post" action="{$target}" class="well" role="form">
+                                    <div class="form-group">
+				    <label>{t}Customer ID:{/t}</label>
+                                    <input class="form-control" type="text" name="loginform[login]" />
+				    </div>
+				    <div class="form-group">
+                                    <label>{t}PIN:{/t}</label>
+                                    <input class="form-control" type="password" name="loginform[pwd]" />
+				    </div>
+                                                                        <button type="submit" name="loginform[submit]" class="btn btn-default" value="{t}Login{/t}">Zaloguj się!</button>
+                                </form>
+                            </fieldset>
+                            <div class="alert alert-info">Dane do logowania ID oraz PIN są na pierwszej stronie umowy.</div>
+                            {if $error}<div class="alert alert-error"><b>{$error}</b></div>{else}&nbsp;{/if}
+                        </div>
+
+                        <div class="col-md-4">
+                            <fieldset>
+                                <legend>Przypomnienie ID i PIN</legend>
+                                <form role="form" id="remind" method="post" action="{$target}" class="well">
+                                    <div class="form-group">
+					<label>{trans("E-Mail:")}</label>
+                                	<input class="form-control" type="text" name="remindform[email]" />        
+                                    </div>
+				    <div class="form-group">
+					<label>{trans("SSN or TEN:")}</label>
+                                	<input class="form-control" type="text" name="remindform[ten]" />        
+                                    </div>
+				    <input type="hidden" id="emailradio" name="remindform[type]" value="1"/>
+                                    <button type="submit" name="remindform[submit]" class="btn btn-default">{trans("Remind")}</button>
+                                </form>
+                            </fieldset>
+                            {if $recovery eq 'OK'}
+                            <div class="alert alert-success"><b>Dane do logowania zostały wysłane.</b></div>
+                            {/if}
+                            {if isset($recovery_errors.email) }
+                            <div class="alert alert-error">{trans("E-Mail is invalid.")}</div>
+                            {/if}
+                            {if isset($recovery_errors.pesel) }
+                            <div class="alert alert-error">{trans("PESEL is invalid.")}</div>
+                            {/if} 
+                            <div class="alert alert-warning">Przypomnienie zadziała pod warunkiem, gdy Abonent ma uzupełniony profil z adresem email oraz numerem PESEL.</div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <fieldset>
+                                <legend>Informacje:</legend>
+                                {if $bilans<0}<!-- NEGATIVE BALANCE ALERT --><div class="alert alert-error"><h1>UWAGA! Twój bilans jest ujemny.</h1></div>{/if}
+                                <div class="alert alert-info">Dopisz swój adres e-mail, aby co miesiąc otrzymywać faktury VAT.</div>
+                                <div class="alert alert-success">Faktury VAT do rozlicznia podatkowego oraz druki do wpłat dostępne są po zalogowaniu do BOK.</div>
+                                <div class="alert alert-block">
+                                    <strong>Sesje przychodzące - godziny księgowania przelewów przychodzących:</strong>
+                                    <ul>
+                                        <li>10:30</li>
+                                        <li>14:30</li>
+                                        <li>17:00</li>
+                                    </ul>
+                                </div> 
+                            </fieldset>                        
+                        </div>   
+                    </div>        
+
+                    <div class="row">
+                        <div class="col-md-12">
+			    <div class="alert alert-success">
+			    Zapraszamy do serwisu <a href="http://pomoc.alfa-system.pl">POMOC: pytania i odpowiedzi</a>, w którym możesz zadawać pytania innym użytkownikom i ekspertom, dzielić się wiedzą z innymi i zdobywać wiedzę na liczne tematy.
+			    </div>
+			</div>
+		    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            <!--
+            document.forms['login'].elements['loginform[login]'].focus();
+            //-->
+        </script>
+        <!-- TWITTER BOOTSTRAP JS -->
+    </body>
+</html>

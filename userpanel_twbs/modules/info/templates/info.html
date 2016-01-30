@@ -1,0 +1,23 @@
+{include file="header.html"}
+<div class="row">
+<div class="cold-md-12">
+    {if !$usernodes.total && check_conf('userpanel.hide_nodesbox')}
+    {if ConfigHelper::getConfig('userpanel.data_consent_text') && !$userinfo.consentdate}
+		{include file="module:consentbox.html"}
+	{/if}
+
+        {include file="module:userinfobox.html"}
+	{include file="module:userdocsbox.html"}
+    {else}
+        {if get_conf('userpanel.data_consent_text') && !$userinfo.consentdate}
+            {include file="module:consentbox.html"}
+        {/if}
+        <div class="row">
+        <div class="col-md-6">{include file="module:userinfobox.html"}</div>
+        <div class="col-md-6">{include file="module:usernodesbox.html"}</div>
+        </div>
+        {include file="module:userdocsbox.html"}
+{/if}
+</div>
+</div>
+{include file="footer.html"}

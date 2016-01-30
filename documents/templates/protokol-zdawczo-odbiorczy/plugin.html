@@ -1,0 +1,65 @@
+{if $errors neq ''}
+<pre>{$errors|@var_export:true|nl2br}</pre> 
+{else}
+<h1>UWAGA! Przed wystawieniem aneksu należy najpierw zmienić dane na koncie Klienta!</h1>
+<TABLE cellpadding="3" WIDTH="100%">
+    <TR class="light">
+        <TD width="1%" class="fleftu">
+            <IMG src="img/docum.gif" alt="">
+        </TD>
+        <TD width="1%" class="fbt" NOWRAP>
+            <B>Umowa, do której odnosi się aneks:</B> 
+        </TD>
+        <TD width="98%" class="frightu" NOWRAP>
+            <SELECT size="1" name="document[contract]">
+                {foreach from=$contracts item=contract}
+                {assign var=item value="|"|explode:$contract}
+                <OPTION value="{$contract}">{$item[0]} z dnia {$item[1]}</OPTION>
+                {/foreach}
+            </select>            
+            <!-- <input name="" type="text" value=""> {trans("Contract number")} -->
+        </TD>
+    </TR>      
+</TABLE>
+{/if}
+
+
+<h1>Zaznacz, aby dodać urządzenie:</h1>
+<table border="1" cellpadding="5" cellspacing="5">
+    {section name=val start=1 loop=10}
+    <tr>
+        <td>{$smarty.section.val.index}</td>
+        <td>
+            <input name="document[urzadzenia][{$smarty.section.val.index}][add]" type="checkbox">
+        </td>
+        <td>
+            Nazwa urządzenia z listy: <SELECT size="1" name="document[urzadzenia][{$smarty.section.val.index}][name_from_list]">
+                <OPTION value=""></OPTION>
+                <OPTION value="ROUTERBOARD RB951G 2HND">ROUTERBOARD RB951G 2HND</OPTION>
+                <OPTION value="FIBRAIN FSR-RG1">FIBRAIN FSR-RG1</OPTION>
+                <OPTION value="STB MAG 250">STB MAG 250</OPTION>
+                <OPTION value="D-Link DIR-100">D-Link DIR-100</OPTION>
+                <OPTION value="TP-Link TL-WR740N">TP-Link TL-WR740N</OPTION>
+                <OPTION value="TP-Link TL-WR841N">TP-Link TL-WR841N</OPTION>
+                <OPTION value="NETIS WF2419">NETIS WF2419</OPTION>
+                <OPTION value="NETIS WF2419D">NETIS WF2419D</OPTION>
+                <OPTION value="NETIS WF2419I">NETIS WF2419I</OPTION>
+                <OPTION value="NETIS WF2780">NETIS WF2780</OPTION>
+                <OPTION value="Ubiquiti NanoStation M5">Ubiquiti NanoStation M5</OPTION>
+                <OPTION value="Ubiquiti NanoBeam M5">Ubiquiti NanoBeam M5</OPTION>
+                <OPTION value="Cisco SPA112">Cisco SPA112</OPTION>
+                <OPTION value="Cisco 122">Cisco 122</OPTION>
+            </select>
+        </td>        
+        <td>
+            Nazwa urządzenia: <input name="document[urzadzenia][{$smarty.section.val.index}][name]" value="" type="input">
+        </td>
+        <td>
+            SN: <input name="document[urzadzenia][{$smarty.section.val.index}][sn]" value="" type="input">
+        </td>
+        <td>
+            Uwagi: <input name="document[urzadzenia][{$smarty.section.val.index}][note]" value="" type="input">
+        </td>        
+    </tr>  
+    {/section}
+</table>

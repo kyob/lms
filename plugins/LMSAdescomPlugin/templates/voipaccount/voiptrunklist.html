@@ -1,0 +1,44 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+<h1>{$layout.pagetitle}</h1>
+<table class="lmsbox">
+    <tr class="dark">
+        <td class="fleftu" width="2%" NOWRAP>
+            {t}Nr:{/t}
+        </td>
+        <td width="1%" class="fbt" align="center" NOWRAP>
+            {t}Name:{/t}
+        </td>
+        <td CLASS="frightu" width="97%" align="right">
+            {t}Action:{/t}
+        </td>
+    </tr>
+    {cycle values="light,lucid" print=false}
+    {section name=trunks loop=$trunks}
+    <tr class="{cycle}" onmouseover="addClass(this, 'highlight')" onmouseout="removeClass(this, 'highlight')">
+        <td width="2%" class="fleft" nowrap>
+            {$trunks[trunks].nr}
+        </td>
+        <td width="1%" nowrap>
+            {$trunks[trunks].name}
+        </td>
+        <td width="97%" class="fright" align="right">
+            <A href="?m=voiptrunkbilling&nr={$trunks[trunks].nr}&reset=1"><IMG src="img/payment.gif" alt="[ {t}Billing{/t} ]" title="[ {t}Billing{/t} ]"></A>
+        </td>
+    </tr>
+    {/section}
+    <tr CLASS="light">
+        <td WIDTH="2%" COLSPAN="2" CLASS="fleftu" ALIGN="right">
+            
+                {t}Total:{/t}<BR>
+            
+        </td>
+        <td WIDTH="98%" CLASS="frightu" VALIGN="TOP">
+            
+                {$total}
+            
+        </td>				
+    </tr>			
+</table>
+{/block}

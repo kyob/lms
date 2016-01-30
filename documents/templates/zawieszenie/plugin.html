@@ -1,0 +1,19 @@
+{if $errors neq ''}
+<pre>{$errors|@var_export:true|nl2br}</pre> 
+{else}
+
+<TABLE cellpadding="3" WIDTH="100%">
+    <TR class="light">
+        <TD width="1%" class="fbt" NOWRAP>
+            <B>Wybierz lokalizację, której dotyczy zawieszenie usług:</B> 
+        </TD>
+        <TD width="98%" class="frightu" NOWRAP>
+            <SELECT size="1" name="document[lokalizacja]">
+                {foreach from=$lokalizacje item=i}
+                <OPTION value="{$i.location}">{$i.location}</OPTION>
+                {/foreach}
+            </select>                  
+        </TD>
+    </TR>    
+</TABLE>
+{/if}

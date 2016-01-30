@@ -1,0 +1,85 @@
+{$disable_invoices = ConfigHelper::checkConfig('userpanel.disable_invoices')}
+<div class="row">
+    <div class="col-md-12">
+
+<form name="invoices" action="?m=finances&amp;f=invoice" method="POST" target="_blank">
+<table id="table_id" class="display">
+<thead>
+    <tr class="warning">
+        <th><strong>{trans("Date")}</strong></th>
+        <th class="negative"><strong>Zobowiązanie</strong></th>
+        <th class="positive"><strong>Wpłata</strong></th>
+	<th><strong>Saldo</strong></th>
+	<th><strong>Tytuł przelewu / Opis faktury VAT</strong></th>
+	{if !$disable_invoices}
+	<th></th>
+	{/if}
+    </tr>  
+</thead>
+<tbody>
+    {section name=balancelist loop=$balancelist.id step=1}
+    <tr>
+        <td>{$balancelist.date[balancelist]|date_format:"%Y-%m-%d %H:%M:%S"}</td>
+      
+        {if $balancelist.value[balancelist] > 0}
+        <td></td>        
+        <td class="positive center">
+            {if $balancelist.value[balancelist] > 0 && $balancelist.type[balancelist] != 4}
+                
+            {/if}
+            {$balancelist.value[balancelist]|money_format}
+        </td>
+        {else}   
+
+        <td class="negative center">
+            {if $balancelist.type[balancelist] == 4}
+                -
+            {/if}
+            {$balancelist.value[balancelist]|money_format}          
+        </td>
+        <td></td>
+        {/if}        
+        
+        <td>
+	    {if $balancelist.after[balancelist] < 0}
+		<strong>{$balancelist.after[balancelist]|money_format}</strong>
+	    {else}
+		{$balancelist.after[balancelist]|money_format}
+	    {/if}
+	</td>
+	<td>{$balancelist.comment[balancelist]}</td>
+	{if !$disable_invoices}
+	<td>
+            {if $balancelist.doctype[balancelist]==1 || $balancelist.doctype[balancelist]==3}
+                <a href="?m=finances&amp;f=invoice&amp;id={$balancelist.docid[balancelist]}" target="_blank">Wydrukuj</a> <input type="checkbox" name="inv[{$balancelist.docid[balancelist]}]" value="1" />
+            {else}
+                &nbsp;
+            {/if}
+	</td>
+    {/if}
+    </tr>
+    {sectionelse}
+    <tr>
+        <td colspan="6">
+            <p>&nbsp;</p>
+            <p><b>{trans("No such transactions on your account.")}</b></p>
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+    {/section}
+</tbody>
+    {if !$disable_invoices}
+    <tr>
+        <td colspan="5">&nbsp;</td>
+        <td>
+            {trans("Check all")}&nbsp;<input type="checkbox" name="allbox" id="allbox" onchange="CheckAll('invoices', this)" value="1" />
+            <br/><br/>            
+            <a href="javascript:document.invoices.submit()">{trans("Print selected")}</a>            
+        </td>
+    </tr>
+    {/if}
+
+	    </table>
+	</form>
+    </div>
+</div>

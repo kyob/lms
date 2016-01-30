@@ -1,0 +1,81 @@
+{extends file="voipaccount/voipaccountaddbox.html"}
+
+{block name="voipaccountaddbox-password"}
+<tr>
+    <td>
+        <img src="img/passwd.gif" alt="{t}Password:{/t}">
+    </td>
+    <td class='bold'>
+        {t}Password:{/t}
+    </td>
+    <td>
+        <input type="text" id="voipaccountdata_password" name="voipaccountdata[passwd]" value="{$voipaccountdata.passwd}" size="40" {tip text="Enter authorization password" trigger="passwd"}>
+        <a href="#" accesskey="s" onclick="xajax_generate_license();"><img src="img/pass.gif" alt="{t}Generate password{/t}"></a>
+    </td>
+</tr>
+{/block}
+
+
+{block name="voipaccountaddbox-phone"}
+<tr id="select_pool_panel" {if $voipaccountdata.ported}style="display: none"{/if}>
+    <td></td>
+    <td class='bold'>
+        {t}From pool:{/t}
+    </td>
+    <td>
+        <select size="1" name="voipaccountdata[poolid]" id="voipaccountdata_poolid" {tip text="Select phone numbers pool" trigger="poolid"} style="max-width:250px;">
+            {foreach from=$pools item=pool}
+            {if $pool.name}
+            <option value="{$pool.id}" {if $voipaccountdata.poolid == $pool.id}selected = 'selected'{/if}>{$pool.name}:&nbsp;({$pool.countrycode}-{$pool.areacode})&nbsp;{$pool.fromnumber}-{$pool.tonumber}</option>
+            {else}
+            <option value="{$pool.id}" {if $voipaccountdata.poolid == $pool.id}selected = 'selected'{/if}>({$pool.countrycode}-{$pool.areacode})&nbsp;{$pool.fromnumber}-{$pool.tonumber}</option>
+            {/if}
+            {/foreach}
+        </select>
+        &nbsp;
+        <a href="#" accesskey="s" onclick="searchPool()">{t}Search{/t} »</a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <img src="img/phone.gif" alt="{t}Phone number:{/t}">
+    </td>
+    <td class='bold'>
+        {t}Phone number:{/t}
+    </td>
+    <td>
+        <input type="text" id="voipaccountdata_countrycode" name="voipaccountdata[countrycode]" value="{$voipaccountdata.countrycode}" MAXLENGth="6" size="4" {tip text="Enter country code" trigger="phone"}>
+        <input type="text" id="voipaccountdata_areacode" name="voipaccountdata[areacode]" value="{$voipaccountdata.areacode}" MAXLENGth="6" size="4" {tip text="Enter area code" trigger="phone"}>
+        <input type="text" id="voipaccountdata_shortclid" name="voipaccountdata[shortclid]" value="{$voipaccountdata.shortclid}" {tip text="Enter phone number" trigger="phone"}>
+        &nbsp;
+        <a href="#" ACCESSKEY="s" ONCLICK="getPoolFirstFree()" id="first_free_anchor" {if $voipaccountdata.ported}style="display: none"{/if}>{t}First free{/t} »</a>
+    </td>
+</tr>
+<tr>
+    <td>
+    </td>
+    <td class='bold'>
+        {t}Ported number:{/t}
+    </td>
+    <td>
+        <input type="checkbox" value="1" name="voipaccountdata[ported]" {if $voipaccountdata.ported}CHECKED{/if} {tip text="Select to indicate if number is ported" trigger="ported_number"} ONCLICK="invalidateActivateNowPanel(this.checked); invalidateSelectPoolPanel(this.checked);">
+    </td>
+</tr>
+{/block}
+
+
+
+{block name="voipaccountaddbox-extra"}
+<tr>
+    <td colspan="3">{include file="voipaccount/voipaccountaddbox_voip_table.html"}</td>
+</tr>
+<tr>
+    <td colspan="3">{include file="voipaccount/voipaccountaddbox_tariff_table.html"}</td>
+</tr>
+<tr>
+    <td colspan="3">{include file="voipaccount/voipaccountaddbox_block_level_table.html"}</td>
+</tr>
+<tr>
+    <td colspan="3">{include file="voipaccount/voipaccountaddbox_services_table.html"}</td>
+</tr>
+{/block}

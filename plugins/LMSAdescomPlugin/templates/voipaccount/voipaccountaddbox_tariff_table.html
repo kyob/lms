@@ -1,0 +1,68 @@
+<table class="lmsbox-inner">
+    <colgroup>
+        <col style="width: 1%;"/>
+        <col style="width: 1%;"/>
+        <col style="width: 98%;"/>
+    </colgroup>
+    <thead>
+        <tr>
+            <th colspan="3">{trans('Tariff options')}:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+            </td>
+            <td>
+                {t}Tariff:{/t}
+            </td>
+            <td>
+                <select size="1" name="voipaccountdata[tariffid]" {tip text="Select CLid tariff" trigger="tariffid"} style="max-width:250px;">
+                    {foreach from=$voip_tariffs item=tariff}
+                    <option value="{$tariff.id}"{if $voipaccountdata.tariffid == $tariff.id} selected='selected'{/if}>{$tariff.name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>			
+        <tr {if $voipaccountdata.ported}style="display: none"{/if} class="activate_now_panel">
+            <td>
+            </td>
+            <td>
+                {t}Activate now:{/t}
+            </td>
+            <td>
+                <input type="checkbox" value="1" name="voipaccountdata[active]" {if $voipaccountdata.active}CHECKED{/if} {tip text="Select to activate VOIP account automatically" trigger="active"} ONCLICK="invalidateActivationDatePanel(this.checked)">
+            </td>
+        </tr>
+        <tr id="autoactivation_date_panel" {if $voipaccountdata.ported}style="display: none"{/if} {if $voipaccountdata.active}style="display: none"{/if} class="activate_now_panel">
+            <td>
+            </td>
+            <td>
+                {t}Autoactivation date:{/t}
+            </td>
+            <td>
+                <input type="text" value="{$voipaccountdata.autoactivation_date}" name="voipaccountdata[autoactivation_date]" {tip text="Enter activation date" trigger="autoactivation_date"}>
+            </td>
+        </tr>						
+        <tr>
+            <td>
+            </td>
+            <td>
+                {t}Is prepaid:{/t}
+            </td>
+            <td>
+                <input type="checkbox" value="1" name="voipaccountdata[is_prepaid]" {if $voipaccountdata.is_prepaid}CHECKED{/if} {tip text="Select to configure VOIP account as prepaid" trigger="is_prepaid"} ONCLICK="invalidatePrepaidPostpaidPanels(this.checked)">
+            </td>
+        </tr>
+        <tr id="prepaid_configuration" {if !$voipaccountdata.is_prepaid}style="display: none"{/if}>
+            <td></td>
+            <td>{t}State [USD]{/t}</td>
+            <td><input type="text" name="voipaccountdata[prepaid_state]" value="{$voipaccountdata.prepaid_state}" {tip text="Enter prepaid account state" trigger="prepaid_state"}></td>
+        </tr>				
+        <tr id="postpaid_configuration" {if $voipaccountdata.is_prepaid}style="display: none"{/if}>
+            <td></td>
+            <td>{t}Absolute cost limit [USD]{/t}</td>
+            <td><input type="text" name="voipaccountdata[absolute_cost_limit]" value="{$voipaccountdata.absolute_cost_limit}" {tip text="Enter absolute monthly cost limit" trigger="absolute_cost_limit"}></td>
+        </tr>
+    </tbody>
+</table>

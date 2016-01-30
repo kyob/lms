@@ -1,0 +1,27 @@
+{include file="header.html"}
+<h1>Wykres rozkładu wieku abonentów oraz ilości abonentów mających x lat</h1>
+
+<div id="visualization" style="width: 600px; height: 400px;"></div>
+
+{foreach from=$srednia key=k item=v}
+<p>Średnia wieku: {math equation="x / y" x=$v.suma y=$v.ile format="%.2f"}</p>
+{/foreach}
+
+{include file="footer.html"}
+{literal}
+<script type="text/javascript">
+    function drawVisualization() {
+    // Create and populate the data table.
+    var data = google.visualization.arrayToDataTable([
+        ['Wiek', 'Ilość'],
+        {/literal}{$strRocznik}{literal}
+    ]);
+
+    // Create and draw the visualization.
+    new google.visualization.ImageSparkLine(
+        document.getElementById('visualization')).draw(data, {showValueLabels: true, labelPosition: 'left'}, null);
+    }
+
+    google.setOnLoadCallback(drawVisualization);
+</script>
+{/literal}

@@ -3,7 +3,7 @@
 # Install Twitter Bootstrap framework to <LMS_DIR>/assets/bootstrap/*
 #
 
-RELEASE="3.3.1"
+RELEASE="3.3.5"
 echo $(tput setaf 7)"TWBS $RELEASE"$(tput sgr0)
 
 # download
@@ -28,7 +28,7 @@ echo $(tput setaf 2)"DONE"$(tput sgr0)
 
 # merging
 echo -n $(tput setaf 4)"Merging: "$(tput sgr0)
-mv dist/ assets/bootstrap/
+mv bootstrap-${RELEASE}-dist/ assets/bootstrap/
 echo $(tput setaf 2)"DONE"$(tput sgr0)
 
 # cleanup

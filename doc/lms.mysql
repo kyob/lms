@@ -107,14 +107,13 @@ DROP TABLE IF EXISTS up_rights_assignments;
 DROP TABLE IF EXISTS up_customers;
 DROP TABLE IF EXISTS up_help;
 DROP TABLE IF EXISTS up_info_changes;
-DROP TABLE IF EXISTS supermasters;
+DROP TABLE IF EXISTS super=masters;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS invprojects;
 DROP TABLE IF EXISTS netnodes;
 DROP TABLE IF EXISTS usergroups;
 DROP TABLE IF EXISTS userassignments;
-
 
 
 # --------------------------------------------------------

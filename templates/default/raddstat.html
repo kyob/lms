@@ -1,0 +1,49 @@
+{include file="header.html"}
+<H1>{$layout.pagetitle}</H1>
+<TABLE class="lmsbox">
+<thead>
+    <TR class="FleftU">
+        <TD>Rozpoczecie sesji: </TD>
+        <TD>Zakonczenie sesji: </TD>
+        <TD>Czas trwania sesji: </TD>
+        <TD>IP klienta: </TD>
+        <TD>Upload w sesji: </TD>
+        <TD>Download w sesji: </TD>
+        <TD>Powod zakonczenia: </TD>
+        <TD>IP koncentratora dla sesji: </TD>
+    </TR>
+</thead> 
+<tbody>
+    {cycle values="light,lucid" print=false}
+    {section loop=$pppoelist name=pppoelist start=$start max=$pagelimit}
+    {assign var=pppoe value=$pppoelist[pppoelist]}
+    <TR class="{cycle}" onmouseover="addClass(this, 'highlight')" onmouseout="removeClass(this, 'highlight')">
+        <TD WIDTH="12%">{$pppoe.acctstarttime}</TD>
+        <TD WIDTH="12%">{$pppoe.acctstoptime}</TD>
+        <TD WIDTH="10%">{$pppoe.acctsessiontimeconv}</TD>
+        <TD WIDTH="13%">{$pppoe.framedipaddress}</TD>
+ 
+        <TD WIDTH="11%">{$pppoe.upload|number_format:2} {$pppoe.uploadunit}</TD>
+        <TD WIDTH="11%">{$pppoe.download|number_format:2} {$pppoe.downloadunit}</TD>
+        <TD WIDTH="11%">{$pppoe.acctterminatecause}</TD>
+        <TD WIDTH="13%">{$pppoe.nasipaddress}</TD>
+    </TR>
+    {sectionelse}
+    <TR>
+        <TD align="center" WIDTH="100%" class="fall" COLSPAN=9>
+            <p>&nbsp;</p>
+            <p><B>{t}No sessions for this node.{/t}</B></p>
+            <p>&nbsp;</p>
+        </TD>
+    </TR>
+    {/section}
+    {if $listdata.total != 0}
+    <TR CLASS="DARK">
+        <TD CLASS="FALL" COLSPAN="9">
+            {include file="scroller.html" loop=$documentlist}
+        </TD>
+    </TR>
+    {/if}
+</tbody>
+</TABLE>
+{include file="footer.html"}

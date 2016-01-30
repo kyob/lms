@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cennik sprzętu oraz usług dodatkowych</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                font-size: 10px;
+            }
+            ol li {
+                line-height:10px
+            }
+            @page
+            {
+                size: auto;   /* auto is the initial value */
+                /* this affects the margin in the printer settings */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h4>Alfa-System: Cennik sprzętu oraz usług dodatkowych z dnia 26.01.2016r.</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Routery WiFi</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NAZWA</th>
+                                <th>CENA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Netis WF2419 (WiFi 2.4GHz, porty 100Mb/s)</td>
+                                <td>100,00 zł</td>
+                            </tr>
+                            <tr>
+                                <td>Netis WF2780 (WiFi 2.4GHz i 5GHz, porty 1Gb/s)</td>
+                                <td>200,00 zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Urządzenia VoIP</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NAZWA</th>
+                                <th>CENA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bramka VoIP Cisco SPA112</td>
+                                <td>150,00 zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Transmitery sieciowe PLC</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NAZWA</th>
+                                <th>CENA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Netis PL7500 (jedna sztuka bez gniazdka)</td>
+                                <td>100,00 zł</td>
+                            </tr>
+                            <tr>
+                                <td>TP-Link TL-PA4010P (zestaw dwie sztuki z gniazdkiem)</td>
+                                <td>250,00 zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Usługi i materiały</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NAZWA</th>
+                                <th>CENA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>konfiguracja urządzenia Klienta do pracy w sieci</td>
+                                <td>50,00 zł</td>
+                            </tr>
+                            <tr>
+                                <td>konfiguracja urządzenia Alfa-System do pracy w sieci</td>
+                                <td>20,00 zł</td>
+                            </tr>
+                            <tr>
+                                <td>podłączenie gniazdka RJ11/45</td>
+                                <td>30,00 zł</td>
+                            </tr>
+                            <tr>
+                                <td>zarobienie końcówki RJ11/45</td>
+                                <td>10,00 zł</td>
+			    </tr>
+                            <tr>
+                                <td>kabel typu skrętka UTP kategorii 5 (cena za metr)</td>
+                                <td>2,00 zł</td>
+			    </tr>
+
+
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p>Koszty usług niewymienionych w cenniku ustalane są indywidualnie. Podano ceny brutto.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12"><br/><br/>
+                    <table class="table table-striped">
+                        <tr>
+                            <td height="50"></td>
+                            <td><br/>&nbsp;<br/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid #999;">Data i podpis Abonenta</td>
+                            <td>&nbsp;</td>
+                            <td style="border-top: 1px solid #999;">Data i podpis przedstawiciela Operatora ( {$layout.logname} )</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="pull-right"><p class="text-muted">ID:{$sha1}</p></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,75 @@
+{include file="header.html"}
+<div class="box_info">
+    Spełnienie poniższych wymagań umożliwa dostęp do HOTSPOTÓW.
+
+    <h4>UWAGA! Dostęp do HOTSPOTÓw nie stanowi oferty w rozumieniu art.66 k.c. <br/>Warunki mogą być zmieniane bez uprzedniej informacji lub dostęp do HOTSPOTÓW może zostać deaktywowany.</h4>
+   
+</div>
+
+<div class="box_dane">
+    <ol style="text-align:left">
+        {if $userinfo.consentdate == 0}
+        <li> <a href="http://bok.alfa-system.pl/?m=info"><span class="false">Wyraź zgodę na przetwarzanie danych osobowych !</span></a> <span class="tipsy">(Czas oczekiwania na zatwierdzenie zmiany do 24 godzin.)</span></li>
+        {else}
+        <li>Zgoda na przetwarzanie danych osobowych: <span class="true">JEST</span></li>    
+        {/if}
+
+
+        {if $userinfo.emails}
+        <li>Adres e-mail: <span class="true">JEST</span></li>
+        {else}
+        <li> <a href="http://bok.alfa-system.pl/?m=info&amp;f=updateuserform"><span class="false">Uzupełnij adres e-mail !</span></a> <span class="tipsy">(Czas oczekiwania na zatwierdzenie zmiany do 24 godzin.)</span></li>
+        {/if}
+
+
+        {if $userinfo.contacts}
+        {foreach from=$userinfo.contacts item=item}
+        {if $item.phone}
+        <li>Telefon kontaktowy: <span class="true">JEST</span></li>
+        {/if}
+        {/foreach}
+        {else}
+        <li> <a href="http://bok.alfa-system.pl/?m=info&amp;f=updateuserform"><span class="false">Uzupełnij nr telefonu !</span></a> <span class="tipsy">(Czas oczekiwania na zatwierdzenie zmiany do 24 godzin.)</span></li>
+        {/if}    	
+
+
+        {if $userinfo.ssn neq ""}
+        <li>PESEL: <span class="true">JEST</span></li>
+        {else}
+        <li> <a href="http://bok.alfa-system.pl/?m=info&amp;f=updateuserform"><span class="false">Uzupełnij PESEL !</span></a> <span class="tipsy">(Czas oczekiwania na zatwierdzenie zmiany do 24 godzin.)</span></li>
+        {/if}    
+
+
+        <!-- if $suma_wplat >= 0 or $bilans >= 0 -->
+        {if $bilans >= 0 or $brak_regularnych_wplat == 1 }
+        <li>Bilans: <span class="true">OK</span></li>
+        {else}
+        {if $brak_regularnych_wplat != 1}
+        <li>Terminowość wpłat: <span class="false">NIE</span> <span class="tipsy">(Brak wpłat do każdego 15 dnia miesiąca na przestrzeni ostatnich {$miesiecy_wstecz} miesięcy.)</span></li>
+        {else}
+        <li>Bilans: <span class="false">UJEMNY</span> <span class="tipsy">(Wpłaty nie pokrywają powstałych zobowiązań. Należy uregulować zaległości.)</span></li>    
+        {/if}
+        {/if}
+    </ol>
+    <p><b>UWAGA!</b> Dostep do HOTSPOTÓW zostanie automatycznie deaktywowany, gdy choć jeden z w/w warunków nie zostanie spełniony.</p>
+</div>
+
+
+<div class="box_info">
+        Po spełnienu wszystkich warunków dostęp do HOTSPOTÓW zostanie przyznany automatycznie następnego dnia.
+    </form>-->
+</div>
+
+<div class="box_ok" style="text-align:left;">
+<strong>Informacje dotyczące hotspotów:</strong>
+<ul>
+<li>prędkość 1Mb/s symetrycznie</li>
+<li>nazwy sieci zaczynają się od "HOTSPOT-AS-2.x"</li>
+<li>dostęp tylko dla abonentów Alfa-System poprzez podanie ID i PIN z umowy</li>
+<li>wszystkie połączenia są logowane i rejestrowane</li>
+</ul>
+</div>
+
+
+<p class="center">Błędy i uwagii prosimy kierować na adres <a href="mailto:pomoc@alfa-system.pl?subject=BONUS">pomoc@alfa-system.pl</a></p>
+{include file="footer.html"}

@@ -1,0 +1,74 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+<h1>{$layout.pagetitle}</h1>
+<table class="lmsbox">
+    <colgroup>
+        <col style="width:96%"/>
+        <col style="width:1%"/>
+        <col style="width:1%"/>
+        <col style="width:1%"/>
+        <col style="width:1%"/>
+    </colgroup>
+    <thead>
+        <tr class="nobr text-center">
+            <th>
+                {t}Name:{/t}
+            </th>
+            <th>
+                {t}Country code:{/t}
+            </th>
+            <th>
+                {t}Area code:{/t}
+            </th>
+            <th>
+                {t}Range:{/t}
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {cycle values="light,lucid" print=false}
+        {section name=pools loop=$pools}
+        <tr class="{cycle} hightlight text-center nobr">
+            <td onClick="return self.location.href = '?m=voippooledit&id={$pools[pools].id}';">
+                {$pools[pools].name}
+            </td>
+            <td onClick="return self.location.href = '?m=voippooledit&id={$pools[pools].id}';">
+                {$pools[pools].countrycode}
+            </td>
+            <td onClick="return self.location.href = '?m=voippooledit&id={$pools[pools].id}';">
+                {$pools[pools].areacode}
+            </td>
+            <td onClick="return self.location.href = '?m=voippooledit&id={$pools[pools].id}';">
+                {$pools[pools].fromnumber} - {$pools[pools].tonumber}
+            </td>
+            <td class="text-right">
+                <a href="?m=voippooldel&id={$pools[pools].id}" OnClick="return confirmLink(this, '{t a=$pools[pools].name}Are you sure, you want to delete numbers pool \'$a\'?{/t}')">
+                    <img src="img/delete.gif" alt="[ {t}Delete{/t} ]" title="[ {t}Delete{/t} ]">
+                </a>
+                <a href="?m=voippooledit&id={$pools[pools].id}">
+                    <img src="img/edit.gif" alt="[ {t}Edit{/t} ]" title="[ {t}Edit{/t} ]">
+                </a>
+            </td>
+        </tr>
+        {sectionelse}
+        <tr>
+            <td colspan="5" class="empty-table">
+                {t}No number pools found.{/t}
+            </td>
+        </tr>
+        {/section}
+    </tbody>
+    <tfoot>
+        <tr class="light">
+            <td colspan="5" class="fall" align="right">
+                <a href="?m=voippooladd">
+                    {t}Add new VOIP numbers pool{/t} <img src="img/save.gif" alt="">
+                </a>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+{/block}

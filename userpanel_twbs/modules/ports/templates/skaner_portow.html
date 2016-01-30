@@ -1,0 +1,13 @@
+{include file="header.html"}
+
+<h3><a href="http://pl.wikipedia.org/wiki/Skanowanie_port%C3%B3w">Skanowanie portów</a> dla adresu IP: <strong>{$ip}</strong></h3>
+<div class="well">
+{foreach $ports as $port}
+<button type="button" class="btn btn-{if $port.status eq 1}danger{else}default{/if}">{$port.port} ({$port.protokol})</button>
+{/foreach}
+</div>
+<div class="alert alert-danger">Kolor czerwony oznacza, że port jest otwarty (dostępny z sieci Internet).</div>
+<div class="alert alert-info">Strona ma charakter informacyjny. Otwarty port oznacza możliwość komunikacji poprzez otwarty port z naszym urządzeniem z sieci Interent.</div>
+
+
+{include file="footer.html"}

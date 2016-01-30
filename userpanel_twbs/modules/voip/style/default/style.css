@@ -1,0 +1,12 @@
+body {
+	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+	font-size: 62.5%;
+}
+.err {font-size:11px; color:#ff0000; font-weight:bold;}
+.warn {font-size:11px; color:#8A8100; font-weight:bold;}
+.popover {right:-15px !important; font-size:0.9em}
+
+#ocb .popover {
+  width:400px;
+    background-color:#ff0000;
+}

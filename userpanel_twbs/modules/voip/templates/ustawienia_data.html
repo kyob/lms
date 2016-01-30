@@ -1,0 +1,40 @@
+{include file="header.html"}
+{include file="module:header_inne.html"}
+<script src="js/pGenerator.jquery.js"></script>
+
+<div class="container">
+{include file="module:nav.html"}
+
+<div class="container">
+
+<div class="row">
+ <div class="col-md-3"></div>
+ <div class="col-md-6">
+
+<div class="panel panel-info">
+        <div class="panel-heading"><h3 class="panel-title text-center">Ustawienia</h3></div>
+ <div class="panel-body">
+
+    <div class="row">
+    <div class="col-md-12 text-center">
+       Zmieniono parametry dla numeru {$smarty.post.numer}.
+    </div>
+    </div>
+ </div>
+</div> <!-- panel -->
+ </div>
+ <div class="col-md-3"></div>
+</div>
+
+</div> <!-- container -->
+
+</div> <!-- container -->
+<!-- redirect do ustawien po 5 sekundach -->
+<script>
+$(document).ready(function(){
+      setTimeout(function() {
+       window.location.href = "?m=voip&f=ustawienia"
+      }, 5000);
+    });
+</script>
+{include file="footer.html"}

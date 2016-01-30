@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="modules/voip/style/billing/jquery-ui.css">
+<link rel="stylesheet" href="modules/voip/style/billing/jquery-ui.structure.css">
+<link href="modules/voip/style/billing/footable.core.css" rel="stylesheet" type="text/css" />
+<link href="modules/voip/style/billing/footable.standalone.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="modules/voip/style/billing/style.css">
+<link href="modules/voip/style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="modules/voip/style/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+<script src="modules/voip/js/jquery-1.10.2.js"></script>
+<script src="modules/voip/js/jquery-ui.js"></script>
+<script src="modules/voip/js/datepicker-pl.js"></script>
+<script src="modules/voip/js/footable.js"></script>
+<script src="modules/voip/js/footable.paginate.js"></script>
+<script src="modules/voip/js/footable.sort.js"></script>
+{literal} 
+<script>
+var $i = jQuery.noConflict();
+  $(function() {
+  $i( "#callerID" ).selectmenu({showAnim: "blind"});
+    $i( "#from" ).datepicker({
+      defaultDate: "-1m",
+      numberOfMonths: 1,
+      changeMonth: true,changeYear: true,
+      showAnim: "blind",
+      onClose: function( selectedDate ) {
+        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $i( "#to" ).datepicker({
+      changeMonth: true,
+      numberOfMonths: 1,
+      changeYear: true,
+      maxDate: "+0M +0D",
+      showAnim: "blind",
+      onClose: function( selectedDate ) {
+        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+$i('.footable').footable();
+$('.sort-column').click(function (e) {
+e.preventDefault();
+//get the footable sort object
+var footableSort = $('table').data('footable-sort');
+//get the index we are wanting to sort by
+var index = $(this).data('index');
+//get the sort order
+var ascending = $(this).data('ascending');
+footableSort.doSort(index, ascending);});
+});
+</script>
+{/literal} 

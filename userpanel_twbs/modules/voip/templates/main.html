@@ -1,0 +1,96 @@
+{include file="header.html"}
+{include file="module:header_inne.html"}
+
+<div class="container">
+
+
+{if isset($extUsername) && count($clidsStatus) gt 0}
+{include file="module:nav.html"}
+
+
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<table class="table table-bordered table-striped">
+<tbody>
+<tr class="info">
+    <td class="text-center"><strong>Posiadane numery</strong></td>
+    <td class="text-center"><strong>Hasło</strong></td>
+    <td class="text-center"><strong>Status</strong></td>
+    <td class="text-center"><strong>Typ konta</strong></td>
+    <td class="text-center"><strong>Stan konta</strong></td>
+</tr>
+</tr>
+</tbody>
+{foreach $clidsStatus as $clids}
+<tr bgcolor="{cycle values='#ffffff,#eeeeee'}">
+    <td class="text-center"><b>{$clids.callerID}</b></td>
+    <td class="text-center">{$clids.passwd}</td>
+    <td class="text-center"> <span style="color:{if $clids.status eq '1'}green{else}red{/if}; font-size:100%;">&#x25cf;</span> </td>
+    <td class="text-center">{if $clids.isPrepaid==1}Prepaid{else}Postpaid{/if}</td>
+    <td class="text-right">{$clids.value|number_format:2} zł</td>
+</tr>
+{/foreach}
+</table>
+</div>
+<div class="col-md-3"></div>
+</div>
+
+
+<div class="row">
+
+<div class="col-md-3"></div>
+
+<div class="col-md-6">
+<table class="table table-bordered table-striped">
+{if count($rep) gt 0}
+<tbody>
+
+<tr class="info">
+<td colspan="6"><strong>Podsumowanie (ostatnie 3 pełne miesiące + bieżący)</strong></td>
+</tr>
+<tr class="info">
+    <td class="text-center"><strong>Okres</strong></td>
+    <td class="text-center"><strong>Ilość połączeń</strong></td>
+    <td class="text-center"><strong>Całkowity czas trwania</strong></td>
+    <td class="text-center"><strong>Średni czas trwania</strong></td>
+    <td class="text-center"><strong>Koszt połączęń</strong></td>
+    <td class="text-center"><strong>Średni koszt połączęń</strong></td>
+
+</tr>
+</tr>
+</tbody>
+{foreach $rep as $items}
+    <tr bgcolor="{cycle values='#ffffff,#eeeeee'}">
+    <td style="text-align:center; display:table-cell;">{$items.date}</td>
+    <td style="text-align:center; display:table-cell;">{$items.count}</td>
+    <td style="text-align:center; display:table-cell;">{$items.durationTotal} s</td>
+    <td style="text-align:center; display:table-cell;">{$items.durationAverage|string_format:"%.2f"} s</td>
+    <td style="text-align:right; display:table-cell;">{$items.costTotalIncludingTaxes} zł</td>
+    <td style="text-align:right; display:table-cell;">{$items.costAverageIncludingTaxes|string_format:"%.2f"} zł</td>
+    </tr>
+{/foreach}
+ {else}
+    <tr>
+    <td colspan="5" style="color:#ff0000; background-color: #ffffff; text-align: center; font-weight:bold">Brak informacji o połączeniach</td>
+    </tr>
+ {/if}
+</table>
+</div>
+<div class="col-md-3"></div>
+</div>
+
+{else}
+<div class="row">
+<div class="col-md-12">
+<div class="alert alert-danger text-center">
+<b>Obecnie nie posiadasz żadnych usług telefonii VOIP.</b><br>
+</div>
+</div>
+</div>
+{/if}
+
+</div>
+
+
+{include file="footer.html"}

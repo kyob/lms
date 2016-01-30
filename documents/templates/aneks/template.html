@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aneks do umowy abonenckiej</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            @page
+            {
+                size: auto;   /* auto is the initial value */
+                /* this affects the margin in the printer settings */
+                margin-left: 5mm;
+                margin-right: 5mm;
+                margin-top: 5mm;
+                margin-bottom: 5mm;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Alfa-System: internet, telewizja, telefon, monitoring</h3>
+                    {assign var=item value="|"|explode:$document.contract}
+                    <h4>Aneks do umowy nr {if $item[0] neq ''}{$item[0]}{else}...................{/if} zawartej w dniu {if $item[1] neq ''}{$item[1]}{else}...................{/if}</h4>
+                    <p>Dotychczasowe dane z w/w umowy zastępuję się następującymi:</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Dane abonenta:</strong></p>
+                    <p>
+                        {if $customerinfo.type==1}
+                        Nazwa firmy: <strong>{$customerinfo.customername}</strong><br/>
+                        {trans("Address:")} <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+                        {trans("NIP:")} <strong>{if $customerinfo.ten neq ''}{$customerinfo.ten}{else}.............................{/if}</strong><br/>
+                        , zwanym dalej Abonentem.
+                        {else}
+                        Nazwisko i imię: <strong>{$customerinfo.customername}</strong><br/>
+                        {trans("Address:")} <strong>{$customerinfo.address}, {$customerinfo.zip} {$customerinfo.city}</strong><br/>
+                        {trans("PESEL:")} <strong>{if $customerinfo.ssn neq ''}{$customerinfo.ssn}{else}.............................{/if}</strong><br/>
+                        , zwanym dalej Abonentem.
+                        {/if}
+                    </p>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    {if $customerinfo.post_address neq ''}
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Adres korespondencyjny:</strong></p>
+                    {$customerinfo.post_address}, {$customerinfo.post_zip} {$customerinfo.post_city}
+                    {/if}
+
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Adres instalacji:</strong></p>
+                    <ol>{foreach $customernodes as $item}<li>{$item.location}</li>{/foreach}</ol>
+
+                    {if $customerinfo.email neq ''}
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>E-mail:</strong></p>
+                    <p>{$customerinfo.email}</p>
+                    {else}
+                    <p>.............................</p>
+                    {/if}
+
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Telefon:</strong></p>
+                    <p>{if $customerinfo.contacts neq ''}{foreach from=$customerinfo.contacts item=b}<strong>{$b.phone}; </strong>{/foreach}{else}.............................{/if}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Indywidualny nr rachunku do wpłat:</strong></p>
+                    <strong>{$nrb}</strong>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Wirtualne Biuro Obsługi Klienta:</strong></p>
+                    Dostępne pod adresem WWW: <strong>https://bok.alfa-system.pl</strong><br/>ID: <strong>{$customerinfo.id|string_format:"%04d"}</strong> &nbsp; PIN: <strong>{$customerinfo.pin}</strong>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Dostęp do Internetu</strong></p>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Taryfa:</th>
+                                <th>{trans("Value:")}</th>
+                                <th>{trans("Period:")}</th>
+                            </tr>
+                        </thead>
+                        {foreach from=$assignments item=a}
+                        <tr>
+                            <td>{$a.name}</td>
+                            <td>{$a.value|money_format}</td>
+                            <td>
+                                od: {if $a.datefrom gt 0}{$a.datefrom|date_format:"%Y/%m/%d"}{else}.............................{/if}
+                                do: {if $a.dateto gt 0}{$a.dateto|date_format:"%Y/%m/%d"}{else}.............................{/if}
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Aneks:</strong></p>
+                    <ol>
+                        <li>Pozostałe postanowienia umowy nie ulegają zmianie.</li>
+                        <li>Zmiana danych obowiązuje od następnego okresu rozliczeniowego.</li>
+                        <li>Aneks sporządzono w dwóch jednobrzmiących egzemplarzach dla każdej ze stron.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Oswiadczenia</strong></p>
+                    <p>Operator informuje, że zgodnie z art. 23 ust 1 pkt 3 i 5 oraz art. 23 ust 4 Ustawy z dnia 29 sierpnia 1997r. o ochronie danych osobowych (tekst jednolity: Dz. U. 2002r. Nr 101 poz. 926, ze zm.), dane osobowe Abonenta będą przetwarzane w bazie danych Operatora dla celów realizacji niniejszej umowy oraz marketingu Usług świadczonych przez Operatora.</p>
+                    <p>Abonent oświadcza, że został poinformowany o prawie kontroli przetwarzania danych, które go dotyczą w szczególności o prawie dostępu do treści swoich danych oraz ich poprawiania, żądania ich uzupełnienia, uaktualnienia i sprostowania.</p>
+                    <p>Abonent oświadcza, że <strong>{if strlen($customerinfo.consentdate)>1}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na przetwarzanie danych osobowych Abonenta przez Operatora w celach marketingowych, promocyjnych i reklamy różnego rodzaju towarów i usług świadczonych przez inne podmioty.</p>
+                    <p>Abonent oświadcza, że <strong>{if isset($customerinfo.einvoice)}wyraża zgodę{else}nie wyraża zgody{/if}</strong> na otrzymywanie faktur w postaci elektronicznej poprzez system Wirtualnego Biura Obsługi Abonenta pod adresem internetowym https://bok.alfa-system.pl</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <table class="table table-striped">
+                        <tr>
+                            <td height="50"></td>
+                            <td><br/>&nbsp;<br/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid #999;">Data i podpis Abonenta</td>
+                            <td>&nbsp;</td>
+                            <td style="border-top: 1px solid #999;">Data i podpis przedstawiciela Operatora ( {$layout.logname} )</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

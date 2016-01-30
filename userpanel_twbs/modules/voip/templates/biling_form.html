@@ -1,0 +1,91 @@
+{include file="header.html"}
+{include file="module:header_biling.html"}
+
+{if count($numery.accounts)>0}
+<div class="container">
+
+{include file="module:nav.html"}
+<form action="?m=voip&f=biling&action=submit" method="post" name="formBiling" id="formBiling">
+
+<div class="row">
+<div class="col-md-12">
+<div class="panel panel-info">
+ <div class="panel-heading">
+    <h3 class="panel-title text-center">Biling</h3>
+ </div>
+<div class="panel-body">
+
+<div class="row">
+    <div class="col-md-3 text-center">
+    Numer telefonu<br />
+    <select name="callerID" id="callerID" class="form-control">
+    {foreach from=$numery item="accounts"}
+	{foreach from=$accounts item="acc"}
+	    {if isset($acc.phone)}
+		<option value="{$acc.phone}" {if $acc.phone === $smarty.post.callerID}selected{/if} >{$acc.phone}</option>
+	    {/if}
+	{/foreach}
+    {/foreach}
+    </select>
+    </div>
+
+    <div class="col-md-2">
+    Data początkowa<br />
+    <input type="text" id="from" name="from" class="ui-button ui-widget ui-state-default ui-corner-all" style="height:34px; width:120px;"  readonly title="Wybierz datę początkową." value="{if $smarty.post.from}{$smarty.post.from}{else}{$from}{/if}" />
+    </div>
+
+    <div class="col-md-2">
+    Data końcowa<br />
+    <input type="text" id="to" name="to" class="ui-button ui-widget ui-state-default ui-corner-all" style="height:34px; width:120px;" readonly  title="Wybierz datę końcową." value="{if $smarty.post.to}{$smarty.post.to}{else}{$to}{/if}" />
+    </div>
+
+    <div class="col-md-2 text-right; background-color:yellow">
+    <div style="text-align:left; clear:both; float:left;">Typ połączeń</div>
+
+    <div style="text-align:left; clear:left; float:left">Wychodzące</div>
+    <div style="text-align:right; clear:right; float:right;"><input type="radio"  name="typpol" {if $smarty.post.typpol == 2 || !$smarty.post.typpol}checked="checked"{/if} value="2" /></div>
+
+    <div style="text-align:left; clear:left; float:left">Przychodzące</div>
+    <div style="text-align:right; clear:right; float:right"><input type="radio" name="typpol" {if $smarty.post.typpol == 1}checked="checked"{/if} value="1" /></div>
+
+    <div style="text-align:left; clear:none; float:left">Zerowy czas</div>
+    <div style="text-align:right; clear:right; float:right;"><input type="checkbox" id="zerowe" name="zerowe" {if $smarty.post.zerowe}checked="checked"{/if} value="TRUE" /></div>
+
+    </div>
+
+    <div class="col-md-1">
+    <div id="loading" style="display:none; clear:both; float:right;"><img src="modules/voip/style/billing/images/loader.gif" alt="" /></div>
+    </div>
+
+    <div class="col-md-2 text-right"><br>
+    <input type="submit" Value="Wyświetl" id="buttonBiling" name="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn btn-danger"  onclick="$('#loading').show();">
+    </div>
+
+</div> <!-- row -->
+</div> <!-- panel body -->
+
+</div> <!-- panel -->
+
+</div> <!-- row -->
+
+</form>
+{else}
+{$error = "no_numbers"}
+{/if}
+
+
+
+    {if $error ne ""}
+        <div style="clear:both; float:left; font-size:13px; color:#ff0000">
+        {if $error eq "from_empty"}Proszę podac datę początkową.
+        {elseif $error eq "to_empty"} Proszę podać datę końcową.
+        {elseif $error eq "no_numbers"} Prawdopodobnie nie posiadasz numerów VOIP.
+        {elseif $error eq "typ_nochecked"} Musi być wybrany conajmniej jeden typ połączenia.
+    {/if}
+      </div>
+    {/if}
+
+
+</div> <!-- container -->
+
+{include file="footer.html"}

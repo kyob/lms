@@ -1,0 +1,60 @@
+{include file="header.html"}
+{include file="module:header_inne.html"}
+
+<div class="container">
+{include file="module:nav.html"}
+
+<div class="container">
+
+<div class="row">
+<div class="col-md-3"></div>
+
+<div class="col-md-6">
+{if isset($display_time_alert) AND $display_time_alert eq '1'}
+    <div class="panel panel-warning">
+	<div class="panel-heading">
+	    <h3 class="panel-title text-center">Doładowanie konta</h3>
+	</div>
+	<div class="panel-body">
+	Czas między kolejnymi doładowaniami musi być większy niż 2 min.
+	</div>
+    </div>
+<!-- redirect do doladowan po 10 sekundach -->
+<script>
+$(document).ready(function(){
+      setTimeout(function() {
+       window.location.href = "?m=voip&f=doladuj"
+      }, 10000);
+    });
+</script>
+
+
+{else}
+    {if $data.wynik eq '1'}
+    <div class="panel panel-success">
+	<div class="panel-heading">
+	    <h3 class="panel-title text-center">Doładowano konto</h3>
+	</div>
+	<div class="panel-body">
+	Wpłacono kwotę {$data.wplata|string_format:"%.2f"} zł.<br />
+	Obecnie posiadasz na koncie {$data.powplacie|string_format:"%.2f"} zł.
+	</div>
+    </div>
+    {else}
+    <div class="panel panel-danger">
+	<div class="panel-heading">
+	    <h3 class="panel-title text-center">Problem z doładowaniem</h3>
+	</div>
+	<div class="panel-body">
+	Wystąpił problem z doładowaniem. Prosimy o kontakt.
+	</div>
+    </div>
+    {/if}
+{/if}
+</div>
+<div class="col-md-3"></div>
+</div>
+
+</div>
+</div>
+{include file="footer.html"}

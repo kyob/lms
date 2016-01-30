@@ -269,8 +269,8 @@ $menu = array(
 					'tip' => trans('Lists and reports printing'),
 					'prio' => 80,
 				),
-				),
 			),
+		),
 
 		'networks' => array(
 			'name' => trans('IP Networks'),

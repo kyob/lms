@@ -1,0 +1,81 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+<H1>{$layout.pagetitle}</H1>
+<table class="lmsbox">
+    <tbody>
+    {section name=ctm_id loop=$channels}
+    <tr>
+        <td>
+            <table class="lmsbox-inner">
+                <colgroup>
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="4">{$channels[ctm_id].ctm_name}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {cycle values="light,lucid" print=false}
+                    {assign var="ctm_channels" value=$channels[ctm_id].channels}
+                    {section name=chan_id loop=$ctm_channels}
+                    {assign var="channels_info" value=$ctm_channels[chan_id]}
+                    {assign var="left_channel" value=$channels_info.left}
+                    {assign var="right_channel" value=$channels_info.right}
+                    <tr class="{cycle advance=false}">
+                        <td width="49%">{$left_channel.technology}/{$left_channel.number}</td>
+                        <td width="1%">
+                            {if $left_channel.state == "UP"}
+                            {if $right_channel}
+                            {t}IN CALL WITH{/t}
+                            {else}
+                            {t}UP{/t}
+                            {/if}
+                            {elseif $left_channel.state == "LOCAL_RINGING"}
+                            {t}WAITING FOR ANSWER{/t}
+                            {elseif $left_channel.state == "REMOTE_RINGING"}
+                            {t}RINGING{/t}
+                            {elseif $left_channel.state == "BUSY"}
+                            {t}BUSY{/t}
+                            {else}
+                            {t}OTHER{/t}
+                            {/if}
+                        </td>
+                        <td width="49%">
+                            {if $right_channel}
+                            {$right_channel.technology}/{$right_channel.number}
+                            {/if}
+                        </td>
+                        <td width="1%" ALIGN="RIGHT">
+                            {if $left_channel.state == "UP"}
+                            <table>
+                                <tr>
+                                    <td>{t}Call billsec:{/t}</td>
+                                    <td>{$channels_info.billsec}</td>
+                                </tr>				
+                            </table>
+                            {/if}
+                        </td>			
+                    </tr>
+                    {/section}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    {sectionelse}
+    <tr>
+        <td class="empty-table" colspan="4">{t}No calls found{/t}</td>
+    </tr>
+    {/section}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="text-right" colspan="4">{t a=$ctm_channels|@count}Total: $a{/t}</td>
+        </tr>
+    </tfoot>
+</table>
+{/block}

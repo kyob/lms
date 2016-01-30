@@ -138,7 +138,7 @@
 			<IMG SRC="img/ip.gif" ALT="{trans("IP address:")}">
 		</TD>
 		<TD style="width: 99%;" COLSPAN="2">
-			<a href="javascript:ping_popup('{$nodeinfo.ip}')">{$nodeinfo.ip}</a>
+			<a href="javascript:ping_popup('{$nodeinfo.ip}')">{$nodeinfo.ip}</a> [ otwórz port: <a href="http://{$nodeinfo.ip}">80</a> # <a href="http://{$nodeinfo.ip}:55555">55555</a> ]
 		</TD>
 	</TR>
 	{if $nodeinfo.ip_pub != "0.0.0.0"}
@@ -158,7 +158,7 @@
 			<a href="javascript:changeMacFormat('mac{$counter}')"><IMG SRC="img/mac.gif" ALT="{trans("MAC address:")}"></a>
 		</TD>
 		<TD style="width: 99%;" COLSPAN="2">
-			<span id="mac{$counter}">{$item.mac}</span> {if $item.producer}({$item.producer}){/if}<BR>
+			<span id="mac{$counter}"><a href="./?m=raddstat&id={$item.mac}">{$item.mac}</a></span> {if $item.producer}({$item.producer}){/if}<BR>
 		</TD>
 	</TR>
 	{math equation="x+1" x=$counter assign="counter"}
@@ -381,6 +381,56 @@
 	</TR>	
     </TBODY>
 </TABLE>
+<BR>
+<TABLE class="lmsbox" CELLPADDING="3">
+    <THEAD>
+        <TR>
+        <TD CLASS="FleftU" onclick="showOrHide('pppoepanel');" colspan="2">
+	<IMG SRC="img/ppoe/pppor.gif" ALT=""> &nbsp; 
+    	Sesje PPPoE: <B>{$nodeinfo.name|upper} ({$nodeinfo.id|string_format:"%04d"})</b>
+	    </TD>
+        </TR>
+    </THEAD>
+
+    <TR CLASS="LIGHT" id="pppoepanel">
+    <td>
+        <ul>
+            <li>Status sesji: <b>{$lastpppoesession.acctstoptime}</b></li>
+	    <li>Rozpoczecie sesji: {$lastpppoesession.acctstarttime}</li>
+            <li>Czas trwania sesji: {$lastpppoesession.acctsessiontimeconv}</li>
+            <li>Download w sesji: {$lastpppoesession.download|number_format:2} {$lastpppoesession.downloadunit}</li>
+            <li>Upload w sesji: {$lastpppoesession.upload|number_format:2} {$lastpppoesession.uploadunit}</li>
+            <li>IP koncentratora dla sesji: {$lastpppoesession.nasipaddress}</li>
+	    <li>Ostatnie IP klienta: {$lastpppoesession.framedipaddress}</li>
+        </ul>
+    </td>
+    <td>
+            {if isset($ClipsUpdate) }
+            <div style="border:1px solid black;padding:1em;margin:1em;">
+	<p>Zatwierdzone zmiany:</p>
+	<ul>
+	    <li>MAC: <strong>{$ClipsUpdate.mac}</strong></li>
+	    <li>Prędkość pobierania: <strong>{$ClipsUpdate.dl_ceil/1024}</strong> Mb/s</li>
+	    <li>Prędkość wysyłania: <strong>{$ClipsUpdate.up_ceil/1024}</strong> Mb/s</li>
+	    <li>Przekierowanie na stronę: <strong>{$ClipsUpdate.redirect}</strong></li>
+	</ul>
+	</div>
+            {/if}
+        {if isset($ClipsInfo) }
+                <div style="border:1px solid black;padding:1em;margin:1em;">
+	    <pre>{$ClipsInfo}</pre>
+	</div>
+            {/if}
+    </td>
+    </tr>
+    <tr>
+    <td colspan="2" style="margin:1em;padding:1em;">
+    	<a href="./?m=nodeinfo&id={$nodeinfo.id}&updatenode=1">Zatwierdź zmiany!</a> &nbsp; # &nbsp; 
+    	<a href="./?m=nodeinfo&id={$nodeinfo.id}&disconnectnode=1">Zakończ sesję i rozłącz!</a> &nbsp; # &nbsp; 
+    	<a href="./?m=nodeinfo&id={$nodeinfo.id}&clips=1">Pokaż przypisane parametry</a>
+        </td>
+    </TR>
+</table>
 <script type="text/javascript">
 <!--
 	xajax_getNodeStats({$nodeinfo.id});

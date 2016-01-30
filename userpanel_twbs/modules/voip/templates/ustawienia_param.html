@@ -1,0 +1,237 @@
+<!--
+<pre>{$dane|@print_r}</pre>
+<hr>
+<pre>{$uslugi|@print_r}</pre>
+-->
+
+<form action="?m=voip&f=ustawienia&action=submit" method="POST" name="formUstawieniaParam" id="formUstawieniaParam">
+<div class="row">
+            <div class="col-md-12 list-group-item list-group-item-success"><b>Parametry dla numeru {$numer}</b></div>
+</div>
+
+<div class="row list-group-item list-group-item-info {$pass_err}">
+            <div class="col-md-6">Hasło
+		{if $error eq "passwd_empty"}<div class="err">Hasło nie może być puste.</div>
+    		{elseif $error eq "passwd_short"}<div class="err">Hasło zbyt krótkie. Minimalna ilość znaków: 12.</div>
+		{/if}
+	    </div>
+            <div class="col-md-1" data-toggle="popoverHover" data-content="Generuj hasło"><button type="button" id="gen" class="btn btn-default btn-sm passworder" data-length="16" data-target="#pass"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4 text-right">
+	        <input type="text" class="form-control text-center"  id="pass" name="dane[passwd]"  data-size="12" data-character-set="a-z,A-Z,0-9,#" value="{if $smarty.post.dane.passwd}{$smarty.post.dane.passwd}{else}{$dane.passwd}{/if}" data-toggle="popoverHover" data-content="Hasło logowania numeru telefonu. Minimalna ilość znaków: 16. Sugerujemy skorzystać z przycisku generatora.">
+	    </div>
+    </div>
+
+
+<div class="row list-group-item">
+            <div class="col-md-8">Poczta głosowa</div>
+            <div class="col-md-4 text-right"><input type="checkbox"  value="1" name="dane[voicemail]" {if isset($smarty.post.dane) && $smarty.post.dane.voicemail}CHECKED{elseif !isset($smarty.post.dane) &&  $dane.voicemail}CHECKED{/if} data-toggle="popoverHover" data-content="Włącz pocztę głosową" ></div>
+	    <input type="hidden" id="numer" name="numer" value="{$numer}" />
+	    <input type="hidden" id="dane[countrycode]" name="dane[countrycode]" value="{$dane.countrycode}" />
+	    <input type="hidden" id="dane[areacode]" name="dane[areacode]" value="{$dane.areacode}" />
+	    <input type="hidden" id="dane[shortclid]" name="dane[shortclid]" value="{$dane.shortclid}" />
+</div>
+
+<div class="row list-group-item">
+            <div class="col-md-8">Hasło poczty głosowej
+    		{if $error eq "voicemailpassword_short"}<div class="err">Hasło poczty głosowej zbyt krótkie. Minimalna ilość znaków: 4.</div>
+    		{elseif $error eq "voicemailpassword_nointeger"}<div class="err"> Hasło poczty głosowej może zawierać tylko cyfry.</div>
+		{/if}
+	    </div>
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center"  name="dane[voicemailpassword]" value="{if $smarty.post.dane.voicemailpassword}{$smarty.post.dane.voicemailpassword}{else}{$dane.voicemailpassword}{/if}" data-toggle="popoverHover" data-content="Hasło poczty głosowej. Tylko cyfry ! Minimalna ilość cyfr: 4."></div>
+</div>
+
+
+<div class="row list-group-item">
+            <div class="col-md-8">Wyślij wiadomość jako załącznik e-mailem</div>
+            <div class="col-md-4 text-right"><input type="checkbox" value="1" name="dane[voicemailattach]" {if isset($smarty.post.dane) && $smarty.post.dane.voicemailattach}CHECKED{elseif !isset($smarty.post.dane) &&  $dane.voicemailattach}CHECKED{/if} data-toggle="popoverHover" data-content="Wysyłaj wiadomości poczty głosowej na podany adres email." ></div>
+</div>
+
+<div class="row list-group-item">
+            <div class="col-md-8">Adres email
+    		{if $error eq "email_format"}<div class="err">Błędny format adresu email</div>{/if}
+	    </div>
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center"  name="dane[email]" value="{if $smarty.post.dane.email}{$smarty.post.dane.email}{else}{$dane.email}{/if}" data-toggle="popoverHover" data-content="Adres email na który będą przesyłane wiadomości jako załączniki. Wymagany w przypadku zaznaczenia opcji 'Wyślij wiadomość jako załącznik e-mailem'"></div>
+</div>
+
+
+
+{if $uslugi.clir_allowed}
+<div class="row list-group-item">
+            <div class="col-md-8">Zastrzeż numer</div>
+            <div class="col-md-4 text-right"><input type="checkbox" value="1" name="uslugi[clir]" {if isset($smarty.post.uslugi) && $smarty.post.uslugi.clir}CHECKED{elseif !isset($smarty.post.uslugi) &&  $uslugi.clir}CHECKED{/if} data-toggle="popoverHover" data-content="Ukryj numer. Odbiorca nie zobaczy Twojego numeru."></div>
+</div>
+{/if}
+
+{if $uslugi.acrej_allowed}
+<div class="row list-group-item">
+            <div class="col-md-8">Odrzucaj połączenia anonimowe</div>
+            <div class="col-md-4 text-right"><input type="checkbox" value="1" name="uslugi[acrej]" {if isset($smarty.post.uslugi) && $smarty.post.uslugi.acrej}CHECKED{elseif !isset($smarty.post.uslugi) &&  $uslugi.acrej}CHECKED{/if}  data-toggle="popoverHover" data-content="Odrzucaj połączenia od numerów zastrzeżonych (z ukrytym numerem)."></div>
+</div>
+{/if}
+
+{if $uslugi.cw_allowed}
+<div class="row list-group-item">
+            <div class="col-md-8">Połączenia oczekujące</div>
+            <div class="col-md-4 text-right"><input type="checkbox" value="1" name="uslugi[cw]" {if isset($smarty.post.uslugi) && $smarty.post.uslugi.cw}CHECKED{elseif !isset($smarty.post.uslugi) &&  $uslugi.cw}CHECKED{/if} data-toggle="popoverHover" data-content="Włącz połączenia oczekujące. Podczas prowadzonej rozmowy jesteś informowany o kolejnej, przychodzącej na Twój telefon rozmowie."></div>
+</div>
+{/if}
+
+{if $uslugi.forwarding}
+<div class="row list-group-item list-group-item-success">
+        	<div class="col-md-12"><b>Numery przekierowań</b>
+		<div class="warn">Numer telefonu musi zawierać numer kierunkowy kraju (dla Polski numer kierunkowy  to 48).<br>Jeśli chcesz przekierować na pocztę głosową, wpisz numer <span style="font-size:1.2em">9555</span>.</div> 
+		<div class="err">Uwaga! Każde nawiązane połączenie w ramach przekierowań obciąża Twoje konto zgodnie z taryfikatorem (poza pocztą głosową).</div> 
+	    </div>
+</div>
+
+<div class="row list-group-item list-group-item-warning">
+            <div class="col-md-8">Przekierowanie bezwarunkowe
+    		{if $error eq "cfu_error"}<div class="err">'Przekierowanie bezwarunkowe' jest w niewłaściwym formacie.</div>{/if}
+	    </div>
+
+{if $uslugi.cfu == '9555'}<script>$('#cfu').hide().find("input").val(null);  </script> {/if}
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center"  id="cfu" name="uslugi[cfu]" value="{if $smarty.post.uslugi.cfu}{$smarty.post.uslugi.cfu}{elseif $uslugi.cfu}{$uslugi.cfu}{/if}" data-toggle="popoverHover" data-content="Przekieruj wszystkie połączenia do Ciebie na podany numer." ></div>
+	    </div>
+
+<div class="row list-group-item list-group-item-warning">
+            <div class="col-md-8">Przekierowanie gdy zajęty
+		{if $error eq "cfb_error"}<div class="err">'Przekierowanie gdy zajęty' jest w niewłaściwym formacie.</div>{/if}
+	    </div>
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center" name="uslugi[cfb]" value="{if $smarty.post.uslugi.cfb}{$smarty.post.uslugi.cfb}{else}{$uslugi.cfb}{/if}" data-toggle="popoverHover" data-content="Przekieruj połączenia do Ciebie gdy linia jest zajęta (prowadzisz rozmowę)." ></div>
+</div>
+
+<div class="row list-group-item list-group-item-warning">
+            <div class="col-md-8">Przekierowanie gdy brak odpowiedzi
+	    {if $error eq "cfnr_error"}<div class="err">'Przekierowanie gdy brak odpowiedzi' jest w niewłaściwym formacie.</div>{/if}
+	    </div>
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center" name="uslugi[cfnr]" value="{if $smarty.post.uslugi.cfnr}{$smarty.post.uslugi.cfnr}{else}{$uslugi.cfnr}{/if}" data-toggle="popoverHover" data-content="Przekieruj połączenia do Ciebie gdy nie odbierasz." ></div>
+</div>
+
+<div class="row list-group-item list-group-item-warning">
+            <div class="col-md-8">Przekierowanie gdy niedostępny
+	        {if $error eq "cfur_error"}<div class="err">'Przekierowanie gdy niedostępny' jest w niewłaściwym formacie.</div>{/if}
+	    </div>
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center" name="uslugi[cfur]" value="{if $smarty.post.uslugi.cfur}{$smarty.post.uslugi.cfur}{else}{$uslugi.cfur}{/if}" data-toggle="popoverHover" data-content="Przekieruj połączenia do Ciebie gdy jesteś niedostępny (wyłączony telefon)." ></div>
+</div>
+{/if}
+
+{if $uslugi.ocb_allowed}
+<div class="row list-group-item list-group-item-success">
+        	<div class="col-md-12"><b>Blokowanie połączeń</b>
+	    </div>
+</div>
+
+<div class="row list-group-item list-group-item-warning">
+            <div class="col-md-8">Poziom blokady
+	    </div>
+            <div class="col-md-4 text-right">
+
+{if $uslugi.ocb == 0}
+{$s="background-color:#00CC00; white-space: normal;"}
+{elseif $uslugi.ocb > 0 && $uslugi.ocb < 5 }
+{$s="background-color:#FFFFAA; white-space: normal;"}
+{elseif $uslugi.ocb > 4 && $uslugi.ocb < 8 }
+{$s="background-color:#FFCCCC; white-space: normal;"}
+{else}
+{$s="background-color:#FFAAAA; white-space: normal;"}
+{/if}
+
+	    <select name="uslugi[ocb]" id="ocb" class="form-control text-center" data-style="btn-danger" style="{$s}; white-space: normal;" data-toggle="popoverHover"  data-content="Dostepne poziomy blokady:<br />
+	    <b>Poziom 1</b> - zakaz realizacji połączeń na numery o podwyższonej opłacie<br />
+	    <b>Poziom 2</b> - zakaz realizacji połączeń na numery międzynarodowe<br />
+	    <b>Poziom 3</b> - zakaz realizacji połączeń do sieci komórkowych<br />
+	    <b>Poziom 4</b> - zakaz realizacji połączeń na numery międzymiastowe<br />
+	    <b>Poziom 5</b> - zakaz realizacji połączeń na numery o podwyższonej opłacie i międzynarodowe<br />
+	    <b>Poziom 6</b> – zakaz realizacji połączeń na numery o podwyższonej opłacie,  międzynarodowe oraz do sieci komórkowych<br />
+	    <b>Poziom 7</b> - zakaz realizacji połączeń na numery o podwyższonej opłacie,  międzynarodowe, do sieci komórkowych oraz międzymiastowe<br />
+	    <b>Poziom 8</b> – dozwolone tylko numery alarmowe.">
+		<option style="background-color:#00CC00; white-space: normal;" value="0" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 0 }selected{/if}>Brak blokad</option>
+		<option style="background-color:#FFFFAA; white-space: normal;" value="1" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 1 }selected{/if}>Poziom 1</option>
+		<option style="background-color:#FFFFAA; white-space: normal;" value="2" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 2 }selected{/if}>Poziom 2</option>
+		<option style="background-color:#FFFFAA; white-space: normal;" value="3" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 3 }selected{/if}>Poziom 3</option>
+		<option style="background-color:#FFFFAA; white-space: normal;" value="4" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 4 }selected{/if}>Poziom 4</option>
+		<option style="background-color:#FFCCCC; white-space: normal;" value="5" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 5 }selected{/if}>Poziom 5</option>
+		<option style="background-color:#FFCCCC; white-space: normal;" value="6" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 6 }selected{/if}>Poziom 6</option>
+		<option style="background-color:#FFCCCC; white-space: normal;" value="7" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 7 }selected{/if}>Poziom 7</option>
+		<option style="background-color:#FFAAAA; white-space: normal;" value="8" {if $uslugi.ocb === $smarty.post.uslugi.ocb || $uslugi.ocb == 8 }selected{/if}>Poziom 8</option>
+	    </select>
+
+	    </div>
+</div>
+<div class="row list-group-item list-group-item-warning">
+            <div class="col-md-8">Hasło blokowania
+    		{if $error eq "ocbpassword_short"}<div class="err">Hasło blokowania zbyt krótkie. Minimalna ilość znaków: 4.</div>
+    		{elseif $error eq "ocbpassword_nointeger"}<div class="err"> Hasło blokowania może zawierać tylko cyfry.</div>
+		{/if}
+	    </div>
+            <div class="col-md-4 text-right"><input type="text" class="form-control text-center" name="uslugi[ocb_password]" value="{if $smarty.post.uslugi.ocb_password}{$smarty.post.uslugi.ocb_password}{else}{$uslugi.ocb_password}{/if}" data-toggle="popoverHover" data-content="Hasło odblokowania połączeń wybranych jako zablokowane." ></div>
+</div>
+
+
+{/if}
+
+
+
+<div class="row">
+		<div class="col-md-3 text-center">
+		    <br />
+		    <div id="loading2" style="display:none; clear:both; float:right;"><img src="modules/voip/style/billing/images/loader.gif" alt="" /></div>
+		</div>
+
+            <div class="col-md-6 text-center">
+		<br>
+		<input type="submit" value="Zatwierdź zmiany" id="zatwierdzButton" name="zatwierdzButton" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn submit button btn-danger" onclick="$('#loading2').show();" />
+	    </div>
+		<div class="col-md-3 text-center"></div>
+
+</div>
+
+
+</form>
+
+{literal}
+<script>
+
+$('#formUstawieniaParam [data-toggle="popoverHover"]').popover({trigger: 'hover', placement: 'top', animation: true, html: true });
+$("#ocb").change(function(){
+    var color = $("option:selected", this).attr("style");
+    $("#ocb").attr("style", color);
+});
+
+(function () {
+  var rand = function (str) {
+    return str[Math.floor (Math.random () * str.length)];
+  };
+ 
+  var get = function (source, len, a) {
+    for (var i = 0; i < len; i++)
+      a.push (rand (source));
+    return a;
+  };
+ 
+  var alpha  = function (len, a) {
+    return get ("Aa1BbCcDd2EeFfGg3HhIiJj4KkLlM&m5NnOoPp6QqRrSs7TtUuVv8WwXxYy9Zz", len, a);
+  };
+  var symbol = function (len, a) {
+    return get ("!@#$%^&*-_", len, a);
+  };
+
+  $('.passworder').live ('click', function (event) {
+    event.preventDefault ();
+
+    var widget = $(this);
+    var target = $(widget.data ('target'));
+
+    var length = widget.data ('length') - 1;
+
+    // Alpha{ceil((length-1)/2))} Symbol Alpha{floor((length-1)/(2))}
+    var l = Math.floor (length/2), r = Math.ceil (length/2);
+    var ret = alpha (l, symbol (1, alpha (r, []))).join('');
+
+    target.val (ret);
+  });
+}) ();
+
+</script>
+{/literal}

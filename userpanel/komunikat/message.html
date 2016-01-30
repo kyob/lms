@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>KOMUNIKAT</title>
+        <!-- BOOTSTRAP STYLES -->
+        <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+	<div class="col-md-offset-3 col-md-6 col-md-offset-3">
+		<h1 class="page-header">Komunikat <small>Alfa-System</small></h1>
+
+		<form action="index.php" method="post">
+		{if $customerinfo.id}
+		    {if $nodeinfo.access eq 1}
+			{if $customerinfo.message}<div class="alert alert-danger">{$customerinfo.message}</div>{/if}
+			<div class="alert alert-success">
+			    <p>Aktualny bilans płatności: <strong>{$customerinfo.balance} zł</strong></p>
+			    <p>W/w kwotę należy wpłacić na konto: <strong>{format_bankaccount($customerinfo.bankaccount)}</strong></p>
+			</div>
+			
+			<div class="alert alert-info"><a href="https://bok.alfa-system.pl/?m=finances">Sprawdź szczegóły dotyczące płatności ma stronie <strong>Wirtualnego Biura Obsługi Klienta</strong>.</a></div>
+			<p><button name="submit" id="submit" type="submit" class="btn btn-danger btn-lg"><strong>Kliknij tutaj</strong>, aby wyłączyć komunikat.</button></p>
+		    {elseif $nodeinfo.access eq 0}
+			<div class="alert alert-danger">
+			Dostęp do internetu został ograniczony z powodu braku płatności!<br/><br/>
+			Aktualny bilans płatności: <strong>{$customerinfo.balance} zł</strong><br/><br/>
+			W/w kwotę należy wpłacić na konto: <strong>{$customerinfo.bankaccount}</strong>
+			</div>
+			<div class="alert alert-info"><a href="https://bok.alfa-system.pl/?m=finances">Sprawdź szczegóły dotyczące płatności ma stronie <strong>Wirtualnego Biura Obsługi Klienta</strong>.</a></div>
+			<!-- <button name="submit" id="submit" type="submit" class="btn">Kliknij, aby potwierdzić przeczytanie komunikatu.</button> -->
+			
+	    
+			<address>
+        		<strong>ALFA-SYSTEM M. Piwowarski, A. Widera spółka jawna</strong><br/>
+        		ul. Lotników 6<br/>
+        		44-196 Knurów<br/>
+        		<br/>
+	                <abbr title="Telefon stacjonarny">tel:</abbr> 32 44 50 218<br/>
+		        <abbr title="Telefon komórkowy">kom.:</abbr> 607 460 308<br/>
+	                <br/>
+	                <abbr title="FAX">FAX:</abbr> 32 336 20 36<br/>
+	                <br/>        
+	                <abbr title="E-Mail tylko sprawy biuro-administracyjne">E-mail:</abbr> <a href="mailto:#">pomoc@alfa-system.pl</a>
+			</address>
+			<p><strong>Godziny otwarcia biura</strong></p>
+			<ul>
+			    <li>Poniedziałek 8:00 - 16:00</li>
+		            <li>Wtorek 10:00 - 18:00</li>
+		            <li>Środa 8:00 - 16:00</li>
+		            <li>Czwartek 8:00 - 16:00</li>
+		            <li>Piątek 8:00 - 16:00</li>
+		            <li>Sobota 9:00 - 13:00</li>
+		            <li>Niedziela nieczynne</li>
+			</ul>   
+		    {/if}
+		{else}
+		    <p>Access to network on this computer is locked. Possible causes: unknown network device or unknown computer.</p>
+		    <p>Please contact with our Customer Service.</p>
+		{/if}
+		</form>
+	</div>
+    </div>
+</div>
+
+
+<script>
+var el = document.getElementById('submit');
+el.onclick = showFoo;
+
+function showFoo() {
+          alert('Za chwilę nastapi przekierowanie na stronę www.alfa-system.pl');
+document.getElementById("submit").submit();
+  return false;
+}
+</script>
+</body>
+</html>

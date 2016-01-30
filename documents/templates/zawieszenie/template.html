@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ZAWIESZENIE USŁUG</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- TWITTER BOOTSTRAP RESPONSIVE -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- TWITTER BOOTSTRAP CSS -->
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+                font-size: 10px;
+            }
+            ol li {
+                line-height:10px
+            }
+            @page  
+            { 
+                size: auto;   /* auto is the initial value */ 
+
+                /* this affects the margin in the printer settings */ 
+                margin-left: 5mm;  
+                margin-right: 5mm;  
+                margin-top: 10mm;  
+                margin-bottom: 10mm;  
+            } 
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <h3>Alfa-System: internet, telewizja, telefon, monitoring</h3>
+                    <h4>ZAWIESZENIE USŁUG</h4>
+                </div>
+            </div>            
+            <div class="row-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-sm-6">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>OPERATOR</strong></p>                                  
+                        <p>Alfa-System M. Piwowarski, A. Widera spółka jawna<br/>ul. Lotników 6<br/>44-196 Knurów</p>
+                    </div>
+                    <div class="col-md-6 col-xs-6 col-sm-6">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>ABONENT</strong></p>                                  
+                        {if $customerinfo.type==1}
+                        <p>
+                            {$customerinfo.customername}<br/>
+                            {$customerinfo.address}<br/>
+                            {$customerinfo.zip} {$customerinfo.city}<br/>
+                            {$customerinfo.ten}
+                        </p>
+                        {else}
+                        <p>
+                            {$customerinfo.customername}<br/>
+                            {$customerinfo.address}<br/>
+                            {$customerinfo.zip} {$customerinfo.city}
+                            {trans("PESEL:")} {$customerinfo.ssn}
+                        </p>
+                        {/if}
+                    </div>
+                </div>              
+                <div class="row" style="page-break-after:always;">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Proszę o całkowite zawieszenie usług świadczonych przez Alfa-System:</strong></p>                                  
+                        <ul>
+                            <li>w lokalizacji: <strong>{$document.lokalizacja}</strong></li>
+                            <li>w okresie od <strong>{$document.fromdate|date_format:"%d.%m.%Y"}</strong> do <strong>{$document.todate|date_format:"%d.%m.%Y"}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" style="page-break-after:always;">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Proszę o całkowite zawieszenie usług świadczonych przez Alfa-System:</strong></p>                                  
+                        <ol>
+                            <li>Z zawieszenia usług nie może korzystać Klient, który aktualnie pozostaje w okresie zobowiązania wynikającego z Promocji (bez względu na to jakiego rodzaju usługi dotyczy Promocja).</li>
+                            <li>Z zawieszenia usług nie może skorzystać Klient, który jest dłużnikiem Alfa-System z jakiegokolwiek tytułu.</li>
+                            <li>Po zakończeniu okresu zawieszenia będę korzystał z usług telekomunikacyjnych na zasadach określonych w umowie abonenckiej.</li>
+                            <li>Opłata miesieczna za całkowite zawieszenie usług wynosi 15,00 zł z VAT.</li>
+                            <li>Maksymalny okres zawieszenia usług wynosi 2 miesiące.</li>
+                            <li>Ponowne zawieszenie usług może zostać dokonane najwcześniej po upływie 12 miesięcy.</li>
+                            <li>Okres zawieszenia usługi może zostać skrócony na prośbę Abonenta.</li>
+                        </ol>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<!--// $Id$ //-->
+{if $layout.dberrors}
+    {include file="dberrors.html"}
+{/if}
+       </div>
+    <script type="text/javascript" src="assets/default/common.js"></script>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:100;"></div>
+<script type="text/javascript" src="assets/default/overlib.js"></script>
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+    $('#table_id').DataTable({
+        "order": [[ 0, "desc" ]],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/be7019ee387/i18n/Polish.json"
+            }
+	});
+            });
+        </script>
+
+</body>
+</html>

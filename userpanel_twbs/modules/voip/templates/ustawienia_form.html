@@ -1,0 +1,52 @@
+{include file="header.html"}
+{include file="module:header_inne.html"}
+
+<div class="container">
+{include file="module:nav.html"}
+
+<div class="row">
+ <div class="col-md-2"></div>
+ <div class="col-md-8">
+    <form action="?m=voip&f=ustawienia" method="post" name="formUstawienia" id="formUstawienia" role="form">
+	<div class="panel panel-info">
+	    <div class="panel-heading">
+	    	<h3 class="panel-title text-center">Ustawienia</h3>
+	    </div>
+	     <div class="panel-body">
+		     <div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-5">
+	        	     <select name="callerID" id="callerID" class="form-control">
+				{foreach $numery as $clids}
+				    <option value="{$clids.callerID}" {if $clids.callerID === $smarty.post.callerID}selected{/if} >{$clids.callerID}</option>
+				{/foreach}
+		    	    </select>
+			</div>
+			<div class="col-md-1">
+			    
+		    	    <div id="loading" style="display:none; clear:both;"><img src="modules/voip/style/billing/images/loader.gif" alt="" /></div>
+			</div>
+			<div class="col-md-4 text-right">
+			    
+			    <input type="submit" value="Wybierz" id="wybierzButton" name="wybierzButton" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn btn-danger" onclick="$('#loading').show();" />
+		        </div>
+			<div class="col-md-1"></div>
+		    </div>
+	    </div> <!-- panel body -->
+	</div> <!-- panel-->
+    </form>
+    <br>
+ </div>
+ <div class="col-md-2"></div>
+</div> <!-- row -->
+
+<div class="row">
+ <div class="col-md-2"></div>
+ <div class="col-md-8">
+{include file="module:ustawienia_param.html" numer=$numer uslugi=$uslugi}
+ </div>
+ <div class="col-md-2"></div>
+</div> <!-- row -->
+<br />
+</div> <!-- container -->
+{include file="footer.html"}

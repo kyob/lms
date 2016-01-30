@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Promocja Polecam i nie płacę</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen,print">
+        <style>
+            body {
+                padding: 1em;
+                margin: 1em;
+            }
+            @page
+            {
+                size: auto;   /* auto is the initial value */
+                /* this affects the margin in the printer settings */
+                margin-left: 5mm;
+                margin-right: 5mm;
+                margin-top: 5mm;
+                margin-bottom: 5mm;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Alfa-System: Regulamin promocji <strong>"Polecam i nie płacę"</strong></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="2">POLECAJĄCY</th>
+                            <th colspan="2">POLECANY</th>
+                        </tr>
+                        <tr>
+                            <td>Imię i nazwisko:</td>
+                            <td>{if $customerinfo.customername}{$customerinfo.customername}{/if}</td>
+                            <td>Imię i nazwisko:</td>
+                            <td>{if $document.polecany}{$document.polecany}{/if}</td>
+                        </tr>
+                        <tr>
+                            <td>PESEL:</td>
+                            <td>{if $customerinfo.ssn}{$customerinfo.ssn}{/if}</td>
+                            <td>PESEL:</td>
+                            <td>{if $document.pesel}{$document.pesel}{/if}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Zasady ogólne</strong></p>
+                    <ol>
+                        <li>Organizatorem promocji "Polecam i nie płacę" jest ALFA-SYSTEM M. Piwowarski, A. Widera spółka jawna, ul. Lotników 6 z siedzibą w Knurowie, dalej zwaną ALFA-SYSTEM.</li>
+                        <li>Promocja jest skierowana do przyszłych i obecnych klientów ALFA-SYSTEM, którzy w wyniku polecania spowodują pozyskanie nowego klienta na usługi ALFA-SYSTEM.</li>
+                        <li>Przedmiotem niniejszej promocji jest obniżenie opłaty abonamentowej do 1,23 zł z VAT:
+                            <ul>
+                                <li>dla jednego okresu rozliczeniowego POLECANEGO</li>
+                                <li>dla dwóch okresów rozliczeniowych dla POLECAJĄCEGO</li>
+                            </ul>
+                        </li>
+                        <li>POLECANY może dodatkowo skorzystać z innych dostępnych promocji.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Warunki promocji</strong></p>
+                    <ol>
+                        <li>Promocja "Polecam i nie płacę" skierowana jest do nowych i obecnych klientów ALFA-SYSTEM.</li>
+                        <li>Promocja jest ważna od 1.01.2013 roku do odwołania.</li>
+                        <li>Upusty dla uczestników promocji będą przyznawane na koniec danego miesiąca na następny miesiąc rozliczeniowy.</li>
+                        <li>Abonent POLECAJĄCY może uzyskać nieograniczoną ilość abonamentów w obniżonej cenie.</li>
+                        <li>Abonent POLECAJĄCY nie może mieć zadłużenia wobec ALFA-SYSTEM.</li>
+                        <li>Abonent POLECANY musi podpisać umowę na czas określony minimum 12 miesięcy.</li>
+                        <li>Promocja jest ograniczona terytorialnie.</li>
+                        <li>W sprawach nieuregulowanych niniejszym regulaminem zastosowanie mają przepisy Kodeksu Cywilnego.</li>
+                        <li>ALFA-SYSTEM zastrzega sobie prawo zmiany oferty promocyjnej w trakcie trwania okresu promocji.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="margin-top:10px; border-bottom: 1px solid #000;"><strong>Oświadczam, że zapoznałem się z warunkami niniejszej promocji oraz je w pełni akceptuję.</strong></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <tr>
+                            <td height="50"></td>
+                            <td><br/>&nbsp;<br/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid #999;">Data i podpis Abonenta polecającego</td>
+                            <td>&nbsp;</td>
+                            <td style="border-top: 1px solid #999;">Data i podpis przedstawiciela Operatora ( {$layout.logname} )</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+{include file="header.html"}
+<h1>Nowi i usunięci</h1>
+<form method="get" name="formpbx" action="?m=alfa_newcustomersstats&year={$year}&$month={$month}">
+    <INPUT TYPE="HIDDEN" NAME="m" VALUE="alfa_newcustomersstats">
+    <select size="1" name="year">
+        {section name=y max=($currentYear-$firstYear+1) loop=$currentYear+1 step=-1}
+        <option {if ($smarty.get.year eq $smarty.section.y.index)}  selected {/if} value={$smarty.section.y.index}>{$smarty.section.y.index}</option>
+        {/section}
+    </select>
+    <INPUT type="submit" >                               
+</form>
+<div id="visualization3" style="width: 700px; height: 400px;"></div>
+<div id="visualization" style="width: 700px; height: 400px;"></div>
+<div id="visualization2" style="width: 700px; height: 400px;"></div>
+ 
+{literal}
+<script type="text/javascript">
+    function drawVisualization() {
+        var wrapper = new google.visualization.ChartWrapper({
+            chartType: 'ColumnChart',
+            dataTable: [[{/literal}{$month}{literal}],
+                [{/literal}{$sum}{literal}]],
+            options: {'title': 'Nowi klienci / miesiac'},
+            containerId: 'visualization'
+        });
+        wrapper.draw();
+    }
+    function drawVisualization2() {
+        var wrapper = new google.visualization.ChartWrapper({
+            chartType: 'ColumnChart',
+            dataTable: [[{/literal}{$month2}{literal}],
+                [{/literal}{$sum2}{literal}]],
+            options: {'title': 'Usunięci klienci / miesiac'},
+            containerId: 'visualization2'
+        });
+        wrapper.draw();
+    }
+    function drawVisualization3() {
+        var wrapper = new google.visualization.ChartWrapper({
+            chartType: 'ColumnChart',
+            dataTable: [[{/literal}{$month3}{literal}],
+                [{/literal}{$sum3}{literal}]],
+            options: {'title': 'Bilans NOWI-USUNIECI'},
+            containerId: 'visualization3'
+        });
+        wrapper.draw();
+    }
+ 
+    google.setOnLoadCallback(drawVisualization);
+    google.setOnLoadCallback(drawVisualization2);
+    google.setOnLoadCallback(drawVisualization3);
+</script>                       
+{/literal}
+ 
+ 
+{include file="footer.html"}

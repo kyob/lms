@@ -293,6 +293,16 @@ class LMS
 	}
 
     /*
+     * Events
+     */
+
+    public function GetEventTags($id = null)
+    {
+        $manager = $this->getEventManager();
+        return $manager->getEventTags($id);
+    }
+
+    /*
      * Users
      */
 

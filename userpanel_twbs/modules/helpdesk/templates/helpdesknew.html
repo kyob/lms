@@ -1,0 +1,43 @@
+<!--// $Id$ //-->
+<form method="post" action="?m=helpdesk" name="helpdesk">
+{box title="New Request"}
+<table class="table table-bordered">
+    <tr>
+	<td>
+    	    <b>{trans("Queue:")}</b>
+	</td>
+	<td>
+	    <SELECT name="helpdesk[queue]" {userpaneltip text="Select queue" trigger="queue"}>
+		{foreach $queues as $queue}
+		    <OPTION value="{$queue.id}"{if $helpdesk.queue == $queue.id} selected{/if}>{$queue.name}</OPTION>
+		{/foreach}
+	    </SELECT>
+	</td>
+	</tr>
+	<tr>
+		<td>
+			<b>{trans("Subject:")}</b>
+		</td>
+		<td>
+			<input style="width:99%;" type="text" name="helpdesk[subject]" value="{$helpdesk.subject}" {userpaneltip text="Enter request subject" trigger="subject"} />
+		</td>
+	</tr>
+	<tr>
+
+		<td>
+			<b>{trans("Body:")}</b>
+		</td>
+		<td>
+			<textarea style="width:99%;" name="helpdesk[body]" rows="5" {userpaneltip text="Enter request contents" trigger="body"}>{$helpdesk.body}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<a class="btn btn-danger" href="javascript:document.helpdesk.submit()" accesskey="S">{trans("Submit")}</a>                   
+                        <input type="hidden" name="wyslane" value="1">
+		</td>
+	</tr>
+</table>
+{/box}
+</form>
+
