@@ -30,7 +30,7 @@ $engine = array(
 				// you can use other engine
 	'type' => DOC_OTHER,			// it's also possible to use array of document types in this field
 	'template' => 'template.html', 		// template file (in 'name' dir)
-	'title' => trans('Promocja: Pakiet Zima 2016'),	// description for UI
+	'title' => trans('Promocja: Pakiet Zima 2016 - Internet + telewizja'),	// description for UI
 	'content_type' => 'text/html', 		// output file type text/html or application/ocetet-stream
 	'output' => 'default.html', 		// output file name default.html
 	'plugin' => 'plugin',			// form plugin (in 'name' dir)
