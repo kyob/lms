@@ -178,7 +178,8 @@ if (!empty($custom_templates_dir) && file_exists(SMARTY_TEMPLATES_DIR . DIRECTOR
 	$SMARTY->AddTemplateDir(SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $custom_templates_dir);
 $SMARTY->AddTemplateDir(
 	array(
-		SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'default',
+//		SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'default',
+		SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'bclean',
 		SMARTY_TEMPLATES_DIR,
 	)
 );
