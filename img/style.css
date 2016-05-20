@@ -31,15 +31,6 @@ td[onclick]	{ cursor: pointer; }
 FORM		{ display: inline; }
 
 LABEL       { cursor: pointer; }
-A		{ text-decoration: none; vertical-align: baseline; }
-A:link { color: #800000; }
-A:active	{ color: #336600; }
-A:visited	{ color: #800000; }
-A.blend		{ color: #888888; }
-A:hover		{ text-decoration: underline; color: #336600; }
-TR.blend A	{ color: #888888; }
-TR.alertblend A	{ color: #FA8072; }
-TR.suspended A  { color: #30B6C6; }
 
 P		{ font-size:  8pt; font-family: Tahoma, Verdana, Arial, Helvetica; }
 P.nor		{ font-size:  8pt; font-family: Tahoma, Verdana, Arial, Helvetica; }
