@@ -3,6 +3,14 @@
 {block name=module_content}
     <!--// $Id$ //-->
     <H1>{$layout.pagetitle}</H1>
+    
+    {block name="customerlist-list-header-pagination"}
+        {if $pagination->getTotal() != 0}
+            {include file="pagination.html"}
+        {/if}
+    {/block}
+    <hr>
+    
         {block name="customerlist-list-filters"}
         <FORM class="form-inline" method="get" action="?m={$layout.module}" name="choosefilter">
             <INPUT type="submit" class="hiddenbtn">
@@ -83,34 +91,29 @@
 
     {/block}
 
-    {block name="customerlist-list-header-pagination"}
-        {if $pagination->getTotal() != 0}
-            {include file="pagination.html"}
-        {/if}
-    {/block}
-
-
     <TABLE class="table table-striped table-sm table-bordered">
         {block name="customerlist-list-header"}
-            <TR>
-                <td>
-                    <img src="img/customer.gif" alt=""> <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=customername{if $listdata.direction == "asc" && $listdata.order == "customername"},desc{/if}">{trans("First/last or Company name")}</A> {if $listdata.order == "customername"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
-                    <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=address{if $listdata.direction == "asc" && $listdata.order == "address"},desc{/if}">{trans("Address:")}</A> {if $listdata.order == "address"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
-                </td>
-                <td>
-                    <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}"><span class="bold">{trans("ID:")}</span></A> {if $listdata.order == "id"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
-                        {trans("Services:")}
-                </td>
-                <td>
-                    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=balance{if $listdata.direction == "asc" && $listdata.order == "balance"},desc{/if}">{trans("Balance:")}</A>&nbsp;{if $listdata.order == "balance"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
-                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=tariff{if $listdata.direction == "asc" && $listdata.order == "tariff"},desc{/if}">{trans("Subscription:")}</A>&nbsp;{if $listdata.order == "tariff"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
-                        {/if}
-                </td>
-                <td>
-                    {t a=$pagination->getTotal()}Total: $a{/t}
-                </td>
-            </TR>
+            <thead class="thead-inverse">
+                <TR>
+                    <th>
+                        <img src="img/customer.gif" alt=""> <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=customername{if $listdata.direction == "asc" && $listdata.order == "customername"},desc{/if}">{trans("First/last or Company name")}</A> {if $listdata.order == "customername"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
+                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=address{if $listdata.direction == "asc" && $listdata.order == "address"},desc{/if}">{trans("Address:")}</A> {if $listdata.order == "address"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                    </th>
+                    <th>
+                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}"><span class="bold">{trans("ID:")}</span></A> {if $listdata.order == "id"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
+                            {trans("Services:")}
+                    </th>
+                    <th>
+                        {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
+                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=balance{if $listdata.direction == "asc" && $listdata.order == "balance"},desc{/if}">{trans("Balance:")}</A>&nbsp;{if $listdata.order == "balance"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
+                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=tariff{if $listdata.direction == "asc" && $listdata.order == "tariff"},desc{/if}">{trans("Subscription:")}</A>&nbsp;{if $listdata.order == "tariff"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                            {/if}
+                    </th>
+                    <th>
+                        {t a=$pagination->getTotal()}Total: $a{/t}
+                    </th>
+                </TR>
+            </thead>
         {/block}
         {section name=customerlist loop=$customerlist}
             {block name="customerlist-list-row"}
