@@ -3,15 +3,9 @@
 {block name=module_content}
     <!--// $Id$ //-->
     <H1>{$layout.pagetitle}</H1>
-    
-    {block name="customerlist-list-header-pagination"}
-        {if $pagination->getTotal() != 0}
-            {include file="pagination.html"}
-        {/if}
-    {/block}
-    <hr>
-    
-        {block name="customerlist-list-filters"}
+
+
+    {block name="customerlist-list-filters"}
         <FORM class="form-inline" method="get" action="?m={$layout.module}" name="choosefilter">
             <INPUT type="submit" class="hiddenbtn">
             <INPUT type="hidden" NAME="m" VALUE="customerlist">
@@ -91,7 +85,7 @@
 
     {/block}
 
-    <TABLE class="table table-striped table-sm table-bordered">
+    <TABLE id="demo" class="table table-striped table-sm table-bordered my-table">
         {block name="customerlist-list-header"}
             <thead class="thead-inverse">
                 <TR>
@@ -115,10 +109,11 @@
                 </TR>
             </thead>
         {/block}
-        {section name=customerlist loop=$customerlist}
-            {block name="customerlist-list-row"}
-                <TR class="{if $customerlist[customerlist].account && !$customerlist[customerlist].nodeac} blend{/if}"  >
-                    <TD onClick="return self.location.href = '?m=customerinfo&amp;id={$customerlist[customerlist].id}';">
+        <tbody>
+            {section name=customerlist loop=$customerlist}           
+                {block name="customerlist-list-row"}
+                    <tr{if $customerlist[customerlist].account && !$customerlist[customerlist].nodeac}class="blend"{/if}>
+                    <TD>
                         <IMG src="img/{$_CSTATUSES[$customerlist[customerlist].status].img}" alt="">{if $customerlist[customerlist].info}&nbsp;<i class="fa fa-info-circle" aria-hidden="true" {tip text=$customerlist[customerlist].info}></i>{/if}<A name="{$customerlist[customerlist].id}" {tip a=$customerlist[customerlist].id dynpopup='?m=customerinfoshort&amp;id=$a'}>&nbsp;<span class="bold">{$customerlist[customerlist].customername|escape}</span></A><BR>
                         {$customerlist[customerlist].address}{if $customerlist[customerlist].city != ""},{/if} {$customerlist[customerlist].zip} {$customerlist[customerlist].city}{if $customerlist[customerlist].country != ""}, {t}{$customerlist[customerlist].country}{/t}{/if}
                     </TD>
@@ -174,20 +169,11 @@
                             {/if}
                         <A href="?m=customerinfo&amp;id={$customerlist[customerlist].id}"><IMG src="img/info.gif" alt="[ {trans("Info")} ]" title="[ {trans("Info")} ]"></A>
                     </TD>
-                </TR>
-            {/block}
-        {sectionelse}
-            {block name="customerlist-list-empty-row"}
-                {trans("No such customers matching search criteria or list is empty.")}
-            {/block}
-        {/section}
+                    </tr>
+                {/block}
+            {/section}
+            </tbody>
     </TABLE>
-
-    {block name="customerlist-list-footer-pagination"}
-        {if $pagination->getTotal() != 0}
-            {include file="pagination.html"}
-        {/if}
-    {/block}
 
     {block name="customerlist-list-footer"}
         {if ConfigHelper::checkConfig('privileges.superuser') || (!ConfigHelper::checkConfig('privileges.hide_finances') && !ConfigHelper::checkConfig('privileges.hide_summaries'))}
