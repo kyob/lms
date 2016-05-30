@@ -1,52 +1,27 @@
 {if !ConfigHelper::checkPrivilege('hide_summaries')}
-<table class="lmsbox">
-    <colgroup>
-        <col style="width: 50%;"/>
-        <col style="width: 50%;"/>
-    </colgroup>
-    <thead>
-        <tr>
-            <td colspan="2" class="text-center bold nobr">
-                <i class="fa fa-users" aria-hidden="true"></i> {trans("Customers:")}
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-		{foreach $_CSTATUSES as $statusidx => $status}
-        <tr>
-            <td class="text-right bold">
-                <a href="?m=customerlist&amp;s={$statusidx}">{$status.summarylabel}</a>
-            </td>
-            <td>
-				{$alias=$status.alias}
-                {$customerstats.$alias}
-            </td>
-        </tr>
-        {/foreach}
-        <tr>
-            <td class="text-right bold">
-                <a href="?m=customerlist&amp;s=0">{trans("Total:")}</a><br>
-                {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                <a href="?m=customerlist&amp;s=52">{trans("Total Dues:")}</a>
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-users" aria-hidden="true"></i> {trans("Customers")}
+        </div>
+        <div class="card-block">
+            <ul class="list-group">
+                {foreach $_CSTATUSES as $statusidx => $status}
+                    <li class="list-group-item">
+                        <a href="?m=customerlist&amp;s={$statusidx}">{$status.summarylabel}</a> <strong>{$alias=$status.alias} {$customerstats.$alias}</strong>
+                    </li>
+                {/foreach}
+                <li class="list-group-item">
+                    <a href="?m=customerlist&amp;s=0">{trans("Total:")}</a> <strong>{$customerstats.total}</strong>
+                    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
+                        <a href="?m=customerlist&amp;s=52">{trans("Total Dues:")}</a> <strong>{$customerstats.debt} ({trans("amount")} {$customerstats.debtvalue|money_format})</strong>
+                    {/if}
+                </li>
+                {if $customerschanges}
+                    <li class="list-group-item">
+                        <a href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")}</a> <strong>{$customerschanges}</strong>
+                    </li>
                 {/if}
-            </td>
-            <td class="nobr">
-                {$customerstats.total}<br>
-                {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                {$customerstats.debt} ({trans("amount")} {$customerstats.debtvalue|money_format})
-                {/if}
-            </td>
-        </tr>
-	{if $customerschanges}
-        <tr>
-            <td class="text-right bold">
-                <a href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")}</a>
-            </td>
-            <td>
-                {$customerschanges}
-            </td>
-        </tr>
-	{/if}
-    </tbody>
-</table>
+            </ul>
+        </div>
+    </div>
 {/if}
