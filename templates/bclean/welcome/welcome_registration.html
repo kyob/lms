@@ -1,31 +1,24 @@
 {if ConfigHelper::checkConfig('privileges.superuser')}
-<table class="lmsbox">
-    <thead>
-        <tr onclick="showOrHide('welcome_registration-{$layout.module}');">
-            <td class="text-center bold">
-                <img src="img/logo-ico.gif" alt=""> {trans("Registration info:")}
-            </td>
-        </tr>
-    </thead>
-    <tbody id="welcome_registration-{$layout.module}" style="display:none;">
-        <tr>
-            <td class="text-center">
-                {if $regdata}
+    <div class="card">
+        <div class="card-header" onclick="showOrHide('welcome_registration-{$layout.module}');" >
+            <i class="fa fa-external-link" aria-hidden="true"></i> {trans("Registration info")}
+        </div>
+        <div class="card-block" id="welcome_registration-{$layout.module}" style="display:none;">
+            {if $regdata}
                 {trans("Registration ID:")} {$regdata.id|string_format:"%04d"}<br>
                 {trans("Registered for:")} {$regdata.name}<br>
                 {trans("URL:")} {$regdata.url}<br>
                 <a href="?m=register">{trans("Change registration info")}</a>
-                {else}
+            {else}
                 {trans("Your installation is unregistered!")}<br>
                 <a href="?m=register">{trans("Click here, to register your installation and learn more why you should - IT'S FREE!")}</a>
-                {/if}
-            </td>
-        </tr>
-    </tbody>
-</table>
-<script type="text/javascript">
-if (getCookie('welcome_registration-{$layout.module}') == '1'){
-    document.getElementById('welcome_registration-{$layout.module}').style.display = '';
-}
-</script>
+            {/if}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    if (getCookie('welcome_registration-{$layout.module}') == '1') {
+        document.getElementById('welcome_registration-{$layout.module}').style.display = '';
+    }
+    </script>
 {/if}
