@@ -6,12 +6,9 @@
     <table class="table table-bordered table-hover table-striped table-sm">
         <thead class="thead-inverse">
             <tr>
-                <th><i class="fa fa-user fa-fw" aria-hidden="true"></i> {trans("Login")}</th>
-                <th><i class="fa fa-info fa-fw" aria-hidden="true"></i> {trans("First/last name")}</th>
-                <th><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> {trans("Active from")}</th>
-                <th><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> {trans("Active to")}</th>
-                <th><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i> {trans("Last login")}</th>
-                <th><i class="fa fa-location-arrow fa-fw" aria-hidden="true"></i> {trans("IP")} ({trans("Hostname")})</th>
+                <th>{trans("Last and first name")}<br>({trans("Login name")})</th>
+                <th>{trans("Active from")}<br>{trans("Active to")}</th>
+                <th>{trans("Last login")}<br>{trans("IP")} ({trans("Hostname")})</th>
                 <th class="text-right">{trans("Total:")} {$userslist.total}</th>
             </tr>
         </thead>
@@ -20,21 +17,16 @@
                 {if $userslist[userslist].id}
                     <tr{if !$userslist[userslist].access} class="text-muted"{/if}>
                         <td onClick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
-                            {$userslist[userslist].login}
-                        </td>
-                        <td onClick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
-                            {$userslist[userslist].name}
+                            {$userslist[userslist].name}<br><span class="text-muted">({$userslist[userslist].login})</span> 
                         </td>
                         <td onclick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
                             {$userslist[userslist].accessfrom}
-                        </td>
-                        <td onclick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
+                            <br>
                             {$userslist[userslist].accessto}
                         </td>
                         <td onClick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
                             {$userslist[userslist].lastlogin}
-                        </td>
-                        <td onClick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
+                            <br>
                             {$userslist[userslist].lastloginip}
                             {if $userslist[userslist].lastloginip != $userslist[userslist].lastloginhost}
                                 <span class="text-muted">({$userslist[userslist].lastloginhost})</span>
@@ -46,15 +38,14 @@
                             {/if}
                             {if $layout.logid ne $userslist[userslist].id}
                                 {if !$userslist[userslist].access}
-                                    <a href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=1" title="{trans('Connect')}"><i class="fa fa-toggle-on fa-lg fa-fw" aria-hidden="true"></i></a>
+                                    <a class="btn btn-sm btn-secondary" href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=1">{trans('Activate')}</a>
                                     {else}
-                                    <a href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=0" title="{trans('Disconnect')}"><i class="fa fa-toggle-off fa-lg fa-fw" aria-hidden="true"></i></a>
+                                    <a class="btn btn-sm btn-success" href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=0">{trans('Deactivate')}</a>
                                     {/if}
                                 {/if}
-                            <a href="?m=userpasswd&amp;id={$userslist[userslist].id}" title="{trans("Change password")}"><i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i></a>
-                            {if $userslist[userslist].id != $layout.logid}<a href="?m=userdel&amp;id={$userslist[userslist].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to irreversibly delete that user account?")}');" title="{trans("Delete")}"><i class="fa fa-trash fa-lg fa-fw" aria-hidden="true"></i></a>{/if}
-                            <a href="?m=useredit&amp;id={$userslist[userslist].id}" title="{trans("Edit")}"><i class="fa fa-pencil-square fa-lg fa-fw" aria-hidden="true"></i></a>
-                            <a href="?m=userinfo&amp;id={$userslist[userslist].id}" title="{trans("Info")}"><i class="fa fa-info-circle fa-lg fa-fw" aria-hidden="true"></i></a>
+                            <a class="btn btn-sm btn-warning" href="?m=userpasswd&amp;id={$userslist[userslist].id}">{trans("Change password")}</a>
+                            {if $userslist[userslist].id != $layout.logid}<a class="btn btn-sm btn-danger" href="?m=userdel&amp;id={$userslist[userslist].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to irreversibly delete that user account?")}');">{trans("Delete")}</a>{/if}
+                            <a class="btn btn-sm btn-primary" href="?m=useredit&amp;id={$userslist[userslist].id}">{trans("Edit")}</a>
                         </td>
                     </tr>
                 {/if}
