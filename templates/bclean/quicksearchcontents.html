@@ -1,21 +1,21 @@
 {block name="quicksearchcontents"}
-<img src="img/customer.gif" alt="">
-<input class="blend" type="text" id="customerinput" name="qs[customer]" value="" size="15" {tip text="Enter customer ID, first/lastname, email or address and press Enter"}>
-&nbsp;<img src="img/node.gif" alt="">
-<input class="blend" type="text" id="nodeinput" name="qs[node]" value="" size="15" {tip text="Enter node ID, name, IP address or MAC address and press Enter"}>
-&nbsp;<img src="img/ticket.gif" alt="">
-<input class="blend" type="text" id="rtinput" name="qs[ticket]" value="" size="15" {tip text="Enter request tracker ID, subject or requestor name and press Enter"}>
-&nbsp;<img src="img/account.gif" alt="">
-<input class="blend" type="text" id="accountinput" name="qs[account]" value="" size="15" {tip text="Enter account or alias name and press Enter"}>
-&nbsp;<img src="img/docum.gif" alt="">
-<input class="blend" type="text" id="documentinput" name="qs[document]" value="" size="15" {tip text="Enter document number and press Enter"}>
-<script type="text/javascript">
+    <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+    <input class="form-control" type="text" id="customerinput" name="qs[customer]" value="" tip text="Enter customer ID, first/lastname, email or address and press Enter"}>
+    <i class="fa fa-desktop fa-lg fa-fw" aria-hidden="true"></i>
+    <input class="form-control" type="text" id="nodeinput" name="qs[node]" value="" {tip text="Enter node ID, name, IP address or MAC address and press Enter"}>
+    <i class="fa fa-ticket fa-lg fa-fw" aria-hidden="true"></i>
+    <input class="form-control" type="text" id="rtinput" name="qs[ticket]" value=""{tip text="Enter request tracker ID, subject or requestor name and press Enter"}>
+    <i class="fa fa-users fa-lg fa-fw" aria-hidden="true"></i>
+    <input class="form-control" type="text" id="accountinput" name="qs[account]" value="" {tip text="Enter account or alias name and press Enter"}>
+    <i class="fa fa-file fa-lg fa-fw" aria-hidden="true"></i>
+    <input class="form-control" type="text" id="documentinput" name="qs[document]" value="" {tip text="Enter document number and press Enter"}>
+    <script type="text/javascript">
 <!--
-	new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('customerinput'), '?m=quicksearch&ajax=1&mode=customer&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
-	new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('nodeinput'), '?m=quicksearch&ajax=1&mode=node&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
-	new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('rtinput'), '?m=quicksearch&ajax=1&mode=ticket&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
-	new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('accountinput'), '?m=quicksearch&ajax=1&mode=account&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
-	new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('documentinput'), '?m=quicksearch&ajax=1&mode=document&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
+        new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('customerinput'), '?m=quicksearch&ajax=1&mode=customer&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
+        new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('nodeinput'), '?m=quicksearch&ajax=1&mode=node&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
+        new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('rtinput'), '?m=quicksearch&ajax=1&mode=ticket&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
+        new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('accountinput'), '?m=quicksearch&ajax=1&mode=account&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
+        new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('documentinput'), '?m=quicksearch&ajax=1&mode=document&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
 //-->
-</script>
+    </script>
 {/block}
