@@ -25,18 +25,7 @@
             {/block}
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            {block name="fortune-panel"}
-                {if $layout.fortune}
-                    <div id="fortune" class="cf fall superlight" style="padding: 10px;">
-                        <img src="img/totd.gif" alt="Fortune" class="lf" style="margin-right: 10px;"/>
-                        <p class="txt">{$layout.fortune|replace:"\n":"<br>"}</p>
-                    </div>
-                {/if}
-            {/block}
-        </div>
-    </div>
+
     {if $newer_version}
         <script type="text/javascript">
             alert('{t a=$newer_version b="http://lms.org.pl/download"}There is newer version of LMS ($a) available for download from $b.{/t}');
