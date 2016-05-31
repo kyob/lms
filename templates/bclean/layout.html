@@ -75,11 +75,9 @@
                         {foreach from=$newmenu item=menuitem name=menu}
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading{$menuID}">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
+                                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
                                             {$menuitem.name}
                                         </a>
-                                    </h4>
                                 </div>
                                 {if $menuitem.submenu}
                                     <div id="collapse{$menuID}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{$menuID}">
@@ -87,7 +85,8 @@
                                             {foreach from=$menuitem.submenu item=submenuitem}
                                                 <li><a href="{$submenuitem.link|replace:"&":"&amp;"}">{$submenuitem.name}</a></li>
                                                 {/foreach}
-                                        </ul></div>
+                                        </ul>
+                                    </div>
                                     {/if}
                             </div>
                             {counter}
