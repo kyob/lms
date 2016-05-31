@@ -1,4 +1,3 @@
-<span class="bold">
 {trans("Page:")}
 {if $pagination->getPage() > 1}
     <a href="?m={$layout.module}&amp;page={$pagination->getPreviousPage()}">
@@ -26,7 +25,7 @@
 {if $pagination->getPage() < $pagination->getPages()}
     </a>
 {/if}
-</span>
+
     ({t a=$pagination->getFirstOnPage() b=$pagination->getLastOnPage() c=$pagination->getTotal()}records $a - $b of $c{/t})
 {if $pagination->displayGoTo()}
     {counter name=scroller print=false assign=scrollerno}
@@ -44,5 +43,4 @@
     </script>
     {t a="<input class=\"scroller\" type=\"number\" min=\"1\" max=\"`$pagination->getPages()`\" id=\"page`$scrollerno`\" value=\"\" size=\"3\">"}Go to $a page{/t}
     <a href="javascript: void(0);" onclick="javascript: pagechange{$scrollerno}();">{'&raquo;'|str_repeat:3}</a>
-    </form>
 {/if}
