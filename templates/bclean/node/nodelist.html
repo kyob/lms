@@ -129,35 +129,26 @@
                     {$nodelist[nodelist].mac|replace:",":"</SPAN><BR><SPAN class=\"nobr\"><img src=\"img/mac.gif\" alt=\"\"> "}
                 </TD>
                 <TD>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a type="button" class="btn btn-sm btn-{if ! $nodelist[nodelist].access}secondary{else}success{/if}" href="?m=nodeset&amp;id={$nodelist[nodelist].id}">
-                            <i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i>
-                            {if ! $nodelist[nodelist].access}
-                                {trans("Connect")}
-                            {else}
-                                {trans("Disconnect")}
-                            {/if}
-                        </A>
-
-                        <a type="button" class="btn btn-sm btn-{if ! $nodelist[nodelist].warning}secondary{else}warning{/if}" href="?m=nodewarn&amp;id={$nodelist[nodelist].id}">
-                            <i class="fa fa-exclamation-triangle fa-fw warning" aria-hidden="true"></i>
-                            {if ! $nodelist[nodelist].warning}
-                                {trans("Enable notice")}
-                            {else}
-                                {trans("Disable notice")}
-                            {/if}
-                        </A>
-
-                        <a type="button" class="btn btn-sm btn-danger" onClick="return confirmLink(this, '{t a=$nodelist[nodelist].name}Are you sure, you want to remove node \'$a\' from database?{/t}')" href="?m=nodedel&amp;id={$nodelist[nodelist].id}">
-                            <i class="fa fa-trash fa-fw danger" aria-hidden="true"></i>{trans("Delete")}
-                        </A>
-
-                        <a type="button" class="btn btn-sm btn-primary" href="?m=nodeedit&amp;id={$nodelist[nodelist].id}">
-                            <i class="fa fa-pencil-square fa-fw primary" aria-hidden="true"></i>{trans("Edit")}
-                        </a>
-                    </div>
-
-
+                    <a class="btn btn-sm btn-{if ! $nodelist[nodelist].access}secondary{else}success{/if}" href="?m=nodeset&amp;id={$nodelist[nodelist].id}">
+                        {if ! $nodelist[nodelist].access}
+                            <i class="fa fa-toggle-on fa-fw fa-lg" aria-hidden="true" title="{trans("Connect")}"></i>
+                        {else}
+                            <i class="fa fa-toggle-on fa-fw fa-lg" aria-hidden="true" title="{trans("Disconnect")}"></i>
+                        {/if}
+                    </A>
+                    <a class="btn btn-sm btn-{if ! $nodelist[nodelist].warning}secondary{else}warning{/if}" href="?m=nodewarn&amp;id={$nodelist[nodelist].id}">
+                        {if ! $nodelist[nodelist].warning}
+                            <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true" title="{trans("Enable notice")}"></i>
+                        {else}
+                            <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true" title="{trans("Disable notice")}"></i>
+                        {/if}
+                    </A>
+                    <a class="btn btn-sm btn-danger" onClick="return confirmLink(this, '{t a=$nodelist[nodelist].name}Are you sure, you want to remove node \'$a\' from database?{/t}')" href="?m=nodedel&amp;id={$nodelist[nodelist].id}">
+                        <i class="fa fa-trash fa-fw" aria-hidden="true" title="{trans("Delete")}"></i>
+                    </A>
+                    <a class="btn btn-sm btn-primary" href="?m=nodeedit&amp;id={$nodelist[nodelist].id}">
+                        <i class="fa fa-pencil-square fa-fw" aria-hidden="true" title="{trans("Edit")}"></i>
+                    </a>
                 </TD>
             </TR>
         {sectionelse}
