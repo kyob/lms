@@ -75,7 +75,7 @@
                     <option value="-4" {if $listdata.assigments eq '-4'} selected {/if}>{trans('suspended')}</option>
                 </select>
             </FORM>
-        </div>        
+        </div>
     {/block}
 
     {block name="customerlist-list-header-pagination"}
@@ -84,22 +84,21 @@
         {/if}
     {/block}
 
-    <TABLE class="table table-striped table-sm table-bordered my-table">
+    <TABLE class="table table-striped table-sm table-bordered">
         {block name="customerlist-list-header"}
             <thead class="thead-inverse">
                 <TR>
                     <th>
-                        &nbsp;
                     </th>
                     <th>
-                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=customername{if $listdata.direction == "asc" && $listdata.order == "customername"},desc{/if}">{trans("First/last or Company name")}</A> {if $listdata.order == "customername"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
-                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}"><span class="bold">{trans("ID:")}</span></A> {if $listdata.order == "id"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>                       
-                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=address{if $listdata.direction == "asc" && $listdata.order == "address"},desc{/if}">{trans("Address:")}</A> {if $listdata.order == "address"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=customername{if $listdata.direction == "asc" && $listdata.order == "customername"},desc{/if}">{trans("First/last or Company name")}</A> {if $listdata.order == "customername"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} / 
+                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}">{trans("ID")}</A> {if $listdata.order == "id"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} / 
+                        <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=address{if $listdata.direction == "asc" && $listdata.order == "address"},desc{/if}">{trans("Address")}</A> {if $listdata.order == "address"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if}
                     </th>
                     <th>
                         {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=balance{if $listdata.direction == "asc" && $listdata.order == "balance"},desc{/if}">{trans("Balance:")}</A>&nbsp;{if $listdata.order == "balance"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
-                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=tariff{if $listdata.direction == "asc" && $listdata.order == "tariff"},desc{/if}">{trans("Subscription:")}</A>&nbsp;{if $listdata.order == "tariff"}<IMG src="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=balance{if $listdata.direction == "asc" && $listdata.order == "balance"},desc{/if}">{trans("Balance")}</A>&nbsp;{if $listdata.order == "balance"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} / 
+                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=tariff{if $listdata.direction == "asc" && $listdata.order == "tariff"},desc{/if}">{trans("Subscription")}</A>&nbsp;{if $listdata.order == "tariff"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if}
                             {/if}
                     </th>
                     <th>
@@ -109,13 +108,20 @@
             </thead>
         {/block}
         <tbody>
-            {section name=customerlist loop=$customerlist}           
+            {section name=customerlist loop=$customerlist}
                 {block name="customerlist-list-row"}
                     <tr{if $customerlist[customerlist].account && !$customerlist[customerlist].nodeac}class="blend"{/if}>
                     <td>
-                        <IMG src="img/{$_CSTATUSES[$customerlist[customerlist].status].img}" alt="">{if $customerlist[customerlist].info}&nbsp;<i class="fa fa-info-circle" aria-hidden="true" {tip text=$customerlist[customerlist].info}></i>{/if}
+                        {* $_CSTATUSES[$customerlist[customerlist].status].img *}
+                        {if $customerlist[customerlist].info}
+                            <i class="fa fa-info-circle fa-lg fa-fw text-info" aria-hidden="true" {tip text=$customerlist[customerlist].info}></i>
+                        {/if}
                         {if $customerlist[customerlist].account}
-                            <IMG src="img/node{if !$customerlist[customerlist].online}_off{/if}.gif" alt="" {tip a=$customerlist[customerlist].id dynpopup='?m=nodelistshort&amp;id=$a' sticky=1}>
+                            {if !$customerlist[customerlist].online}
+                                <i class="fa fa-user fa-lg fa-fw text-success" aria-hidden="true" {tip a=$customerlist[customerlist].id dynpopup='?m=nodelistshort&amp;id=$a' sticky=1}></i>
+                            {else}
+                                <i class="fa fa-user fa-lg fa-fw text-muted" aria-hidden="true" {tip a=$customerlist[customerlist].id dynpopup='?m=nodelistshort&amp;id=$a' sticky=1}></i>
+                            {/if}
                         {/if}
                     </td>
                     <TD>
@@ -130,18 +136,18 @@
                     <TD>
                         {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
                             {if $customerlist[customerlist].balance < 0}
-                                <A class="btn btn-sm btn-success" href="?m=customerbalanceok&amp;id={$customerlist[customerlist].id}" OnClick="return confirmLink(this, '{t a=$customerlist[customerlist].customername|escape:"javascript"|escape:"html"}Are you sure, you want to account ALL debts of customer \'$a\'?{/t}');">{trans("Account")}</A>
+                                <A class="btn btn-sm btn-success" href="?m=customerbalanceok&amp;id={$customerlist[customerlist].id}" OnClick="return confirmLink(this, '{t a=$customerlist[customerlist].customername|escape:"javascript"|escape:"html"}Are you sure, you want to account ALL debts of customer \'$a\'?{/t}');" title="{trans("Account")}"><i class="fa fa-money fa-lg fa-fw" aria-hidden="true"></i></A>
                                 {/if}
                             {/if}
                             {if $customerlist[customerlist].account}
                                 {if $customerlist[customerlist].status == $smarty.const.CSTATUS_CONNECTED}
                                     {if $customerlist[customerlist].nodeac == 1}
-                                    <A class="btn btn-sm btn-secondary"href="?m=nodeset&amp;ownerid={$customerlist[customerlist].id}">{trans("Disconnect All")}</A>
+                                    <A class="btn btn-sm btn-success" href="?m=nodeset&amp;ownerid={$customerlist[customerlist].id}" title="{trans("Disconnect All")}"><i class="fa fa-toggle-on fa-lg fa-fw" aria-hidden="true"></i></A>
                                     {else}
                                         {if $customerlist[customerlist].nodeac == 2}
-                                        <A class="btn btn-sm btn-secondary"href="?m=nodeset&amp;ownerid={$customerlist[customerlist].id}">{trans("Disconnect All")}</A>
+                                        <A class="btn btn-sm btn-success" href="?m=nodeset&amp;ownerid={$customerlist[customerlist].id}" title="{trans("Disconnect All")}"><i class="fa fa-toggle-on fa-lg fa-fw" aria-hidden="true"></i></A>
                                         {else}
-                                        <A class="btn btn-sm btn-success" href="?m=nodeset&amp;ownerid={$customerlist[customerlist].id}&amp;access=1">{trans("Connect All")}</A>
+                                        <A class="btn btn-sm btn-secondary" href="?m=nodeset&amp;ownerid={$customerlist[customerlist].id}&amp;access=1" title="{trans("Connect All")}"><i class="fa fa-toggle-off fa-lg fa-fw" aria-hidden="true"></i></A>
                                         {/if}
                                     {/if}
                                 {/if}
@@ -149,12 +155,12 @@
                             {if $customerlist[customerlist].warncount}
                                 {if $customerlist[customerlist].status == $smarty.const.CSTATUS_CONNECTED}
                                     {if $customerlist[customerlist].nodewarn == 1}
-                                    <A class="btn btn-sm btn-warning" href="?m=nodewarn&amp;ownerid={$customerlist[customerlist].id}" {if $customerlist[customerlist].message}{tip text=$customerlist[customerlist].message}{/if}>{trans("Disable notices")}</A>
+                                    <A class="btn btn-sm btn-warning" href="?m=nodewarn&amp;ownerid={$customerlist[customerlist].id}" {if $customerlist[customerlist].message}{tip text=$customerlist[customerlist].message}{/if} title="{trans("Disable notices")}"><i class="fa fa-exclamation fa-lg fa-fw" aria-hidden="true"></i></A>
                                     {else}
                                         {if $customerlist[customerlist].nodewarn == 2}
-                                        <A class="btn btn-sm btn-warning" href="?m=nodewarn&amp;ownerid={$customerlist[customerlist].id}" {if $customerlist[customerlist].message}{tip text=$customerlist[customerlist].message}{/if}>{trans("Disable notices")}</A>
+                                        <A class="btn btn-sm btn-warning" href="?m=nodewarn&amp;ownerid={$customerlist[customerlist].id}" {if $customerlist[customerlist].message}{tip text=$customerlist[customerlist].message}{/if} title="{trans("Disable notices")}"><i class="fa fa-exclamation fa-lg fa-fw" aria-hidden="true"></i></A>
                                         {else}
-                                        <A class="btn btn-sm btn-secondary" href="?m=nodewarn&amp;ownerid={$customerlist[customerlist].id}&amp;warning=1" {if $customerlist[customerlist].message}{tip text=$customerlist[customerlist].message}{/if}>{trans("Enable notices")}</A>
+                                        <A class="btn btn-sm btn-secondary" href="?m=nodewarn&amp;ownerid={$customerlist[customerlist].id}&amp;warning=1" {if $customerlist[customerlist].message}{tip text=$customerlist[customerlist].message}{/if} title="{trans("Enable notices")}"><i class="fa fa-exclamation fa-lg fa-fw" aria-hidden="true"></i></A>
                                         {/if}
                                     {/if}
                                 {/if}
@@ -162,8 +168,8 @@
                             {if $listdata.state == 50}
                             <A class="btn btn-sm btn-success" href="?m=customeredit&amp;id={$customerlist[customerlist].id}&amp;action=recover">{trans("Recover")}</A>
                             {else}
-                            <A class="btn btn-sm btn-danger" href="?m=customerdel&amp;id={$customerlist[customerlist].id}" OnCLick="return confirmLink(this, '{t a=$customerlist[customerlist].customername|escape:"javascript"|escape:"html"}Are you sure, you want to remove customer \'$a\' from database?\n\nIf that customer have some nodes, they will be also removed and data definitely lost!{/t}');">{trans("Delete")}</A>
-                            <A class="btn btn-sm btn-primary" href="?m=customeredit&amp;id={$customerlist[customerlist].id}">{trans("Edit")}</A>
+                            <A class="btn btn-sm btn-danger" href="?m=customerdel&amp;id={$customerlist[customerlist].id}" OnCLick="return confirmLink(this, '{t a=$customerlist[customerlist].customername|escape:"javascript"|escape:"html"}Are you sure, you want to remove customer \'$a\' from database?\n\nIf that customer have some nodes, they will be also removed and data definitely lost!{/t}');" title="{trans("Delete")}"><i class="fa fa-trash fa-lg fa-fw" aria-hidden="true"></i></A>
+                            <A class="btn btn-sm btn-primary" href="?m=customeredit&amp;id={$customerlist[customerlist].id}" title="{trans("Edit")}"><i class="fa fa-edit fa-lg fa-fw" aria-hidden="true"></i></A>
                             {/if}
                     </TD>
                     </tr>
