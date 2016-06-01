@@ -1,82 +1,51 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<!--// $Id$ //-->
-<html>
-<head>
-    <meta name="GENERATOR" content="LMS {$layout.lmsv}">
-    <meta http-equiv="Content-Language" content="{$LANGDEFS.$_ui_language.html}">
-    <meta http-equiv="Content-Type" content="text/html; charset={$LANGDEFS.$_ui_language.charset}">
-    <link href="{ConfigHelper::getConfig('phpui.style', 'img/style.css')}" rel="stylesheet" type="text/css">
-    <link href="img/lms-net.gif" rel="shortcut icon">
-    <title>::: {trans("Welcome to LMS")} {$layout.lmsv} :::</title>
-</head>
-<body>
-<table width="100%" style="position: absolute; height: 100%;">
-	<tr>
-		<td align="center">
-			<table cellpadding="20">
-				<tr>
-					<td>
-						<img src="img/logo.gif" alt="">
-					</td>
-					<td align="center" class="loginform light" style="width: 300px;">
-						<span class="bold">{trans("LMS version")} {$layout.lmsv}{if $layout.lmsvr} ({$layout.lmsvr}){/if}<br><br>
-						&copy; 2001-{$smarty.now|date_format:'%Y'} LMS Developers</span><br><br><br>
-						{if $error}<span class="alert bold">{$error}</span>{else}&nbsp;{/if}<br>
-						<br>
-						<form method="post" name="loginform" action="{$target}">
-						<p><INPUT type="submit" class="hiddenbtn"></p>
-							<table>
-								<tr>
-									<td class="text-right bold">
-										{trans("Login:")}&nbsp;
-									</td>
-									<td>
-										<input class="bold" type="text" name="loginform[login]" size="10" accesskey="l">
-									</td>
-								</tr>
-								<tr>
-									<td class="text-right bold">
-										{trans("Password:")}&nbsp;
-									</td>
-									<td>
-										<input class="bold" type="password" name="loginform[pwd]" size="10"><br>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" class="text-center">
-										<input class="bold" type="submit" name="loginform[submit]" value="{trans("Login")}">
-									</td>
-								</tr>
-							</table>
-						</form>
-						<br>
-						<br>
-						<br>
-						<a href="doc/html/{$_ui_language}/"><span class="blend">{trans("Documentation")}</span></a><br>
-						<a href="http://www.lms.org.pl/"><span class="blend">{trans("LMS Project Homepage")}</span></a>
-					</td>
-				</tr>
-				{if $layout.dberrors}
-				<tr>
-					<td colspan="2">
-					{include file="dberrors.html"}
-					</td>
-				</tr>
-				{/if}
-			</table>
-		</td>
-	</tr>
-</table>
-<script type="text/javascript">
-<!--
-document.forms['loginform'].elements['loginform[login]'].focus();
--->
-</script>
-{$lms_swekey}
-</body>
+<!DOCTYPE html>
+<html lang="{$LANGDEFS.$_ui_language.html}">
+    <head>
+        <title>::: {trans("Welcome to LMS")} {$layout.lmsv} :::</title>
+        <meta name="GENERATOR" content="LMS {$layout.lmsv}">
+        <meta charset="{$LANGDEFS.$_ui_language.charset}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+
+                <h1>{trans("LMS version")} {$layout.lmsv}{if $layout.lmsvr} ({$layout.lmsvr}){/if}</h1>
+                <p class="lead">&copy; 2001-{$smarty.now|date_format:'%Y'} LMS Developers</p>
+                <hr class="m-y-2">
+
+                {if $error}<div class="alert alert-danger">{$error}</div>{/if}
+
+
+                <form class="form-inline" method="post" name="loginform" action="{$target}">
+                    {trans("Login:")}
+                    <input class="form-control" type="text" name="loginform[login]" accesskey="l">
+
+                    {trans("Password:")}
+                    <input class="form-control" type="password" name="loginform[pwd]">
+
+                    <input class="form-control" type="submit" name="loginform[submit]" value="{trans("Login")}">
+                </form>
+
+            </div>
+        </div>
+
+        <p class="text-md-center">
+            <a href="http://www.lms.org.pl/">{trans("LMS Project Homepage")}</a> | <a href="doc/html/{$_ui_language}/">{trans("Documentation")}</a>
+        </p>
+
+
+        {if $layout.dberrors}
+            {include file="dberrors.html"}
+        {/if}
+
+        <script type="text/javascript">
+            <!--
+            document.forms['loginform'].elements['loginform[login]'].focus();
+                    -- >
+        </script>
+        {$lms_swekey}
+    </body>
 </html>
