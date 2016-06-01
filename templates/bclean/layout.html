@@ -52,13 +52,8 @@
     </script>
 
     <style>
-* {
-   font-size: 14px;
-}
-        h4.panel-title{
-            outline: 1px solid #ddd;
-            background: #eee;
-            padding: 3px;
+        * {
+            font-size: 14px;
         }
     </style>
 </head>
@@ -78,9 +73,9 @@
                         {foreach from=$newmenu item=menuitem name=menu}
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading{$menuID}">
-                                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
-                                            {$menuitem.name}
-                                        </a>
+                                    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
+                                        {$menuitem.name}
+                                    </a>
                                 </div>
                                 {if $menuitem.submenu}
                                     <div id="collapse{$menuID}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{$menuID}">
@@ -90,7 +85,7 @@
                                                 {/foreach}
                                         </ul>
                                     </div>
-                                    {/if}
+                                {/if}
                             </div>
                             {counter}
                         {/foreach}
