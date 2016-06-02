@@ -65,8 +65,6 @@
                                 </li>
                             </ul>
 
-
-
                             <ul class="list-inline">
                                 {if $type == 1}
                                     <li class="list-inline-item">
@@ -127,53 +125,53 @@
                                 </div>
                             </div>
 
-                         <div class="row">
-                                <div class="col-md-6">                                
-                            {if !empty($customerinfo.contacts)}
-                                <div class="card">
-                                    <div class="card-header">{trans("Contact phones")}</div>
-                                    <div class="card-block">
-                                        <ul>
-                                            {foreach $customerinfo.contacts as $contact}
-                                                <li{if ($contact.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>
-                                                    {$contact.phone}
-                                                    {if $contact.name}
-                                                        ({$contact.name|truncate:"40":"...":true})
-                                                    {/if}
-                                                    {if $contact.typestr}
-                                                        [{$contact.typestr}]
-                                                    {/if}
-                                                </li>
-                                            {/foreach}
-                                        </ul>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {if !empty($customerinfo.contacts)}
+                                        <div class="card">
+                                            <div class="card-header">{trans("Contact phones")}</div>
+                                            <div class="card-block">
+                                                <ul>
+                                                    {foreach $customerinfo.contacts as $contact}
+                                                        <li>
+                                                            <span{if ($contact.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>{$contact.phone}</span>
+                                                            {if $contact.name}
+                                                                ({$contact.name|truncate:"40":"...":true})
+                                                            {/if}
+                                                            {if $contact.typestr}
+                                                                [{$contact.typestr}]
+                                                            {/if}
+                                                        </li>
+                                                    {/foreach}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {/if}
                                 </div>
-                            {/if}
+                                <div class="col-md-6">
+                                    {if !empty($customerinfo.emails)}
+                                        <div class="card">
+                                            <div class="card-header">{trans("Email addresses")}</div>
+                                            <div class="card-block">
+                                                <ul>
+                                                    {foreach $customerinfo.emails as $email}
+                                                        <li>
+                                                            <a{if ($email.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if} href="mailto:{$email.email}">{$email.email}</a>
+                                                            {if $email.name}
+                                                                ({$email.name|truncate:"40":"...":true})
+                                                            {/if}
+                                                            {if $email.typestr}
+                                                                [{$email.typestr}]
+                                                            {/if}
+                                                        </li>
+                                                    {/foreach}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {/if}
                                 </div>
-                                <div class="col-md-6">   
-                            {if !empty($customerinfo.emails)}
-                                <div class="card">
-                                    <div class="card-header">{trans("Email addresses")}</div>
-                                    <div class="card-block">
-                                        <ul>
-                                            {foreach $customerinfo.emails as $email}
-                                                <li{if ($email.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>
-                                                    <a href="mailto:{$email.email}">{$email.email}</a>
-                                                    {if $email.name}
-                                                        ({$email.name|truncate:"40":"...":true})
-                                                    {/if}
-                                                    {if $email.typestr}
-                                                        [{$email.typestr}]
-                                                    {/if}
-                                                </li>
-                                            {/foreach}
-                                        </ul>
-                                    </div>
-                                </div>
-                            {/if}
-                                </div>
-                         </div>
-                            
+                            </div>
+
                             {block name="customerinfobox-options"}
                                 <div class="card">
                                     <div class="card-header">{trans("Agreements")}</div>
@@ -331,7 +329,7 @@
                                     <div class="card-header">
                                         {trans("IM")}
                                     </div>
-                                    <div class="card-block">                                
+                                    <div class="card-block">
                                         <ul>
                                             {foreach from=$customerinfo.messengers item=item}
                                                 {if $item.type == $smarty.const.IM_GG}
@@ -348,7 +346,6 @@
                                     </div>
                                 </div>
                             {/if}
-
 
                             <div class="card">
                                 <div class="card-header">
@@ -394,7 +391,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         {block name="customerinfobox-buttons"}
-                            <A class="btn btn-warning" HREF="?m=rtsearch&amp;id={$customerinfo.id}"{if $customerstats['tickets']['notresolved']} class="bold"{/if}>{trans("Tickets")}{if $customerstats['tickets']} ({$customerstats['tickets']['all']}{if $customerstats['tickets']['notresolved']} / {$customerstats['tickets']['notresolved']}{/if}){/if}</A>
+                            <A class="btn btn-warning" HREF="?m=rtsearch&amp;id={$customerinfo.id}"{if $customerstats['tickets']['notresolved']} class="font-weight-bold"{/if}>{trans("Tickets")}{if $customerstats['tickets']} ({$customerstats['tickets']['all']}{if $customerstats['tickets']['notresolved']} / {$customerstats['tickets']['notresolved']}{/if}){/if}</A>
                             <A class="btn btn-secondary" href="?m=accountlist&amp;u={$customerinfo.id}">{trans("Accounts")} ({$customerstats['accounts']})</A>
                             <A class="btn btn-secondary" href="?m=domainlist&amp;c={$customerinfo.id}">{trans("Domains")} ({$customerstats['domains']})</A>
                             <A class="btn btn-secondary" href="?m=trafficprint&amp;type=customertraffic&amp;customer={$customerinfo.id}" target="_blank">{trans("Stats")}</A>
