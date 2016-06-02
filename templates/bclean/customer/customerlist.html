@@ -125,7 +125,7 @@
                         {/if}
                     </td>
                     <TD>
-                        <A name="{$customerlist[customerlist].id}" {tip a=$customerlist[customerlist].id dynpopup='?m=customerinfoshort&amp;id=$a'}>{$customerlist[customerlist].customername|escape}</A> <span class="text-muted">({$customerlist[customerlist].id|string_format:"%04d"})</span><BR>
+                        <A href="?m=customerinfo&amp;id={$customerlist[customerlist].id}" {tip a=$customerlist[customerlist].id dynpopup='?m=customerinfoshort&amp;id=$a'}>{$customerlist[customerlist].customername|escape}</A> <span class="text-muted">({$customerlist[customerlist].id|string_format:"%04d"})</span><BR>
                         {$customerlist[customerlist].address}{if $customerlist[customerlist].city != ""},{/if} {$customerlist[customerlist].zip} {$customerlist[customerlist].city}{if $customerlist[customerlist].country != ""}, {t}{$customerlist[customerlist].country}{/t}{/if}
                     </TD>
                     <TD>
