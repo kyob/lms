@@ -133,58 +133,52 @@
             accountscountelem.value = parseInt(nr) + 1;
         }
     </script>
+    <h1>{$layout.pagetitle}</h1>
 
-    <form class="form-inline" name="customeradd" id="customeradd" method="POST" action="?m=customeradd">
+    <form name="customeradd" id="customeradd" method="POST" action="?m=customeradd">
         <INPUT type="submit" class="hiddenbtn">
 
+
         <div class="row">
-            <div class="col-md-12">
-                <div class="card-header text-primary bg-primary">{$layout.pagetitle}</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-6">
                 {block name="customeradd-leftcolumn"}
                     <div class="card">
+                        <div class="card-header lead">{trans("Basic data")}</div>
                         <div class="card-block">
-                            <div class="form-group">
-                                {trans("Select legal personality type")}:
-                                <div class="radio btn btn-sm btn-primary" id="privateSwitch">
-                                    <label>
-                                        <INPUT class="form-control form-control-sm" type="radio" name="customeradd[type]" value="0" id="private" {tip text="Select legal personality type" trigger="type"}{if $customeradd.type == $smarty.const.CTYPES_PRIVATE} CHECKED{/if}>
-                                        {assign var='type' value=$smarty.const.CTYPES_PRIVATE}{$_CTYPES.$type}
-                                    </label>
-                                </div>
-                                <div class="radio btn btn-sm btn-secondary" id="companySwitch">
-                                    <label>
-                                        <INPUT class="form-control form-control-sm" type="radio" name="customeradd[type]" value="1" id="company" {tip text="Select legal personality type" trigger="type"}{if $customeradd.type == $smarty.const.CTYPES_COMPANY} CHECKED{/if}>
-                                        {assign var='type' value=$smarty.const.CTYPES_COMPANY}{$_CTYPES.$type}
-                                    </label>
-                                </div>
-                            </div>
+                            {trans("Select legal personality type")}:
+                            <div class="radio">
+                                <label class="btn btn-sm btn-primary" id="privateSwitch">
+                                    &nbsp;<input type="radio" name="customeradd[type]" value="0" id="private" {tip trigger="type"}{if $customeradd.type == $smarty.const.CTYPES_PRIVATE} CHECKED{/if}>
+                                    {assign var='type' value=$smarty.const.CTYPES_PRIVATE}{$_CTYPES.$type}
+                                </label>
+                                <label class="btn btn-sm btn-secondary" id="companySwitch">
+                                    &nbsp;<input type="radio" name="customeradd[type]" value="1" id="company" {tip trigger="type"}{if $customeradd.type == $smarty.const.CTYPES_COMPANY} CHECKED{/if}>
+                                    {assign var='type' value=$smarty.const.CTYPES_COMPANY}{$_CTYPES.$type}
+                                </label>                                
+                            </div>                                                            
 
                             <hr>
 
                             <div class="form-group">
                                 <label for="firstName">{trans("First name:")}</label>
-                                <input type="text" class="form-control form-control-sm" id="firstName" name="customeradd[name]" value="{$customeradd.name}" required {tip text="Enter customer name" trigger="name" bold=1}>
+                                <input type="text" class="form-control form-control-sm" id="firstName" name="customeradd[name]" value="{$customeradd.name}" required placeholder="{trans('Enter customer name')}">
                             </div>
 
                             <div class="form-group">
                                 <label for="lastName_companyName">{trans("Last name:")}</label>
-                                <input type="text" class="form-control form-control-sm" id="lastName_companyName" name="customeradd[lastname]" value="{$customeradd.lastname}" required {tip text="Enter customer last name or company name" trigger="lastname" bold=1}>
+                                <input type="text" class="form-control form-control-sm" id="lastName_companyName" name="customeradd[lastname]" value="{$customeradd.lastname}" required placeholder="{trans('Enter customer last name or company name')}">
                             </div>
 
                             <hr>
 
                             <div class="form-group">
                                 {trans("ICN")}:
-                                <INPUT id="ICN" class="form-control form-control-sm" type="text" value="{$customeradd.icn}" name="customeradd[icn]" {tip text="Enter Identity Card Number (optional)" trigger="icn"}>
+                                <INPUT id="ICN" class="form-control form-control-sm" type="text" value="{$customeradd.icn}" name="customeradd[icn]" placeholder="{trans('Enter Identity Card Number (optional)')}">
                             </div>
 
                             <div class="form-group">
                                 {trans("SSN")}:
-                                <INPUT id="SSN" class="form-control form-control-sm" type="text" value="{$customeradd.ssn}" name="customeradd[ssn]" {tip text="Enter customer Social Security Number (optional)" trigger="ssn"}>
+                                <INPUT id="SSN" class="form-control form-control-sm" type="text" value="{$customeradd.ssn}" name="customeradd[ssn]" placeholder="{trans('Enter customer Social Security Number (optional)')}">
                                 {if $customeradd.ssnwarning}
                                     <INPUT type="hidden" name="customeradd[ssnwarning]" value="1">
                                 {/if}
@@ -194,7 +188,7 @@
 
                             <div class="form-group">
                                 {trans("TEN")}:
-                                <INPUT id="TEN" class="form-control form-control-sm" type="text" value="{$customeradd.ten}" name="customeradd[ten]" {tip text="Enter customer Tax Exempt Number (optional)" trigger="ten"}>
+                                <INPUT id="TEN" class="form-control form-control-sm" type="text" value="{$customeradd.ten}" name="customeradd[ten]" placeholder="{trans('Enter customer Tax Exempt Number (optional)')}">
                                 {if $customeradd.tenwarning}
                                     <INPUT id="TEN" type="hidden" name="customeradd[tenwarning]" value="1">
                                 {/if}
@@ -202,12 +196,12 @@
 
                             <div class="form-group">
                                 {trans("REGON")}:
-                                <INPUT id="REGON" class="form-control form-control-sm" type="text" value="{$customeradd.regon}" name="customeradd[regon]" {tip text="Enter Business Registration Number (optional)" trigger="regon"}>
+                                <INPUT id="REGON" class="form-control form-control-sm" type="text" value="{$customeradd.regon}" name="customeradd[regon]" placeholder="{trans('Enter Business Registration Number (optional)')}">
                             </div>
 
                             <div class="form-group">
                                 {trans("RBE")}:
-                                <INPUT id="RBE" class="form-control form-control-sm" type="text" value="{$customeradd.rbe}" name="customeradd[rbe]" {tip text="Enter National Court Register / Register of Business Entities Number (optional)" trigger="rbe"}>
+                                <INPUT id="RBE" class="form-control form-control-sm" type="text" value="{$customeradd.rbe}" name="customeradd[rbe]" placeholder="{trans('Enter National Court Register / Register of Business Entities Number (optional)')}">
                             </div>
                         </div>
                     </div>
@@ -215,12 +209,17 @@
                     <div class="card ">
                         <div class="card-block">
                             <div class="form-group">
-                                <label for="exampleInputName2"><button type="button" class="btn btn-primary" onClick="randomize();">{trans("PIN")}:</button></label>
-                                <INPUT id="PIN" class="form-control form-control-sm" type="number" pattern="{literal}.{4,6}{/literal}" required size="1" value="{if $customeradd.pin}{$customeradd.pin}{/if}" name="customeradd[pin]" title="{trans("Enter 4 to 6 digits PIN number (optional)")}">
+                                <label for="exampleInputName2">{trans("PIN")}: </label>
+                                <div class="input-group">
+                                    <input id="PIN" type="number" class="form-control form-control-sm" pattern="{literal}.{4,6}{/literal}" required value="{if $customeradd.pin}{$customeradd.pin}{/if}" name="customeradd[pin]" placeholder="{trans("Enter 4 to 6 digits PIN number (optional)")}">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary" onClick="randomize();">{trans("Generate new PIN!")}</button>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputName2">{trans("External system identifier")}:</label>
-                                <input type="text" class="form-control form-control-sm" id="exampleInputName2" maxlength="20" name="customeradd[extid]" value="{$customeradd.extid}" {tip text="Enter customer identifier in external system (optional)" trigger="extid"}>
+                                <input type="text" class="form-control form-control-sm" id="exampleInputName2" maxlength="20" name="customeradd[extid]" value="{$customeradd.extid}" placeholder="{trans('Enter customer identifier in external system (optional)')}">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputName2">{trans("Select customer state")}:</label>
@@ -255,28 +254,28 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">{trans("Addresses")}</div>
+                        <div class="card-header lead">{trans("Addresses")}</div>
                         <div class="card-block">
-                            <h4 class="card-title">{trans("Adres zameldowania/firmy")}</h4>
+                            <div class="card-title"><strong>{trans("Adres zameldowania/firmy")}</strong></div>
                             <div class="form-group">
                                 {trans("Street:")}
-                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.street}" name="customeradd[street]" id="street" required {tip text="Enter street" trigger="street"}></TD>
+                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.street}" name="customeradd[street]" id="street" required placeholder="{trans('Enter street')}">
                             </div>
                             <div class="form-group">
                                 {trans("Building:")}
-                                <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customeradd.building}" name="customeradd[building]" id="building" {tip text="Enter building number" trigger="building"}>
+                                <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customeradd.building}" name="customeradd[building]" id="building" placeholder="{trans('Enter building number')}">
                             </div>
                             <div class="form-group">
                                 {trans("Apartment:")}
-                                <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customeradd.apartment}" name="customeradd[apartment]" id="apartment" {tip text="Enter apartment number" trigger="apartment"}>
+                                <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customeradd.apartment}" name="customeradd[apartment]" id="apartment" placeholder="{trans('Enter apartment number')}">
                             </div>
                             <div class="form-group">
                                 {trans("City:")}
-                                <INPUT class="form-control form-control-sm" size="5" type="text" value="{$customeradd.city}" name="customeradd[city]" id="city" {tip text="Enter city" trigger="city"}></TD>
+                                <INPUT class="form-control form-control-sm" size="5" type="text" value="{$customeradd.city}" name="customeradd[city]" id="city" placeholder="{trans('Enter city')}">
                             </div>
                             <div class="form-group">
                                 {trans("Zip:")}
-                                <INPUT class="form-control form-control-sm" size="3" type="text" value="{$customeradd.zip}" name="customeradd[zip]" id="zip" {tip text="Enter zip code" trigger="zip"}>
+                                <INPUT class="form-control form-control-sm" size="3" type="text" value="{$customeradd.zip}" name="customeradd[zip]" id="zip" placeholder="{trans('Enter zip code')}">
                             </div>
                             {if $customeradd.zipwarning}
                                 <INPUT type="hidden" name="customeradd[zipwarning]" value="1">
@@ -317,31 +316,31 @@
                         </div>
 
                         <div class="card-block">
-                            <h4 class="card-title">
-                                {trans("Postal address")}
+                            <div class="card-title">
+                                <strong>{trans("Postal address")}</strong>
                                 <div class="form-group">
-                                    ( <INPUT class="form-control form-control-sm" type="text" size="27" value="{$customeradd.post_name}" placeholder="{trans('Enter name (optional)')}" name="customeradd[post_name]" id="post_name" {tip text="Enter name (optional)" trigger="post_name"}> )
+                                    <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.post_name}" placeholder="{trans('Enter name (optional)')}" name="customeradd[post_name]" id="post_name">
                                 </div>
-                            </h4>
+                            </div>
                             <div class="form-group">
                                 {trans("Street:")}
-                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.post_street}" name="customeradd[post_street]" id="post_street" {tip text="Enter street name (optional)" trigger="post_street"}>
+                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.post_street}" name="customeradd[post_street]" id="post_street" placeholder="{trans('Enter street name (optional)')}">
                             </div>
                             <div class="form-group">
                                 {trans("Building:")}
-                                <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customeradd.post_building}" name="customeradd[post_building]" id="post_builing" {tip text="Enter building number (optional)" trigger="post_building"}>
+                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.post_building}" name="customeradd[post_building]" id="post_builing" placeholder="{trans('Enter building number (optional)')}">
                             </div>
                             <div class="form-group">
                                 {trans("Apartment:")}
-                                <INPUT class="form-control form-control-sm" size="1" type="text" alue="{$customeradd.post_apartment}" name="customeradd[post_apartment]" id="post_apartment" {tip text="Enter apartment number (optional)" trigger="post_apartment"}>
+                                <INPUT class="form-control form-control-sm" type="text" alue="{$customeradd.post_apartment}" name="customeradd[post_apartment]" id="post_apartment" placeholder="{trans('Enter apartment number (optional)')}">
                             </div>
                             <div class="form-group">
                                 {trans("City:")}
-                                <INPUT class="form-control form-control-sm" size="5" type="text" value="{$customeradd.post_city}" name="customeradd[post_city]" id="post_city" {tip text="Enter city (optional)" trigger="post_city"}>
+                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.post_city}" name="customeradd[post_city]" id="post_city" placeholder="{trans('Enter city (optional)')}">
                             </div>
                             <div class="form-group">
                                 {trans("Zip:")}
-                                <INPUT class="form-control form-control-sm" size="3" type="text" value="{$customeradd.post_zip}" name="customeradd[post_zip]" id="post_zip" {tip text="Enter zip code (optional)" trigger="post_zip"}>
+                                <INPUT class="form-control form-control-sm" type="text" value="{$customeradd.post_zip}" name="customeradd[post_zip]" id="post_zip" placeholder="{trans('Enter zip code (optional)')}">
                             </div>
                             {if $customeradd.post_zipwarning}
                                 <INPUT class="form-control form-control-sm" type="hidden" name="customeradd[post_zipwarning]" value="1">
@@ -382,16 +381,16 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">{trans("Contact phones")} <a class="btn btn-sm btn-primary" href="javascript:newcontact()">{trans("Add contact field")}</a></div>
+                        <div class="card-header lead">{trans("Contact phones")} <a class="btn btn-sm btn-primary" href="javascript:newcontact()">{trans("Add contact field")}</a></div>
                         <div class="card-block">
                             <table class="table table-sm table-striped table-hover">
                                 {foreach $customeradd.contacts as $key => $item}
                                     <tr id="contact{$key}">
                                         <td>
                                             {if !$item@first}<hr>{/if}
-                                            {trans("Enter contact phone")}: <INPUT class="form-control form-control-sm" type="tel" size="9" value="{$item.phone}" name="customeradd[contacts][{$key}][phone]" {tip text="Enter contact phone" trigger="contact`$key`"}>
+                                            {trans("Enter contact phone")}: <INPUT class="form-control form-control-sm" type="tel" size="9" value="{$item.phone}" name="customeradd[contacts][{$key}][phone]">
                                             {trans("Enter contact name/description (optional)")}:
-                                            <INPUT class="form-control form-control-sm" type="text" value="{$item.name}" name="customeradd[contacts][{$key}][name]" {tip text="Enter contact name/description (optional)"}>
+                                            <INPUT class="form-control form-control-sm" type="text" value="{$item.name}" name="customeradd[contacts][{$key}][name]">
                                             <hr>
                                             {trans("Use number for")}:
                                             <div class="btn-group">
@@ -417,7 +416,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">{trans("Email addresses")} <A class="btn btn-sm btn-primary" href="javascript:newemail()">{trans("Add contact field")}</A></div>
+                        <div class="card-header lead">{trans("Email addresses")} <A class="btn btn-sm btn-primary" href="javascript:newemail()">{trans("Add contact field")}</A></div>
                         <div class="card-block">
                             <table class="table table-sm table-striped table-hover">
                                 {foreach $customeradd.emails as $key => $item}
@@ -425,10 +424,10 @@
                                         <TD class="nobr">
                                             {if !$item@first}<HR>{/if}
                                             {trans("Enter e-mail address (optional)")}:
-                                            <INPUT class="form-control form-control-sm" type="email" size="23" value="{$item.email}" name="customeradd[emails][{$key}][email]" {tip text="Enter e-mail address (optional)" trigger="email`$key`"}>
+                                            <INPUT class="form-control form-control-sm" type="email" value="{$item.email}" name="customeradd[emails][{$key}][email]">
 
                                             {trans("Enter contact name/description (optional)")}:
-                                            <INPUT type="text" value="{$item.name}" name="customeradd[emails][{$key}][name]" {tip text="Enter contact name/description (optional)"}>
+                                            <INPUT type="text" value="{$item.name}" name="customeradd[emails][{$key}][name]">
                                             <hr>
                                             <div class="form-group">
                                                 {trans("Use e-mail for")}:
@@ -457,7 +456,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">{trans("Alternative bank accounts")} <A class="btn btn-sm btn-primary" href="javascript:newaccount()">{trans("Add contact field")}</A></div>
+                        <div class="card-header lead">{trans("Alternative bank accounts")} <A class="btn btn-sm btn-primary" href="javascript:newaccount()">{trans("Add contact field")}</A></div>
                         <div class="card-block">
                             <table class="table table-sm table-striped table-hover">
                                 {foreach $customeradd.accounts as $key => $item}
@@ -465,9 +464,9 @@
                                         <TD>
                                             {if !$item@first}<HR>{/if}
                                             {trans("Enter bank account (optional)")}
-                                            <INPUT class="form-control form-control-sm" type="text" size="33" value="{$item.account}" name="customeradd[accounts][{$key}][account]" {tip text="Enter bank account (optional)" trigger="account`$key`"}>
+                                            <INPUT class="form-control form-control-sm" type="text" value="{$item.account}" name="customeradd[accounts][{$key}][account]">
                                             {trans("Enter contact name/description (optional)")}
-                                            <INPUT class="form-control form-control-sm" type="text" value="{$item.name}" name="customeradd[accounts][{$key}][name]" {tip text="Enter contact name/description (optional)"}>
+                                            <INPUT class="form-control form-control-sm" type="text" value="{$item.name}" name="customeradd[accounts][{$key}][name]">
                                             <hr>
                                             <div class="form-group">
                                                 {trans("Use bank account for")}:
@@ -489,67 +488,83 @@
                     </div>
 
                     <div class="card">
+                        <div class="card-header lead">{trans("IM")}</div>                        
                         <div class="card-block">
-                            {assign var=gg value=$smarty.const.IM_GG}{trans("Gadu-Gadu")}
-                            <INPUT class="form-control form-control-sm" type="text" name="customeradd[uid][{$gg}]" value="{if $customeradd.uid.$gg}{$customeradd.uid.$gg}{/if}" SIZE="20" {tip text="Enter Gadu-Gadu ID (optional)" trigger="gg"}>
-
-                            {assign var=yahoo value=$smarty.const.IM_YAHOO}{trans("Yahoo")}
-                            <INPUT class="form-control form-control-sm" type="text" name="customeradd[uid][{$yahoo}]" value="{if $customeradd.uid.$yahoo}{$customeradd.uid.$yahoo}{/if}" SIZE="20" {tip text="Enter Yahoo Messenger ID (optional)" trigger="yahoo"}>
-
-                            {assign var=skype value=$smarty.const.IM_SKYPE}{trans("Skype")}
-                            <INPUT class="form-control form-control-sm" type="text" name="customeradd[uid][{$skype}]" value="{if $customeradd.uid.$skype}{$customeradd.uid.$skype}{/if}" SIZE="20" {tip text="Enter Skype ID (optional)" trigger="skype"}>
+                            <div class="form-group">
+                                {assign var=gg value=$smarty.const.IM_GG}{trans("Gadu-Gadu")}
+                                <INPUT class="form-control form-control-sm" type="text" name="customeradd[uid][{$gg}]" value="{if $customeradd.uid.$gg}{$customeradd.uid.$gg}{/if}" {tip text="Enter Gadu-Gadu ID (optional)" trigger="gg"}>
+                            </div>
+                            <div class="form-group">
+                                {assign var=yahoo value=$smarty.const.IM_YAHOO}{trans("Yahoo")}
+                                <INPUT class="form-control form-control-sm" type="text" name="customeradd[uid][{$yahoo}]" value="{if $customeradd.uid.$yahoo}{$customeradd.uid.$yahoo}{/if}" {tip text="Enter Yahoo Messenger ID (optional)" trigger="yahoo"}>
+                            </div>
+                            <div class="form-group">
+                                {assign var=skype value=$smarty.const.IM_SKYPE}{trans("Skype")}
+                                <INPUT class="form-control form-control-sm" type="text" name="customeradd[uid][{$skype}]" value="{if $customeradd.uid.$skype}{$customeradd.uid.$skype}{/if}" {tip text="Enter Skype ID (optional)" trigger="skype"}>
+                            </div>
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-header">{trans("Finances")}</div>
+                        <div class="card-header lead">{trans("Finances")}</div>
                         <div class="card-block">
-                            {trans("Deadline:")}
-                            <SELECT class="form-control form-control-sm" name="customeradd[paytime]" {tip text="Select default deadline in days" trigger="paytime"}>
-                                <OPTION value="-1"{if !isset($customeradd.paytime) || $customeradd.paytime==-1} selected{/if}>- {trans("default")} -</OPTION>
-                                <OPTION value="0"{if isset($customeradd.paytime) && $customeradd.paytime==0} selected{/if}>0</OPTION>
-                                <OPTION value="7"{if $customeradd.paytime==7} selected{/if}>7</OPTION>
-                                <OPTION value="10"{if $customeradd.paytime==10} selected{/if}>10</OPTION>
-                                <OPTION value="14"{if $customeradd.paytime==14} selected{/if}>14</OPTION>
-                                <OPTION value="21"{if $customeradd.paytime==21} selected{/if}>21</OPTION>
-                                <OPTION value="30"{if $customeradd.paytime==30} selected{/if}>30</OPTION>
-                            </SELECT>
-
-                            {trans("Payment type:")}
-                            <SELECT class="form-control form-control-sm" name="customeradd[paytype]" {tip text="Select default invoices payment type" trigger="paytype"}>
-                                <OPTION value=""{if !$customeradd.paytype} selected{/if}>- {trans("default")} -</OPTION>
-                                    {foreach from=$_PAYTYPES item=item key=key}
-                                    <OPTION value="{$key}"{if $customeradd.paytype==$key} selected{/if}>{$item}</OPTION>
-                                    {/foreach}
-                            </SELECT>
-
-                            {trans("Cutoff suspending:")}
-                            <INPUT class="form-control form-control-sm" type="text" name="customeradd[cutoffstop]" id="cutoffstop" {if $customerinfo.cutoffstop}value="{$customerinfo.cutoffstop}"{/if} size="10" {tip class="calendar" text="Select date of cutoff suspending (optional)" trigger="cutoffstop"}>
+                            <div class="form-group">
+                                {trans("Deadline:")}
+                                <SELECT class="form-control form-control-sm" name="customeradd[paytime]" {tip text="Select default deadline in days" trigger="paytime"}>
+                                    <OPTION value="-1"{if !isset($customeradd.paytime) || $customeradd.paytime==-1} selected{/if}>- {trans("default")} -</OPTION>
+                                    <OPTION value="0"{if isset($customeradd.paytime) && $customeradd.paytime==0} selected{/if}>0</OPTION>
+                                    <OPTION value="7"{if $customeradd.paytime==7} selected{/if}>7</OPTION>
+                                    <OPTION value="10"{if $customeradd.paytime==10} selected{/if}>10</OPTION>
+                                    <OPTION value="14"{if $customeradd.paytime==14} selected{/if}>14</OPTION>
+                                    <OPTION value="21"{if $customeradd.paytime==21} selected{/if}>21</OPTION>
+                                    <OPTION value="30"{if $customeradd.paytime==30} selected{/if}>30</OPTION>
+                                </SELECT>
+                            </div>
+                            <div class="form-group">
+                                {trans("Payment type:")}
+                                <SELECT class="form-control form-control-sm" name="customeradd[paytype]" {tip text="Select default invoices payment type" trigger="paytype"}>
+                                    <OPTION value=""{if !$customeradd.paytype} selected{/if}>- {trans("default")} -</OPTION>
+                                        {foreach from=$_PAYTYPES item=item key=key}
+                                        <OPTION value="{$key}"{if $customeradd.paytype==$key} selected{/if}>{$item}</OPTION>
+                                        {/foreach}
+                                </SELECT>
+                            </div>
+                            <div class="form-group">
+                                {trans("Cutoff suspending:")}
+                                <INPUT class="form-control form-control-sm" type="text" name="customeradd[cutoffstop]" id="cutoffstop" {if $customerinfo.cutoffstop}value="{$customerinfo.cutoffstop}"{/if} {tip class="calendar" text="Select date of cutoff suspending (optional)" trigger="cutoffstop"}>
+                            </div>
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-header">{trans("Agrements")}</div>
+                        <div class="card-header lead">{trans("Agrements")}</div>
                         <div class="card-block">
                             {block name="customeradd-options"}
-                                <label for="chkconsent">{trans("Consent to personal data processing:")}</label>
-                                <INPUT class="form-control form-control-sm" type="checkbox" name="customeradd[consentdate]" value="{$smarty.now}" id="chkconsent"{if $customeradd.consentdate} checked{/if}>
-                                <br>
-                                <label for="chkeinvoice">{trans("Cancellation of a traditional invoice (agreement on an electronic invoice):")}</label>
-                                <INPUT class="form-control form-control-sm" type="checkbox" name="customeradd[einvoice]" value="1" id="chkeinvoice"{if $customeradd.einvoice} checked{/if}>
-                                <br>
-                                <label for="chkinvoicenotice" {tip text="Consent to invoices delivery via e-mail:" trigger="invoicenotice"}>{trans("Consent to invoices delivery via e-mail:")}</label>
-                                <INPUT class="form-control form-control-sm" type="checkbox" name="customeradd[invoicenotice]" value="1" id="chkinvoicenotice"{if $customeradd.invoicenotice} checked{/if}>
-                                <br>
-                                <label for="chkmailingnotice">{trans("Consent to messages delivery via e-mail or sms:")}</label>
-                                <INPUT class="form-control form-control-sm" type="checkbox" name="customeradd[mailingnotice]" value="1" id="chkmailingnotice"{if $customeradd.mailingnotice} checked{/if}>
+                                <div class="checkbox">
+                                    <label for="chkconsent">
+                                        <INPUT type="checkbox" name="customeradd[consentdate]" value="{$smarty.now}" id="chkconsent"{if $customeradd.consentdate} checked{/if}>
+                                        &nbsp;{trans("Consent to personal data processing:")}
+                                    </label>
+                                    <label for="chkeinvoice">
+                                        <INPUT type="checkbox" name="customeradd[einvoice]" value="1" id="chkeinvoice"{if $customeradd.einvoice} checked{/if}>
+                                        &nbsp;{trans("Cancellation of a traditional invoice (agreement on an electronic invoice):")}
+                                    </label>
+                                    <label for="chkinvoicenotice" {tip text="Consent to invoices delivery via e-mail:" trigger="invoicenotice"}>
+                                        <INPUT type="checkbox" name="customeradd[invoicenotice]" value="1" id="chkinvoicenotice"{if $customeradd.invoicenotice} checked{/if}>
+                                        &nbsp;{trans("Consent to invoices delivery via e-mail:")}
+                                    </label>
+                                    <label for="chkmailingnotice">
+                                        <INPUT type="checkbox" name="customeradd[mailingnotice]" value="1" id="chkmailingnotice"{if $customeradd.mailingnotice} checked{/if}>
+                                        &nbsp;{trans("Consent to messages delivery via e-mail or sms:")}
+                                    </label>
+                                </div>                                  
                             {/block}
                         </div>
                     </div>
 
                 {/block}
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 {block name="customeradd-rightcolumn"}
                     <div class="card">
                         <div class="card-header">
@@ -591,7 +606,7 @@
 
                 {/block}
             </div>
-        </div>                
+        </div>
         <hr>
         <A class="btn btn-danger" href="javascript:document.customeradd.submit();" accesskey="S">{trans("Submit")}</A>
         <A class="btn btn-secondary" href="?m=customerlist">{trans("Cancel")}</A>
