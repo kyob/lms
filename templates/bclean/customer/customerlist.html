@@ -5,8 +5,8 @@
     <H1>{$layout.pagetitle}</H1>
 
     {block name="customerlist-list-filters"}
-        <div class="card card-block">
-            <FORM class="form-inline" method="get" action="?m={$layout.module}" name="choosefilter">
+        <fieldset class="form-group">
+            <form class="form-inline" method="get" action="?m={$layout.module}" name="choosefilter">
                 <INPUT type="submit" class="hiddenbtn">
                 <INPUT type="hidden" NAME="m" VALUE="customerlist">
                 <INPUT type="hidden" NAME="page" id="page" VALUE="1">
@@ -74,8 +74,8 @@
                     <option value="-3" {if $listdata.assigments eq '-3'} selected {/if}>{trans('active, with invoice')}</option>
                     <option value="-4" {if $listdata.assigments eq '-4'} selected {/if}>{trans('suspended')}</option>
                 </select>
-            </FORM>
-        </div>
+            </form>
+        </fieldset>
     {/block}
 
     {block name="customerlist-list-header-pagination"}
@@ -83,21 +83,22 @@
             {include file="pagination.html"}
         {/if}
     {/block}
+
     <div class="table-responsive">
-        <TABLE class="table table-striped table-sm table-bordered">
+        <TABLE class="table table-striped table-hover table-sm table-bordered">
             {block name="customerlist-list-header"}
                 <thead class="thead-inverse">
                     <TR>
                         <th>
                         </th>
                         <th>
-                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=customername{if $listdata.direction == "asc" && $listdata.order == "customername"},desc{/if}">{trans("First/last or Company name")}</A> {if $listdata.order == "customername"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} / 
-                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}">{trans("ID")}</A> {if $listdata.order == "id"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} / 
+                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=customername{if $listdata.direction == "asc" && $listdata.order == "customername"},desc{/if}">{trans("First/last or Company name")}</A> {if $listdata.order == "customername"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} /
+                            <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}">{trans("ID")}</A> {if $listdata.order == "id"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} /
                             <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=address{if $listdata.direction == "asc" && $listdata.order == "address"},desc{/if}">{trans("Address")}</A> {if $listdata.order == "address"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if}
                         </th>
                         <th>
                             {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                                <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=balance{if $listdata.direction == "asc" && $listdata.order == "balance"},desc{/if}">{trans("Balance")}</A>&nbsp;{if $listdata.order == "balance"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} / 
+                                <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=balance{if $listdata.direction == "asc" && $listdata.order == "balance"},desc{/if}">{trans("Balance")}</A>&nbsp;{if $listdata.order == "balance"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if} /
                                 <a href="?m={$layout.module}&amp;s={$listdata.state}&amp;o=tariff{if $listdata.direction == "asc" && $listdata.order == "tariff"},desc{/if}">{trans("Subscription")}</A>&nbsp;{if $listdata.order == "tariff"}<i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>{/if}
                                 {/if}
                         </th>
