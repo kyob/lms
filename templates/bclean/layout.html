@@ -13,12 +13,23 @@
         <script type="text/javascript" src="vendor/bordercloud/tether/dist/js/tether.min.js"></script>
         <script type="text/javascript" src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
         <link href="img/map.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/locales/bootstrap-datepicker.pl.min.js"></script>
     {block name="extra-css-styles"}{/block}
     <link href="img/lms-net.gif" rel="shortcut icon">
     <script type="text/javascript" src="img/common.js"></script>
     <script type="text/javascript" src="img/autosuggest.js"></script>
     <script>
         $(document).ready(function () {
+
+            $('#cutoffstop').datepicker({
+                format: 'yyyy/mm/dd',
+                language: "pl",
+                todayHighlight: true
+            });
+
+
             var lastState = localStorage.getItem('lastState');
 
             if (!lastState) {
@@ -67,12 +78,14 @@
         <div class="row">
             {block name=pageleftbar}
                 <div class="col-md-2">
-                    <h1>LMS {$layout.lmsv}</h1>
+                    <h1>LMS</h1>
+
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {counter start=0 skip=1 assign=menuID}
                         {foreach from=$newmenu item=menuitem name=menu}
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading{$menuID}">
+                                    <i class="fa fa-fw {$menuitem.fa}"></i>
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
                                         {$menuitem.name}
                                     </a>
@@ -90,9 +103,9 @@
                             {counter}
                         {/foreach}
                     </div>
-                    <button type="button" class="btn btn-danger btn-sm" onClick="if (confirm('{trans("Are you sure that you want to logout?")}')) {
+                    <a class="text-danger" onClick="if (confirm('{trans("Are you sure that you want to logout?")}')) {
                                 return self.location.href = '?m=logout&amp;is_sure=1';
-                            }"><strong>{trans("Logout")}</strong> {$layout.logname}</button>
+                            }"><i class="fa fa-fw fa-sign-out"></i>{trans("Logout")}</a>
                 </div>
             {/block}
             {block name=pagecontent}
@@ -104,7 +117,7 @@
                     </script>
                     {block name=quicksearch}
                         <div id="autosuggest"><ul><li></li></ul></div>
-                        <form method="post" class="form-inline" name="quicksearch" action="?m=quicksearch" id="quicksearch">
+                        <form method="post" class="form-inline m-b-1" name="quicksearch" action="?m=quicksearch" id="quicksearch">
                             {include file="quicksearchcontents.html"}
                         </form>
                         <SCRIPT type="text/javascript">
