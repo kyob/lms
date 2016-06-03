@@ -36,12 +36,6 @@
                 {/if}
                 )
                 &nbsp;  &nbsp;
-                <span class="text-muted">
-                    {trans("ID:")} {$customerinfo.id|string_format:"%04d"}
-                    {if $customerinfo.pin != 0} &nbsp; {trans("PIN:")} {$customerinfo.pin}{/if}
-                    {if $customerinfo.extid} &nbsp; {trans("External ID:")} {$customerinfo.extid}{/if}
-                </span>
-                &nbsp;  &nbsp;
                 {if $customerpanel}
                     <a class="btn btn-secondary btn-sm pull-md-right" href="?m=customerinfo&amp;id={$customerinfo.id}">{trans('Navigate to the customer')}</a>
                 {/if}
@@ -52,6 +46,30 @@
                 <div class="row">
                     <div class="col-md-6">
                         {block name="customerinfobox-leftcolumn"}
+
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    {trans("ID")}:
+                                    <strong>{$customerinfo.id|string_format:"%04d"}</strong>
+                                </li>
+                                {if $customerinfo.pin != 0}
+                                    <li class="list-inline-item">
+                                        {if $customerinfo.division}
+                                            {trans("PIN")}:
+                                            <strong>{$customerinfo.pin}</strong>
+                                        {/if}
+                                    </li>
+                                {/if}
+                                {if $customerinfo.extid}
+                                    <li class="list-inline-item">
+                                        {if $customerinfo.division}
+                                            {trans("External ID")}:
+                                            <strong>{$customerinfo.extid}</strong>
+                                        {/if}
+                                    </li>
+                                {/if}
+                            </ul>
+
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     {trans("Status")}:
@@ -97,86 +115,92 @@
                                 {/if}
                             </ul>
 
+                            <hr>
+
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="card-header">{trans("Address")}</div>
-                                        <div class="card-block">
-                                            {$customerinfo.address}<BR>
-                                            {$customerinfo.zip} {$customerinfo.city}
-                                            {if $customerinfo.cstate}<BR>{$customerinfo.cstate}{/if}
-                                            {if $customerinfo.country}<BR>{t}{$customerinfo.country}{/t}{/if}
-                                        </div>
-                                    </div>
+                                    <p class="font-weight-bold">{trans("Address")}</p>
+                                    {$customerinfo.address}<BR>
+                                    {$customerinfo.zip} {$customerinfo.city}
+                                    {if $customerinfo.cstate}<BR>{$customerinfo.cstate}{/if}
+                                    {if $customerinfo.country}<BR>{t}{$customerinfo.country}{/t}{/if}
                                 </div>
                                 <div class="col-md-6">
                                     {if $customerinfo.post_name != "" || $customerinfo.post_address != ""}
-                                        <div class="card">
-                                            <div class="card-header">{trans("Postal address")}</div>
-                                            <div class="card-block">
-                                                {if $customerinfo.post_name != ""}{$customerinfo.post_name}<br>{/if}
-                                                {if $customerinfo.post_address != ""}{$customerinfo.post_address}<br>{/if}
-                                                {$customerinfo.post_zip} {$customerinfo.post_city}
-                                                {if $customerinfo.post_cstate}<br>{$customerinfo.post_cstate}{/if}
-                                                {if $customerinfo.post_country}<br>{t}{$customerinfo.post_country}{/t}{/if}
-                                            </div>
-                                        </div>
+                                        <p class="font-weight-bold">{trans("Postal address")}</p>
+                                        {if $customerinfo.post_name != ""}{$customerinfo.post_name}<br>{/if}
+                                        {if $customerinfo.post_address != ""}{$customerinfo.post_address}<br>{/if}
+                                        {$customerinfo.post_zip} {$customerinfo.post_city}
+                                        {if $customerinfo.post_cstate}<br>{$customerinfo.post_cstate}{/if}
+                                        {if $customerinfo.post_country}<br>{t}{$customerinfo.post_country}{/t}{/if}
                                     {/if}
                                 </div>
                             </div>
 
+                            <hr>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     {if !empty($customerinfo.contacts)}
-                                        <div class="card">
-                                            <div class="card-header">{trans("Contact phones")}</div>
-                                            <div class="card-block">
-                                                <ul>
-                                                    {foreach $customerinfo.contacts as $contact}
-                                                        <li>
-                                                            <span{if ($contact.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>{$contact.phone}</span>
-                                                            {if $contact.name}
-                                                                ({$contact.name|truncate:"40":"...":true})
-                                                            {/if}
-                                                            {if $contact.typestr}
-                                                                [{$contact.typestr}]
-                                                            {/if}
-                                                        </li>
-                                                    {/foreach}
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <p class="font-weight-bold">{trans("Contact phones")}</p>
+                                        <ul>
+                                            {foreach $customerinfo.contacts as $contact}
+                                                <li>
+                                                    <span{if ($contact.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>{$contact.phone}</span>
+                                                    {if $contact.name}
+                                                        ({$contact.name|truncate:"40":"...":true})
+                                                    {/if}
+                                                    {if $contact.typestr}
+                                                        [{$contact.typestr}]
+                                                    {/if}
+                                                </li>
+                                            {/foreach}
+                                        </ul>
                                     {/if}
                                 </div>
                                 <div class="col-md-6">
                                     {if !empty($customerinfo.emails)}
-                                        <div class="card">
-                                            <div class="card-header">{trans("Email addresses")}</div>
-                                            <div class="card-block">
-                                                <ul>
-                                                    {foreach $customerinfo.emails as $email}
-                                                        <li>
-                                                            <a{if ($email.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if} href="mailto:{$email.email}">{$email.email}</a>
-                                                            {if $email.name}
-                                                                ({$email.name|truncate:"40":"...":true})
-                                                            {/if}
-                                                            {if $email.typestr}
-                                                                [{$email.typestr}]
-                                                            {/if}
-                                                        </li>
-                                                    {/foreach}
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <p class="font-weight-bold">{trans("Email addresses")}</p>
+                                        <ul>
+                                            {foreach $customerinfo.emails as $email}
+                                                <li>
+                                                    <a{if ($email.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if} href="mailto:{$email.email}">{$email.email}</a>
+                                                    {if $email.name}
+                                                        ({$email.name|truncate:"40":"...":true})
+                                                    {/if}
+                                                    {if $email.typestr}
+                                                        [{$email.typestr}]
+                                                    {/if}
+                                                </li>
+                                            {/foreach}
+                                        </ul>
                                     {/if}
                                 </div>
                             </div>
+
+                            {if !empty($customerinfo.messengers)}
+                                <hr>
+                                <p class="font-weight-bold">{trans("IM")}</p>
+                                <ul>
+                                    {foreach from=$customerinfo.messengers item=item}
+                                        {if $item.type == $smarty.const.IM_GG}
+                                            <li>GG: <A HREF="gg:{$item.uid}">{$item.uid}</A></li>
+                                                {elseif $item.type == $smarty.const.IM_YAHOO}
+                                            <li>YAHOO: <A HREF="ymsgr:sendIM?{$item.uid}">{$item.uid}</A></li>
+                                                {elseif $item.type == $smarty.const.IM_SKYPE}
+                                            <li>SKYPE: <A HREF="skype:{$item.uid}?call">{$item.uid}</A></li>
+                                                {else}
+                                            <li>INNY: <IMG src="img/gg.gif" alt=""> {$item.uid}</li>
+                                            {/if}
+                                        {/foreach}
+                                </ul>
+                            {/if}
 
                             {block name="customerinfobox-options"}
                                 <div class="card">
                                     <div class="card-header">{trans("Agreements")}</div>
                                     <div class="card-block">
-                                        <ul>
+                                        <ul class="list-unstyled">
                                             <li>
                                                 {trans("Consent to personal data processing:")}
                                                 {if $customerinfo.consentdate}
@@ -324,35 +348,12 @@
                                 </div>
                             {/if}
 
-                            {if !empty($customerinfo.messengers)}
-                                <div class="card">
-                                    <div class="card-header">
-                                        {trans("IM")}
-                                    </div>
-                                    <div class="card-block">
-                                        <ul>
-                                            {foreach from=$customerinfo.messengers item=item}
-                                                {if $item.type == $smarty.const.IM_GG}
-                                                    <li>GG: <A HREF="gg:{$item.uid}">{$item.uid}</A></li>
-                                                        {elseif $item.type == $smarty.const.IM_YAHOO}
-                                                    <li>YAHOO: <A HREF="ymsgr:sendIM?{$item.uid}">{$item.uid}</A></li>
-                                                        {elseif $item.type == $smarty.const.IM_SKYPE}
-                                                    <li>SKYPE: <A HREF="skype:{$item.uid}?call">{$item.uid}</A></li>
-                                                        {else}
-                                                    <li>INNY: <IMG src="img/gg.gif" alt=""> {$item.uid}</li>
-                                                    {/if}
-                                                {/foreach}
-                                        </ul>
-                                    </div>
-                                </div>
-                            {/if}
-
                             <div class="card">
                                 <div class="card-header">
                                     {trans("Account informations")}
                                 </div>
                                 <div class="card-block">
-                                    <ul>
+                                    <ul class="list-unstyled">
                                         <li>
                                             {trans("Last login:")}
                                             {if $customerinfo.up_logins.lastlogindate}
