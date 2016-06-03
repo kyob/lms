@@ -28,6 +28,7 @@ $menu = array(
 		'admin' => array(
 			'name' => trans('Administration'),
 			'img' =>'users.gif',
+                        'fa' =>'fa-university',
 			'link' =>'?m=welcome',
 			'tip' => trans('System information and management'),
 			'accesskey' =>'i',
@@ -82,6 +83,7 @@ $menu = array(
 		'customers' => array(
 			'name' => trans('Customers'),
 			'img' =>'customer.gif',
+                        'fa' =>'fa-users',                    
 			'link' =>'?m=customerlist',
 			'tip' => trans('Customers Management'),
 			'accesskey' =>'u',
@@ -135,6 +137,7 @@ $menu = array(
 		'nodes' => array(
 			'name' => trans('Nodes'),
 			'img' =>'node.gif',
+                        'fa' =>'fa-laptop',                                        
 			'link' =>'?m=nodelist',
 			'tip' => trans('Nodes Management'),
 			'accesskey' =>'k',
@@ -194,6 +197,7 @@ $menu = array(
 		'VoIP' => array(
 			'name' => trans('VoIP'),
 			'img' =>'voip.gif',
+                        'fa' =>'fa-phone',                                                            
 			'tip' => trans('VoIP Management'),
 			'accesskey' =>'v',
 			'prio' => 11,
@@ -222,6 +226,7 @@ $menu = array(
 		'netdevices' => array(
 			'name' => trans('Net Devices'),
 			'img' =>'netdev.gif',
+                        'fa' =>'fa-plug',                                                            
 			'link' =>'?m=netdevlist',
 			'tip' => trans('Network Devices Management'),
 			'accesskey' =>'o',
@@ -281,6 +286,7 @@ $menu = array(
 		'networks' => array(
 			'name' => trans('IP Networks'),
 			'img' =>'network.gif',
+                        'fa' =>'fa-sitemap',                                                            
 			'link' =>'?m=netlist',
 			'tip' => trans('IP Address Pools Management'),
 			'accesskey' =>'t',
@@ -310,6 +316,7 @@ $menu = array(
 		'finances' => array(
 			'name' => trans('Finances'),
 			'img' =>'money.gif',
+                        'fa' =>'fa-money',                                                            
 			'link' =>'?m=tarifflist',
 			'tip' => trans('Subscriptions and Network Finances Management'),
 			'accesskey' =>'f',
@@ -411,6 +418,7 @@ $menu = array(
 		'documents' => array(
 			'name' => trans('Documents'),
 			'img' =>'docum.gif',
+                        'fa' =>'fa-file',                                                            
 			'link' =>'?m=documentlist',
 			'tip' => trans('Documents Management'),
 			'accesskey' => '',
@@ -452,6 +460,7 @@ $menu = array(
 		'hosting' => array(
 			'name' => trans('Hosting'),
 			'img' =>'account.gif',
+                        'fa' =>'fa-server',                                                            
 			'link' =>'?m=accountlist',
 			'tip' => trans('Hosting Services Management'),
 			'accesskey' =>'a',
@@ -505,6 +514,7 @@ $menu = array(
 		'messages' => array(
 			'name' => trans('Messages'),
 			'img' =>'mailsms.gif',
+                        'fa' =>'fa-sticky-note',                                                            
 			'link' =>'?m=messageadd',
 			'tip' => trans('Customers Messaging'),
 			'accesskey' =>'m',
@@ -528,6 +538,7 @@ $menu = array(
 		'reload' => array(
 			'name' => trans('Reload'),
 			'img' =>'reload.gif',
+                        'fa' =>'fa-refresh',                                                            
 			'link' =>'?m=reload',
 			'tip' => trans(''),
 			'accesskey' =>'r',
@@ -537,6 +548,7 @@ $menu = array(
 		'stats' => array(
 			'name' => trans('Stats'),
 			'img' =>'traffic.gif',
+                        'fa' =>'fa-area-chart',                                                            
 			'link' =>'?m=traffic',
 			'tip' => trans('Statistics of Internet Link Usage'),
 			'accesskey' =>'x',
@@ -590,6 +602,7 @@ $menu = array(
 		'helpdesk' => array(
 			'name' => trans('Helpdesk'),
 			'img' =>'ticket.gif',
+                        'fa' =>'fa-ticket',                                                            
 			'link' =>'?m=rtqueuelist',
 			'tip' => trans('Requests Tracking'),
 			'accesskey' =>'h',
@@ -643,6 +656,7 @@ $menu = array(
 		'timetable' => array(
 			'name' => trans('Timetable'),
 			'img' =>'calendar.gif',
+                        'fa' =>'fa-calendar',                                                            
 			'link' =>'?m=eventlist',
 			'tip' => trans('Events Tracking'),
 			'accesskey' =>'v',
@@ -672,6 +686,7 @@ $menu = array(
 		'password' => array(
 			'name' => trans('Password'),
 			'img' => 'pass.gif',
+                        'fa' =>'fa-user-secret',                                                            
 			'link' => '?m=chpasswd',
 			'tip' => trans('Allows you to change your password'),
 			'accesskey' => 'p',
@@ -681,6 +696,7 @@ $menu = array(
 		'config' => array(
 			'name' => trans('Configuration'),
 			'img' =>'settings.gif',
+                        'fa' =>'fa-wrench',                                        
 			'link' =>'?m=configlist',
 			'tip' => trans('System Configuration'),
 			'accesskey' =>'o',
@@ -758,6 +774,7 @@ $menu = array(
 		'documentation' => array(
 			'name' => trans('Documentation'),
 			'img' => 'doc.gif',
+                        'fa' =>'fa-medkit',                                        
 			'link' => (is_dir('doc' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . $LMS->ui_lang)
 				? 'doc' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . $LMS->ui_lang . DIRECTORY_SEPARATOR
 				: 'doc' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR),
@@ -789,6 +806,7 @@ if (ConfigHelper::checkValue(ConfigHelper::getConfig('phpui.logging', false))) {
 	$menu['log'] = array(
 		'name' => trans('Transaction Log'),
 		'img' => 'recover.gif',
+                'fa' =>'fa-archive',                                                    
 		'link' => '?m=archiveview',
 		'tip' => trans('Transaction Log Management'),
 		'accesskey' => 't',
