@@ -1,46 +1,40 @@
-<!--// $Id$ //-->
-<hr>
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr>
-    <td style="width: 99%" class="text-left nobr">
-	<span style="padding-right:15px;">
-	    <a href="?m=welcome" {tip text="Basic system information"}><img src="img/home.png" width="20" alt=""></a>
-	</span>
+<div class="p-t-1 p-b-1">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-secondary" href="?m=welcome" title="{trans('Basic system information')}"><i class="fa fa-home fa-lg"></i></a>
+    </div>
 
-	<span style="padding-right:15px;">
-	    <a href="?m=messageadd" {tip text="Allows you to send messages to customers"}><img src="img/mail_add.png" width="20" alt=""></a>
-	    <a href="?m=rtqueuelist" {tip text="Requests Tracking"}><img src="img/ticket.gif" width="20" alt=""></a>
-	    <a href="?m=documentadd" {tip text="Allows you to add new document"}><img src="img/docum.gif" width="20" alt=""></a>
-	</span>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-success" href="?m=messageadd" title="{trans('Allows you to send messages to customers')}"><i class="fa fa-envelope-o fa-lg"></i></a>
+        <a class="btn btn-sm btn-primary" href="?m=rtqueuelist" title="{trans('Requests Tracking')}"><i class="fa fa-ticket fa-lg"></i></a>
+        <a class="btn btn-sm btn-success" href="?m=documentadd" title="{trans('Allows you to add new document')}"><i class="fa fa-file-o fa-lg"></i></a>
+    </div>
 
-	<span style="padding-right:15px;">
-	    <a href="?m=customerlist" {tip text="List of Customers"}><img src="img/users.png" width="20" alt=""></a>
-	    <a href="?m=customeradd" {tip text="Allows you to add new customer"}><img src="img/user_add.png" width="20" alt=""></a>
-	    <a href="?m=customerwarn" {tip text="Allows you to send notices to customers"}><img src="img/user_warning.png" width="20" alt=""></a>
-	</span>
-	
-	<span style="padding-right:15px;">
-	    <a href="?m=nodelist" {tip text="List of nodes"}><img src="img/computers.png" width="20" alt=""></a>
-	    <a href="?m=nodeadd" {tip text="Allows you to add new node"}><img src="img/computer_add.png" width="20" alt=""></a>
-	    <a href="?m=nodewarn" {tip text="Allows you to send notices to customers"}><img src="img/computer_warning.png" width="20" alt=""></a>
-	</span>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-primary" href="?m=customerlist" title="{trans('List of Customers')}"><i class="fa fa-users fa-lg"></i></a>
+        <a class="btn btn-sm btn-success" href="?m=customeradd" title="{trans('Allows you to add new customer')}"><i class="fa fa-plus fa-lg"></i></a>
+        <a class="btn btn-sm btn-warning" href="?m=customerwarn" title="{trans('Allows you to send notices to customers')}"><i class="fa fa-exclamation fa-lg"></i></a>
+    </div>
 
-	<span style="padding-right:15px;">
-	    <a href="?m=eventlist" {tip text="Timetable"}><img src="img/calendar.png" width="20" alt=""></a>
-	    <a href="?m=eventadd" {tip text="New Event Addition"}><img src="img/calendar_add.png" width="20" alt=""></a>
-	    <a href="?m=traffic&amp;bar=day" {tip text="Last day stats for all networks"}><img src="img/traffic.gif" width="20" alt=""></a>
-	</span>
-	
-	<span style="padding-right:15px;">
-	    <a href="?m=balancenew" {tip text="Add new financial operation"}><img src="img/payment.gif" width="20" alt=""></a>
-	    <a href="?m=receiptadd" {tip text="Generate cash receipt"}><img src="img/pay.gif" width="20" alt=""></a>
-	    <a href="?m=invoicenew" {tip text="Generate invoice"}><img src="img/money.gif" width="20" alt=""></a>
-	</span>
-	
-    </td>
-    <td style="width: 1%; padding-right:5px;" class="text-right nobr">
-	<a href="?m=reload" {tip text="Reload"}><img src="img/refresh.png" width="20" alt=""></a>
-	<a href="?m=logout&amp;is_sure=1" {tip text="<B>Allows you to logout</B>" bold=1}><img src="img/Exit.png" width="20" alt=""></a>
-    </td>
-</tr>
-</table>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-primary" href="?m=nodelist" title="{trans('List of nodes')}"><i class="fa fa-laptop fa-lg"></i></a>
+        <a class="btn btn-sm btn-success" href="?m=nodeadd" title="{trans('Allows you to add new node')}"><i class="fa fa-plus fa-lg"></i></a>
+        <a class="btn btn-sm btn-warning" href="?m=nodewarn" title="{trans('Allows you to send notices to customers')}"><i class="fa fa-exclamation fa-lg"></i></a>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-primary" href="?m=eventlist" title="{trans('Timetable')}"><i class="fa fa-calendar fa-lg"></i></a>
+        <a class="btn btn-sm btn-success" href="?m=eventlist" title="{trans('New Event Addition')}"><i class="fa fa-plus fa-lg"></i></a>
+        <a class="btn btn-sm btn-secondary" href="?m=traffic&amp;bar=day" title="{trans('Last day stats for all networks')}"><i class="fa fa-bar-chart-o fa-lg"></i></a>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-success" href="?m=balancenew" title="{trans('Add new financial operation')}"><i class="fa fa-money fa-lg"></i></a>
+        <a class="btn btn-sm btn-success" href="?m=receiptadd" title="{trans('Generate cash receipt')}"><i class="fa fa-sticky-note-o fa-lg"></i></a>
+        <a class="btn btn-sm btn-success" href="?m=invoicenew" title="{trans('Generate invoice')}"><i class="fa fa-list-alt fa-lg"></i></a>
+    </div>
+
+    <div class="btn-group pull-xs-right" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-secondary" href="?m=invoicenew" title="{trans('Reload')}"><i class="fa fa-refresh fa-lg"></i></a>
+        <a class="btn btn-sm btn-danger" href="?m=logout&amp;is_sure=1" title="{trans('Allows you to logout')}"><i class="fa fa-sign-out fa-lg"></i></a>
+    </div>
+</div>
