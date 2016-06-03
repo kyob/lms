@@ -1,14 +1,14 @@
 {block name="quicksearchcontents"}
-    <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-    <input class="form-control" type="text" id="customerinput" name="qs[customer]" value="" tip text="Enter customer ID, first/lastname, email or address and press Enter"}>
-    <i class="fa fa-desktop fa-lg fa-fw" aria-hidden="true"></i>
-    <input class="form-control" type="text" id="nodeinput" name="qs[node]" value="" {tip text="Enter node ID, name, IP address or MAC address and press Enter"}>
-    <i class="fa fa-ticket fa-lg fa-fw" aria-hidden="true"></i>
-    <input class="form-control" type="text" id="rtinput" name="qs[ticket]" value=""{tip text="Enter request tracker ID, subject or requestor name and press Enter"}>
-    <i class="fa fa-users fa-lg fa-fw" aria-hidden="true"></i>
-    <input class="form-control" type="text" id="accountinput" name="qs[account]" value="" {tip text="Enter account or alias name and press Enter"}>
-    <i class="fa fa-file fa-lg fa-fw" aria-hidden="true"></i>
-    <input class="form-control" type="text" id="documentinput" name="qs[document]" value="" {tip text="Enter document number and press Enter"}>
+    <i class="fa fa-user fa-fw" aria-hidden="true"></i>
+    <input class="form-control form-control-sm" type="text" id="customerinput" name="qs[customer]" value="" {tip text="Enter customer ID, first/lastname, email or address and press Enter"}>
+    <i class="fa fa-desktop fa-fw" aria-hidden="true"></i>
+    <input class="form-control form-control-sm" type="text" id="nodeinput" name="qs[node]" value="" {tip text="Enter node ID, name, IP address or MAC address and press Enter"}>
+    <i class="fa fa-ticket fa-fw" aria-hidden="true"></i>
+    <input class="form-control form-control-sm" type="text" id="rtinput" name="qs[ticket]" value="" {tip text="Enter request tracker ID, subject or requestor name and press Enter"}>
+    <i class="fa fa-users fa-fw" aria-hidden="true"></i>
+    <input class="form-control form-control-sm" type="text" id="accountinput" name="qs[account]" value="" {tip text="Enter account or alias name and press Enter"}>
+    <i class="fa fa-file fa-fw" aria-hidden="true"></i>
+    <input class="form-control form-control-sm" type="text" id="documentinput" name="qs[document]" value="" {tip text="Enter document number and press Enter"}>
     <script type="text/javascript">
 <!--
         new AutoSuggest(document.getElementById('quicksearch'), document.getElementById('customerinput'), '?m=quicksearch&ajax=1&mode=customer&what=', {ConfigHelper::getConfig('phpui.quicksearch_autosubmit')});
