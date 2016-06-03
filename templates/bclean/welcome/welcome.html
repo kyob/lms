@@ -1,34 +1,91 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-    <h1>{$layout.pagetitle}</h1>
-    <div class="row">
-        <div class="col-sm-6">
-            {block name="welcome-left-panel"}
-                {include file="welcome/welcome_sysinfo_about_lms.html"}
-                {include file="welcome/welcome_sysinfo_customers.html"}
-                {include file="welcome/welcome_sysinfo_rtstats.html"}
-            {/block}
+    {if $customerschanges}
+        <div class="alert alert-info" role="alert">
+            <i class="fa fa-info-circle fa-lg fa-fw"></i> <a class="alert-link" href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")} <strong>{$customerschanges}</strong></a>
         </div>
-        <div class="col-sm-6">
-            {block name="welcome-right-panel"}
-                {include file="welcome/welcome_sysinfo_about_system.html"}
-                {include file="welcome/welcome_summaries.html"}
-                {include file="welcome/welcome_links.html"}
-                {include file="welcome/welcome_registration.html"}
-            {/block}
-        </div>
-    </div>
-    <div class="row">
+    {/if}
+
+    <div class="row m-b-1">
         <div class="col-sm-12">
-            {block name="extra-panel"}
-            {/block}
+            <a class="btn btn-sm btn-primary text-center" href="#"><h1>7</h1>{trans("New tasks for today!")}</a>
+            <a class="btn btn-sm btn-primary text-center" href="#"><h1>3</h1>{trans("Documents not approved!")}</a>
         </div>
     </div>
 
-    {if $newer_version}
-        <script type="text/javascript">
-            alert('{t a=$newer_version b="http://lms.org.pl/download"}There is newer version of LMS ($a) available for download from $b.{/t}');
-        </script>
-    {/if}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">
+                        <i class="fa fa-users fa-fw" aria-hidden="true"></i> {trans("Customers")}
+                    </h3>
+                    <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s=0"><h3>{$customerstats.total}</h3>{trans("Total:")}</a>
+                            {foreach $_CSTATUSES as $statusidx => $status}
+                        <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s={$statusidx}"><h3>{$alias=$status.alias} {$customerstats.$alias}</h3>{$status.summarylabel}</a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">
+                        <i class="fa fa-desktop fa-fw" aria-hidden="true"></i> {trans("Nodes")}
+                    </h3>
+                    <a class="btn btn-sm btn-secondary text-center" href="?m=nodelist"><h3>{$nodestats.total}</h3>{trans("Total")}</a>
+                    <a class="btn btn-sm btn-primary text-center" href="?m=nodelist&amp;s=3"><h3>{$nodestats.online}</h3>{trans("Online")}</a>
+                    <a class="btn btn-sm btn-success text-center" href="?m=nodelist&amp;s=1"><h3>{$nodestats.connected}</h3>{trans("Connected<!nodes>")}</a>
+                    <a class="btn btn-sm btn-danger text-center" href="?m=nodelist&amp;s=2"><h3>{$nodestats.disconnected}</h3>{trans("Disconnected")}</a>
+                    <a class="btn btn-sm btn-warning text-center" href="?m=nodelist&amp;s=5"><h3>{$nodestats.withoutterryt}</h3>{trans("TERRIT not specified")}</a>
+                    <a class="btn btn-sm btn-warning text-center" href="?m=nodelist&amp;s=6"><h3>{$nodestats.withoutnetdev}</h3>{trans("Net Device not specified")}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">
+                        <i class="fa fa-ticket fa-fw" aria-hidden="true"></i> {trans("Tickets")}
+                    </h3>
+                    {foreach from=$rtstats item=rtcategorystats}
+                        <p>{trans("Queue:")} <strong>{$rtcategorystats.name}</strong></p>
+                        <a class="btn btn-sm btn-secondary text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=0&amp;o=lastmodified,desc"><h3>{$rtcategorystats.new|default:"0"}</h3>{trans("New:")}</a>
+                        <a class="btn btn-sm btn-secondary text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=1&amp;o=lastmodified,desc"><h3>{$rtcategorystats.opened|default:"0"}</h3>{trans("Opened:")}</a>
+                        <a class="btn btn-sm btn-secondary text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=2&amp;o=lastmodified,desc"><h3>{$rtcategorystats.resolved|default:"0"}</h3>{trans("Resolved:")}</a>
+                        <a class="btn btn-sm btn-secondary text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=3&amp;o=lastmodified,desc"><h3>{$rtcategorystats.dead|default:"0"}</h3>{trans("Dead:")}</a>
+                        <a class="btn btn-sm btn-secondary text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=-1&amp;o=lastmodified,desc"><h3>{$rtcategorystats.unresolved|default:"0"}</h3>{trans("Unresolved:")}</a>
+                        <hr>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">
+                        <i class="fa fa-line-chart fa-fw" aria-hidden="true"></i> {trans("Summaries")}
+                    </h3>
+                    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
+                        {trans("In debt")} <a href="?m=customerlist&amp;s=52">{$customerstats.debt}</a> {trans("customers")} {trans("amount")} <strong>-{$customerstats.debtvalue|money_format}</strong>
+                    {/if}
+                    {math assign="percentDebt" equation="(( x * 100 ) / y )" x=$customerstats.debt y=$customerstats.total format="%d"}
+                    <progress class="progress progress-striped progress-danger" value="{$customerstats.debt}" max="{$customerstats.total}">{$percentDebt}%</progress>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {block name="extra-panel"}
+    {/block}
 {/block}
