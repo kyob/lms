@@ -154,8 +154,8 @@
                                 <label class="btn btn-sm btn-secondary" id="companySwitch">
                                     &nbsp;<input type="radio" name="customeradd[type]" value="1" id="company" {tip trigger="type"}{if $customeradd.type == $smarty.const.CTYPES_COMPANY} CHECKED{/if}>
                                     {assign var='type' value=$smarty.const.CTYPES_COMPANY}{$_CTYPES.$type}
-                                </label>                                
-                            </div>                                                            
+                                </label>
+                            </div>
 
                             <hr>
 
@@ -488,7 +488,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header lead">{trans("IM")}</div>                        
+                        <div class="card-header lead">{trans("IM")}</div>
                         <div class="card-block">
                             <div class="form-group">
                                 {assign var=gg value=$smarty.const.IM_GG}{trans("Gadu-Gadu")}
@@ -531,7 +531,10 @@
                             </div>
                             <div class="form-group">
                                 {trans("Cutoff suspending:")}
-                                <INPUT class="form-control form-control-sm" type="text" name="customeradd[cutoffstop]" id="cutoffstop" {if $customerinfo.cutoffstop}value="{$customerinfo.cutoffstop}"{/if} {tip class="calendar" text="Select date of cutoff suspending (optional)" trigger="cutoffstop"}>
+                                <div class="input-group">
+                                    <INPUT class="form-control form-control-sm" type="text" name="customeradd[cutoffstop]" id="cutoffstop" {if $customerinfo.cutoffstop}value="{$customerinfo.cutoffstop}"{/if} placeholder="{trans('Select date of cutoff suspending (optional)')}" {tip class="calendar"  trigger="cutoffstop"}>
+                                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw fa"></i></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -557,7 +560,7 @@
                                         <INPUT type="checkbox" name="customeradd[mailingnotice]" value="1" id="chkmailingnotice"{if $customeradd.mailingnotice} checked{/if}>
                                         &nbsp;{trans("Consent to messages delivery via e-mail or sms:")}
                                     </label>
-                                </div>                                  
+                                </div>
                             {/block}
                         </div>
                     </div>
