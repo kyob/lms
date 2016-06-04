@@ -23,12 +23,21 @@
     <script>
         $(document).ready(function () {
 
+            //customeradd
             $('#cutoffstop').datepicker({
                 format: 'yyyy/mm/dd',
                 language: "pl",
-                todayHighlight: true
+                todayHighlight: true,
+                autoclose: true
             });
-
+            
+            //eventadd
+            $('.datepicker_default').datepicker({
+                format: 'yyyy/mm/dd',
+                language: "pl",
+                todayHighlight: true,
+                autoclose: true
+            });
 
             var lastState = localStorage.getItem('lastState');
 
