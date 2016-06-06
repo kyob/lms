@@ -98,33 +98,33 @@
 
     <a href="javascript:clear_filter();">{trans("Clear")} <i class="fa fa-eraser" aria-hidden="true"></i></a>
     <A href="javascript:filter();" accesskey="s">{trans("Search")} <i class="fa fa-search" aria-hidden="true"></i></A>
+</FORM>
+
+<nav>
+  <ul class="pager">
+      {if $listdata.page}<li><A href="?m=archiveview&amp;page={$listdata.page - 1}">{trans("Next")}</A></li>{/if}
+      {if $listdata.prev}<li><A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")}</A></li>{/if}
+  </ul>
+</nav>
 
 
-
-    <TABLE class="table table-border table-striped table-sm">
+    <TABLE class="table table-bordered table-hover table-striped table-sm">
+        <thead class="thead-inverse">
         <TR>
-            <TD>
-                {if $listdata.page}<A href="?m=archiveview&amp;page={$listdata.page - 1}">&laquo;&laquo;&laquo; {trans("Next")}</A>{else}&nbsp;{/if}
-            </TD>
-            <TD colspan="3" class="text-right">
-                {if $listdata.prev}<A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")} &raquo;&raquo;&raquo;</A>{else}&nbsp;{/if}
-            </TD>
-        </TR>
-        <TR>
-            <td>
+            <th>
                 {trans("Date:")}
-            </td>
-            <td>
+            </th>
+            <th>
                 {trans("User:")}
-            </td>
-            <td>
+            </th>
+            <th>
                 {trans("Module:")}
-            </TD>
-            <td>
+            </th>
+            <th>
                 {trans("Operations:")}
-            </td>
+            </th>
         </TR>
-
+        </thead>
 
 
         {if $transactions}
@@ -145,7 +145,7 @@
                         {else}{$start=-1}{/if}
                         {section name=messages loop=$tr.messages start=$start step=-1}
                             {$message = $tr.messages[messages]}
-                            <p class="bold">{$_SYSLOG_RESOURCES[$message.resource]}: {$_SYSLOG_OPERATIONS[$message.operation]}</p>
+					<span class="bold">{$_SYSLOG_RESOURCES[$message.resource]}: <span style="{$_SYSLOG_OPERATIONS_STYLES[$message.operation]}">{$_SYSLOG_OPERATIONS[$message.operation]}</span></span>
                         {foreach $message.keys as $key => $msgkey}{$key}: {if $msgkey.value}<a href="?m=archiveinfo&amp;type={$msgkey.type}&amp;id={$msgkey.value}&amp;date={$tr.time}">{/if}{$msgkey.value}{if $msgkey.value}</a>{/if}{if !$msgkey@last}, {/if}{/foreach}
                     {foreach $message.data as $key => $value}{$key}: {$value}{if !$value@last}, {/if}{/foreach}
                     {if !$messages@last}<br>{/if}
@@ -154,17 +154,15 @@
         </TD>
     </TR>
 {/foreach}
-            <TR>
-            <TD>
-                {if $listdata.page}<A href="?m=archiveview&amp;page={$listdata.page - 1}">&laquo;&laquo;&laquo; {trans("Next")}</A>{else}&nbsp;{/if}
-            </TD>
-            <TD colspan="3" class="text-right">
-                {if $listdata.prev}<A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")} &raquo;&raquo;&raquo;</A>{else}&nbsp;{/if}
-            </TD>
-        </TR>
 </TBODY>
 </TABLE>
-</FORM>
+
+<nav>
+  <ul class="pager">
+      {if $listdata.page}<li><A href="?m=archiveview&amp;page={$listdata.page - 1}">{trans("Next")}</A></li>{/if}
+      {if $listdata.prev}<li><A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")}</A></li>{/if}
+  </ul>
+</nav>
 {else}
     {trans("No such transactions in database.")}
 {/if}
