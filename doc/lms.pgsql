@@ -1766,6 +1766,7 @@ CREATE TABLE voipaccounts (
 		REFERENCES location_streets (id) ON DELETE SET NULL ON UPDATE CASCADE,
 	location_house varchar(32) DEFAULT NULL,
 	location_flat varchar(32) DEFAULT NULL,
+	balance		numeric(12,5) NOT NULL DEFAULT 0,
 	PRIMARY KEY (id)
 );
 CREATE INDEX voipaccounts_location_street_idx ON voipaccounts (location_street);
@@ -2168,6 +2169,91 @@ INSERT INTO up_rights(module, name, description, setdefault)
         VALUES ('info', 'edit_contact_ack', 'Customer can change contact information with admin acknowlegment', 0);
 INSERT INTO up_rights(module, name, description)
         VALUES ('info', 'edit_contact', 'Customer can change contact information');
+
+/* ---------------------------------------------------
+ Voip tables
+------------------------------------------------------*/
+DROP SEQUENCE IF EXISTS voip_prefixes_id_seq;
+CREATE SEQUENCE voip_prefixes_id_seq;
+DROP TABLE IF EXISTS voip_prefixes CASCADE;
+CREATE TABLE voip_prefixes (
+	id integer DEFAULT nextval('voip_prefixes_id_seq'::text) NOT NULL,
+	prefix varchar(30) NOT NULL,
+	name text NULL,
+	description text NULL,
+	PRIMARY KEY (id),
+	UNIQUE (prefix)
+);
+
+DROP SEQUENCE IF EXISTS voip_prefix_groups_id_seq;
+CREATE SEQUENCE voip_prefix_groups_id_seq;
+DROP TABLE IF EXISTS voip_prefix_groups CASCADE;
+CREATE TABLE voip_prefix_groups (
+	id integer DEFAULT nextval('voip_prefix_groups_id_seq'::text) NOT NULL,
+	name text NOT NULL,
+	description text NULL,
+	PRIMARY KEY (id)
+);
+
+DROP SEQUENCE IF EXISTS voip_prefix_group_assignments_id_seq;
+CREATE SEQUENCE voip_prefix_group_assignments_id_seq;
+DROP TABLE IF EXISTS voip_prefix_group_assignments CASCADE;
+CREATE TABLE voip_prefix_group_assignments (
+	id integer DEFAULT nextval('voip_prefix_group_assignments_id_seq'::text) NOT NULL,
+	prefixid integer NOT NULL
+		REFERENCES voip_prefixes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	groupid integer NOT NULL
+		REFERENCES voip_prefix_groups(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (id)
+);
+
+DROP SEQUENCE IF EXISTS voip_tariffs_id_seq;
+CREATE SEQUENCE voip_tariffs_id_seq;
+DROP TABLE IF EXISTS voip_tariffs CASCADE;
+CREATE TABLE voip_tariffs (
+	id integer DEFAULT nextval('voip_tariffs_id_seq'::text) NOT NULL,
+	prefixid integer NULL
+		REFERENCES voip_prefixes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	groupid integer NULL
+		REFERENCES voip_prefix_groups(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	tariffid integer NOT NULL
+		REFERENCES tariffs(id),
+	PRIMARY KEY (id)
+);
+
+DROP SEQUENCE IF EXISTS voip_tariff_rules_id_seq;
+CREATE SEQUENCE voip_tariff_rules_id_seq;
+DROP TABLE IF EXISTS voip_tariff_rules CASCADE;
+CREATE TABLE voip_tariff_rules (
+	id integer DEFAULT nextval('voip_tariff_rules_id_seq'::text) NOT NULL,
+	prefixid integer NULL
+		REFERENCES voip_prefixes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	groupid integer NULL
+		REFERENCES voip_prefix_groups(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	tarifid integer NOT NULL
+		REFERENCES tariffs (id) ON DELETE CASCADE ON UPDATE CASCADE,
+	description text NULL,
+	unitsize smallint NULL,
+	price numeric(12,5) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+DROP SEQUENCE IF EXISTS voip_cdr_id_seq;
+CREATE SEQUENCE voip_cdr_id_seq;
+DROP TABLE IF EXISTS voip_cdr CASCADE;
+CREATE TABLE voip_cdr (
+	id integer DEFAULT nextval('voip_cdr_id_seq'::text) NOT NULL,
+	caller varchar(20) NOT NULL,
+	callee varchar(20) NOT NULL,
+	call_start_time integer NOT NULL,
+	time_start_to_end integer NOT NULL,
+	time_answer_to_end integer NOT NULL,
+	price numeric(12,5) NOT NULL,
+	status varchar(15) NOT NULL,
+	type smallint NOT NULL,
+	voipaccountid integer NOT NULL,
+	PRIMARY KEY (id)
+);
 
 INSERT INTO countries (name) VALUES
 ('Lithuania'),
@@ -2649,4 +2735,4 @@ INSERT INTO netdevicemodels (name, alternative_name, netdeviceproducerid) VALUES
 ('XR7', 'XR7 MINI PCI PCBA', 2),
 ('XR9', 'MINI PCI 600MW 900MHZ', 2);
 
-INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2016051000');
+INSERT INTO dbinfo (keytype, keyvalue) VALUES ('dbversion', '2016060600');
