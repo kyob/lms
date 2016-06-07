@@ -1,22 +1,12 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-<!--// $Id$ //-->
-<H1>{$layout.pagetitle}</H1>
-<TABLE style="width: 100%;" CELLPADDING="3">
-	<TR>
-		<TD style="width: 100%;">
-			{include file="user/userinfobox.html"}
-		</TD>
-	</TR>
+    <!--// $Id$ //-->
+    <H1>{$layout.pagetitle}</H1>
+        {include file="user/userinfobox.html"}
         {block name="transactions"}
-	{if ConfigHelper::checkConfig('phpui.logging') && (ConfigHelper::checkConfig('privileges.superuser') || ConfigHelper::checkConfig('privileges.transaction_logs'))}
-	<TR>
-		<TD style="width: 100%;">
-			{include file="transactions.html"}
-		</TD>
-	</TR>
-	{/if}
+            {if ConfigHelper::checkConfig('phpui.logging') && (ConfigHelper::checkConfig('privileges.superuser') || ConfigHelper::checkConfig('privileges.transaction_logs'))}
+                {include file="transactions.html"}
+            {/if}
         {/block}
-</TABLE>
-{/block}
+    {/block}
