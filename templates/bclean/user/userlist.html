@@ -2,8 +2,8 @@
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
     <!--// $Id$ //-->
-    <h1>{$layout.pagetitle}</h1>
-    <table class="table table-bordered table-hover table-striped table-sm">
+    <h1>{$layout.pagetitle} <a class="btn btn-success pull-xs-right" href="?m=useradd">{trans("Add new user")}</a></h1>
+    <table class="table table-bordered table-hover table-striped">
         <thead class="thead-inverse">
             <tr>
                 <th>{trans("Last and first name")}<br>({trans("Login name")})</th>
@@ -17,7 +17,7 @@
                 {if $userslist[userslist].id}
                     <tr{if !$userslist[userslist].access} class="text-muted"{/if}>
                         <td onClick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
-                            {$userslist[userslist].name}<br><span class="text-muted">({$userslist[userslist].login})</span> 
+                            {$userslist[userslist].name} <h6><span class="label label-primary">{$userslist[userslist].login}</span></h6>
                         </td>
                         <td onclick="return self.location.href = '?m=userinfo&amp;id={$userslist[userslist].id}';">
                             {$userslist[userslist].accessfrom}
@@ -38,14 +38,14 @@
                             {/if}
                             {if $layout.logid ne $userslist[userslist].id}
                                 {if !$userslist[userslist].access}
-                                    <a class="btn btn-sm btn-secondary" href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=1">{trans('Activate')}</a>
+                                    <a class="btn btn-sm btn-secondary" href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=1" title="{trans('Activate')}"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></a>
                                     {else}
-                                    <a class="btn btn-sm btn-success" href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=0">{trans('Deactivate')}</a>
+                                    <a class="btn btn-sm btn-success" href="?m=useraccess&amp;id={$userslist[userslist].id}&amp;access=0" title="{trans('Deactivate')}"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></a>
                                     {/if}
                                 {/if}
-                            <a class="btn btn-sm btn-warning" href="?m=userpasswd&amp;id={$userslist[userslist].id}">{trans("Change password")}</a>
-                            {if $userslist[userslist].id != $layout.logid}<a class="btn btn-sm btn-danger" href="?m=userdel&amp;id={$userslist[userslist].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to irreversibly delete that user account?")}');">{trans("Delete")}</a>{/if}
-                            <a class="btn btn-sm btn-primary" href="?m=useredit&amp;id={$userslist[userslist].id}">{trans("Edit")}</a>
+                            <a class="btn btn-sm btn-warning" href="?m=userpasswd&amp;id={$userslist[userslist].id}" title="{trans('Change password')}"><i class="fa fa-lock fa-fw" aria-hidden="true"></i></a>
+                            {if $userslist[userslist].id != $layout.logid}<a class="btn btn-sm btn-danger" href="?m=userdel&amp;id={$userslist[userslist].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to irreversibly delete that user account?")}');" title="{trans('Delete')}"><i class="fa fa-trash fa-fw" aria-hidden="true"></i></a>{/if}
+                            <a class="btn btn-sm btn-primary" href="?m=useredit&amp;id={$userslist[userslist].id}" title="{trans('Edit')}"><i class="fa fa-lock fa-fw" aria-hidden="true"></i></a>
                         </td>
                     </tr>
                 {/if}
