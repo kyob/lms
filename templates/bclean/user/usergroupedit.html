@@ -1,55 +1,44 @@
 <!--
  @author Maciej_Wawryk
- -->
+-->
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
     <h1>{$layout.pagetitle}</h1>
-    <table class="lmsbox">
-	<form method="post" name="tedit" action="?m=usergroupedit&id={$usergroup.id}">
-	    <input type="submit" class="hiddenbtn">
-	    <thead>
-		<tr>
-		    <td width="1%"><img src="img/group.gif" alt=""></td>
-		    <td width="1%" nowrap><b>{trans("Name:")}</b></td>
-		    <td width="98%">
-			<input type="text" value="{$usergroup.name}" name="usergroup[name]" size="40" required {tip trigger="name" bold=1}>
-			<b>&nbsp;({$usergroup.id|string_format:"%04d"})</b>
-		    </td>
-		</tr>
-	    </thead>
-	    <tbody>
-		<tr>
-		    <td width="1%"><img src="img/info1.gif" alt=""></td>
-		    <td width="1%"><b>{trans("Description:")}</b></td>
-		    <td width="98%">
-			<textarea rows="5" cols="50" name="usergroup[description]" {tip text="Enter additional information (optional)"}>{$usergroup.description}</textarea>
-		    </td>
-		</tr>
-	</form>
-	    <tr>
-		<td width="100%" colspan="3" align="right">
-		    {if sizeof($usergroups) > 1 && $usergroup.count}
-			<form name="tmove" method="get" action="">
-			    <input type="hidden" name="is_sure" value="1">
-			    <input type="hidden" name="m" value="usergroupmove">
-			    <input type="hidden" name="from" value="{$usergroup.id}">
-			    <a href="javascript:document.tmove.submit();" onclick="return confirm('{trans("Are you sure, you want to move members to selected group?")}')">{trans("Move members to group:")}</a>
-			    <select size="1" name="to" {tip text="Select group to which you want to move members"}>
-				{foreach from=$usergroups item=item}{if $item.id != $usergroup.id}
-				<option value="{$item.id}">{$item.name}</option>
-				{/if}{/foreach}
-			    </select>
-			</form>
-		    {/if}
-		    <a href="javascript:document.tedit.submit();" accesskey="S">{trans("Submit")} <img src="img/save.gif" alt=""></a>
-		    <a href="?m=usergroupinfo&id={$usergroup.id}">{trans("Cancel")} <img src="img/cancel.gif" ALT=""></a> 
-		</td>
-	    </tr>
-	</tbody>
-    </table>
+    <div class="card">
+        <form class="form-inline" method="post" name="tedit" action="?m=usergroupedit&id={$usergroup.id}">
+            <input type="submit" class="hiddenbtn">
+            <div class="card-header">
+                <strong>{trans("Name")}</strong>
+                <input class="form-control"  type="text" value="{$usergroup.name}" name="usergroup[name]" required>
+                <b>&nbsp;({$usergroup.id|string_format:"%04d"})</b>                    
+            </div>
+            <div class="card-block">
+                <textarea class="form-control" rows="5" cols="50" name="usergroup[description]" placeholder="{trans('Enter additional information (optional)')}"}>{$usergroup.description}</textarea>
+            </div>
+        </form>
+        <div class="card-footer">
+            {if sizeof($usergroups) > 1 && $usergroup.count}
+                <form class="form-inline pull-xs-right" name="tmove" method="get" action="">
+                    <input type="hidden" name="is_sure" value="1">
+                    <input type="hidden" name="m" value="usergroupmove">
+                    <input type="hidden" name="from" value="{$usergroup.id}">
+                    <a class="btn btn-sm btn-primary" href="javascript:document.tmove.submit();" onclick="return confirm('{trans("Are you sure, you want to move members to selected group?")}')">{trans("Move members to group:")}</a>
+                    <select class="form-control" name="to" {tip text="Select group to which you want to move members"}>
+                        {foreach from=$usergroups item=item}
+                            {if $item.id != $usergroup.id}
+                                <option value="{$item.id}">{$item.name}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </form>
+            {/if}
+            <a class="btn btn-sm btn-danger" href="javascript:document.tedit.submit();" accesskey="S">{trans("Submit")}</a>
+            <a class="btn btn-sm btn-secondary" href="?m=usergroupinfo&id={$usergroup.id}">{trans("Cancel")}</a> 
+        </div>
+    </div>
     <script type="text/javascript">
-	document.forms['tedit'].elements['usergroup[name]'].focus();
+        document.forms['tedit'].elements['usergroup[name]'].focus();
     </script>
     {include file="user/usergroupassignments.html"}
 {/block}
