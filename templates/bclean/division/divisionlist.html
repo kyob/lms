@@ -1,68 +1,58 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-<!--// $Id$ //-->
-<H1>{$layout.pagetitle}</H1>
-<TABLE class="lmsbox">
-    <THEAD>
-	<TR>
-		<TD width="1%" NOWRAP><IMG src="img/division.gif" alt=""> <B>{trans("Name:")}</B></TD>
-		<TD width="1%" align="right" NOWRAP>{trans("ID:")}</TD>
-		<TD width="96%" align="left" NOWRAP>{trans("Long name:")}</TD>
-		<TD width="1%" align="right" NOWRAP>{trans("Customers:")}</TD>
-		<TD width="1%" align="right" NOWRAP><a href="?m=divisionadd">{trans("Add division")} <img src="img/save.gif" alt=""></a></TD>
-	</TR>
-	{if $listdata.total != 0}
-	<TR>
-		<TD class="pagination" COLSPAN="5">
-			{include file="scroller.html" loop=$divisionlist}
-		</TD>
-	</TR>
-	{/if}
-    </THEAD>
-    <TBODY>
-	{cycle values="light,lucid" print=false}
-	{section name=list loop=$divisionlist}
-	<TR class="highlight {cycle}{if $divisionlist[list].status} blend{/if}"  >
-		<TD NOWRAP onclick="return self.location.href='?m=divisionedit&amp;id={$divisionlist[list].id}';">
-			<IMG src="img/division.gif" alt=""> <B>{$divisionlist[list].shortname}</B>
-		</TD>
-		<TD align="right" NOWRAP onclick="return self.location.href='?m=divisionedit&amp;id={$divisionlist[list].id}';">
-			({$divisionlist[list].id|string_format:"%04d"})
-		</TD>
-		<TD align="left" onclick="return self.location.href='?m=divisionedit&amp;id={$divisionlist[list].id}';">
-			{$divisionlist[list].name}
-		</TD>
-		<TD align="right" onclick="return self.location.href='?m=divisionedit&amp;id={$divisionlist[list].id}';">
-			{$divisionlist[list].cnt|default:0}
-		</TD>
-		<TD align="right" NOWRAP>
-			<A href="?m=divisionedit&amp;id={$divisionlist[list].id}&amp;changestatus=1"><IMG src="img/wait.gif" alt="[ {if $divisionlist[list].status}{trans("Unlock")}{else}{trans("Lock")}{/if} ]" title="[ {if $divisionlist[list].status}{trans("Unlock")}{else}{trans("Lock")}{/if} ]"></A>
-			<A href="?m=divisiondel&amp;id={$divisionlist[list].id}" OnClick="return confirmLink(this, '{t a=$divisionlist[list].name}Are you sure, you want to delete division \'$a\'?{/t}')"><IMG src="img/delete.gif" alt="[ {trans("Delete")} ]" title="[ {trans("Delete")} ]"></A>
-			<A href="?m=divisionedit&amp;id={$divisionlist[list].id}"><IMG src="img/edit.gif" alt="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></A>
-		</TD>
-	</TR>
-	{sectionelse}
-	<TR>
-		<TD colspan="5" class="empty-table">
-			<p>{trans("No such divisions in database.")}</p>
-		</TD>
-	</TR>
-	{/section}
-    </TBODY>
-    <TFOOT>
-	{if $listdata.total != 0}
-	<TR>
-		<TD class="pagination" COLSPAN="5">
-			{include file="scroller.html" loop=$divisionlist}
-		</TD>
-	</TR>
-	{/if}
-	<TR>
-		<TD colspan="5" align="right">
-			<a href="?m=divisionadd">{trans("Add division")} <img src="img/save.gif" alt=""></a>
-		</TD>
-	</TR>
-    </TFOOT>
-</TABLE>
+    <!--// $Id$ //-->
+    <H1>{$layout.pagetitle} <a class="btn btn-success" href="?m=divisionadd"><i class="fa fa-fw fa-plus-circle"></i> {trans("Add division")}</a></h1>
+        {if $listdata.total != 0}
+            {include file="scroller.html" loop=$divisionlist}
+        {/if} 
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-inverse">
+            <TR>
+                <th>{trans("Name:")}</th>
+                <th>{trans("ID:")}</th>
+                <th>{trans("Long name:")}</th>
+                <th>{trans("Customers:")}</th>
+                <th></th>
+            </TR>
+        </THEAD>
+        <TBODY>
+            {section name=list loop=$divisionlist}
+                <TR class="{if $divisionlist[list].status} text-muted{/if}"  >
+                    <TD>
+                        <a href="?m=divisionedit&amp;id={$divisionlist[list].id}">{$divisionlist[list].shortname}</a>
+                    </TD>
+                    <TD>
+                        ({$divisionlist[list].id|string_format:"%04d"})
+                    </TD>
+                    <Td>
+                        {$divisionlist[list].name}
+                    </TD>
+                    <TD>
+                        {$divisionlist[list].cnt|default:0}
+                    </TD>
+                    <TD>
+                        {if $divisionlist[list].status}
+                            <A class="btn btn-sm btn-warning" href="?m=divisionedit&amp;id={$divisionlist[list].id}&amp;changestatus=1" title="{trans("Unlock")}"><i class="fa fa-fw fa-toggle-off"></i></A>
+                        {else}
+                            <A class="btn btn-sm btn-success" href="?m=divisionedit&amp;id={$divisionlist[list].id}&amp;changestatus=1" title="{trans("Lock")}"><i class="fa fa-fw fa-toggle-on"></i></A>
+                        {/if}
+
+                        <A class="btn btn-sm btn-danger" href="?m=divisiondel&amp;id={$divisionlist[list].id}" OnClick="return confirmLink(this, '{t a=$divisionlist[list].name}Are you sure, you want to delete division \'$a\'?{/t}')" title="{trans("Delete")}"><i class="fa fa-fw fa-trash"></i></A>
+                        <A class="btn btn-sm btn-primary" href="?m=divisionedit&amp;id={$divisionlist[list].id}" title="{trans("Edit")}"><i class="fa fa-fw fa-edit"></i></A>
+                    </TD>
+                </TR>
+            {sectionelse}
+                <TR>
+                    <TD colspan="5">
+                        {trans("No such divisions in database.")}
+                    </TD>
+                </TR>
+            {/section}
+        </TBODY>
+    </TABLE>
+    {if $listdata.total != 0}
+        {include file="scroller.html" loop=$divisionlist}
+    {/if}                    
 {/block}
