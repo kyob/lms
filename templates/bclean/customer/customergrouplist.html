@@ -1,72 +1,55 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-<!--// $Id$ //-->
-<H1>{$layout.pagetitle}</H1>
-<TABLE class="lmsbox">
-	<COLGROUP>
-		<COL style="width: 97%;">
-		<COL style="width: 1%;">
-		<COL style="width: 1%;">
-		<COL style="width: 1%;">
-	</COLGROUP>
-	<THEAD>
-	<TR>
-		<TD scope="col" class="nobr">
-			<IMG src="img/group.gif" alt=""> {trans("Name:")}<BR>
-			<span class="lighter"><IMG src="img/info1.gif" alt=""> {trans("Description:")}</span>
-		</TD>
-		<TD scope="col" class="text-right lighter">
-			{trans("ID:")}
-		</TD>
-		<TD scope="col" class="text-right lighter">
-			{trans("Members:")}
-		</TD>
-		<TD scope="col" class="text-right nobr">
-			{t a=$listdata.total|default:"0"}Total: $a{/t}
-		</TD>
-	</TR>
-	</THEAD>
-	<TFOOT>
-	<TR>
-		<TD colspan="4" class="text-right bold nobr">
-			<IMG src="img/info2.gif" alt=""> {trans("Total:")}
-			{$listdata.totalcount|default:"0"}
-		</TD>
-	</TR>
-	</TFOOT>
-	<TBODY>
-	{cycle values="light,lucid" print=false}
-	{section name=customergroups loop=$customergrouplist}
-	<TR class="highlight {cycle}"  >
-		<TD onClick="return self.location.href='?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
-			<IMG src="img/group.gif" alt="">&nbsp;<span class="bold">{$customergrouplist[customergroups].name}</span><BR>
-			{if $customergrouplist[customergroups].description}<IMG src="img/info1.gif" alt="">&nbsp;{$customergrouplist[customergroups].description}{/if}
-		</TD>
-		<TD class="text-right" onClick="return self.location.href='?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
-			({$customergrouplist[customergroups].id|string_format:"%04d"})
-		</TD>
-		<TD class="text-right" onClick="return self.location.href='?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
-			{$customergrouplist[customergroups].customerscount} 
-		</TD>
-		<TD class="text-right nobr">
-			{if $customergrouplist[customergroups].customers}
-			<A href="javascript:alert('{trans("Group with members cannot be deleted!")}');">
-			{else}
-			<A href="?m=customergroupdel&amp;id={$customergrouplist[customergroups].id}" onClick="return confirmLink(this,'{trans("Are you sure, you want to remove this group?")}');">
-			{/if}
-			<IMG src="img/delete.gif" alt="[ {trans("Delete")} ]" title="[ {trans("Delete")} ]"></A>
-			<A href="?m=customergroupedit&amp;id={$customergrouplist[customergroups].id}"><IMG src="img/edit.gif" alt="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></A>
-			<A href="?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}"><IMG src="img/info.gif" alt="[ {trans("Info")} ]" title="[ {trans("Info")} ]"></A>
-		</TD>
-	</TR>
-	{sectionelse}
-	<TR>
-		<TD colspan="4" class="empty-table">
-			<p>{trans("There are no such groups in database.")}</p>
-		</TD>
-	</TR>
-	{/section}
-	</TBODY>
-</TABLE>
+    <!--// $Id$ //-->
+    <H1>{$layout.pagetitle}</H1>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-inverse">
+            <TR>
+                <th>
+                    {trans("Name:")} / {trans("ID:")} / {trans("Description:")}
+                </th>
+                <th>
+                    {trans("Members:")}
+                </th>
+                <th>
+                    {t a=$listdata.total|default:"0"}Total: $a{/t}
+                </th>
+            </TR>
+        </THEAD>
+        <TFOOT>
+            <TR>
+                <TD colspan="3">
+                    {trans("Total")}: {$listdata.totalcount|default:"0"}
+                </TD>
+            </TR>
+        </TFOOT>
+        <TBODY>
+            {section name=customergroups loop=$customergrouplist}
+                <TR>
+                    <TD onClick="return self.location.href = '?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
+                        <a href="?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}">{$customergrouplist[customergroups].name}</a> <span class="text-muted">({$customergrouplist[customergroups].id|string_format:"%04d"})</span><br>
+                        {if $customergrouplist[customergroups].description}{$customergrouplist[customergroups].description}{/if}
+                    </TD>
+                    <TD onClick="return self.location.href = '?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
+                        {$customergrouplist[customergroups].customerscount}
+                    </TD>
+                    <TD>
+                        {if $customergrouplist[customergroups].customerscount}
+                            <A class="btn btn-sm btn-secondary" href="javascript:alert('{trans("Group with members cannot be deleted!")}');" title="{trans('Delete')}"><i class="fa fa-fw fa-trash"></i></a>
+                            {else}
+                            <A class="btn btn-sm btn-danger" href="?m=customergroupdel&amp;id={$customergrouplist[customergroups].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to remove this group?")}');" title="{trans('Delete')}"><i class="fa fa-fw fa-trash"></i></a>
+                            {/if}
+                        <A class="btn btn-sm btn-primary" href="?m=customergroupedit&amp;id={$customergrouplist[customergroups].id}" title="{trans('Edit')}"><i class="fa fa-fw fa-edit"></i></A>
+                    </TD>
+                </TR>
+            {sectionelse}
+                <TR>
+                    <TD colspan="3">
+                        {trans("There are no such groups in database.")}
+                    </TD>
+                </TR>
+            {/section}
+        </TBODY>
+    </TABLE>
 {/block}

@@ -1,383 +1,350 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-<!--// $Id$ //-->
-<H1>{$layout.pagetitle}</H1>
-{include file="calendar_js.html"}
-<SCRIPT type="text/javascript">
-<!-- 
-	function PrintList() {
-		document.customersearch.action = "?m=customersearch&search=1&print=1";
-		document.customersearch.target = "_BLANK";
-		document.customersearch.submit();
-	}
+    <!--// $Id$ //-->
+    <H1>{$layout.pagetitle}</H1>
+        {include file="calendar_js.html"}
+    <SCRIPT type="text/javascript">
+        <!--
+        function PrintList() {
+            document.customersearch.action = "?m=customersearch&search=1&print=1";
+            document.customersearch.target = "_BLANK";
+            document.customersearch.submit();
+        }
 
-	function ExportCSV() {
-		document.customersearch.action = "?m=customersearch&search=1&export=1";
-		document.customersearch.target = "_BLANK";
-		document.customersearch.submit();
-	}
+        function ExportCSV() {
+            document.customersearch.action = "?m=customersearch&search=1&export=1";
+            document.customersearch.target = "_BLANK";
+            document.customersearch.submit();
+        }
 
-	function Search() {
-		document.customersearch.action = "?m=customersearch&search=1";
-		document.customersearch.target = "";
-		document.customersearch.submit();
-	}
+        function Search() {
+            document.customersearch.action = "?m=customersearch&search=1";
+            document.customersearch.target = "";
+            document.customersearch.submit();
+        }
 
-	function change_linktype(linktype) {
-		var options = document.getElementById('linktechnology').options;
-		while (options.length)
-			options.remove(0);
-		options.add(new Option('{trans("- none -")}', 0));
-		switch (linktype) {
-			case '':
-				{foreach array(0, 1, 2) as $linktype}
-					{foreach $_LINKTECHNOLOGIES[$linktype] as $linktechnologyidx => $linktechnology}
-					options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
-					{/foreach}
-				{/foreach}
-				break;
-			case '0':
-				{foreach $_LINKTECHNOLOGIES[0] as $linktechnologyidx => $linktechnology}
-				options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
-				{/foreach}
-				break;
-			case '1':
-				{foreach $_LINKTECHNOLOGIES[1] as $linktechnologyidx => $linktechnology}
-				options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
-				{/foreach}
-				break;
-			case '2':
-				{foreach $_LINKTECHNOLOGIES[2] as $linktechnologyidx => $linktechnology}
-				options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
-				{/foreach}
-				break;
-		}
-	}
-//-->
-</SCRIPT>
-<FORM method="post" action="?m=customersearch&amp;search=1" name="customersearch" id="customersearch">
-<p style="display: none;">
-<INPUT type="submit" class="hiddenbtn">
-</p>
-<TABLE class="lmsbox">
-	<THEAD>
-	<TR>
-		<TD colspan="2" class="bold">
-			{trans("Display customers matching the following criteria:")}
-		</TD>
-	</TR>
-	</THEAD>
-	<TBODY>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/customer.gif" alt=""> {trans("First/last or Company name:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[customername]" VALUE="{$search.customername}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/home.gif" alt=""> {trans("Address:")}
-		</TD>
-		<TD style="width: 99%;" class="nobr">
-			<INPUT type="text" name="search[address]" VALUE="{$search.address}">
-			<span class="bold">{trans("City:")}</span> <INPUT type="text" name="search[city]" VALUE="{$search.city}">
-			<span class="bold">{trans("Postcode:")}</span> <INPUT type="text" name="search[zip]" VALUE="{$search.zip}" SIZE="10">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/phone.gif" alt=""> {trans("Phone:")}
-		</TD>
-		<TD style="width: 99%;" class="nobr">
-			<INPUT type="tel" name="search[phone]" VALUE="{$search.phone}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/mail.gif" alt=""> {trans("E-mail:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="email" name="search[email]" VALUE="{$search.email}">
-		</TD>
-	</TR>
-	{*
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/gg.gif" alt=""> {trans("IM:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[im]" VALUE="{$search.im}">
-		</TD>
-	</TR>
-	*}
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/serialnumber.gif" width="16" alt=""> {trans("ICN:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[icn]" VALUE="{$search.icn}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/empty.gif" width="16" alt=""> {trans("SSN:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[ssn]" VALUE="{$search.ssn}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/empty.gif" width="16" alt=""> {trans("TEN:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[ten]" VALUE="{$search.ten}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/empty.gif" width="16" alt=""> {trans("REGON:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[regon]" VALUE="{$search.regon}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/report.gif" alt=""> {trans("RBE:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[rbe]" VALUE="{$search.rbe}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/note.gif" alt=""> {trans("Notes:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[notes]" VALUE="{$search.notes}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/info1.gif" alt=""> {trans("Additional information:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT type="text" name="search[info]" VALUE="{$search.info}">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/folder.gif" alt=""> {trans("Legal personality:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="search[type]">
-				<OPTION VALUE="">{trans("- all -")}</OPTION>
-				<OPTION VALUE="0">{trans("private person")}</OPTION>
-				<OPTION VALUE="1">{trans("legal entity")}</OPTION>
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/state.gif" alt=""> {trans("Country state:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT name="search[stateid]" {tip text="Select country state"}>
-				<OPTION value="">{trans("- all states -")}</OPTION>
-				{foreach from=$cstateslist item=item key=key}
-				<OPTION value="{$key}">{$item.name}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/netdev.gif" alt=""> {trans("Link type:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="search[linktype]" onchange="change_linktype(this.options[this.selectedIndex].value)">
-				<OPTION VALUE="">{trans("- all -")}</OPTION>
-				{foreach from=$_LINKTYPES item=item key=key}
-					<OPTION VALUE="{$key}">{$item}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/netdev.gif" alt=""> {trans("Link technology:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="search[linktechnology]" id="linktechnology">
-				<OPTION VALUE="">{trans("- all -")}</OPTION>
-				{foreach array(0, 1, 2) as $linktype}
-					{foreach $_LINKTECHNOLOGIES[$linktype] as $linktechnologyidx => $linktechnology}
-					<OPTION VALUE="{$linktechnologyidx}">{$linktechnology}</OPTION>
-					{/foreach}
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/netdev.gif" alt=""> {trans("Link speed:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="search[linkspeed]">
-				<OPTION VALUE="">{trans("- all -")}</OPTION>
-				{foreach from=$_LINKSPEEDS item=item key=key}
-					<OPTION VALUE="{$key}">{$item}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/money.gif" alt=""> {trans("Tariffs:")}
-		</TD>
-		<TD style="width: 99%;" class="multiselect">
-			<SELECT SIZE="1" name="search[tariffs][]" multiple id="customertariffs">
-				{foreach from=$tariffs item=item}
-				 	<OPTION VALUE="{$item.id}">{$item.name}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/money.gif" alt=""> {trans("Tariff type:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="search[tarifftype]">
-				<OPTION VALUE="" SELECTED>{trans("- all -")}</OPTION>
-				{foreach $_TARIFFTYPES as $id => $name}
-				 	<OPTION VALUE="{$id}">{$name}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/empty.gif" width="16" alt=""> {trans("Created:")}
-		</TD>
-		<TD style="width: 99%;">
-			{trans("from")} <INPUT type="text" class="calendar" value="" name="search[createdfrom]" size="10">
-			{trans("to")} <INPUT type="text" class="calendar" value="" name="search[createdto]" size="10">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/empty.gif" width="16" alt=""> {trans("Deleted:")}
-		</TD>
-		<TD style="width: 99%;">
-			{trans("from")} <INPUT type="text" class="calendar" value="" name="search[deletedfrom]" size="10">
-			{trans("to")} <INPUT type="text" class="calendar" value="" name="search[deletedto]" size="10">
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/empty.gif" width="16" alt=""> {trans("Qualification operator:")}
-		</TD>
-		<TD style="width: 99%;">
-			<INPUT class="radio light" type="radio" id="operator0" value="AND" name="k"{if $k!='OR'} CHECKED{/if}><label for="operator0">{trans("and")}</label>
-			<INPUT class="radio light" type="radio" id="operator1" value="OR" name="k"{if $k=='OR'} CHECKED{/if}><label for="operator1">{trans("or")}</label>
-		</TD>
-	</TR>
-	<TR>
-		<TD class="flr" style="width: 100%;" colspan="2">&nbsp;</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/division.gif" width="16" alt=""> {trans("Division")}:
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="d">
-				<OPTION VALUE="">- {trans("all")} -</OPTION>
-				{foreach from=$divisions item=division}
-					<OPTION VALUE="{$division.id}"{if $listdata.division==$division.id} SELECTED{/if}>{$division.shortname|truncate:30:"...":true}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/access.gif" width="16" alt=""> {trans("Status:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="s">
-				<OPTION VALUE="0">{trans("- all -")}</OPTION>
-				{foreach $_CSTATUSES as $statusidx => $status}
-				<OPTION VALUE="{$statusidx}">{$status.plurallabel}</OPTION>
-				{/foreach}
-				<OPTION VALUE="50">{trans("deleted<!plural>")}</OPTION>
-				<OPTION VALUE="51">{trans("with disconnected nodes")}</OPTION>
-				<OPTION VALUE="52">{trans("in debt")}</OPTION>
-				<OPTION VALUE="57">{trans("in debt above 100%")}</OPTION>
-				<OPTION VALUE="58">{trans("in debt above 200%")}</OPTION>
-				<OPTION VALUE="53">{trans("online")}</OPTION>
-				<OPTION VALUE="54">{trans("without group")}</OPTION>
-				<OPTION VALUE="55">{trans("without tariff")}</OPTION>
-				<OPTION VALUE="56">{trans("suspended<!plural>")}</OPTION>
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/network.gif" alt=""> {trans("Network:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="n">
-				<OPTION value="0" {if !$listdata.network} SELECTED {/if}>{trans("- all networks -")}</OPTION>
-				{section name=networks loop=$networks}
-				<OPTION value="{$networks[networks].id}" {if $listdata.network == $networks[networks].id} SELECTED {/if}>{$networks[networks].name|truncate:50:"...":true}</OPTION>
-				{/section}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/group.gif" alt=""> {trans("Group:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="g">
-				<OPTION value="" {if !$listdata.customergroup} SELECTED {/if}>{trans("- all groups -")}</OPTION>
-				{section name=customergroups loop=$customergroups}
-				<OPTION value="{$customergroups[customergroups].id}" {if $listdata.customergroup == $customergroups[customergroups].id} SELECTED {/if}>{$customergroups[customergroups].name|truncate:50:"...":true}</OPTION>
-				{/section}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="bold nobr">
-			<IMG src="img/nodegroup.gif" alt=""> {trans("Nodes Group:")}
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT SIZE="1" name="ng">
-				<OPTION value="" {if !$listdata.nodegroup} SELECTED {/if}>{trans("- all groups -")}</OPTION>
-				{foreach from=$nodegroups item=nodegroup}
-				<OPTION value="{$nodegroup.id}" {if $listdata.nodegroup == $nodegroup.id} SELECTED {/if}>{$nodegroup.name|truncate:30:"...":true}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 100%;" class="text-right" colspan="2">
-			<A accesskey="S" href="javascript:Search();">{trans("Search")} <IMG src="img/search.gif" alt=""></A>&nbsp;
-			<A href="javascript:ExportCSV();">{trans("Download (CSV)")} <IMG src="img/save.gif" alt=""></A>&nbsp;
-			<A href="javascript:PrintList();">{trans("Print")} <IMG src="img/print.gif" alt=""></A>
-		</TD>
-	</TR>
-	</TBODY>
-</TABLE>
-</FORM>
-<SCRIPT type="text/javascript">
-<!--
-document.forms['customersearch'].elements['search[customername]'].focus();
-multiselect('customersearch', 'customertariffs', '{trans("- all -")}', null);
-//-->
-</SCRIPT>
+        function change_linktype(linktype) {
+            var options = document.getElementById('linktechnology').options;
+            while (options.length)
+                options.remove(0);
+            options.add(new Option('{trans("- none -")}', 0));
+            switch (linktype) {
+                case '':
+        {foreach array(0, 1, 2) as $linktype}
+            {foreach $_LINKTECHNOLOGIES[$linktype] as $linktechnologyidx => $linktechnology}
+                    options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
+            {/foreach}
+        {/foreach}
+                    break;
+                case '0':
+        {foreach $_LINKTECHNOLOGIES[0] as $linktechnologyidx => $linktechnology}
+                    options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
+        {/foreach}
+                    break;
+                case '1':
+        {foreach $_LINKTECHNOLOGIES[1] as $linktechnologyidx => $linktechnology}
+                    options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
+        {/foreach}
+                    break;
+                case '2':
+        {foreach $_LINKTECHNOLOGIES[2] as $linktechnologyidx => $linktechnology}
+                    options.add(new Option('{$linktechnology}', {$linktechnologyidx}));
+        {/foreach}
+                    break;
+            }
+        }
+        //-->
+    </SCRIPT>
+    <FORM class="form-inline" method="post" action="?m=customersearch&amp;search=1" name="customersearch" id="customersearch">
+        <INPUT type="submit" class="hiddenbtn">
+        <div class="card">
+            <div class="card-header">
+                <strong>{trans("Display customers matching the following criteria")}</strong>
+            </div>
+            <div class="card-block">
+                <div class="form-group">
+                    <label>{trans("First/last or Company name:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[customername]" VALUE="{$search.customername}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Address:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[address]" VALUE="{$search.address}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("City:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[city]" VALUE="{$search.city}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Postcode:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[zip]" VALUE="{$search.zip}" SIZE="10">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Phone:")}</label>
+                    <INPUT class="form-control form-control-sm" type="tel" name="search[phone]" VALUE="{$search.phone}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("E-mail:")}</label>
+                    <INPUT class="form-control form-control-sm" type="email" name="search[email]" VALUE="{$search.email}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("ICN:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[icn]" VALUE="{$search.icn}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("SSN:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[ssn]" VALUE="{$search.ssn}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("TEN:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[ten]" VALUE="{$search.ten}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("REGON:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[regon]" VALUE="{$search.regon}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("RBE:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[rbe]" VALUE="{$search.rbe}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Notes:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[notes]" VALUE="{$search.notes}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Additional information:")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="search[info]" VALUE="{$search.info}">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Legal personality:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[type]">
+                        <OPTION VALUE="">{trans("- all -")}</OPTION>
+                        <OPTION VALUE="0">{trans("private person")}</OPTION>
+                        <OPTION VALUE="1">{trans("legal entity")}</OPTION>
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Country state:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[stateid]" {tip text="Select country state"}>
+                        <OPTION value="">{trans("- all states -")}</OPTION>
+                            {foreach from=$cstateslist item=item key=key}
+                            <OPTION value="{$key}">{$item.name}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Link type:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[linktype]" onchange="change_linktype(this.options[this.selectedIndex].value)">
+                        <OPTION VALUE="">{trans("- all -")}</OPTION>
+                            {foreach from=$_LINKTYPES item=item key=key}
+                            <OPTION VALUE="{$key}">{$item}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Link technology:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[linktechnology]" id="linktechnology">
+                        <OPTION VALUE="">{trans("- all -")}</OPTION>
+                            {foreach array(0, 1, 2) as $linktype}
+                                {foreach $_LINKTECHNOLOGIES[$linktype] as $linktechnologyidx => $linktechnology}
+                                <OPTION VALUE="{$linktechnologyidx}">{$linktechnology}</OPTION>
+                                {/foreach}
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Link speed:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[linkspeed]">
+                        <OPTION VALUE="">{trans("- all -")}</OPTION>
+                            {foreach from=$_LINKSPEEDS item=item key=key}
+                            <OPTION VALUE="{$key}">{$item}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Tariffs:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[tariffs][]" multiple id="customertariffs">
+                        {foreach from=$tariffs item=item}
+                            <OPTION VALUE="{$item.id}">{$item.name}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Tariff type:")}</label>
+                    <SELECT class="form-control form-control-sm" name="search[tarifftype]">
+                        <OPTION VALUE="" SELECTED>{trans("- all -")}</OPTION>
+                            {foreach $_TARIFFTYPES as $id => $name}
+                            <OPTION VALUE="{$id}">{$name}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Created:")}</label>
+                    {trans("from")} <INPUT class="form-control form-control-sm" type="text" class="calendar" value="" name="search[createdfrom]" size="10">
+                    {trans("to")} <INPUT class="form-control form-control-sm" type="text" class="calendar" value="" name="search[createdto]" size="10">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Deleted:")}</label>
+                    {trans("from")} <INPUT class="form-control form-control-sm" type="text" class="calendar" value="" name="search[deletedfrom]" size="10">
+                    {trans("to")} <INPUT class="form-control form-control-sm" type="text" class="calendar" value="" name="search[deletedto]" size="10">
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Qualification operator:")}</label>
+
+                    <label for="operator0">{trans("and")}</label>
+                    <INPUT class="form-control form-control-sm"  type="radio" id="operator0" value="AND" name="k"{if $k!='OR'} CHECKED{/if}>
+                    <label for="operator1">{trans("or")}</label>
+                    <INPUT class="form-control form-control-sm"  type="radio" id="operator1" value="OR" name="k"{if $k=='OR'} CHECKED{/if}>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Division")}:</label>
+                    <SELECT class="form-control form-control-sm"  name="d">
+                        <OPTION VALUE="">- {trans("all")} -</OPTION>
+                            {foreach from=$divisions item=division}
+                            <OPTION VALUE="{$division.id}"{if $listdata.division==$division.id} SELECTED{/if}>{$division.shortname|truncate:30:"...":true}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Status:")}</label>
+                    <SELECT class="form-control form-control-sm" name="s">
+                        <OPTION VALUE="0">{trans("- all -")}</OPTION>
+                            {foreach $_CSTATUSES as $statusidx => $status}
+                            <OPTION VALUE="{$statusidx}">{$status.plurallabel}</OPTION>
+                            {/foreach}
+                        <OPTION VALUE="50">{trans("deleted<!plural>")}</OPTION>
+                        <OPTION VALUE="51">{trans("with disconnected nodes")}</OPTION>
+                        <OPTION VALUE="52">{trans("in debt")}</OPTION>
+                        <OPTION VALUE="57">{trans("in debt above 100%")}</OPTION>
+                        <OPTION VALUE="58">{trans("in debt above 200%")}</OPTION>
+                        <OPTION VALUE="53">{trans("online")}</OPTION>
+                        <OPTION VALUE="54">{trans("without group")}</OPTION>
+                        <OPTION VALUE="55">{trans("without tariff")}</OPTION>
+                        <OPTION VALUE="56">{trans("suspended<!plural>")}</OPTION>
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Network:")}</label>
+                    <SELECT class="form-control form-control-sm" name="n">
+                        <OPTION value="0" {if !$listdata.network} SELECTED {/if}>{trans("- all networks -")}</OPTION>
+                            {section name=networks loop=$networks}
+                            <OPTION value="{$networks[networks].id}" {if $listdata.network == $networks[networks].id} SELECTED {/if}>{$networks[networks].name|truncate:50:"...":true}</OPTION>
+                            {/section}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Group:")}</label>
+                    <SELECT class="form-control form-control-sm" name="g">
+                        <OPTION value="" {if !$listdata.customergroup} SELECTED {/if}>{trans("- all groups -")}</OPTION>
+                            {section name=customergroups loop=$customergroups}
+                            <OPTION value="{$customergroups[customergroups].id}" {if $listdata.customergroup == $customergroups[customergroups].id} SELECTED {/if}>{$customergroups[customergroups].name|truncate:50:"...":true}</OPTION>
+                            {/section}
+                    </SELECT>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label>{trans("Nodes Group:")}</label>
+                    <SELECT class="form-control form-control-sm" name="ng">
+                        <OPTION value="" {if !$listdata.nodegroup} SELECTED {/if}>{trans("- all groups -")}</OPTION>
+                            {foreach from=$nodegroups item=nodegroup}
+                            <OPTION value="{$nodegroup.id}" {if $listdata.nodegroup == $nodegroup.id} SELECTED {/if}>{$nodegroup.name|truncate:30:"...":true}</OPTION>
+                            {/foreach}
+                    </SELECT>
+                </div>
+
+                <hr>
+
+                <A class="btn btn-sm btn-danger" accesskey="S" href="javascript:Search();">{trans("Search")}</A>
+                <A class="btn btn-sm btn-primary" href="javascript:ExportCSV();">{trans("Download (CSV)")}</A>
+                <A class="btn btn-sm btn-secondary" href="javascript:PrintList();">{trans("Print")}</A>
+
+            </div>
+        </div>
+    </FORM>
+    <SCRIPT type="text/javascript">
+        <!--
+        document.forms['customersearch'].elements['search[customername]'].focus();
+        multiselect('customersearch', 'customertariffs', '{trans("- all -")}', null);
+        //-->
+    </SCRIPT>
 {/block}
