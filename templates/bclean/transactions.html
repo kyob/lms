@@ -7,11 +7,11 @@
     <INPUT type="hidden" name="search[userid]" value="{$userid}">
 
     <div class="card">
-        <div class="card-header" onclick="showOrHide('transactionpanel');">
+        <div class="card-header">
             <A class="btn btn-sm btn-primary" name="transactions">{trans("Show")}&nbsp;{t a=20}last $a transactions{/t}</A>
             <A class="btn btn-sm btn-secondary" href="javascript:document.search.submit();">{trans("Show more transactions")}</A>
         </div>
-        <div class="card-block" id="transactionpanel" style="display: none;">
+        <div class="card-block">
             {if $transactions}
                 <TABLE class="table table-bordered table-hover table-striped" id="transactiontable">
                     <THEAD class="thead-inverse">
@@ -79,9 +79,3 @@
     </div>
 </FORM>
 
-<SCRIPT type="text/javascript">
-    <!--
-    if (getCookie('transactionpanel') == '1')
-        document.getElementById('transactionpanel').style.display = '';
-    //-->
-</SCRIPT>

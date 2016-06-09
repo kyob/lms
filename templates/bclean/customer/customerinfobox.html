@@ -1,423 +1,406 @@
-<div class="row">
-    <div class="col-md-12">
+{if $customerinfo.deleted}
+    <div class="alert alert-danger" role="alert">
+        <h3>
+            {trans("Please note that the customer has been deleted!!")}
+        </h3>
         {if $customerinfo.deleted}
-            <div class="alert alert-danger" role="alert">
-                <h3>
-                    {trans("Please note that the customer has been deleted!!")}
-                </h3>
-                {if $customerinfo.deleted}
-                    {if ConfigHelper::checkPrivilege('permanent_customer_removal')}
-                        <A class="btn btn-danger" href="?m=customerdel&amp;id={$customerinfo.id}&amp;type=permanent">
-                            {trans("Remove permanently")}
-                        </a>
-                    {/if}
-                    <A class="btn btn-success" HREF="?m=customeredit&amp;id={$customerinfo.id}&action=recover">
-                        {trans("Restore")}
-                    </A>
-                {/if}
+            {if ConfigHelper::checkPrivilege('permanent_customer_removal')}
+                <A class="btn btn-danger" href="?m=customerdel&amp;id={$customerinfo.id}&amp;type=permanent">
+                    {trans("Remove permanently")}
+                </a>
             {/if}
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <strong>
-                    {if $customerpanel}
-                        {trans("Owner:")}
-                    {/if}
-                    {$customerinfo.customername|escape}
-                </strong>
-                &nbsp;
-                (
-                {if $customerinfo.type == $smarty.const.CTYPES_COMPANY}
-                    {assign var='type' value=$smarty.const.CTYPES_COMPANY}
-                    {$_CTYPES.$type}
-                {elseif $customerinfo.type == $smarty.const.CTYPES_PRIVATE}
-                    {assign var='type' value=$smarty.const.CTYPES_PRIVATE}
-                    {$_CTYPES.$type}
-                {/if}
-                )
-                &nbsp;  &nbsp;
-                {if $customerpanel}
-                    <a class="btn btn-secondary btn-sm pull-md-right" href="?m=customerinfo&amp;id={$customerinfo.id}">{trans('Navigate to the customer')}</a>
-                {/if}
-            </div>
+            <A class="btn btn-success" HREF="?m=customeredit&amp;id={$customerinfo.id}&action=recover">
+                {trans("Restore")}
+            </A>
+        {/if}
+    </div>
+{/if}
+<div class="card">
+    <div class="card-header">
+        <strong>
+            {if $customerpanel}
+                {trans("Owner:")}
+            {/if}
+            {$customerinfo.customername|escape}
+        </strong>
+        &nbsp;
+        (
+        {if $customerinfo.type == $smarty.const.CTYPES_COMPANY}
+            {assign var='type' value=$smarty.const.CTYPES_COMPANY}
+            {$_CTYPES.$type}
+        {elseif $customerinfo.type == $smarty.const.CTYPES_PRIVATE}
+            {assign var='type' value=$smarty.const.CTYPES_PRIVATE}
+            {$_CTYPES.$type}
+        {/if}
+        )
+        &nbsp;  &nbsp;
+        {if $customerpanel}
+            <a class="btn btn-secondary btn-sm pull-md-right" href="?m=customerinfo&amp;id={$customerinfo.id}">{trans('Navigate to the customer')}</a>
+        {/if}
+    </div>
 
 
-            <div class="card-block">
-                <div class="row">
-                    <div class="col-md-6">
-                        {block name="customerinfobox-leftcolumn"}
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-6">
+                {block name="customerinfobox-leftcolumn"}
 
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    {trans("ID")}:
-                                    <strong>{$customerinfo.id|string_format:"%04d"}</strong>
-                                </li>
-                                {if $customerinfo.pin != 0}
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.division}
-                                            {trans("PIN")}:
-                                            <strong>{$customerinfo.pin}</strong>
-                                        {/if}
-                                    </li>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            {trans("ID")}:
+                            <strong>{$customerinfo.id|string_format:"%04d"}</strong>
+                        </li>
+                        {if $customerinfo.pin != 0}
+                            <li class="list-inline-item">
+                                {if $customerinfo.division}
+                                    {trans("PIN")}:
+                                    <strong>{$customerinfo.pin}</strong>
                                 {/if}
-                                {if $customerinfo.extid}
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.division}
-                                            {trans("External ID")}:
-                                            <strong>{$customerinfo.extid}</strong>
-                                        {/if}
-                                    </li>
+                            </li>
+                        {/if}
+                        {if $customerinfo.extid}
+                            <li class="list-inline-item">
+                                {if $customerinfo.division}
+                                    {trans("External ID")}:
+                                    <strong>{$customerinfo.extid}</strong>
                                 {/if}
-                            </ul>
+                            </li>
+                        {/if}
+                    </ul>
 
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    {trans("Status")}:
-                                    <strong>{$_CSTATUSES[$customerinfo.status].singularlabel}</strong>
-                                </li>
-                                <li class="list-inline-item">
-                                    {if $customerinfo.division}
-                                        {trans("Division")}:
-                                        <strong>{$customerinfo.division}</strong>
-                                    {/if}
-                                </li>
-                            </ul>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            {trans("Status")}:
+                            <strong>{$_CSTATUSES[$customerinfo.status].singularlabel}</strong>
+                        </li>
+                        <li class="list-inline-item">
+                            {if $customerinfo.division}
+                                {trans("Division")}:
+                                <strong>{$customerinfo.division}</strong>
+                            {/if}
+                        </li>
+                    </ul>
 
-                            <ul class="list-inline">
-                                {if $type == 1}
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.ten != ""}
-                                            {trans("TEN")}: <strong>{$customerinfo.ten}</strong>
-                                        {/if}
-                                    </li>
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.regon != ""}
-                                            {trans("REGON")}: <strong>{$customerinfo.regon}</strong>
-                                        {/if}
-                                    </li>
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.rbe != ""}
-                                            {trans("RBE")}: <strong>{$customerinfo.rbe}</strong>
-                                        {/if}
-                                    </li>
+                    <ul class="list-inline">
+                        {if $type == 1}
+                            <li class="list-inline-item">
+                                {if $customerinfo.ten != ""}
+                                    {trans("TEN")}: <strong>{$customerinfo.ten}</strong>
                                 {/if}
-                                {if $type == 0}
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.icn != ""}
-                                            {trans("ICN")}: <strong>{$customerinfo.icn}</strong>
-                                        {/if}
-                                    </li>
-                                    <li class="list-inline-item">
-                                        {if $customerinfo.ssn != ""}
-                                            {trans("SSN")}: <strong>{$customerinfo.ssn}</strong>
-                                        {/if}
-                                    </li>
+                            </li>
+                            <li class="list-inline-item">
+                                {if $customerinfo.regon != ""}
+                                    {trans("REGON")}: <strong>{$customerinfo.regon}</strong>
                                 {/if}
-                            </ul>
+                            </li>
+                            <li class="list-inline-item">
+                                {if $customerinfo.rbe != ""}
+                                    {trans("RBE")}: <strong>{$customerinfo.rbe}</strong>
+                                {/if}
+                            </li>
+                        {/if}
+                        {if $type == 0}
+                            <li class="list-inline-item">
+                                {if $customerinfo.icn != ""}
+                                    {trans("ICN")}: <strong>{$customerinfo.icn}</strong>
+                                {/if}
+                            </li>
+                            <li class="list-inline-item">
+                                {if $customerinfo.ssn != ""}
+                                    {trans("SSN")}: <strong>{$customerinfo.ssn}</strong>
+                                {/if}
+                            </li>
+                        {/if}
+                    </ul>
 
-                            <hr>
+                    <hr>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p class="font-weight-bold">{trans("Address")}</p>
-                                    {$customerinfo.address}<BR>
-                                    {$customerinfo.zip} {$customerinfo.city}
-                                    {if $customerinfo.cstate}<BR>{$customerinfo.cstate}{/if}
-                                    {if $customerinfo.country}<BR>{t}{$customerinfo.country}{/t}{/if}
-                                </div>
-                                <div class="col-md-6">
-                                    {if $customerinfo.post_name != "" || $customerinfo.post_address != ""}
-                                        <p class="font-weight-bold">{trans("Postal address")}</p>
-                                        {if $customerinfo.post_name != ""}{$customerinfo.post_name}<br>{/if}
-                                        {if $customerinfo.post_address != ""}{$customerinfo.post_address}<br>{/if}
-                                        {$customerinfo.post_zip} {$customerinfo.post_city}
-                                        {if $customerinfo.post_cstate}<br>{$customerinfo.post_cstate}{/if}
-                                        {if $customerinfo.post_country}<br>{t}{$customerinfo.post_country}{/t}{/if}
-                                    {/if}
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold">{trans("Address")}</p>
+                            {$customerinfo.address}<BR>
+                            {$customerinfo.zip} {$customerinfo.city}
+                            {if $customerinfo.cstate}<BR>{$customerinfo.cstate}{/if}
+                            {if $customerinfo.country}<BR>{t}{$customerinfo.country}{/t}{/if}
+                        </div>
+                        <div class="col-md-6">
+                            {if $customerinfo.post_name != "" || $customerinfo.post_address != ""}
+                                <p class="font-weight-bold">{trans("Postal address")}</p>
+                                {if $customerinfo.post_name != ""}{$customerinfo.post_name}<br>{/if}
+                                {if $customerinfo.post_address != ""}{$customerinfo.post_address}<br>{/if}
+                                {$customerinfo.post_zip} {$customerinfo.post_city}
+                                {if $customerinfo.post_cstate}<br>{$customerinfo.post_cstate}{/if}
+                                {if $customerinfo.post_country}<br>{t}{$customerinfo.post_country}{/t}{/if}
+                            {/if}
+                        </div>
+                    </div>
 
-                            <hr>
+                    <hr>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {if !empty($customerinfo.contacts)}
-                                        <p class="font-weight-bold">{trans("Contact phones")}</p>
-                                        <ul>
-                                            {foreach $customerinfo.contacts as $contact}
-                                                <li>
-                                                    <span{if ($contact.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>{$contact.phone}</span>
-                                                    {if $contact.name}
-                                                        ({$contact.name|truncate:"40":"...":true})
-                                                    {/if}
-                                                    {if $contact.typestr}
-                                                        [{$contact.typestr}]
-                                                    {/if}
-                                                </li>
-                                            {/foreach}
-                                        </ul>
-                                    {/if}
-                                </div>
-                                <div class="col-md-6">
-                                    {if !empty($customerinfo.emails)}
-                                        <p class="font-weight-bold">{trans("Email addresses")}</p>
-                                        <ul>
-                                            {foreach $customerinfo.emails as $email}
-                                                <li>
-                                                    <a{if ($email.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if} href="mailto:{$email.email}">{$email.email}</a>
-                                                    {if $email.name}
-                                                        ({$email.name|truncate:"40":"...":true})
-                                                    {/if}
-                                                    {if $email.typestr}
-                                                        [{$email.typestr}]
-                                                    {/if}
-                                                </li>
-                                            {/foreach}
-                                        </ul>
-                                    {/if}
-                                </div>
-                            </div>
-
-                            {if !empty($customerinfo.messengers)}
-                                <hr>
-                                <p class="font-weight-bold">{trans("IM")}</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {if !empty($customerinfo.contacts)}
+                                <p class="font-weight-bold">{trans("Contact phones")}</p>
                                 <ul>
-                                    {foreach from=$customerinfo.messengers item=item}
-                                        {if $item.type == $smarty.const.IM_GG}
-                                            <li>GG: <A HREF="gg:{$item.uid}">{$item.uid}</A></li>
-                                                {elseif $item.type == $smarty.const.IM_YAHOO}
-                                            <li>YAHOO: <A HREF="ymsgr:sendIM?{$item.uid}">{$item.uid}</A></li>
-                                                {elseif $item.type == $smarty.const.IM_SKYPE}
-                                            <li>SKYPE: <A HREF="skype:{$item.uid}?call">{$item.uid}</A></li>
-                                                {else}
-                                            <li>INNY: <IMG src="img/gg.gif" alt=""> {$item.uid}</li>
+                                    {foreach $customerinfo.contacts as $contact}
+                                        <li>
+                                            <span{if ($contact.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>{$contact.phone}</span>
+                                            {if $contact.name}
+                                                ({$contact.name|truncate:"40":"...":true})
                                             {/if}
-                                        {/foreach}
+                                            {if $contact.typestr}
+                                                [{$contact.typestr}]
+                                            {/if}
+                                        </li>
+                                    {/foreach}
                                 </ul>
                             {/if}
-
-                            {block name="customerinfobox-options"}
-                                <div class="card">
-                                    <div class="card-header">{trans("Agreements")}</div>
-                                    <div class="card-block">
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                {trans("Consent to personal data processing:")}
-                                                {if $customerinfo.consentdate}
-                                                    <span class="text-success font-weight-bold">{trans("yes")} {trans("from")} {$customerinfo.consentdate}</span>
-                                                {else}
-                                                    <span class="text-danger font-weight-bold">{trans("no")}</span>
-                                                {/if}
-                                            </li>
-
-                                            <li>
-                                                {trans("Cancellation of a traditional invoice (agreement on an electronic invoice):")}
-                                                {if $customerinfo.einvoice}
-                                                    <span class="text-success font-weight-bold">{trans("yes")}</span>
-                                                {else}
-                                                    <span class="text-danger font-weight-bold">{trans("no")}</span>
-                                                {/if}
-                                            </li>
-
-                                            <li>
-                                                {trans("Consent to invoices delivery via e-mail:")}
-                                                {if $customerinfo.invoicenotice}
-                                                    <span class="text-success font-weight-bold">{trans("yes")}</span>
-                                                {else}
-                                                    <span class="text-danger font-weight-bold">{trans("no")}</span>
-                                                {/if}
-                                            </li>
-
-                                            <li>
-                                                {trans("Consent to messages delivery via e-mail or sms:")}
-                                                {if $customerinfo.mailingnotice}
-                                                    <span class="text-success font-weight-bold">{trans("yes")}</span>
-                                                {else}
-                                                    <span class="text-danger font-weight-bold">{trans("no")}</span>
-                                                {/if}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            {/block}
-
-                        {/block}
-                    </div><!-- left-column -->
-                    <div class="col-md-6">
-                        {block name="customerinfobox-rightcolumn"}
-                            <div class="card">
-                                <div class="card-header bg-success">{trans("Finances")}</div>
-                                <div class="card-block">
-                                    <ul class="list-inline">
-                                        {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                                            <li class="list-inline-item">
-                                                {trans("Balance:")}
-                                                {if $customerinfo.balance < 0}
-                                                    <span class="text-danger font-weight-bold">
-                                                        {$customerinfo.balance|money_format}
-                                                    </span>
-                                                {else}
-                                                    <span class="text-success font-weight-bold">
-                                                        {$customerinfo.balance|default:"0"|money_format}
-                                                    </span>
-                                                {/if}
-                                            </li>
-                                        {/if}
-                                        <li class="list-inline-item">
-                                            {trans("Deadline:")}
-                                            <strong>
-                                                {if $customerinfo.paytime == -1}
-                                                    {trans("default")}
-                                                {else}
-                                                    {$customerinfo.paytime} {trans("days")}
-                                                {/if}
-                                            </strong>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            {trans("Payment type:")}
-                                            <strong>
-                                                {assign var=paytype value=$customerinfo.paytype}
-                                                {if $_PAYTYPES.$paytype}
-                                                    {$_PAYTYPES.$paytype}
-                                                {else}
-                                                    {trans("default")}
-                                                {/if}
-                                            </strong>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            {if $customerinfo.cutoffstop > $smarty.now}
-                                                {t a=$customerinfo.cutoffstop|date_format:"%Y/%m/%d"}Cutoff suspended to $a{/t}
+                        </div>
+                        <div class="col-md-6">
+                            {if !empty($customerinfo.emails)}
+                                <p class="font-weight-bold">{trans("Email addresses")}</p>
+                                <ul>
+                                    {foreach $customerinfo.emails as $email}
+                                        <li>
+                                            <a{if ($email.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if} href="mailto:{$email.email}">{$email.email}</a>
+                                            {if $email.name}
+                                                ({$email.name|truncate:"40":"...":true})
+                                            {/if}
+                                            {if $email.typestr}
+                                                [{$email.typestr}]
                                             {/if}
                                         </li>
-                                    </ul>
-
-                                    {if $customerinfo.bankaccount}
-                                        <p class="lead">{trans("Bank account")}</p>
-                                        {format_bankaccount($customerinfo.bankaccount)}
-                                    {/if}
-
-                                    {if !empty($customerinfo.accounts)}
-                                        <p class="lead">{trans("Extra bank accounts")}</p>
-                                        <ul>
-                                            {foreach $customerinfo.accounts as $account}
-                                                <li{if ($account.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>
-                                                    {format_bankaccount($account.account)}
-                                                    {if $account.name}
-                                                        ({$account.name|truncate:"40":"...":true})
-                                                    {/if}
-                                                    {if $account.typestr}
-                                                        [{$account.typestr}]
-                                                    {/if}
-                                                    </TD>
-                                                </li>
-                                            {/foreach}
-                                        </ul>
-                                    {/if}
-                                </div>
-                            </div>
-                            {if $customerinfo.info}
-                                <div class="card">
-                                    <div class="card-header bg-primary">
-                                        {trans("Info")}
-                                    </div>
-                                    <div class="card-block">
-                                        <p class="card-text">{$customerinfo.info|replace:"\n":"<BR>"}</p>
-                                    </div>
-                                </div>
+                                    {/foreach}
+                                </ul>
                             {/if}
-
-                            {if $customerinfo.message}
-                                <div class="card">
-                                    <div class="card-header bg-warning">
-                                        {trans("Message")}
-                                    </div>
-                                    <div class="card-block">
-                                        <p class="card-text">{$customerinfo.message|replace:"\n":"<BR>"}</p>
-                                    </div>
-                                </div>
-                            {/if}
-
-                            {if $customerinfo.notes}
-                                <div class="card">
-                                    <div class="card-header bg-info">
-                                        {trans("Notes")}
-                                    </div>
-                                    <div class="card-block">
-                                        <p class="card-text">{$customerinfo.notes|replace:"\n":"<BR>"}</p>
-                                    </div>
-                                </div>
-                            {/if}
-
-                            <div class="card">
-                                <div class="card-header">
-                                    {trans("Account informations")}
-                                </div>
-                                <div class="card-block">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            {trans("Last login:")}
-                                            {if $customerinfo.up_logins.lastlogindate}
-                                                <strong>{$customerinfo.up_logins.lastlogindate|date_format:"%Y/%m/%d %H:%M"} ( {$customerinfo.up_logins.lastloginip} )</strong>
-                                            {else}
-                                                <span class="text-muted">-</span>
-                                            {/if}
-                                        </li>
-                                        <li>
-                                            {trans("Last failed login:")}
-                                            {if $customerinfo.up_logins.failedlogindate}
-                                                <strong>{$customerinfo.up_logins.failedlogindate|date_format:"%Y/%m/%d %H:%M"} ( {$customerinfo.up_logins.failedloginip} )</strong>
-                                            {else}
-                                                <span class="text-muted">-</span>
-                                            {/if}
-                                        </li>
-                                        <li>
-                                            {trans("Created:")} <strong>{$customerinfo.createdby} ( {$customerinfo.creationdateh} )</strong>
-                                        </li>
-                                        <li>
-                                            {trans("Modified:")}
-                                            {if $customerinfo.moddate}
-                                                <strong>{$customerinfo.modifiedby} ( {$customerinfo.moddateh} )</strong>
-                                            {else}
-                                                <span class="text-muted">-</span>
-
-                                            {/if}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        {/block}
-                    </div><!-- right-column -->
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        {block name="customerinfobox-buttons"}
-                            <A class="btn btn-warning" HREF="?m=rtsearch&amp;id={$customerinfo.id}"{if $customerstats['tickets']['notresolved']} class="font-weight-bold"{/if}>{trans("Tickets")}{if $customerstats['tickets']} ({$customerstats['tickets']['all']}{if $customerstats['tickets']['notresolved']} / {$customerstats['tickets']['notresolved']}{/if}){/if}</A>
-                            <A class="btn btn-secondary" href="?m=accountlist&amp;u={$customerinfo.id}">{trans("Accounts")} ({$customerstats['accounts']})</A>
-                            <A class="btn btn-secondary" href="?m=domainlist&amp;c={$customerinfo.id}">{trans("Domains")} ({$customerstats['domains']})</A>
-                            <A class="btn btn-secondary" href="?m=trafficprint&amp;type=customertraffic&amp;customer={$customerinfo.id}" target="_blank">{trans("Stats")}</A>
-                            <A class="btn btn-primary" href="?m=customeredit&amp;id={$customerinfo.id}" ACCESSKEY="E">{trans("Edit")}</A>
-                            <A class="btn btn-danger" href="?m=customerdel&amp;id={$customerinfo.id}">{trans("Delete")}</A>
-                                {if $info_link}
-                                <A class="btn btn-info" href="?m=customerinfo&amp;id={$customerinfo.id}">{trans("Info")}</A>
-                                {/if}
-                            {/block}
+                        </div>
                     </div>
-                </div>
+
+                    {if !empty($customerinfo.messengers)}
+                        <hr>
+                        <p class="font-weight-bold">{trans("IM")}</p>
+                        <ul>
+                            {foreach from=$customerinfo.messengers item=item}
+                                {if $item.type == $smarty.const.IM_GG}
+                                    <li>GG: <A HREF="gg:{$item.uid}">{$item.uid}</A></li>
+                                        {elseif $item.type == $smarty.const.IM_YAHOO}
+                                    <li>YAHOO: <A HREF="ymsgr:sendIM?{$item.uid}">{$item.uid}</A></li>
+                                        {elseif $item.type == $smarty.const.IM_SKYPE}
+                                    <li>SKYPE: <A HREF="skype:{$item.uid}?call">{$item.uid}</A></li>
+                                        {else}
+                                    <li>INNY: <IMG src="img/gg.gif" alt=""> {$item.uid}</li>
+                                    {/if}
+                                {/foreach}
+                        </ul>
+                    {/if}
+
+                    {block name="customerinfobox-options"}
+                        <div class="card">
+                            <div class="card-header">{trans("Agreements")}</div>
+                            <div class="card-block">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        {trans("Consent to personal data processing:")}
+                                        {if $customerinfo.consentdate}
+                                            <span class="text-success font-weight-bold">{trans("yes")} {trans("from")} {$customerinfo.consentdate}</span>
+                                        {else}
+                                            <span class="text-danger font-weight-bold">{trans("no")}</span>
+                                        {/if}
+                                    </li>
+
+                                    <li>
+                                        {trans("Cancellation of a traditional invoice (agreement on an electronic invoice):")}
+                                        {if $customerinfo.einvoice}
+                                            <span class="text-success font-weight-bold">{trans("yes")}</span>
+                                        {else}
+                                            <span class="text-danger font-weight-bold">{trans("no")}</span>
+                                        {/if}
+                                    </li>
+
+                                    <li>
+                                        {trans("Consent to invoices delivery via e-mail:")}
+                                        {if $customerinfo.invoicenotice}
+                                            <span class="text-success font-weight-bold">{trans("yes")}</span>
+                                        {else}
+                                            <span class="text-danger font-weight-bold">{trans("no")}</span>
+                                        {/if}
+                                    </li>
+
+                                    <li>
+                                        {trans("Consent to messages delivery via e-mail or sms:")}
+                                        {if $customerinfo.mailingnotice}
+                                            <span class="text-success font-weight-bold">{trans("yes")}</span>
+                                        {else}
+                                            <span class="text-danger font-weight-bold">{trans("no")}</span>
+                                        {/if}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    {/block}
+
+                {/block}
+            </div><!-- left-column -->
+            <div class="col-md-6">
+                {block name="customerinfobox-rightcolumn"}
+                    <div class="card">
+                        <div class="card-header bg-success">{trans("Finances")}</div>
+                        <div class="card-block">
+                            <ul class="list-inline">
+                                {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
+                                    <li class="list-inline-item">
+                                        {trans("Balance:")}
+                                        {if $customerinfo.balance < 0}
+                                            <span class="text-danger font-weight-bold">
+                                                {$customerinfo.balance|money_format}
+                                            </span>
+                                        {else}
+                                            <span class="text-success font-weight-bold">
+                                                {$customerinfo.balance|default:"0"|money_format}
+                                            </span>
+                                        {/if}
+                                    </li>
+                                {/if}
+                                <li class="list-inline-item">
+                                    {trans("Deadline:")}
+                                    <strong>
+                                        {if $customerinfo.paytime == -1}
+                                            {trans("default")}
+                                        {else}
+                                            {$customerinfo.paytime} {trans("days")}
+                                        {/if}
+                                    </strong>
+                                </li>
+                                <li class="list-inline-item">
+                                    {trans("Payment type:")}
+                                    <strong>
+                                        {assign var=paytype value=$customerinfo.paytype}
+                                        {if $_PAYTYPES.$paytype}
+                                            {$_PAYTYPES.$paytype}
+                                        {else}
+                                            {trans("default")}
+                                        {/if}
+                                    </strong>
+                                </li>
+                                <li class="list-inline-item">
+                                    {if $customerinfo.cutoffstop > $smarty.now}
+                                        {t a=$customerinfo.cutoffstop|date_format:"%Y/%m/%d"}Cutoff suspended to $a{/t}
+                                    {/if}
+                                </li>
+                            </ul>
+
+                            {if $customerinfo.bankaccount}
+                                <p class="lead">{trans("Bank account")}</p>
+                                {format_bankaccount($customerinfo.bankaccount)}
+                            {/if}
+
+                            {if !empty($customerinfo.accounts)}
+                                <p class="lead">{trans("Extra bank accounts")}</p>
+                                <ul>
+                                    {foreach $customerinfo.accounts as $account}
+                                        <li{if ($account.type & $smarty.const.CONTACT_DISABLED) == $smarty.const.CONTACT_DISABLED} class="text-muted"{/if}>
+                                            {format_bankaccount($account.account)}
+                                            {if $account.name}
+                                                ({$account.name|truncate:"40":"...":true})
+                                            {/if}
+                                            {if $account.typestr}
+                                                [{$account.typestr}]
+                                            {/if}
+                                            </TD>
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            {/if}
+                        </div>
+                    </div>
+                    {if $customerinfo.info}
+                        <div class="card">
+                            <div class="card-header bg-primary">
+                                {trans("Info")}
+                            </div>
+                            <div class="card-block">
+                                <p class="card-text">{$customerinfo.info|replace:"\n":"<BR>"}</p>
+                            </div>
+                        </div>
+                    {/if}
+
+                    {if $customerinfo.message}
+                        <div class="card">
+                            <div class="card-header bg-warning">
+                                {trans("Message")}
+                            </div>
+                            <div class="card-block">
+                                <p class="card-text">{$customerinfo.message|replace:"\n":"<BR>"}</p>
+                            </div>
+                        </div>
+                    {/if}
+
+                    {if $customerinfo.notes}
+                        <div class="card">
+                            <div class="card-header bg-info">
+                                {trans("Notes")}
+                            </div>
+                            <div class="card-block">
+                                <p class="card-text">{$customerinfo.notes|replace:"\n":"<BR>"}</p>
+                            </div>
+                        </div>
+                    {/if}
+
+                    <div class="card">
+                        <div class="card-header">
+                            {trans("Account informations")}
+                        </div>
+                        <div class="card-block">
+                            <ul class="list-unstyled">
+                                <li>
+                                    {trans("Last login:")}
+                                    {if $customerinfo.up_logins.lastlogindate}
+                                        <strong>{$customerinfo.up_logins.lastlogindate|date_format:"%Y/%m/%d %H:%M"} ( {$customerinfo.up_logins.lastloginip} )</strong>
+                                    {else}
+                                        <span class="text-muted">-</span>
+                                    {/if}
+                                </li>
+                                <li>
+                                    {trans("Last failed login:")}
+                                    {if $customerinfo.up_logins.failedlogindate}
+                                        <strong>{$customerinfo.up_logins.failedlogindate|date_format:"%Y/%m/%d %H:%M"} ( {$customerinfo.up_logins.failedloginip} )</strong>
+                                    {else}
+                                        <span class="text-muted">-</span>
+                                    {/if}
+                                </li>
+                                <li>
+                                    {trans("Created:")} <strong>{$customerinfo.createdby} ( {$customerinfo.creationdateh} )</strong>
+                                </li>
+                                <li>
+                                    {trans("Modified:")}
+                                    {if $customerinfo.moddate}
+                                        <strong>{$customerinfo.modifiedby} ( {$customerinfo.moddateh} )</strong>
+                                    {else}
+                                        <span class="text-muted">-</span>
+
+                                    {/if}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                {/block}
+            </div><!-- right-column -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {block name="customerinfobox-buttons"}
+                    <A class="btn btn-warning" HREF="?m=rtsearch&amp;id={$customerinfo.id}"{if $customerstats['tickets']['notresolved']} class="font-weight-bold"{/if}>{trans("Tickets")}{if $customerstats['tickets']} ({$customerstats['tickets']['all']}{if $customerstats['tickets']['notresolved']} / {$customerstats['tickets']['notresolved']}{/if}){/if}</A>
+                    <A class="btn btn-secondary" href="?m=accountlist&amp;u={$customerinfo.id}">{trans("Accounts")} ({$customerstats['accounts']})</A>
+                    <A class="btn btn-secondary" href="?m=domainlist&amp;c={$customerinfo.id}">{trans("Domains")} ({$customerstats['domains']})</A>
+                    <A class="btn btn-secondary" href="?m=trafficprint&amp;type=customertraffic&amp;customer={$customerinfo.id}" target="_blank">{trans("Stats")}</A>
+                    <A class="btn btn-primary" href="?m=customeredit&amp;id={$customerinfo.id}" ACCESSKEY="E">{trans("Edit")}</A>
+                    <A class="btn btn-danger" href="?m=customerdel&amp;id={$customerinfo.id}">{trans("Delete")}</A>
+                        {if $info_link}
+                        <A class="btn btn-info" href="?m=customerinfo&amp;id={$customerinfo.id}">{trans("Info")}</A>
+                        {/if}
+                    {/block}
             </div>
         </div>
     </div>
 </div>
-
-
-
-{if $customerpanel}
-    <SCRIPT type="text/javascript">
-        <!--
-        if (getCookie('customerpanel') == '1')
-        {
-            document.getElementById('customerpanel').style.display = '';
-        }
-        //-->
-    </SCRIPT>
-{/if}

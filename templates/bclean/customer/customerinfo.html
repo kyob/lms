@@ -4,42 +4,110 @@
     <!--// $Id$ //-->
     <H1>{$layout.pagetitle}</H1>
         {include file="calendar_js.html"}
-        {block name="customerinfobox"}
-            {include file="customer/customerinfobox.html"}
-        {/block}
-        {block name="customernodesbox"}
-            {include file="customer/customernodesbox.html"}
-        {/block}
-        {block name="customernetworksbox"}
-            {include file="customer/customernetworksbox.html"}
-        {/block}
-        {block name="transactions"}
-            {if ConfigHelper::checkConfig('phpui.logging') && (ConfigHelper::checkConfig('privileges.superuser') || ConfigHelper::checkConfig('privileges.transaction_logs'))}
-                {include file="transactions.html"}
-            {/if}
-        {/block}
-        {block name="customervoipaccountsbox"}
-            {include file="customer/customervoipaccountsbox.html"}
-        {/block}
-        {block name="customerdocuments"}
-            {include file="customer/customerdocuments.html" limit=10}
-        {/block}
-        {block name="customermessages"}
-            {include file="customer/customermessages.html" limit=10}
-        {/block}
-        {block name="customerevents"}
-            {include file="customer/customerevents.html" limit=10}
-        {/block}
-        {block name="customergroups"}
-            {include file="customer/customergroups.html"}
-        {/block}
-        {block name="customerassignments"}
-            {include file="customer/customerassignments.html"}
-        {/block}
-        {block name="customerbalancebox"}
-            {include file="customer/customerbalancebox.html" limit=-10}
-        {/block}
-        {block name="customeractions"}
-            {include file="customer/customeractions.html"}
-        {/block}
-    {/block}
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#customerinfobox" role="tab">{trans("Info")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customernodesbox" role="tab">{trans("Nodes")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customernetworksbox" role="tab">{trans("Networks")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#transactions" role="tab">{trans("Transactions")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customervoipaccountsbox" role="tab">{trans("VoIP accounts")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customerdocuments" role="tab">{trans("Documents")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customermessages" role="tab">{trans("Messages")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customerevents" role="tab">{trans("Events")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customergroups" role="tab">{trans("Groups")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customerassignments" role="tab">{trans("Assignments")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customerbalancebox" role="tab">{trans("Balance")}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#customeractions" role="tab">{trans("Actions")}</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="customerinfobox" role="tabpanel">
+            {block name="customerinfobox"}
+                {include file="customer/customerinfobox.html"}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customernodesbox" role="tabpanel">
+            {block name="customernodesbox"}
+                {include file="customer/customernodesbox.html"}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customernetworksbox" role="tabpanel">
+            {block name="customernetworksbox"}
+                {include file="customer/customernetworksbox.html"}
+            {/block}
+        </div>
+        <div class="tab-pane" id="transactions" role="tabpanel">
+            {block name="transactions"}
+                {if ConfigHelper::checkConfig('phpui.logging') && (ConfigHelper::checkConfig('privileges.superuser') || ConfigHelper::checkConfig('privileges.transaction_logs'))}
+                    {include file="transactions.html"}
+                {/if}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customervoipaccountsbox" role="tabpanel">
+            {block name="customervoipaccountsbox"}
+                {include file="customer/customervoipaccountsbox.html"}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customerdocuments" role="tabpanel">
+            {block name="customerdocuments"}
+                {include file="customer/customerdocuments.html" limit=10}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customermessages" role="tabpanel">
+            {block name="customermessages"}
+                {include file="customer/customermessages.html" limit=10}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customerevents" role="tabpanel">
+            {block name="customerevents"}
+                {include file="customer/customerevents.html" limit=10}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customergroups" role="tabpanel">
+            {block name="customergroups"}
+                {include file="customer/customergroups.html"}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customerassignments" role="tabpanel">
+            {block name="customerassignments"}
+                {include file="customer/customerassignments.html"}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customerbalancebox" role="tabpanel">
+            {block name="customerbalancebox"}
+                {include file="customer/customerbalancebox.html" limit=-10}
+            {/block}
+        </div>
+        <div class="tab-pane" id="customeractions" role="tabpanel">
+            {block name="customeractions"}
+                {include file="customer/customeractions.html" limit=-10}
+            {/block}
+        </div>
+    </div>
+{/block}

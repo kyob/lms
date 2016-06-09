@@ -1,92 +1,91 @@
 <!--// $Id$ //-->
 {assign var=today value=$smarty.now|date_format:"%x 00:00:00"}{assign var=today value=$today|date_format:"%s"}
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header" onclick="showOrHide('customerassignments');">
-                {trans("Customer Liabilities:")}
 
-                {if !$customerinfo.deleted}
-                    <A href="?m=customerassignmentadd&amp;id={$customerinfo.id}">{trans("New Liability")} &raquo;</A>
-                        {if $layout.module == 'customerassignmentedit'}
-                        <A href="?m={$layout.module}&amp;expired={if $expired}0{else}1{/if}&amp;id={$assignment.id}">{if $expired}{trans("Hide expired")}{else}{trans("Show expired")}{/if} &raquo;</A>
-                        {else}
-                        <A href="?m={$layout.module}&amp;expired={if $expired}0{else}1{/if}&amp;id={if $nodeinfo}{$nodeinfo.id}{else}{$customerinfo.id}{/if}">{if $expired}{trans("Hide expired")}{else}{trans("Show expired")}{/if} &raquo;</A>
-                        {/if}
-                    <A onClick="return confirmLink(this, '{trans("Are you sure, you want to delete all liabilities?")}')" href="?m=customerassignmentdel&amp;cid={$customerinfo.id}">{trans("Delete all")} &raquo;</A>
-                    {/if}
+<div class="card">
+    <div class="card-header">
+        {trans("Customer Liabilities:")}
 
-            </div>
-            <div class="card-block" id="customerassignments" style="display:none;">
-
-                <TABLE class="table table-bordered table-striped table-hover">
-                    <THEAD class="thead-inverse">
-                        {block name="customerassignments-list-header"}
-                            <TR>
-                                <th>{trans("Liability:")}</th>
-                                <th>
-                                {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{trans("Value:")}{/if}
-                            </th>
-                            <th>
-                            {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{trans("Discount:")}{/if}
-                        </th>
-                        <th>{trans("Accounting:")}</th>
-                        <th>{trans("Downceil:")}</th>
-                        <th>{trans("Upceil:")}</th>
-                        <th>{trans("Options:")}</th>
-                        <th>{trans("Period:")}</th>
-                        <th>&nbsp;</th>
-                    </TR>
-                {/block}
-            </THEAD>
-            <TBODY>
-                {foreach from=$assignments item=a}
-                    {block name="customerassignments-list-row"}
-                        <TR class="
-                            {if ($a.dateto < $today && $a.dateto) || ($a.liabilityid && $a.at < $today && $a.at > 365)} blend{elseif ($a.datefrom > $today && $a.datefrom && $a.period) && !($a.suspended)} alertblend{elseif ($a.suspended)}suspended{/if}">
-                            {if !$a.tariffid && !$a.liabilityid}
-                                <TD colspan="7" class="bold" OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-                                    {trans("Suspending of all liabilities")}
-                                </TD>
-                            {else}
-                                <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-                                    {if $a.tariffid}
-                                        <A href="?m=tariffinfo&amp;id={$a.tariffid}"><span class="bold">{$a.name}</span></A><b>{if $a.attribute} - {$a.attribute}{/if}</b>
-                                        {else}
-                                            {$a.name}
-                                        {/if}
-                                    {if $a.nodes}({foreach from=$a.nodes item=item key=key}{$item.name}{if $key+1<sizeof($a.nodes)}, {/if}{/foreach}){/if}
-                            </TD>
-                            <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-                            {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{$a.value|money_format}{/if}
-                        </TD>
-                        <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-                {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{if $a.pdiscount != 0}{$a.pdiscount}%{else}{if $a.vdiscount != 0}{$a.vdiscount|money_format}{else}-{/if}{/if}{/if}
-            </TD>
-            <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">{$a.payday}</TD>
-            <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-                {if $a.downceil}{$a.downceil} kbit/s{else}-{/if}
-            </TD>
-            <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-                {if $a.upceil}{$a.upceil} kbit/s{else}-{/if}
-            </TD>
-            <TD>
-                <img src="img/options.gif" alt="" {tip a=$a.id dynpopup='?m=customerassignmentinfo&amp;id=$a'}>
-            </TD>
-        {/if}
-        <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
-            {if $a.datefrom}{trans("from")} {$a.datefrom|date_format:"%Y/%m/%d"}{/if}
-            {if $a.dateto}{trans("to")} {$a.dateto|date_format:"%Y/%m/%d"}{/if}
-        </TD>
-        <TD>
-            {if ($a.tariffid || $a.liabilityid) && (($a.dateto > $today || !$a.dateto) || ($a.liabilityid && $a.at > $today))}
-                <A href="?m=customerassignmentedit&amp;action=suspend&amp;id={$a.id}&amp;suspend={if $a.suspended}0{else}1{/if}" {tip text="Enable/disable accounting of selected liability"}><IMG SRC="img/wait.gif" alt="[ {if $a.suspended}{trans("Restore")}{else}{trans("Suspend")}{/if} ]"></A>
+        {if !$customerinfo.deleted}
+            <A href="?m=customerassignmentadd&amp;id={$customerinfo.id}">{trans("New Liability")} &raquo;</A>
+                {if $layout.module == 'customerassignmentedit'}
+                <A href="?m={$layout.module}&amp;expired={if $expired}0{else}1{/if}&amp;id={$assignment.id}">{if $expired}{trans("Hide expired")}{else}{trans("Show expired")}{/if} &raquo;</A>
+                {else}
+                <A href="?m={$layout.module}&amp;expired={if $expired}0{else}1{/if}&amp;id={if $nodeinfo}{$nodeinfo.id}{else}{$customerinfo.id}{/if}">{if $expired}{trans("Hide expired")}{else}{trans("Show expired")}{/if} &raquo;</A>
                 {/if}
-            <A onClick="return confirmLink(this, '{trans("Are you sure, you want to delete this liability?")}')" href="?m=customerassignmentdel&amp;id={$a.id}" {tip text="Delete customer's liability"}><IMG SRC="img/delete.gif" alt="[ {trans("Delete")} ]"></A>
-            <A href="?m=customerassignmentedit&amp;id={$a.id}"><IMG SRC="img/edit.gif" ALT="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></A>
-        </TD>
-    </TR>
+            <A onClick="return confirmLink(this, '{trans("Are you sure, you want to delete all liabilities?")}')" href="?m=customerassignmentdel&amp;cid={$customerinfo.id}">{trans("Delete all")} &raquo;</A>
+            {/if}
+
+    </div>
+    <div class="card-block">
+
+        <TABLE class="table table-bordered table-striped table-hover">
+            <THEAD class="thead-inverse">
+                {block name="customerassignments-list-header"}
+                    <TR>
+                        <th>{trans("Liability:")}</th>
+                        <th>
+                        {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{trans("Value:")}{/if}
+                    </th>
+                    <th>
+                    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{trans("Discount:")}{/if}
+                </th>
+                <th>{trans("Accounting:")}</th>
+                <th>{trans("Downceil:")}</th>
+                <th>{trans("Upceil:")}</th>
+                <th>{trans("Options:")}</th>
+                <th>{trans("Period:")}</th>
+                <th>&nbsp;</th>
+            </TR>
+        {/block}
+    </THEAD>
+    <TBODY>
+        {foreach from=$assignments item=a}
+            {block name="customerassignments-list-row"}
+                <TR class="
+                    {if ($a.dateto < $today && $a.dateto) || ($a.liabilityid && $a.at < $today && $a.at > 365)} blend{elseif ($a.datefrom > $today && $a.datefrom && $a.period) && !($a.suspended)} alertblend{elseif ($a.suspended)}suspended{/if}">
+                    {if !$a.tariffid && !$a.liabilityid}
+                        <TD colspan="7" class="bold" OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+                            {trans("Suspending of all liabilities")}
+                        </TD>
+                    {else}
+                        <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+                            {if $a.tariffid}
+                                <A href="?m=tariffinfo&amp;id={$a.tariffid}"><span class="bold">{$a.name}</span></A><b>{if $a.attribute} - {$a.attribute}{/if}</b>
+                                {else}
+                                    {$a.name}
+                                {/if}
+                            {if $a.nodes}({foreach from=$a.nodes item=item key=key}{$item.name}{if $key+1<sizeof($a.nodes)}, {/if}{/foreach}){/if}
+                    </TD>
+                    <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+                    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{$a.value|money_format}{/if}
+                </TD>
+                <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+        {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{if $a.pdiscount != 0}{$a.pdiscount}%{else}{if $a.vdiscount != 0}{$a.vdiscount|money_format}{else}-{/if}{/if}{/if}
+    </TD>
+    <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">{$a.payday}</TD>
+    <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+        {if $a.downceil}{$a.downceil} kbit/s{else}-{/if}
+    </TD>
+    <TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+        {if $a.upceil}{$a.upceil} kbit/s{else}-{/if}
+    </TD>
+    <TD>
+        <img src="img/options.gif" alt="" {tip a=$a.id dynpopup='?m=customerassignmentinfo&amp;id=$a'}>
+    </TD>
+{/if}
+<TD OnClick="return self.location.href = '?m=customerassignmentedit&amp;id={$a.id}'">
+    {if $a.datefrom}{trans("from")} {$a.datefrom|date_format:"%Y/%m/%d"}{/if}
+    {if $a.dateto}{trans("to")} {$a.dateto|date_format:"%Y/%m/%d"}{/if}
+</TD>
+<TD>
+    {if ($a.tariffid || $a.liabilityid) && (($a.dateto > $today || !$a.dateto) || ($a.liabilityid && $a.at > $today))}
+        <A href="?m=customerassignmentedit&amp;action=suspend&amp;id={$a.id}&amp;suspend={if $a.suspended}0{else}1{/if}" {tip text="Enable/disable accounting of selected liability"}><IMG SRC="img/wait.gif" alt="[ {if $a.suspended}{trans("Restore")}{else}{trans("Suspend")}{/if} ]"></A>
+        {/if}
+    <A onClick="return confirmLink(this, '{trans("Are you sure, you want to delete this liability?")}')" href="?m=customerassignmentdel&amp;id={$a.id}" {tip text="Delete customer's liability"}><IMG SRC="img/delete.gif" alt="[ {trans("Delete")} ]"></A>
+    <A href="?m=customerassignmentedit&amp;id={$a.id}"><IMG SRC="img/edit.gif" ALT="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></A>
+</TD>
+</TR>
 {/block}
 {foreachelse}
     {block name="customerassignments-list-empty-row"}
@@ -119,11 +118,3 @@
 
 </div>
 </div>
-</div>
-</div>
-<SCRIPT type="text/javascript">
-<!--
-    if (getCookie('customerassignments') == '1')
-        document.getElementById('customerassignments').style.display = '';
-//-->
-</SCRIPT>

@@ -1,76 +1,66 @@
 <!--// $Id$ //-->
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header" onclick="showOrHide('eventspanel');">
-                {trans("Customer Timetable")}
-                {if $limit}
-                    ({t a=$limit}last $a events{/t})
-                {/if}
-                <A href="?m=eventadd&amp;customerid={$customerinfo.id}">{trans("New Event")} &raquo;</A>&nbsp;
-            </div>
-            <div class="card-block" id="eventspanel" style="display:none;">
+<div class="card">
+    <div class="card-header">
+        {trans("Customer Timetable")}
+        {if $limit}
+            ({t a=$limit}last $a events{/t})
+        {/if}
+        <A href="?m=eventadd&amp;customerid={$customerinfo.id}">{trans("New Event")} &raquo;</A>&nbsp;
+    </div>
+    <div class="card-block">
 
-                <TABLE class="table table-bordered table-striped table-hover">
-                    <THEAD class="thead-inverse">
-                        <TR>
-                            <th>
-                                {trans("Date:")}
-                            </th>
-                            <th>
-                                {trans("Type:")}
-                            </th>
-                            <th>
-                                {trans("Title:")}
-                            </th>
-                            <th>
-                                {trans("Description:")}
-                            </th>
-                            <th></th>
-                        </TR>
-                    </THEAD>
-                    <TBODY>
-                        {section name=eventlist loop=$eventlist max=$limit }
-                            <TR class="{if $eventlist[eventlist].closed} text-muted{/if}"  >
-                                <TD style="width: 1%;" class="nobr" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
-                                    {$eventlist[eventlist].date|date_format:"%Y/%m/%d"}
-                                </TD>
-                                <TD style="width: 1%;" align="center" class="nobr" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
-                                    {$_EVENTTYPES[$eventlist[eventlist].type]}
-                                </TD>
-                                <TD style="width: 40%;" class="bold" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
-                                    {$eventlist[eventlist].title}
-                                </TD>
-                                <TD style="width: 49%;" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
-                                    {$eventlist[eventlist].description}
-                                </TD>
-                                <TD style="width: 1%;" class="text-right nobr">
-                                    {if $eventlist[eventlist].closed}
-                                        <A href="?m=eventedit&amp;id={$eventlist[eventlist].id}&amp;action=open"><IMG src="img/resolved.gif" alt="[ {trans("Open")} ]" title="[ {trans("Open")} ]"></A>
-                                        {else}
-                                        <A href="?m=eventedit&amp;id={$eventlist[eventlist].id}&amp;action=close"><IMG src="img/open.gif" alt="[ {trans("Close")} ]" title="[ {trans("Close")} ]"></A>
-                                        {/if}
-                                    <A href="?m=eventdel&amp;id={$eventlist[eventlist].id}" OnClick="return confirmLink(this, '{trans("Are you sure, you want to delete that event?")}')"><IMG src="img/delete.gif" alt="[ {trans("Delete")} ]" title="[ {trans("Delete")} ]"></A>
-                                    <A href="?m=eventedit&amp;id={$eventlist[eventlist].id}"><IMG src="img/edit.gif" alt="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></A>
-                                </TD>
-                            </TR>
-                        {sectionelse}
-                            <TR>
-                                <TD colspan="5">
-                                    {trans("There are no events in timetable.")}
-                                </TD>
-                            </TR>
-                        {/section}
-                    </TBODY>
-                </TABLE>
+        <TABLE class="table table-bordered table-striped table-hover">
+            <THEAD class="thead-inverse">
+                <TR>
+                    <th>
+                        {trans("Date:")}
+                    </th>
+                    <th>
+                        {trans("Type:")}
+                    </th>
+                    <th>
+                        {trans("Title:")}
+                    </th>
+                    <th>
+                        {trans("Description:")}
+                    </th>
+                    <th></th>
+                </TR>
+            </THEAD>
+            <TBODY>
+                {section name=eventlist loop=$eventlist max=$limit }
+                    <TR class="{if $eventlist[eventlist].closed} text-muted{/if}"  >
+                        <TD style="width: 1%;" class="nobr" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
+                            {$eventlist[eventlist].date|date_format:"%Y/%m/%d"}
+                        </TD>
+                        <TD style="width: 1%;" align="center" class="nobr" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
+                            {$_EVENTTYPES[$eventlist[eventlist].type]}
+                        </TD>
+                        <TD style="width: 40%;" class="bold" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
+                            {$eventlist[eventlist].title}
+                        </TD>
+                        <TD style="width: 49%;" onClick="return self.location.href = '?m=eventinfo&amp;id={$eventlist[eventlist].id}'">
+                            {$eventlist[eventlist].description}
+                        </TD>
+                        <TD style="width: 1%;" class="text-right nobr">
+                            {if $eventlist[eventlist].closed}
+                                <A href="?m=eventedit&amp;id={$eventlist[eventlist].id}&amp;action=open"><IMG src="img/resolved.gif" alt="[ {trans("Open")} ]" title="[ {trans("Open")} ]"></A>
+                                {else}
+                                <A href="?m=eventedit&amp;id={$eventlist[eventlist].id}&amp;action=close"><IMG src="img/open.gif" alt="[ {trans("Close")} ]" title="[ {trans("Close")} ]"></A>
+                                {/if}
+                            <A href="?m=eventdel&amp;id={$eventlist[eventlist].id}" OnClick="return confirmLink(this, '{trans("Are you sure, you want to delete that event?")}')"><IMG src="img/delete.gif" alt="[ {trans("Delete")} ]" title="[ {trans("Delete")} ]"></A>
+                            <A href="?m=eventedit&amp;id={$eventlist[eventlist].id}"><IMG src="img/edit.gif" alt="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></A>
+                        </TD>
+                    </TR>
+                {sectionelse}
+                    <TR>
+                        <TD colspan="5">
+                            {trans("There are no events in timetable.")}
+                        </TD>
+                    </TR>
+                {/section}
+            </TBODY>
+        </TABLE>
 
-            </div>
-        </div>
     </div>
 </div>
-<SCRIPT type="text/javascript">
-    <!--
-    if (getCookie('eventspanel') == '1')
-        document.getElementById('eventspanel').style.display = '';
-    //-->
-</SCRIPT>
