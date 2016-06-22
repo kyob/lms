@@ -199,22 +199,28 @@ $menu = array(
         'prio' => 11,
         'submenu' => array(
             array(
-                'name' => trans('List'),
+                'name' => trans('Accounts list'),
                 'link' => '?m=voipaccountlist',
                 'tip' => trans('List of Accounts'),
                 'prio' => 10,
             ),
+	    array(
+		'name' => trans('Billing list'),
+		'link' => '?m=voipaccountbillinglist',
+		'tip' => trans('Allows you to view billing list'),
+		'prio' => 20,
+	    ),
             array(
                 'name' => trans('New Account'),
                 'link' => '?m=voipaccountadd',
                 'tip' => trans('Allows you to add the new VoIP account'),
-                'prio' => 20,
+                'prio' => 30,
             ),
             array(
                 'name' => trans('Search'),
                 'link' => '?m=voipaccountsearch',
                 'tip' => trans('Allows you to search VoIP account'),
-                'prio' => 30,
+                'prio' => 40,
             ),
         ),
     ),
