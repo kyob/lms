@@ -2539,6 +2539,7 @@ $_LANG['Schema Info: $a'] = 'Informacje o schemacie: $a';
 $_LANG['Schema name is required!'] = 'Nazwa schematu jest wymagana!';
 $_LANG['Select length of the period (in months)'] = 'Wybierz długość okresu (w miesiącach)';
 $_LANG['Select subscription'] = 'Wybierz taryfę';
+$_LANG['server error'] = 'błąd serwera';
 $_LANG['Tariffs:'] = 'Taryfy:';
 $_LANG['There are no promotions in database.'] = 'Brak promocji w bazie danych.';
 $_LANG['This promotion hasn\'t got any schemas.'] = 'Ta promocja nie posiada żadnych schematów.';
@@ -3276,6 +3277,7 @@ $_LANG['Allows you to search for IP address pools'] = 'Wyszukiwanie sieci';
 $_LANG['Total events:'] = 'Razem zdarzeń:';
 
 $_LANG['Begin time:'] = 'Czas rozpoczęcia:';
+$_LANG['Begin time:<!voip>'] = 'Czas rozpoczęcia:';
 
 $_LANG['debit notes'] = 'noty obciążeniowe';
 $_LANG['Debit Note No.'] = 'Numer noty obciążeniowej';

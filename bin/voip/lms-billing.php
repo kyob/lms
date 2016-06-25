@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /*
@@ -41,7 +42,6 @@ $parameters = array(
 	's:' => 'startcall:',
 	't:' => 'type:',
 	'u:' => 'status:',
-	'R:' => 'record:',
 	'U:' => 'uniqueid:'
 );
 
@@ -59,7 +59,7 @@ foreach ($short_to_longs as $short => $long)
 
 if (array_key_exists('version', $options)) {
 	print <<<EOF
-lms-stub.php
+lms-billing.php
 (C) 2001-2016 LMS Developers
 
 EOF;
@@ -68,7 +68,7 @@ EOF;
 
 if (array_key_exists('help', $options)) {
 	print <<<EOF
-lms-stub.php
+lms-billing.php
 (C) 2001-2016 LMS Developers
 
 -C, --config-file=/etc/lms/lms.ini      alternate config file (default: /etc/lms/lms.ini);
@@ -83,7 +83,7 @@ EOF;
 $quiet = array_key_exists('quiet', $options);
 if (!$quiet) {
 	print <<<EOF
-lms-stub.php
+lms-billing.php
 (C) 2001-2016 LMS Developers
 
 EOF;
@@ -110,15 +110,14 @@ $CONFIG['directories']['lib_dir'] = (!isset($CONFIG['directories']['lib_dir']) ?
 
 define('SYS_DIR', $CONFIG['directories']['sys_dir']);
 define('LIB_DIR', $CONFIG['directories']['lib_dir']);
-define('VOIP_CACHE_DIR', SYS_DIR . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'billing' . DIRECTORY_SEPARATOR . 'voip-cache');
+define('VOIP_CACHE_DIR', SYS_DIR . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'voip' . DIRECTORY_SEPARATOR . 'voip-cache');
 
 // Load autoloader
 $composer_autoload_path = SYS_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-if (file_exists($composer_autoload_path)) {
-    require_once $composer_autoload_path;
-} else {
-    die("Composer autoload not found. Run 'composer install' command from LMS directory and try again. More informations at https://getcomposer.org/");
-}
+if (file_exists($composer_autoload_path))
+	require_once $composer_autoload_path;
+else
+	die("Composer autoload not found. Run 'composer install' command from LMS directory and try again. More informations at https://getcomposer.org/" . PHP_EOL);
 
 // Init database
 
@@ -143,21 +142,9 @@ require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'language.php');
 include_once(LIB_DIR . DIRECTORY_SEPARATOR . 'definitions.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'unstrip.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'common.php');
-require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'SYSLOG.class.php');
 
-if (ConfigHelper::checkConfig('phpui.logging') && class_exists('SYSLOG'))
-	$SYSLOG = new SYSLOG($DB);
-else
-	$SYSLOG = null;
-
-// Initialize Session, Auth and LMS classes
-
-$AUTH = NULL;
-$LMS = new LMS($DB, $AUTH, $SYSLOG);
-$LMS->ui_lang = $_ui_language;
-$LMS->lang = $_language;
-
-include 'functions.php';
+setlocale(LC_NUMERIC, 'en_US');
+include 'functions.incl.php';
 $tariffs = array();
 
 $options['action'] = (isset($options['action'])) ? $options['action'] : '';
@@ -175,8 +162,14 @@ switch (strtolower($options['action'])) {
 		if (empty($options['callee']))
 			die('Callee phone number is not set. Please use --callee [phone_number].' . PHP_EOL);
 
-		// get maximum call time in seconds
-		$call_time = getMaxCallTime($options['caller'], $options['callee']);
+		try
+		{
+			// get maximum call time in seconds
+			$call_time = getMaxCallTime($options['caller'], $options['callee']);
+		}
+		catch(Exception $e) {
+			echo $e->getMessage();
+		}
 
 		// if debug mode is set print value else change to miliseconds before print
 		echo (array_key_exists('debug', $options)) ? $call_time.PHP_EOL : $call_time*1000;
@@ -211,11 +204,8 @@ switch (strtolower($options['action'])) {
 			if (empty($options['status']))
 				die('Call status is not set. Please use --status (busy|answered|noanswer).' . PHP_EOL);
 
-			if (empty($options['record']))
-				die('Call recording options is not set. Please use --record [0-1]*.' . PHP_EOL);
-
 			if (empty($options['uniqueid']))
-				die('Call unique id is not set. Please use --uniqueid [0-9]+\.[0-9]+.' . PHP_EOL);
+				die('Call unique id is not set. Please use --uniqueid' . PHP_EOL);
 
 			$caller = $customer_list[$options['caller']];
 			if ($caller['tariffid'])
@@ -225,33 +215,45 @@ switch (strtolower($options['action'])) {
 			if ($callee['tariffid'])
 				include_tariff($callee['tariffid']);
 
-			$caller['prefix_group'] = $prefix_list[findLongestPrefix($caller['phone'], $caller['tariffid'])]['name'];
-			$callee['prefix_group'] = $prefix_list[findLongestPrefix($callee['phone'], $callee['tariffid'])]['name'];
+			try
+			{
+				$caller['prefix_group'] = $prefix_list[findLongestPrefix($caller['phone'], $caller['tariffid'])]['name'];
+				$callee['prefix_group'] = $prefix_list[findLongestPrefix($callee['phone'], $callee['tariffid'])]['name'];
 
-			// set call status
-			$call_status = parseCallStatus($options['status']);
+				// set call status
+				$call_status = parseCallStatus($options['status']);
 
-			// set call type
-			$call_type = parseCallType($options['type']);
+				// set call type
+				$call_type = parseCallType($options['type']);
 
-			switch ($call_type) {
-				case CALL_INCOMING: // no payments for incoming call
-					$price = 0;
-				break;
+				switch ($call_type) {
+					case CALL_INCOMING: // no payments for incoming call
+						$price = 0;
+					break;
 
-				case CALL_OUTGOING:
-					include_tariff($caller['tariffid']);
+					case CALL_OUTGOING:
+						include_tariff($caller['tariffid']);
+						$call_cost = getCost($options['caller'], $options['callee'], $caller['tariffid']);
+						$price = round(ceil($options['calltime']/$call_cost['unitSize']) * $call_cost['costPerUnit'], 5);
+					break;
+				}
 
-					$call_cost = getCost($options['caller'], $options['callee'], $caller['tariffid']);
-					$price = round(ceil($options['calltime']/$call_cost['unitSize']) * $call_cost['costPerUnit'], 5);
-				break;
+				// insert cdr record to database
+				$DB->Execute("INSERT INTO voip_cdr
+								(caller, callee, call_start_time, time_start_to_end, time_answer_to_end,
+								price, status, type, callervoipaccountid, calleevoipaccountid, caller_flags,
+								callee_flags, caller_prefix_group, callee_prefix_group, uniqueid)
+							VALUES
+								(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+							array(
+								$options['caller'], $options['callee'], $options['startcall'], $options['totaltime'],
+								$options['calltime'], $price, $call_status, $call_type, $caller['voipaccountid'],
+								$callee['voipaccountid'], (int) $caller['flags'], (int) $callee['flags'],
+								$caller['prefix_group'], $callee['prefix_group'], $options['uniqueid']));
 			}
-
-			// insert cdr record to database
-			$DB->Execute("INSERT INTO
-									 voip_cdr (caller, callee, call_start_time, time_start_to_end, time_answer_to_end, price, status, type, callervoipaccountid, calleevoipaccountid, caller_flags, callee_flags, caller_prefix_group, callee_prefix_group, uniqueid)
-								 VALUES
-									 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array($options['caller'], $options['callee'], $options['startcall'], $options['totaltime'], $options['calltime'], $price, $call_status, $call_type, (int) $caller['voipaccountid'], (int) $callee['voipaccountid'], (int) $caller['recorded'], (int) $callee['recorded'], $caller['prefix_group'], $callee['prefix_group'], $options['uniqueid']));
+			catch(Exception $e) {
+				echo $e->getMessage();
+			}
 		} else {
 			$fh = (isset($options['file'])) ? fopen($options['file'], 'r') : fopen('php://stdin', 'r');
 			$error = array();
@@ -261,13 +263,14 @@ switch (strtolower($options['action'])) {
 				// file line counter
 				++$i;
 
-				// change line to associative array
-				$cdr = parseRow($f_line);
+				try
+				{
+					// change line to associative array
+					$cdr = parseRow($f_line);
 
-				// check values of cdr array
-				$cdr_error = validCDR($cdr);
+					// check values of cdr array
+					validCDR($cdr);
 
-				if ($cdr_error === TRUE) {
 					$caller = $customer_list[$cdr['caller']];
 					if ($caller['tariffid'])
 						include_tariff($caller['tariffid']);
@@ -280,7 +283,12 @@ switch (strtolower($options['action'])) {
 					$callee['prefix_group'] = $prefix_list[findLongestPrefix($callee['phone'], $callee['tariffid'])]['name'];
 
 					// generate unix timestamp
-					$call_start = mktime($cdr['call_start_hour'], $cdr['call_start_min'], $cdr['call_start_sec'], $cdr['call_start_month'], $cdr['call_start_day'], $cdr['call_start_year']);
+					$call_start = mktime($cdr['call_start_hour'],
+										 $cdr['call_start_min'],
+										 $cdr['call_start_sec'],
+										 $cdr['call_start_month'],
+										 $cdr['call_start_day'],
+										 $cdr['call_start_year']);
 
 					// set call status
 					$call_status = parseCallStatus($cdr['call_status']);
@@ -294,18 +302,26 @@ switch (strtolower($options['action'])) {
 						break;
 
 						case CALL_OUTGOING:
-							$call_cost = getCost($cdr['caller'], $cdr['callee'], $tariff_id);
+							$call_cost = getCost($cdr['caller'], $cdr['callee'], $caller['tariffid']);
 							$price = round(ceil($cdr['time_answer_to_end']/$call_cost['unitSize']) * $call_cost['costPerUnit'], 5);
 						break;
 					}
 
 					// insert cdr record to database
-					$DB->Execute("INSERT INTO
-											 voip_cdr (caller, callee, call_start_time, time_start_to_end, time_answer_to_end, price, status, type, callervoipaccountid, calleevoipaccountid, caller_flags, callee_flags, caller_prefix_group, callee_prefix_group, uniqueid)
-										 VALUES
-											 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array($cdr['caller'], $cdr['callee'], $call_start, $cdr['time_start_to_end'], $cdr['time_answer_to_end'], $price, $call_status, $call_type, (int) $caller['voipaccountid'], (int) $callee['voipaccountid'], (int) $caller['recorded'], (int) $callee['recorded'], $caller['prefix_group'], $callee['prefix_group'], $cdr['uniqueid']));
-				} else {
-					$error['errors'][] = array('line'=>$i, 'line_content'=>$f_line, 'error'=>$cdr_error);
+					$DB->Execute("INSERT INTO voip_cdr
+									(caller, callee, call_start_time, time_start_to_end, time_answer_to_end,
+									price, status, type, callervoipaccountid, calleevoipaccountid, caller_flags,
+									callee_flags, caller_prefix_group, callee_prefix_group, uniqueid)
+								  VALUES
+									(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+								  array(
+									$cdr['caller'], $cdr['callee'], $call_start, $cdr['time_start_to_end'],
+									$cdr['time_answer_to_end'], $price, $call_status, $call_type, $caller['voipaccountid'],
+									$callee['voipaccountid'], (int) $caller['flags'], (int) $callee['flags'],
+									$caller['prefix_group'], $callee['prefix_group'], $cdr['uniqueid']));
+				}
+				catch(Exception $e) {
+					echo "line $i: ", $e->getMessage(), PHP_EOL;
 				}
 			}
 
@@ -317,6 +333,42 @@ switch (strtolower($options['action'])) {
 
 			fclose($fh);
 		}
+	break;
+
+	case 'gencache':
+		// create cache directory tree
+		if (!file_exists(VOIP_CACHE_DIR) && !mkdir(VOIP_CACHE_DIR, 0777, true))
+			die('Failed to create cache folder.');
+
+		// clear current cache files
+		$files = glob(VOIP_CACHE_DIR . '/*');
+		foreach($files as $file)
+			if(is_file($file))
+				unlink($file);
+
+		$cache_array = $DB->GetAll('SELECT
+													p.prefix, t.price, t.unitsize, t.tariffid
+												FROM
+													voip_prefixes p
+													left join voip_prefix_groups g on p.groupid = g.id
+													left join voip_tariffs t on g.id = t.groupid');
+
+		$prefix_array = array();
+		foreach ($cache_array as $single_prefix)
+			$prefix_array[$single_prefix['tariffid']][] = $single_prefix;
+
+		unset($cache_array);
+		$SMARTY = new Smarty();
+
+		// build cache files
+		foreach ($prefix_array as $k=>$single_tariff) {
+			$fh = fopen(VOIP_CACHE_DIR . "/tariff_$k.php", "w");
+			$SMARTY->assign('tariffid', $k);
+			$SMARTY->assign('prefixes', $single_tariff);
+			fwrite($fh, $SMARTY->fetch('tariff.html'));
+			fclose($fh);
+		}
+
 	break;
 }
 

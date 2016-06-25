@@ -735,7 +735,15 @@ class LMSTcpdfInvoice extends LMSInvoice {
 		}
 	}
 
+	public function invoice_header_image() {
+		$image_path = ConfigHelper::getConfig('invoices.header_image', '', true);
+		if (!file_exists($image_path))
+			return;
+		$this->backend->writeHTMLCell(40, 0, 15, 6, '<img src="' . $image_path . '">');
+	}
+
 	public function invoice_body_standard() {
+		$this->invoice_header_image();
 		$this->invoice_date();
 		$this->invoice_title();
 		$this->invoice_seller();
@@ -773,6 +781,7 @@ class LMSTcpdfInvoice extends LMSInvoice {
 	}
 
 	public function invoice_body_ft0100() {
+		$this->invoice_header_image();
 		$this->invoice_date();
 		$this->invoice_title();
 		$this->invoice_seller();
@@ -785,6 +794,9 @@ class LMSTcpdfInvoice extends LMSInvoice {
 		$this->invoice_footnote();
 		if (($this->data['customerbalance'] < 0 || ConfigHelper::checkValue(ConfigHelper::getConfig('invoices.always_show_form', true)))
 			&& !isset($this->data['rebate'])) {
+			if ($this->backend->GetY() > 180)
+				$this->backend->AppendPage();
+
 			/* draw FT-0100 form */
 			$this->invoice_simple_form_draw();
 			$this->invoice_main_form_draw();
