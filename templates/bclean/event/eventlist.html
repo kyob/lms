@@ -88,106 +88,137 @@
         </ul>
     </nav>
 
+
     {section name=daylist loop=$daylist}
         <h3>
-            {$daylist[daylist]|date_format:"%x"} ({$daylist[daylist]|date_format:"%A"})
-            <A class="btn btn-sm btn-secondary" href="?m=eventprint&day={$daylist[daylist]}&u={$listdata.customerid}&a={$listdata.userid}&privacy={$listdata.privacy}" target="_BLANK"><i class="fa fa-fw fa-print"></i> {trans("Print")}</A>
+            <i class="fa fa-fw fa-calendar"></i> {$daylist[daylist]|date_format:"%x"} ({$daylist[daylist]|date_format:"%A"})
+            <A class="btn btn-sm btn-secondary pull-md-right" href="?m=eventprint&day={$daylist[daylist]}&u={$listdata.customerid}&a={$listdata.userid}&privacy={$listdata.privacy}" target="_BLANK"><i class="fa fa-fw fa-print"></i> {trans("Print")}</A>
                 {if $getHolidays[$daylist[daylist]]}
                 <p class="text-danger"><strong>{trans("Holiday")}:</strong> {$getHolidays[$daylist[daylist]]}</p>
             {/if}
         </h3>
 
-        <TABLE class="table table-hover table-striped">
-            {assign var=counter value=0}
-            {section name=eventlist loop=$eventlist}
-                {if $eventlist[eventlist].date == $daylist[daylist]}
-                    {math equation="x+1" x=$counter assign=counter}
-                    <tr{if $eventlist[eventlist].closed} class="text-muted"{/if}>
-                        <TD rowspan="2" style="{if isset($_EVENTSTYLES[$eventlist[eventlist].type])} {$_EVENTSTYLES[$eventlist[eventlist].type]}{/if}">
-                            {if $eventlist[eventlist].closed}<i class="fa fa-check" aria-hidden="true"></i>{/if}
-                        </td>
-                        <td>
-                            <h5>
-                                <span class="label label-primary">
-                                    {math equation="floor(x/100)" x=$eventlist[eventlist].begintime format="%02d"}:{math equation="x % 100" x=$eventlist[eventlist].begintime format="%02d"}
-                                    {if $eventlist[eventlist].begintime != $eventlist[eventlist].endtime}
-                                        - {math equation="floor(x/100)" x=$eventlist[eventlist].endtime format="%02d"}:{math equation="x % 100" x=$eventlist[eventlist].endtime format="%02d"}
+        <div class="table-responsive">
+            <TABLE class="table table-hover table-striped">
+                {assign var=counter value=0}
+                {section name=eventlist loop=$eventlist}
+                    {if $eventlist[eventlist].date == $daylist[daylist]}
+                        {math equation="x+1" x=$counter assign=counter}
+                        <tr{if $eventlist[eventlist].closed} class="text-muted"{/if}>
+                            <td{if isset($_EVENTSTYLES[$eventlist[eventlist].type])} style="{$_EVENTSTYLES[$eventlist[eventlist].type]}"{/if}>
+
+                            </td>
+                            <td>
+                                <i class="fa fa-fw fa-clock-o"></i>
+                                {math equation="floor(x/100)" x=$eventlist[eventlist].begintime format="%02d"}:{math equation="x % 100" x=$eventlist[eventlist].begintime format="%02d"}
+                                {if $eventlist[eventlist].begintime != $eventlist[eventlist].endtime}
+                                    - {math equation="floor(x/100)" x=$eventlist[eventlist].endtime format="%02d"}:{math equation="x % 100" x=$eventlist[eventlist].endtime format="%02d"}
+                                {/if}
+
+                                <span class="font-weight-bold{if $eventlist[eventlist].closed} text-muted{/if}" data-toggle="modal" data-target="#id{$eventlist[eventlist].id}{$eventlist[eventlist].date}">
+                                    {$eventlist[eventlist].title}
+                                    {if !$eventlist[eventlist].closed}
+                                        {if $eventlist[eventlist].description || $eventlist[eventlist].note}<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{/if}
                                     {/if}
                                 </span>
-                                <a class="label label-primary font-weight-bold" href="?m=eventinfo&amp;id={$eventlist[eventlist].id}">
-                                    {$eventlist[eventlist].title}
-                                </a>
-                            </h5>
 
-                            {if $eventlist[eventlist].description}
-                                <blockquote class="blockquote">
-                                    <p class="m-b-0">{$eventlist[eventlist].description}</p>
+                                <div class="modal fade" id="id{$eventlist[eventlist].id}{$eventlist[eventlist].date}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelid{$eventlist[eventlist].id}{$eventlist[eventlist].date}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <strong>{trans("Where")}: </strong>
+                                                {if $eventlist[eventlist].customername}
+                                                    <A href="?m=customerinfo&amp;id={$eventlist[eventlist].customerid}">
+                                                        {$eventlist[eventlist].customername|truncate:"30":"...":true}
+                                                    </A>
+                                                    {if isset($eventlist[eventlist].location)}
+                                                        , <a href="?m=nodeinfo&amp;id={$eventlist[eventlist].nodeid}">{$eventlist[eventlist].location}</a>
+                                                    {else}
+                                                        , {$eventlist[eventlist].customerlocation}
+                                                    {/if}
+                                                {else}
+                                                    <span class="text-danger">{trans("The location was not indicated")}.</span>
+                                                {/if}
+                                                <br>
 
-                                    {if $eventlist[eventlist].note}
-                                        <footer class="blockquote-footer">
-                                            {$eventlist[eventlist].note}
-                                        </footer>
-                                    {/if}
-                                </blockquote>
+                                                <strong>{trans("Assign to")}: </strong>
+                                                {if $eventlist[eventlist].userlist}
+                                                    {foreach $eventlist[eventlist].userlist as $user}
+                                                    {if $layout.logid == $user.id}{/if}
+                                                    {$user.name|truncate:"25":"...":true},
+                                                {/foreach}
+                                            {else}
+                                                <span class="text-danger">{trans("The task has not been assigned to any person")}.</span>
+                                            {/if}
+
+                                            {if $eventlist[eventlist].description}
+                                                <br>
+                                                <strong>{trans("Description")}:</strong> {$eventlist[eventlist].description}
+                                            {/if}
+
+                                            {if $eventlist[eventlist].note}
+                                                <br>
+                                                <strong>{trans("Note")}:</strong> {$eventlist[eventlist].note}
+                                            {/if}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {if $eventlist[eventlist].closed}
+                                <span class="label label-default">{trans("Closed")}</span>
                             {/if}
-                        </td>
-                        <td>
-                            {if $eventlist[eventlist].customername}
-                                <p class="list-group-item list-group-item-success disabled m-b-1">
-                                    <A href="?m=customerinfo&amp;id={$eventlist[eventlist].customerid}">
-                                        {$eventlist[eventlist].customername|truncate:"30":"...":true}
-                                    </A>
-                                    <br>
-                                    {if isset($eventlist[eventlist].location)}
-                                        <a href="?m=nodeinfo&amp;id={$eventlist[eventlist].nodeid}">{$eventlist[eventlist].location}</a>
-                                    {else}
-                                        {$eventlist[eventlist].customerlocation}
-                                    {/if}
-                                </p>
-                            {else}
-                                <div class="alert alert-danger" role="alert">{trans("The location was not indicated")}.</div>
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr{if $eventlist[eventlist].closed} class="text-muted"{/if}>
-                        <td>
+
+                            <br>
+                            <strong>{trans("Assign to")}: </strong>
                             {if $eventlist[eventlist].userlist}
-                                {trans("Assign to")}:
                                 {foreach $eventlist[eventlist].userlist as $user}
-                                    <span class="{if $layout.logid == $user.id}text-danger font-weight-bold{else}text-muted{/if}">
-                                        {$user.name|truncate:"25":"...":true},
-                                    </span>
-                                {/foreach}
-                            {else}
-                                <p class="text-danger">{trans("The task has not been assigned to any person")}.</p>
-                            {/if}
-                        </td>
-                        <td class="text-right">
+                                {if $layout.logid == $user.id}{/if}
+                                {$user.name|truncate:"25":"...":true},
+                            {/foreach}
+                        {else}
+                            <span class="text-danger">{trans("The task has not been assigned to any person")}.</span>
+                        {/if}                            
+
+                                         
+
+                        <span class="pull-md-right">
                             {if ConfigHelper::checkPrivilege('timetable_management')}
+                                <A class="btn btn-sm btn-info" href="?m=eventinfo&amp;id={$eventlist[eventlist].id}">
+                                    <i class="fa fa-fw fa-info"></i>
+                                </A>
                                 {if $eventlist[eventlist].closed}
                                     <A class="btn btn-sm btn-secondary" href="?m=eventedit&amp;id={$eventlist[eventlist].id}&amp;action=open">
                                         <i class="fa fa-fw fa-folder-open-o"></i>
                                     </A>
                                 {else}
+                                    <A class="btn btn-sm btn-primary" href="?m=eventedit&amp;id={$eventlist[eventlist].id}">
+                                        <i class="fa fa-fw fa-edit"></i>
+                                    </A>
                                     <A class="btn btn-sm btn-success" href="?m=eventedit&amp;id={$eventlist[eventlist].id}&amp;action=close">
                                         <i class="fa fa-fw fa-folder-o"></i>
                                     </A>
                                 {/if}
-                                <A class="btn btn-sm btn-danger" href="?m=eventdel&amp;id={$eventlist[eventlist].id}" OnClick="return confirmLink(this, '{trans("Are you sure, you want to delete that event?")}')"><i class="fa fa-fw fa-trash-o"></i></A>
-                                <A class="btn btn-sm btn-primary" href="?m=eventedit&amp;id={$eventlist[eventlist].id}"><i class="fa fa-fw fa-edit"></i></A>
-                                {/if}
-                                {if $eventlist[eventlist].note == ''}
-                                    {foreach item=user from=$eventlist[eventlist].userlist}
-                                        {if $layout.logid == $user.id}
+                                <A class="btn btn-sm btn-danger" href="?m=eventdel&amp;id={$eventlist[eventlist].id}" OnClick="return confirmLink(this, '{trans("Are you sure, you want to delete that event?")}')">
+                                    <i class="fa fa-fw fa-trash-o"></i>
+                                </A>
+                            {/if}
+
+                            {if $eventlist[eventlist].note == ''}
+                                {foreach item=user from=$eventlist[eventlist].userlist}
+                                    {if $layout.logid == $user.id}
                                         <A  class="btn btn-sm btn-warning" href="?m=eventnote&id={$eventlist[eventlist].id}"><i class="fa fa-fw fa-sticky-note"></i></A>
                                         {/if}
                                     {/foreach}
                                 {/if}
-                        </td>
-                    </tr>
-                {/if}
-            {/section}
-        </TABLE>
-        <hr>
-    {/section}
+                        </span>
+                    </td>
+                </tr>
+            {/if}
+        {/section}
+    </TABLE>
+</div>
+<hr>
+{/section}
 {/block}
