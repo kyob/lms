@@ -174,15 +174,21 @@ if (ConfigHelper::checkConfig('phpui.use_swekey')) {
 $SMARTY->setTemplateDir(null);
 $custom_templates_dir = ConfigHelper::getConfig('phpui.custom_templates_dir');
 if (!empty($custom_templates_dir) && file_exists(SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $custom_templates_dir)
-	&& !is_file(SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $custom_templates_dir))
-	$SMARTY->AddTemplateDir(SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $custom_templates_dir);
+    && !is_file(SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $custom_templates_dir)) {
 $SMARTY->AddTemplateDir(
-	array(
-//		SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'default',
-		SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'bclean',
-		SMARTY_TEMPLATES_DIR,
-	)
+    array(
+	SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $custom_templates_dir,
+	SMARTY_TEMPLATES_DIR,
+    )
 );
+}else{
+$SMARTY->AddTemplateDir(
+    array(
+	SMARTY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'default',
+	SMARTY_TEMPLATES_DIR,
+    )
+);
+}
 $SMARTY->setCompileDir(SMARTY_COMPILE_DIR);
 $SMARTY->debugging = ConfigHelper::checkConfig('phpui.smarty_debug');
 
