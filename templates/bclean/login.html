@@ -18,7 +18,6 @@
 
                 {if $error}<div class="alert alert-danger">{$error}</div>{/if}
 
-
                 <form class="form-inline" method="post" name="loginform" action="{$target}">
                     {trans("Login:")}
                     <input class="form-control" type="text" name="loginform[login]" accesskey="l">
@@ -36,7 +35,6 @@
             <a href="http://www.lms.org.pl/">{trans("LMS Project Homepage")}</a> | <a href="doc/html/{$_ui_language}/">{trans("Documentation")}</a>
         </p>
 
-
         {if $layout.dberrors}
             {include file="dberrors.html"}
         {/if}
@@ -44,7 +42,7 @@
         <script type="text/javascript">
             <!--
             document.forms['loginform'].elements['loginform[login]'].focus();
-                    -- >
+            -- >
         </script>
         {$lms_swekey}
     </body>
