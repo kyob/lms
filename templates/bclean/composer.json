@@ -1,0 +1,19 @@
+{
+    "name": "kyob/blean",
+    "description": "TWBS template for LMS.",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Łukasz Kopiszka (kyob)",
+            "email": "lukasz@alfa-system.pl",
+            "homepage": "https://alfa-system.pl",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "components/font-awesome": "^4.6",
+        "twbs/bootstrap": "v4.0.0-alpha.2",
+        "components/jquery": "^2.2",
+        "bordercloud/tether": "^1.1"
+    }
+}
