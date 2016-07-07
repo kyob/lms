@@ -2,6 +2,56 @@
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
     <!--// $Id$ //-->
+    <style>
+        [data-toggle='on'] {
+            display:block;
+        }
+
+        [data-toggle='off'] {
+            display:none;
+        }
+    </style>
+    <script>
+        document.addEventListener('click', function (e) {
+            var button = e.target;
+
+            if (button.getAttribute('data-reset') === 'true') {
+                // Reset the filters
+                var filter = button.getAttribute('data-filter');
+                resetFilter(filter);
+            } else {
+                // Filter the tag
+                var filter = button.getAttribute('data-filter');
+                var tag = button.getAttribute('data-filter-tag');
+                filterTag(filter, tag);
+            }
+        });
+
+    // Filter tag
+        function filterTag(filter, tag) {
+            var items = document.querySelectorAll('.' + filter + ' > tr');
+
+            for (var i = 0; i < items.length; i++) {
+                var itemTags = items[i].getAttribute('data-tags');
+
+                // Catch case with no tags
+                if (itemTags != null) {
+                    if (itemTags.indexOf(tag) < 0) {
+                        items[i].setAttribute('data-toggle', 'off');
+                    }
+                }
+            }
+        }
+
+    // Reset filters
+        function resetFilter(filter) {
+            var items = document.querySelectorAll('.' + filter + ' > li');
+
+            for (var i = 0; i < items.length; i++) {
+                items[i].setAttribute('data-toggle', 'on');
+            }
+        }
+    </script>    
     <H1>{$layout.pagetitle}</H1>
 
     <fieldset class="form-group">
@@ -10,7 +60,7 @@
             <INPUT TYPE="HIDDEN" NAME="m" VALUE="tarifflist">
             {*<INPUT TYPE="HIDDEN" NAME="page" VALUE="1">*}
 
-                {trans("Type:")}
+            {trans("Type:")}
             <SELECT class="form-control form-control-sm" NAME="t" ONCHANGE="document.choosefilter.submit();">
                 <OPTION value="0"{if !$listdata.type} SELECTED{/if}>{trans("- all -")}</OPTION>
                     {foreach from=$_TARIFFTYPES item=item key=key}
@@ -37,6 +87,7 @@
                     <OPTION value="{$customergroups[customergroups].id}" {if $listdata.customergroupid == $customergroups[customergroups].id} SELECTED {/if}>{$customergroups[customergroups].name|truncate:50:"...":true}</OPTION>
                     {/section}
             </SELECT>
+            <button class="btn btn-sm btn-secondary" data-filter="ping" data-reset="true">{trans("Reset tags")}</button>            
         </FORM>
     </fieldset>
 
@@ -74,14 +125,22 @@
                     </th>
                 </TR>
             </THEAD>
-            <TBODY>
+            <TBODY class="ping">
                 {section name=tariffs loop=$tarifflist}
-                    <TR class="{if $tarifflist[tariffs].disabled == 1 && !$listdata.state} text-muted{/if}"  >
-                        <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';">
-                            <strong>{$tarifflist[tariffs].name}</strong> <span class="text-muted">({$tarifflist[tariffs].id|string_format:"%04d"})</span>
+                    <TR data-tags="{foreach $tarifftaglist as $item}{if $tarifflist[tariffs].id == $item.tariff_id}{if $item.tag_name}{$item.tag_name} {/if}{/if}{/foreach}" class="highlight {cycle}{if $tarifflist[tariffs].disabled == 1 && !$listdata.state} blend{/if}">
+                        <TD>
+                            <a href="?m=tariffinfo&amp;id={$tarifflist[tariffs].id}"><strong>{$tarifflist[tariffs].name}</strong></a> <span class="text-muted">({$tarifflist[tariffs].id|string_format:"%04d"})</span>
                             {if $tarifflist[tariffs].description}
                                 <br>{$tarifflist[tariffs].description}
                             {/if}
+                            <br/>
+                            {foreach $tarifftaglist as $item}
+                                {if $tarifflist[tariffs].id == $item.tariff_id}
+                                    {if $item.tag_name}
+                                        <button class="btn btn-sm btn-secondary" data-filter="ping" data-filter-tag="{$item.tag_name}">{$item.tag_name}</button>
+                                    {/if}
+                                {/if}
+                            {/foreach}                            
                         </TD>
                         <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';" class="nobr">
                         {if $tarifflist[tariffs].downrate}{$tarifflist[tariffs].downrate}{else}-{/if}
