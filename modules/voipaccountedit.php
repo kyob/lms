@@ -116,6 +116,14 @@ if(isset($_POST['voipaccountedit']))
     if (!empty($voipaccountedit['customer_record_flag']))
 		$flags |= CALL_FLAG_CUSTOMER_RECORDING;
 
+	if (ConfigHelper::checkPrivilege('superuser')) {
+		$voipaccountinfo['balance'] = $voipaccountedit['balance'];
+		$voipaccountinfo['cost_limit'] = (strlen($voipaccountedit['cost_limit'])) ? $voipaccountedit['cost_limit'] : NULL;
+	} else {
+		$voipaccountedit['balance'] = $voipaccountinfo['balance'];
+		$voipaccountedit['cost_limit'] = $voipaccountinfo['cost_limit'];
+	}
+
 	$voipaccountinfo['flags'] = $voipaccountedit['flags'] = $flags;
 	$voipaccountinfo['login'] = $voipaccountedit['login'];
 	$voipaccountinfo['passwd'] = $voipaccountedit['passwd'];

@@ -54,6 +54,19 @@
 	}
 
 	/*!
+	 * \brief Update voip account balance.
+	 *
+	 * \param int $id voip account id
+	 * \param float $value
+	 * \return array array of customers with base kay as phone number
+	 */
+	function updateCustomerBalance($id, $value) {
+		$DB = LMSDB::getInstance();
+
+		$DB->Execute('UPDATE voipaccounts SET balance = balance - ? WHERE id = ?', array($value, $id));
+	}
+
+	 /*!
 	 * \brief Get customer list.
 	 *
 	 * \return array array of customers with base kay as phone number
@@ -111,7 +124,10 @@
 	 */
 	function getMaxCallTime($from, $to) {
 		$customer = getCustomerByPhone($from);
-		include_tariff($customer['tariffid']);
+
+		if (!$customer)
+			throw new Exception('Unrecognized caller number.');
+
 		$call_cost = getCost($from, $to, $customer['tariffid']);
 
 		return floor($customer['balance'] / $call_cost['costPerUnit']) * $call_cost['unitSize'];
@@ -147,17 +163,20 @@
 	 * \return array informations about price (unit size and cost per one unit)
 	 */
 	function getCost($caller, $callee, $t_id) {
-		global $tariffs;
-
 		$discount = findBestPrice($caller, $callee, $t_id);
 		$prefix = findLongestPrefix($callee, $t_id);
 
 		if (!$prefix)
-			throw new Exception("Can't find prefix for $callee number");
+			throw new Exception("Can't find prefix for $callee number" . PHP_EOL);
 
-		switch($discount) {
+		$path = VOIP_CACHE_DIR . DIRECTORY_SEPARATOR . 'tariffs' . DIRECTORY_SEPARATOR . $t_id
+			. DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, str_split($prefix));
+		$sale_price = file_get_contents($path . DIRECTORY_SEPARATOR . 'sale_price');
+		$unit_size = file_get_contents($path . DIRECTORY_SEPARATOR . 'unit_size');
+
+		switch ($discount) {
 			case '-1': // no promotion
-				$price = $tariffs[$t_id]['prefixes'][$prefix]['sale_price'];
+				$price = $sale_price;
 			break;
 
 			default: // new price
@@ -166,10 +185,10 @@
 		}
 
 		// change price per minute to price per second
-		$price = ($price*100) / 60;
+		$price = ($price * 100) / 60;
 
 		// get cost per one unit
-		$unitSize = $tariffs[$t_id]['prefixes'][$prefix]['unit_size'];
+		$unitSize = $unit_size;
 		$costPerUnit = ($price * $unitSize) / 100;
 
 		return array('unitSize' => $unitSize, 'costPerUnit' => $costPerUnit);
@@ -183,15 +202,16 @@
 	 * \return string longest matched prefix
 	 */
 	function findLongestPrefix($number, $t_id) {
-		global $tariffs;
+		$path = VOIP_CACHE_DIR . DIRECTORY_SEPARATOR . 'tariffs' . DIRECTORY_SEPARATOR . $t_id;
+		$digits = str_split($number);
 
-		while (strlen($number) && !isset($tariffs[$t_id]['prefixes'][$number]))
-			$number = substr($number, 0, -1);
+		while (count($digits) && !file_exists($dirname = $path . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $digits) . DIRECTORY_SEPARATOR . 'sale_price'))
+			array_pop($digits);
 
-		if (!isset($tariffs[$t_id]['prefixes'][$number]))
+		if (empty($digits))
 			return NULL;
 
-		return $number;
+		return implode('', $digits);
 	}
 
 	/*!
@@ -206,7 +226,7 @@
 		global $tariffs;
 		$cost = -1;
 
-		if (!isset($tarifs[$t_id]['rules']))
+		if (!isset($tariffs[$t_id]['rules']))
 			return -1;
 
 		foreach($tariffs[$t_id]['rules'] as $singleRule) {
@@ -260,24 +280,6 @@
 			return CALL_SERVER_FAILED;
 
 		throw new Exception('Call status is not correct.');
-	}
-
-	/*!
-	 * \brief Include tariff by id.
-	 *
-	 * \param int $id tariff id
-	 */
-	function include_tariff($id) {
-		if (is_null($id))
-			throw new Exception('Tariff id can\'t be null.');
-
-		global $tariffs;
-		$file = VOIP_CACHE_DIR . DIRECTORY_SEPARATOR . "tariff_$id.php";
-
-		if (!file_exists($file))
-			throw new Exception("Can't include tariff id: $id");
-
-		include_once $file;
 	}
 
 	/*!
@@ -351,5 +353,4 @@
 
 		return true;
 	}
-
 ?>

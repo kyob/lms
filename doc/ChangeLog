@@ -43,6 +43,14 @@ version ?.??.?? (????-??-??):
     enough space on tcpdf invoice page [chilan]
   - invoices.header_image config variable controls pdf invoice logo placement [chilan]
   - added backend script for voip emergency numbers database creation [chilan]
+  - added backend script which generates sip account and extensions configuration
+    files in asterisk format [chilan]
+  - asterisk configuration file generation script checks call recodings flags [chilan]
+  - added possibility to hide customer balance by invoices.show_balance configuration
+    variable on tcpdf invoice [gbn.pl]
+  - automatically position of invoice footnote on tcpdf invoice [gbn.pl]
+  - listening of voip call recordings are possible from now [chilan]
+  - added tags for tariffs [kyob]
 
 version 1.11.20 (2016-04-19):
 

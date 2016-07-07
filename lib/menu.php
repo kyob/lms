@@ -204,12 +204,12 @@ $menu = array(
                 'tip' => trans('List of Accounts'),
                 'prio' => 10,
             ),
-	    array(
-		'name' => trans('Billing list'),
-		'link' => '?m=voipaccountbillinglist',
-		'tip' => trans('Allows you to view billing list'),
-		'prio' => 20,
-	    ),
+            array(
+                'name' => trans('Billing list'),
+                'link' => '?m=voipaccountbillinglist',
+                'tip' => trans('Allows you to view billing list'),
+                'prio' => 20,
+            ),
             array(
                 'name' => trans('New Account'),
                 'link' => '?m=voipaccountadd',
