@@ -137,7 +137,7 @@
                             {foreach $tarifftaglist as $item}
                                 {if $tarifflist[tariffs].id == $item.tariff_id}
                                     {if $item.tag_name}
-                                        <button class="btn btn-sm btn-secondary" data-filter="ping" data-filter-tag="{$item.tag_name}">{$item.tag_name}</button>
+                                        <span class="label label-default" data-filter="ping" data-filter-tag="{$item.tag_name}">{$item.tag_name}</span>
                                     {/if}
                                 {/if}
                             {/foreach}                            
