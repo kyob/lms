@@ -1,11 +1,9 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
-
 {block name=module_content}
-    <!--// $Id$ //-->
     <H1>{$layout.pagetitle}</H1>
         {$lastonline_limit = ConfigHelper::getConfig('phpui.lastonline_limit')}
-    <FORM method="get" action="?m={$layout.module}" name="choosefilter">
+    <FORM class="form-inline" method="get" action="?m={$layout.module}" name="choosefilter">
 
         <INPUT type="submit" class="hiddenbtn">
         <INPUT type="hidden" NAME="m" VALUE="nodelist">
@@ -13,7 +11,7 @@
 
 
         {trans("Status:")}
-        <SELECT NAME="s" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control" NAME="s" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="0"{if $listdata.state == 0} SELECTED{/if}>{trans("- all -")}</OPTION>
             <OPTION VALUE="1"{if $listdata.state == 1} SELECTED{/if}>{trans("connected<!plural:item>")}</OPTION>
             <OPTION VALUE="2"{if $listdata.state == 2} SELECTED{/if}>{trans("disconnected<!plural:item>")}</OPTION>
@@ -24,7 +22,7 @@
         </SELECT>
         &nbsp;
         {trans("Network:")}
-        <SELECT NAME="n" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control" NAME="n" ONCHANGE="document.choosefilter.submit();">
             <OPTION value="0" {if !$listdata.network} SELECTED {/if}>{trans("- all networks -")}</OPTION>
                 {section name=networks loop=$networks}
                 <OPTION value="{$networks[networks].id}" {if $listdata.network == $networks[networks].id} SELECTED {/if}>{$networks[networks].name|truncate:30:"...":true}</OPTION>
@@ -32,7 +30,7 @@
         </SELECT>
         &nbsp;
         {trans("Group:")}
-        <SELECT NAME="ng" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control" NAME="ng" ONCHANGE="document.choosefilter.submit();">
             <OPTION value="" {if !$listdata.nodegroup} SELECTED {/if}>{trans("- all groups -")}</OPTION>
                 {foreach from=$nodegroups item=nodegroup}
                 <OPTION value="{$nodegroup.id}" {if $listdata.nodegroup == $nodegroup.id} SELECTED {/if}>{$nodegroup.name|truncate:30:"...":true}</OPTION>
@@ -40,7 +38,7 @@
         </SELECT>
         &nbsp;
         {trans("Customers Group:")}
-        <SELECT NAME="g" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control" NAME="g" ONCHANGE="document.choosefilter.submit();">
             <OPTION value="" {if !$listdata.customergroup} SELECTED {/if}>{trans("- all groups -")}</OPTION>
                 {section name=customergroups loop=$customergroups}
                 <OPTION value="{$customergroups[customergroups].id}" {if $listdata.customergroup == $customergroups[customergroups].id} SELECTED {/if}>{$customergroups[customergroups].name|truncate:30:"...":true}</OPTION>
@@ -48,14 +46,13 @@
         </SELECT>
         &nbsp;
         {trans("Project:")}
-        <SELECT NAME="p" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control" NAME="p" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="-1"{if $listdata.invprojectid == -1} selected{/if}>- {trans("all")} -</OPTION>
             <OPTION VALUE="-2"{if $listdata.invprojectid == -2} selected{/if}>- {trans("without project")} -</OPTION>
                 {foreach $NNprojects as $project}
                 <OPTION VALUE="{$project.id}"{if $listdata.invprojectid == $project.id} selected{/if}>{$project.name}</OPTION>
                 {/foreach}
         </SELECT>
-
     </FORM>
 
     {if $pagination->getTotal() != 0}
@@ -65,7 +62,6 @@
     <TABLE class="table table-sm table-striped table-bordered table-hover">
         {block name="nodelist-list-header"}
             <thead class="thead-inverse">
-
                 <TR>
                     <th>&nbsp;</th>
                     <th >
