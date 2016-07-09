@@ -3,20 +3,20 @@
 {block name=module_content}
     <!--// $Id$ //-->
     <H1>{$layout.pagetitle}</H1>
-    <FORM method="get" action="?m=netdevlist" name="choosefilter">
+    <FORM class="form-inline" method="get" action="?m=netdevlist" name="choosefilter">
         <INPUT type="hidden" NAME="m" VALUE="netdevlist">
         <INPUT type="hidden" NAME="page" VALUE="1">
 
 
         {trans("Status")}:
-        <SELECT SIZE="1" NAME="s" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control form-control-sm" NAME="s" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="-1" {if $listdata.status == -1}  SELECTED {/if}>- {trans("all")} -</OPTION>
                 {foreach $_NETELEMENTSTATUSES as $idx => $status}
                 <OPTION VALUE="{$idx}"{if $listdata.status == $idx} SELECTED{/if}>{$status}</OPTION>
                 {/foreach}
         </SELECT>
         {trans("Project:")}
-        <SELECT SIZE="1" NAME="p" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control form-control-sm" NAME="p" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="-1"{if $listdata.invprojectid == -1} selected{/if}>- {trans("all")} -</OPTION>
             <OPTION VALUE="-2"{if $listdata.invprojectid == -2} selected{/if}>- {trans("without project")} -</OPTION>
                 {section name=project loop=$NNprojects}
@@ -24,7 +24,7 @@
                 {/section}
         </SELECT>
         {trans("Network node:")}
-        <SELECT SIZE="1" NAME="n" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control form-control-sm" NAME="n" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="-1"{if $listdata.netnode == -1} selected{/if}>- {trans("all")} -</OPTION>
             <OPTION VALUE="-2"{if $listdata.netnode == -2} selected{/if}>- {trans("none")} -</OPTION>
                 {foreach $netnodes as $netnode}
@@ -32,7 +32,7 @@
                 {/foreach}
         </SELECT>
         {trans("Producer:")}
-        <SELECT SIZE="1" NAME="producer" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control form-control-sm" NAME="producer" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="-1"{if $listdata.producer == -1} selected{/if}>- {trans("all")} -</OPTION>
             <OPTION VALUE="-2"{if $listdata.producer == -2} selected{/if}>- {trans("none")} -</OPTION>
                 {foreach $producers as $producer}
@@ -40,7 +40,7 @@
                 {/foreach}
         </SELECT>
         {trans("Model:")}
-        <SELECT SIZE="1" NAME="model" ONCHANGE="document.choosefilter.submit();">
+        <SELECT class="form-control form-control-sm" NAME="model" ONCHANGE="document.choosefilter.submit();">
             <OPTION VALUE="-1"{if $listdata.model == -1} selected{/if}>- {trans("all")} -</OPTION>
             <OPTION VALUE="-2"{if $listdata.model == -2} selected{/if}>- {trans("none")} -</OPTION>
                 {foreach $models as $model}
