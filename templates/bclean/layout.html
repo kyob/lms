@@ -75,8 +75,10 @@
         * {
             font-size: 14px;
         }
+
+        /* Font Awesome Radio Buttons and Checkboxes https://gist.github.com/pom-pom/10255961 */
     </style>
-<!-- //todo => https://scotch.io/bar-talk/different-tricks-on-how-to-make-bootstrap-columns-all-the-same-height -->
+    <!-- //todo => https://scotch.io/bar-talk/different-tricks-on-how-to-make-bootstrap-columns-all-the-same-height -->
 </head>
 <body onload="start_login_timeout({ConfigHelper::getConfig('phpui.timeout')})">
     <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100;"></div>
@@ -88,7 +90,7 @@
         <div class="row">
             {block name=pageleftbar}
                 <div class="col-md-2">
-                    <h1>LMS</h1>
+                    <a class="display-4" href="https://{$smarty.server.SERVER_NAME}">LMS</a>
 
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {counter start=0 skip=1 assign=menuID}
