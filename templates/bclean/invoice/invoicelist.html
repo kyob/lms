@@ -1,7 +1,6 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-    <!--// $Id$ //-->
     <H1>{$layout.pagetitle}</H1>
         {if $invoice.invoice}
         <SCRIPT type="text/javascript">
@@ -83,7 +82,6 @@
             <OPTION value="cnotes"{if $listdata.cat == "cnotes"} SELECTED{/if}>{trans("show only credit notes")}</OPTION>
         </SELECT>
 
-
         {trans("Group:")}
         <SELECT class="form-control form-control-sm" name="group">
             <OPTION value="0"{if !$listdata.group} SELECTED{/if}>{trans("- all groups -")}</OPTION>
@@ -94,7 +92,6 @@
         <INPUT class="form-control form-control-sm" type="checkbox" name="groupexclude" id="groupexclude"{if $listdata.groupexclude} CHECKED{/if}><label for="groupexclude">{trans("exclude group")}</label>
         <INPUT class="form-control form-control-sm" type="checkbox" name="hideclosed" id="hideclosed"{if $listdata.hideclosed} CHECKED{/if}><label for="hideclosed">{trans("hide accounted<!plural>")}</label>
         <A class="btn btn-sm btn-primary" href="javascript:filter();">{trans("Search")}</A>
-
     </form>
 
     {if $listdata.total != 0}
@@ -194,7 +191,7 @@
                     {if $invoice.type == $smarty.const.DOC_CNOTE}
                         <A class="btn btn-sm btn-secondary" HREF="?m=invoice&amp;id={$invoice.id}" TARGET="_blank" title="{trans("Print")}"><i class="fa fa-fw fa-print"></i></A>
                         {/if}
-                    <INPUT class="btn btn-sm btn-secondary" TYPE="checkbox" NAME="marks[{$invoice.id}]" VALUE="{$invoice.id}"{if $marks.$invoiceid}CHECKED{/if}>
+                    <INPUT class="btn btn-secondary" TYPE="checkbox" NAME="marks[{$invoice.id}]" VALUE="{$invoice.id}"{if $marks.$invoiceid}CHECKED{/if}>
                 </TD>
             </TR>
         {sectionelse}

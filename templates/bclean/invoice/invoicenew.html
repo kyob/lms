@@ -129,14 +129,14 @@
 
                 <div class="form-group">
                     {trans("Deadline:")}
-                    <INPUT type="radio" name="invoice[paytime_default]" value="1" id="type1" onchange="setPayTime(1)"{if !isset($invoice.paytime_default) || $invoice.paytime_default} checked{/if}><label for="type1">{trans("default")}</label>
-                    <INPUT type="radio" name="invoice[paytime_default]" value="0" id="type0" onchange="setPayTime(0)"{if isset($invoice.paytime_default) && !$invoice.paytime_default} checked{/if}><label for="type0">{trans("other")}</label>
-                    <INPUT type="text" name="invoice[paytime]" value="{$invoice.paytime}" size="5" ID="paytime" onclick="deadline_calendar(this)"
+                    <INPUT class="form-control form-control-sm" type="radio" name="invoice[paytime_default]" value="1" id="type1" onchange="setPayTime(1)"{if !isset($invoice.paytime_default) || $invoice.paytime_default} checked{/if}><label for="type1">{trans("default")}</label>
+                    <INPUT class="form-control form-control-sm" type="radio" name="invoice[paytime_default]" value="0" id="type0" onchange="setPayTime(0)"{if isset($invoice.paytime_default) && !$invoice.paytime_default} checked{/if}><label for="type0">{trans("other")}</label>
+                    <INPUT class="form-control form-control-sm" type="text" name="invoice[paytime]" value="{$invoice.paytime}" size="5" ID="paytime" onclick="deadline_calendar(this)"
                            {if !isset($invoice.paytime_default) || $invoice.paytime_default} style="visibility: hidden"{/if} {tip text="Enter deadline in days (optional)" trigger="paytime"}>
 
 
                     {trans("Payment type:")}
-                    <SELECT name="invoice[paytype]" {tip text="Select payment type" trigger="paytype"}>
+                    <SELECT class="form-control form-control-sm" name="invoice[paytype]" {tip text="Select payment type" trigger="paytype"}>
                         <OPTION value=""{if !$invoice.paytype} selected{/if}>- {trans("default")} -</OPTION>
                             {foreach from=$_PAYTYPES item=item key=key}
                             <OPTION value="{$key}"{if $invoice.paytype==$key} selected{/if}>{$item}</OPTION>
