@@ -101,7 +101,9 @@
                         <B>{$voipaccountlist[voipaccountlist].phone}</B>
                     </td>
                     <td onClick="return self.location.href = '?m=voipaccountinfo&amp;id={$voipaccountlist[voipaccountlist].id}';" valign="top" nowrap>
-                {if ConfigHelper::checkPrivilege('hide_voip_passwords')}{'*'|str_repeat:8}{else}{$voipaccountlist[voipaccountlist].passwd}{/if}
+                {if ConfigHelper::checkPrivilege('hide_voip_passwords')}
+                    {'*'|str_repeat:8}{else}{$voipaccountlist[voipaccountlist].passwd}
+                    {/if}
             </td>
             <td>
                 {if $voipaccountlist[voipaccountlist].access}
@@ -109,7 +111,7 @@
                 {else}
                     <a class="btn btn-sm btn-secondary" href="?m=voipaccountset&amp;id={$voipaccountlist[voipaccountlist].id}" title="{trans("Connect")}"><i class="fa fa-fw fa-toggle-off"></i></a>
                 {/if}
-
+                <a class="btn btn-sm btn-info" href="?m=voipaccountbillinglist&amp;id={$voipaccountlist[voipaccountlist].id}" title="{trans("Billings")}"><i class="fa fa-fw fa-list"></i></a>
                 <a class="btn btn-sm btn-danger" onClick="return confirmLink(this, '{t a=$voipaccountlist[voipaccountlist].login}Are you sure, you want to remove voip account \'$a\' from database?{/t}')" href="?m=voipaccountdel&amp;id={$voipaccountlist[voipaccountlist].id}" title="[ {trans("Delete")} ]"><i class="fa fa-fw fa-trash"></i></a>
                 <a class="btn btn-sm btn-primary" href="?m=voipaccountedit&amp;id={$voipaccountlist[voipaccountlist].id}" title="{trans("Edit")}"><i class="fa fa-fw fa-edit"></i></a>
 

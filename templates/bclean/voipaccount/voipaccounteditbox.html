@@ -67,6 +67,44 @@
                 </td>
             </tr>
             {/block}
+            {block name="voipaccounteditbox-cost_limit"}
+            <tr>
+                <td>
+                    <img src="img/money.gif" alt="">
+                </td>
+                <td class="bold">
+                    {trans("Cost limit:")}
+                </td>
+                <td>
+                    {if ConfigHelper::checkPrivilege('superuser')}
+                        <input
+                            type="text"
+                            name="voipaccountedit[cost_limit]"
+                            value="{$voipaccountinfo.cost_limit}"
+                            placeholder="{trans("default")}: {ConfigHelper::getConfig('voip.default_cost_limit')|money_format}">
+                    {else}
+                        {$voipaccountinfo.cost_limit|money_format}
+                    {/if}
+                </td>
+            </tr>
+            {/block}
+            {block name="voipaccounteditbox-balance"}
+            <tr>
+                <td>
+                    <img src="img/money.gif" alt="">
+                </td>
+                <td class="bold">
+                    {trans("Balance:<!voip>")}
+                </td>
+                <td>
+					{if ConfigHelper::checkPrivilege('superuser')}
+						<input type="text" name="voipaccountedit[balance]" value="{$voipaccountinfo.balance}">
+					{else}
+						{$voipaccountinfo.balance}
+					{/if}
+                </td>
+            </tr>
+            {/block}
             {block name="voipaccounteditbox-customer"}
             <tr>
                 <td>
@@ -118,6 +156,46 @@
                     {if $voipaccountinfo.moddate}
                         {$voipaccountinfo.modifiedby}, {$voipaccountinfo.moddateh}
                     {else}-{/if}
+                </td>
+            </tr>
+            {/block}
+            {block name="voipaccounteditbox-flags"}
+            <tr>
+                <td>
+                    <img src="img/users.gif" alt="">
+                </td>
+                <td class="bold">
+                    {trans("Flags:")}
+                </td>
+                <td>
+                	<table>
+                		<tr>
+                			<td>
+                				<label for="admin_record">{trans("recording for operator:")}</label>
+                			</td>
+                			<td>
+								<input
+									id="admin_record"
+									type="checkbox"
+									name="voipaccountedit[admin_record_flag]"
+									value="yes"
+								    {if $voipaccountinfo.flags & CALL_FLAG_ADMIN_RECORDING}checked{/if}>
+							</td>
+						</tr>
+                		<tr>
+                			<td>
+                				<label for="customer_record">{trans("recording for customer:")}</label>
+							</td>
+							<td>
+								<input
+									id="customer_record"
+									type="checkbox"
+									name="voipaccountedit[customer_record_flag]"
+									value="yes"
+									{if $voipaccountinfo.flags & CALL_FLAG_CUSTOMER_RECORDING}checked{/if}>
+							</td>
+                		</tr>
+                	</table>
                 </td>
             </tr>
             {/block}
