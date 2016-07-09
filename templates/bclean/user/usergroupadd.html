@@ -1,28 +1,22 @@
-<!--
- @author Maciej_Wawryk
--->
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
     <h1>{$layout.pagetitle}</h1>
     <form class="form-inline" method="post" name="usergroupadd" action="?m=usergroupadd">
         <input type="submit" class="hiddenbtn">
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="thead-inverse">
-                <tr>
-                    <th>{trans("Name:")}</th>
-                    <th><input class="form-control" type="text" name="usergroupadd[name]" value="{$usergroupadd.name}" required></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{trans("Description:")}</td>
-                    <td><textarea class="form-control" name="usergroupadd[description]" cols="50" rows="5" placeholder="{trans('Enter additional information (optional)')}">{$usergroupadd.description}</textarea></td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-danger" href="javascript:document.usergroupadd.submit();" accesskey="s">{trans("Submit")}</a>
-        <a class="btn btn-secondary" href="?m=usergrouplist">{trans("Cancel")}</a>
+        <div class="card">
+            <div class="card-header">
+                {trans("Name:")}
+                <input class="form-control" type="text" name="usergroupadd[name]" value="{$usergroupadd.name}" required>
+            </div>
+            <div class="card-block">
+                {trans("Description:")}<br>
+                <textarea class="form-control" name="usergroupadd[description]" cols="50" rows="5" placeholder="{trans('Enter additional information (optional)')}">{$usergroupadd.description}</textarea>
+                <hr>
+                <a class="btn btn-danger" href="javascript:document.usergroupadd.submit();" accesskey="s">{trans("Submit")}</a>
+                <a class="btn btn-secondary" href="?m=usergrouplist">{trans("Cancel")}</a>
+            </div>
+        </div>
     </form>
     <script type="text/javascript">
         document.forms['usergroupadd'].elements['usergroupadd[name]'].focus();
