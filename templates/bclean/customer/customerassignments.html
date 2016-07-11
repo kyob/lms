@@ -1,7 +1,6 @@
 <!--// $Id$ //-->
 {assign var=today value=$smarty.now|date_format:"%x 00:00:00"}{assign var=today value=$today|date_format:"%s"}
 
-
 <div class="card">
     <div class="card-header">
         {trans("Customer Liabilities:")}
@@ -97,7 +96,7 @@
     {/block}
 {/foreach}
 </TBODY>
-</TABLE>                                
+</TABLE>
 {block name="customerassignments-list-footer"}
     {trans("Total:")}
 
