@@ -1,133 +1,71 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-<!--// $Id$ //-->
-<H1>{$layout.pagetitle}</H1>
-{include file="calendar_js.html"}
-<FORM method="POST" action="?m=eventsearch" name="event" id="event">
-<INPUT type="submit" class="hiddenbtn">
-<TABLE class="lmsbox">
-    <THEAD>
-	<TR>
-		<TD width="100%" colspan="3">
-			<B>{trans("Find events matching the following search criteria:")}</B>
-		</TD>
-	</TR>
-    </THEAD>
-    <TBODY>
-	<TR>
-		<TD width="1%">
-			<IMG src="img/calendar.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Title:")}</B>
-		</TD>
-		<TD width="98%">
-			<INPUT type="text" name="event[title]" value="{$event.title}" size="50" {tip text="Enter event title" trigger="title"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD width="1%">
-			<IMG src="img/time.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Date:")}</B>
-		</TD>
-		<TD width="98%">
-			{trans("From:")} <INPUT type="text" placeholder="{trans("yyyy/mm/dd")}" name="event[datefrom]" size="12" {tip class="calendar" text="Enter date in YYYY/MM/DD format or click to choose it from calendar"}>
-			{trans("To:")} <INPUT type="text" placeholder="{trans("yyyy/mm/dd")}" name="event[dateto]" size="12" {tip class="calendar" text="Enter date in YYYY/MM/DD format or click to choose it from calendar"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD width="1%">
-			<IMG src="img/info.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Description:")}</B>
-		</TD>
-		<TD width="98%">
-			<INPUT type="text" name="event[description]" size="50" {tip text="Enter additional information"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD width="1%">
-			<IMG src="img/info.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Note:")}</B>
-		</TD>
-		<TD width="98%">
-			<INPUT type="text" name="event[note]" size="50" {tip text="Enter note"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD width="1%">
-			<IMG src="img/desc.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Type:")}</B>
-		</TD>
-		<TD width="98%">
-			<SELECT name="event[type]" size="1">
-				<OPTION value="0" SELECTED>{trans("- all -")}</OPTION>
-				{foreach from=$_EVENTTYPES key=key item=type}
-					<OPTION value="{$key}">{$type}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-{*
-	<TR>
-		<TD width="1%">
-			<IMG src="img/access.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Status:")}</B>
-		</TD>
-		<TD width="98%" nowrap>
-			<INPUT type="checkbox" name="event[private]" value="1" {tip text="Select event's status"}{if $event.private}CHECKED{/if}> {trans("private")}
-		</TD>
-	</TR>
-*}
-	<TR>
-		<TD width="1%">
-			<IMG src="img/customer.gif" alt="">
-		</TD>
-		<TD width="1%">
-			<B>{trans("Customer:")}</B>
-		</TD>
-		<TD width="98%" nowrap>
-			{customerlist form="event" customers=$customerlist selected=$event.customerid selectname="event[customerid]" inputname="event[custid]" customOnChange="change_customer(this);"}
-		</TD>
-	</TR>
-	<TR>
-		<TD width="1%" valign="top">
-			<IMG src="img/users.gif" alt="">
-		</TD>
-		<TD width="1%" valign="top">
-			<B>{trans("User:")}</B>
-		</TD>
-		<TD style="width: 98%;" class="multiselect nobr">
-			<SELECT name="event[userid][]" id="userid" multiple>
-				{section name=userlist loop=$userlist}
-				<OPTION value="{$userlist[userlist].id}">{$userlist[userlist].name}</OPTION>
-				{/section}
-			</SELECT>
-		</TD>
-	</TR>
-	<TR>
-		<TD align="right" colspan="3">
-			<A href="javascript:document.event.submit();" accesskey="s">{trans("Search")} <IMG src="img/save.gif" alt=""></A>
-			<A href="?m=eventlist">{trans("Cancel")} <IMG src="img/cancel.gif" alt=""></A>
-		</TD>
-	</TR>
-    </TBODY>
-</TABLE>
-</form>
-<SCRIPT type="text/javascript">
-<!--
-multiselect('event', 'userid', '{trans("- select user -")}');
-document.forms['event'].elements['event[title]'].focus();
-//-->
-</SCRIPT>
+    <H1>{$layout.pagetitle}</H1>
+        {include file="calendar_js.html"}
+    <FORM class="form-inline" method="POST" action="?m=eventsearch" name="event" id="event">
+        <INPUT type="submit" class="hiddenbtn">
+
+        <div class="card">
+            <div class="card-header">
+                {trans("Find events matching the following search criteria:")}
+            </div>
+            <div class="card-block">
+
+                {trans("Title")}
+                <INPUT class="form-control form-control-sm" type="text" name="event[title]" value="{$event.title}" size="50" {tip text="Enter event title" trigger="title"}>
+
+                <br>
+
+                {trans("Date:")}
+                {trans("From:")} <INPUT class="form-control form-control-sm" type="text" placeholder="{trans("yyyy/mm/dd")}" name="event[datefrom]" size="12" {tip class="calendar" text="Enter date in YYYY/MM/DD format or click to choose it from calendar"}>
+                {trans("To:")} <INPUT class="form-control form-control-sm" type="text" placeholder="{trans("yyyy/mm/dd")}" name="event[dateto]" size="12" {tip class="calendar" text="Enter date in YYYY/MM/DD format or click to choose it from calendar"}>
+
+                <br>
+
+                {trans("Description")}
+                <INPUT class="form-control form-control-sm" type="text" name="event[description]" size="50" {tip text="Enter additional information"}>
+
+                <br>
+
+                {trans("Note")}
+                <INPUT class="form-control form-control-sm" type="text" name="event[note]" size="50" {tip text="Enter note"}>
+
+                <br>
+
+                {trans("Type")}
+                <SELECT name="event[type]" class="form-control form-control-sm">
+                    <OPTION value="0" SELECTED>{trans("- all -")}</OPTION>
+                        {foreach from=$_EVENTTYPES key=key item=type}
+                        <OPTION value="{$key}">{$type}</OPTION>
+                        {/foreach}
+                </SELECT>
+
+                <br>
+
+                {trans("Customer:")}
+                {customerlist form="event" customers=$customerlist selected=$event.customerid selectname="event[customerid]" inputname="event[custid]" customOnChange="change_customer(this);"}
+
+                <br>
+
+                {trans("User:")}
+                <SELECT class="form-control form-control-sm" name="event[userid][]" id="userid" multiple>
+                    {section name=userlist loop=$userlist}
+                        <OPTION value="{$userlist[userlist].id}">{$userlist[userlist].name}</OPTION>
+                        {/section}
+                </SELECT>
+
+
+                <A class="btn btn-sm btn-danger" href="javascript:document.event.submit();" accesskey="s">{trans("Search")}</A>
+                <A class="btn btn-sm btn-secondary" href="?m=eventlist">{trans("Cancel")}</A>
+            </div>
+        </div>
+
+    </form>
+    <SCRIPT type="text/javascript">
+        <!--
+    multiselect('event', 'userid', '{trans("- select user -")}');
+        document.forms['event'].elements['event[title]'].focus();
+        //-->
+    </SCRIPT>
 {/block}
