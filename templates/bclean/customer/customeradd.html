@@ -138,7 +138,6 @@
     <form name="customeradd" id="customeradd" method="POST" action="?m=customeradd">
         <INPUT type="submit" class="hiddenbtn">
 
-
         <div class="row">
             <div class="col-md-6">
                 {block name="customeradd-leftcolumn"}
@@ -614,9 +613,7 @@
         <A class="btn btn-danger" href="javascript:document.customeradd.submit();" accesskey="S">{trans("Submit")}</A>
         <A class="btn btn-secondary" href="?m=customerlist">{trans("Cancel")}</A>
         <label for="customeradd_reuse" class="btn btn-info pull-md-right">{trans("Display this form again, when this customer is saved")} <INPUT  type="checkbox" name="customeradd[reuse]" id="customeradd_reuse" value="ON" {if $customeradd.reuse}checked{/if}></label>
-
-
-    </FORM>
+    </form>
 
 
 
