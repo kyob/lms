@@ -1,696 +1,631 @@
-<!--// $Id$ //-->
+<script>
+    $(document).ready(function () {
+        // init values
+        if ($("input[name='customeradd[pin]']").val() == '')
+            randomize();
+        $("#firstName").prop("disabled", false);
+        $("#ICN").prop("disabled", false);
+        $("#SSN").prop("disabled", false);
+        $("#TEN").prop("disabled", true);
+        $("#REGON").prop("disabled", true);
+        $("#RBE").prop("disabled", true);
+        $("label[for='lastName_companyName']").text("{trans('Last name:')}");
+
+
+        // change page profile depends on legal personality type
+        $("#private").change(function () {
+            $("#firstName").prop("disabled", false);
+            $("#ICN").prop("disabled", false);
+            $("#SSN").prop("disabled", false);
+            $("#TEN").prop("disabled", true);
+            $("#REGON").prop("disabled", true);
+            $("#RBE").prop("disabled", true);
+
+            $("#privateSwitch").toggleClass("btn-primary btn-secondary");
+            $("#companySwitch").toggleClass("btn-primary btn-secondary");
+
+            $("label[for='lastName_companyName']").text("{trans('Last name:')}");
+
+        });
+
+        $("#company").change(function () {
+            $("#firstName").prop("disabled", true);
+            $("#ICN").prop("disabled", true);
+            $("#SSN").prop("disabled", true);
+            $("#TEN").prop("disabled", false);
+            $("#REGON").prop("disabled", false);
+            $("#RBE").prop("disabled", false);
+
+            $("label[for='lastName_companyName']").text("{trans('Company name:')}");
+            $("#companySwitch").toggleClass("btn-primary btn-secondary");
+            $("#privateSwitch").toggleClass("btn-primary btn-secondary");
+        });
+    });
+    function randomize()
+    {
+        if (document.customeredit.elements['customerdata[pin]'].value != '')
+            if (!confirm('{trans("Are you sure, you want to generate new PIN?")}'))
+                return;
+
+        var r = 0;
+        do
+            r = Math.floor(Math.random() * 1000000 - 1);
+        while (r < 1000);
+        document.customeredit.elements['customerdata[pin]'].value = r;
+    }
+
+    function newcontact()
+    {
+        var contactscountelem = document.getElementById('contactscount');
+        var nr = contactscountelem.value;
+        var lastcontactelem = document.getElementById('contact' + (nr - 1));
+        var newrow = lastcontactelem.parentNode.insertRow(lastcontactelem.rowIndex + 1);
+        newrow.className = 'light';
+        newrow.id = 'contact' + nr;
+        var newcell = newrow.insertCell(0);
+        newcell.style.whiteSpace = 'nowrap';
+        newcell.innerHTML = '<HR><INPUT TYPE="text" size="16" value="" name="customerdata[contacts][' + nr + '][phone]"'
+                + ' onmouseover="popup(\'{trans("Enter contact phone")}\')" onmouseout="pophide()">'
+                + '<label><INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_MOBILE}"'
+                + ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_MOBILE]}</label>'
+                + '<label><INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_FAX}"'
+                + ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_FAX]}</label>'
+                + '<label onmouseover="popup(\'{trans("Check if send notification")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_NOTIFICATIONS}"'
+                + ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}</label>'
+                + '<label onmouseover="popup(\'{trans("Not visible by the customer in electronic Customer Service Representative")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_DISABLED}"'
+                + ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}</label>'
+                + '<BR><INPUT TYPE="text" size="68" value="" name="customerdata[contacts][' + nr + '][name]"'
+                + ' onmouseover="popup(\'{trans("Enter contact name/description (optional)")}\')" onmouseout="pophide()">';
+        contactscountelem.value = parseInt(nr) + 1;
+    }
+
+    function newemail() {
+        var emailscountelem = document.getElementById('emailscount');
+        var nr = emailscountelem.value;
+        var lastemailelem = document.getElementById('email' + (nr - 1));
+        var newrow = lastemailelem.parentNode.insertRow(lastemailelem.rowIndex + 1);
+        newrow.className = 'light';
+        newrow.id = 'email' + nr;
+        var newcell = newrow.insertCell(0);
+        newcell.style.whiteSpace = 'nowrap';
+        newcell.innerHTML = '<HR><INPUT TYPE="text" size="23" value="" name="customerdata[emails][' + nr + '][email]"'
+                + ' onmouseover="popup(\'{trans("Enter e-mail address (optional)")}\')" onmouseout="pophide()">'
+                + '<label onmouseover="popup(\'{trans("Check if sent electronic invoices on this email")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[emails][' + nr + '][type][]">'
+                + ' {$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}</label>'
+                + '<label onmouseover="popup(\'{trans("Check if send notification")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_NOTIFICATIONS}" name="customerdata[emails][' + nr + '][type][]">'
+                + ' {$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}</label>'
+                + '<label onmouseover="popup(\'{trans("Check if send technical notification")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_TECHNICAL}" name="customerdata[emails][' + nr + '][type][]">'
+                + ' {$_CONTACTTYPES[$smarty.const.CONTACT_TECHNICAL]}</label>'
+                + '<label onmouseover="popup(\'{trans("Not visible by the customer in electronic Customer Service Representative")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[emails][' + nr + '][type][]">'
+                + ' {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}</label>'
+                + '<BR><INPUT TYPE="text" size="68" value="" name="customerdata[emails][' + nr + '][name]"'
+                + ' onmouseover="popup(\'{trans("Enter contact name/description (optional)")}\')" onmouseout="pophide()">';
+        emailscountelem.value = parseInt(nr) + 1;
+    }
+
+    function newaccount() {
+        var accountscountelem = document.getElementById('accountscount');
+        var nr = accountscountelem.value;
+        var lastaccountelem = document.getElementById('account' + (nr - 1));
+        var newrow = lastaccountelem.parentNode.insertRow(lastaccountelem.rowIndex + 1);
+        newrow.className = 'light';
+        newrow.id = 'account' + nr;
+        var newcell = newrow.insertCell(0);
+        newcell.style.whiteSpace = 'nowrap';
+        newcell.innerHTML = '<HR><INPUT TYPE="text" size="50" value="" name="customerdata[accounts][' + nr + '][account]"'
+                + ' onmouseover="popup(\'{trans("Enter bank account (optional)")}\')" onmouseout="pophide()">'
+                + '<label onmouseover="popup(\'{trans("Check if bank account should be visible on invoice")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[accounts][' + nr + '][type][]">'
+                + ' {$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}</label>'
+                + '<label onmouseover="popup(\'{trans("Check if bank account should be disabled")}\')" onmouseout="pophide()">'
+                + '<INPUT type="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[accounts][' + nr + '][type][]">'
+                + ' {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}</label>'
+                + '<BR><INPUT TYPE="text" size="68" value="" name="customerdata[accounts][' + nr + '][name]"'
+                + ' onmouseover="popup(\'{trans("Enter contact name/description (optional)")}\')" onmouseout="pophide()">';
+        accountscountelem.value = parseInt(nr) + 1;
+    }
+</script>
+
+
+
+
+
+
+<form name="customeredit2" id="customeredit" method="post" action="?m=customeredit&amp;id={$customerinfo.id}{if $recover}&amp;action=recover{/if}">
+    <INPUT type="hidden" name="customerdata[id]" value="{$customerinfo.id}">
+    <INPUT type="submit" class="hiddenbtn">
+    <div class="row">
+        <div class="col-md-6">
+            {block name="customerdata-leftcolumn"}
+                <div class="card">
+                    <div class="card-header lead">{trans("Basic data")}</div>
+                    <div class="card-block">
+                        {trans("Select legal personality type")}:
+                        <div class="radio">
+                            <label class="btn btn-sm btn-primary" id="privateSwitch">
+                                &nbsp;<input type="radio" name="customerdata[type]" value="0" id="private" {tip trigger="type"}{if $customerinfo.type == $smarty.const.CTYPES_PRIVATE} CHECKED{/if}>
+                                {assign var='type' value=$smarty.const.CTYPES_PRIVATE}{$_CTYPES.$type}
+                            </label>
+                            <label class="btn btn-sm btn-secondary" id="companySwitch">
+                                &nbsp;<input type="radio" name="customerdata[type]" value="1" id="company" {tip trigger="type"}{if $customerinfo.type == $smarty.const.CTYPES_COMPANY} CHECKED{/if}>
+                                {assign var='type' value=$smarty.const.CTYPES_COMPANY}{$_CTYPES.$type}
+                            </label>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="firstName">{trans("First name:")}</label>
+                            <input type="text" class="form-control form-control-sm" id="firstName" name="customerdata[name]" value="{$customerinfo.name|escape}" required placeholder="{trans('Enter customer name')}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName_companyName">{trans("Last name:")}</label>
+                            <input type="text" class="form-control form-control-sm" id="lastName_companyName" name="customerdata[lastname]" value="{$customerinfo.lastname|escape}" required placeholder="{trans('Enter customer last name or company name')}">
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            {trans("ICN")}:
+                            <INPUT id="ICN" class="form-control form-control-sm" type="text" value="{$customerinfo.icn}" name="customerdata[icn]" placeholder="{trans('Enter Identity Card Number (optional)')}">
+                        </div>
+
+                        <div class="form-group">
+                            {trans("SSN")}:
+                            <INPUT id="SSN" class="form-control form-control-sm" type="text" value="{$customerinfo.ssn}" name="customerdata[ssn]" placeholder="{trans('Enter customer Social Security Number (optional)')}">
+                            {if $customerinfo.ssnwarning}
+                                <INPUT type="hidden" name="customerdata[ssnwarning]" value="1">
+                            {/if}
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            {trans("TEN")}:
+                            <INPUT id="TEN" class="form-control form-control-sm" type="text" value="{$customerinfo.ten}" name="customerdata[ten]" placeholder="{trans('Enter customer Tax Exempt Number (optional)')}">
+                            {if $customerinfo.tenwarning}
+                                <INPUT id="TEN" type="hidden" name="customerdata[tenwarning]" value="1">
+                            {/if}
+                        </div>
+
+                        <div class="form-group">
+                            {trans("REGON")}:
+                            <INPUT id="REGON" class="form-control form-control-sm" type="text" value="{$customerinfo.regon}" name="customerdata[regon]" placeholder="{trans('Enter Business Registration Number (optional)')}">
+                        </div>
+
+                        <div class="form-group">
+                            {trans("RBE")}:
+                            <INPUT id="RBE" class="form-control form-control-sm" type="text" value="{$customerinfo.rbe}" name="customerdata[rbe]" placeholder="{trans('Enter National Court Register / Register of Business Entities Number (optional)')}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card ">
+                    <div class="card-block">
+                        <div class="form-group">
+                            <label for="exampleInputName2">{trans("PIN")}: </label>
+                            <div class="input-group">
+                                <input id="PIN" type="number" class="form-control form-control-sm" pattern="{literal}.{4,6}{/literal}" required value="{if $customerinfo.pin}{$customerinfo.pin}{/if}" name="customerdata[pin]" placeholder="{trans("Enter 4 to 6 digits PIN number (optional)")}">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" onClick="randomize();">{trans("Generate new PIN!")}</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName2">{trans("External system identifier")}:</label>
+                            <input type="text" class="form-control form-control-sm" id="exampleInputName2" maxlength="20" name="customerdata[extid]" value="{$customerinfo.extid}" placeholder="{trans('Enter customer identifier in external system (optional)')}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName2">{trans("Select customer state")}:</label>
+                            <SELECT class="form-control form-control-sm" name="customerdata[status]" {tip text="Select customer state" trigger="status"}>
+                                {foreach $_CSTATUSES as $statusidx => $status}
+                                    <OPTION value="{$statusidx}"{if $customerinfo.status == $statusidx} selected{/if}>{$status.singularlabel}</OPTION>
+                                    {/foreach}
+                            </SELECT>
+                        </div>
+                        <div class="form-group">
+                            {if $divisions}
+                                <label for="exampleInputName2">{trans("Select division")}:</label>
+                                <SELECT class="form-control form-control-sm" name="customerdata[divisionid]" {tip text="Select division" trigger="divisionid"}>
+                                    {foreach from=$divisions item=item}{if !$item.status}
+                                            <OPTION value="{$item.id}"{if $customerinfo.divisionid == $item.id} SELECTED{/if}>{$item.shortname}</OPTION>
+                                        {/if}{/foreach}
+                                </SELECT>
+                            {/if}
+                        </div>
+                        <div class="form-group">
+                            {if $groups}
+                                <label for="exampleInputName2">{trans("Select group to assign to customer")}:</label>
+                                <SELECT class="form-control form-control-sm" NAME="customerdata[group]" {tip text="Select group to assign to customer" trigger="group"}>
+                                    <OPTION VALUE="0">{trans("... select group ...")}</OPTION>
+                                        {foreach $groups as $group}
+                                        <OPTION VALUE="{$group.id}" {if $customerinfo.group == $group.id}SELECTED{/if}>{$group.name} ({$group.id|string_format:"%04d"})</OPTION>
+                                        {/foreach}
+                                </SELECT>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("Addresses")}</div>
+                    <div class="card-block">
+                        <div class="card-title"><strong>{trans("Adres zameldowania/firmy")}</strong></div>
+                        <div class="form-group">
+                            {trans("Street:")}
+                            <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.street}" name="customerdata[street]" id="street" required placeholder="{trans('Enter street')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("Building:")}
+                            <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customerinfo.building}" name="customerdata[building]" id="building" placeholder="{trans('Enter building number')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("Apartment:")}
+                            <INPUT class="form-control form-control-sm" size="1" type="text" value="{$customerinfo.apartment}" name="customerdata[apartment]" id="apartment" placeholder="{trans('Enter apartment number')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("City:")}
+                            <INPUT class="form-control form-control-sm" size="5" type="text" value="{$customerinfo.city}" name="customerdata[city]" id="city" placeholder="{trans('Enter city')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("Zip:")}
+                            <INPUT class="form-control form-control-sm" size="3" type="text" value="{$customerinfo.zip}" name="customerdata[zip]" id="zip" placeholder="{trans('Enter zip code')}">
+                        </div>
+                        {if $customerinfo.zipwarning}
+                            <INPUT type="hidden" name="customerdata[zipwarning]" value="1">
+                        {/if}
+
+                        {if $cstateslist}
+                            <div class="form-group">
+                                {trans("State:")}
+                                <SELECT class="form-control form-control-sm" name="customerdata[stateid]" {tip text="Select country state (optional)" trigger="stateid"}>
+                                    <OPTION value="0"></OPTION>
+                                        {foreach from=$cstateslist item=item key=key}
+                                        <OPTION value="{$key}"{if $key==$customerinfo.stateid} SELECTED{/if}>{$item.name}</OPTION>
+                                        {/foreach}
+                                </SELECT>
+                            </div>
+                        {/if}
+
+                        {if $countrieslist}
+                            <div class="form-group">
+                                {trans("Country:")}
+                                <SELECT class="form-control form-control-sm" name="customerdata[countryid]" {tip text="Select country (optional)" trigger="countryid"}>
+                                    <OPTION value="0"></OPTION>
+                                        {foreach from=$countrieslist item=item key=key}
+                                        <OPTION value="{$key}"{if $key==$customerinfo.countryid} SELECTED{/if}>{t}{$item.name}{/t}</OPTION>
+                                        {/foreach}
+                                </SELECT>
+                            </div>
+                        {/if}
+                        <script type="text/javascript">
+                            <!--
+                                new AutoSuggest(document.getElementById('customerdata'), document.getElementById('street'), '?m=customerdata&ajax=1&mode=street&what=', 0);
+                            new AutoSuggest(document.getElementById('customerdata'), document.getElementById('zip'), '?m=customerdata&ajax=1&mode=zip&what=', 0);
+                            new AutoSuggest(document.getElementById('customerdata'), document.getElementById('city'), '?m=customerdata&ajax=1&mode=city&what=', 0);
+                            //-->
+                        </script>
+
+
+                    </div>
+
+                    <div class="card-block">
+                        <div class="card-title">
+                            <strong>{trans("Postal address")}</strong>
+                            <div class="form-group">
+                                <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.post_name}" name="customerdata[post_name]" id="post_name" placeholder="{trans('Enter name (optional)')}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {trans("Street:")}
+                            <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.post_street}" name="customerdata[post_street]" id="post_street" placeholder="{trans('Enter street name (optional)')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("Building:")}
+                            <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.post_building}" name="customerdata[post_building]" id="post_builing" placeholder="{trans('Enter building number (optional)')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("Apartment:")}
+                            <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.post_apartment}" name="customerdata[post_apartment]" id="post_apartment" placeholder="{trans('Enter apartment number (optional)')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("City:")}
+                            <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.post_city}" name="customerdata[post_city]" id="post_city" placeholder="{trans('Enter city (optional)')}">
+                        </div>
+                        <div class="form-group">
+                            {trans("Zip:")}
+                            <INPUT class="form-control form-control-sm" type="text" value="{$customerinfo.post_zip}" name="customerdata[post_zip]" id="post_zip" placeholder="{trans('Enter zip code (optional)')}">
+                        </div>
+                        {if $customerinfo.post_zipwarning}
+                            <INPUT class="form-control form-control-sm" type="hidden" name="customerdata[post_zipwarning]" value="1">
+                        {/if}
+
+                        {if $cstateslist}
+                            <div class="form-group">
+                                {trans("State:")}
+                                <SELECT class="form-control form-control-sm" name="customerdata[post_stateid]" {tip text="Select country state (optional)" trigger="post_stateid"}>
+                                    <OPTION value="0"></OPTION>
+                                        {foreach from=$cstateslist item=item key=key}
+                                        <OPTION value="{$key}"{if $key==$customerinfo.post_stateid} SELECTED{/if}>{$item.name}</OPTION>
+                                        {/foreach}
+                                </SELECT>
+                            </div>
+                        {/if}
+                        {if $countrieslist}
+                            <div class="form-group">
+                                {trans("Country:")}
+                                <SELECT class="form-control form-control-sm" name="customerdata[post_countryid]" {tip text="Select country (optional)" trigger="post_countryid"}>
+                                    <OPTION value="0"></OPTION>
+                                        {foreach from=$countrieslist item=item key=key}
+                                        <OPTION value="{$key}"{if $key==$customerinfo.post_countryid} SELECTED{/if}>{t}{$item.name}{/t}</OPTION>
+                                        {/foreach}
+                                </SELECT>
+                            </div>
+                        {/if}
+
+                        <script type="text/javascript">
+                            <!--
+                                new AutoSuggest(document.getElementById('customerdata'), document.getElementById('post_street'), '?m=customerdata&ajax=1&mode=street&what=', 0);
+                            new AutoSuggest(document.getElementById('customerdata'), document.getElementById('post_zip'), '?m=customerdata&ajax=1&mode=zip&what=', 0);
+                            new AutoSuggest(document.getElementById('customerdata'), document.getElementById('post_city'), '?m=customerdata&ajax=1&mode=city&what=', 0);
+                            //-->
+                        </script>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("Contact phones")} <a class="btn btn-sm btn-primary" href="javascript:newcontact()">{trans("Add contact field")}</a></div>
+                    <div class="card-block">
+                        <table class="table table-sm table-striped table-hover">
+                            {foreach $customerinfo.contacts as $key => $item}
+                                <tr id="contact{$key}">
+                                    <td>
+                                        {if !$item@first}<hr>{/if}
+                                        {trans("Enter contact phone")}: <INPUT class="form-control form-control-sm" type="tel" size="9" value="{$item.phone}" name="customerdata[contacts][{$key}][phone]">
+                                        {trans("Enter contact name/description (optional)")}:
+                                        <INPUT class="form-control form-control-sm" type="text" value="{$item.name}" name="customerdata[contacts][{$key}][name]">
+                                        <hr>
+                                        {trans("Use number for")}:
+                                        <div class="btn-group">
+                                            <label class="btn btn-sm btn-secondary">
+                                                <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_MOBILE}" name="customerdata[contacts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_MOBILE)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_MOBILE]}
+                                            </label>
+                                            <label class="btn btn-sm btn-secondary">
+                                                <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_FAX}" name="customerdata[contacts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_FAX)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_FAX]}
+                                            </label>
+                                            <label class="btn btn-sm btn-secondary" {tip text="Check if send notification" trigger="chknotification"}>
+                                                <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_NOTIFICATIONS}" name="customerdata[contacts][{$key}][type][]"{if ($email.type & $smarty.const.CONTACT_NOTIFICATIONS)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}
+                                            </label>
+                                            <label class="btn btn-sm btn-secondary" {tip text="Not visible by the customer in electronic Customer Service Representative" trigger="edisabled"}>
+                                                <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[contacts][{$key}][type][]"{if ($email.type & $smarty.const.CONTACT_DISABLED)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </table>
+                        <INPUT type="hidden" id="contactscount" value="{count($customerinfo.contacts)}">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("Email addresses")} <A class="btn btn-sm btn-primary" href="javascript:newemail()">{trans("Add contact field")}</A></div>
+                    <div class="card-block">
+                        <table class="table table-sm table-striped table-hover">
+                            {foreach $customerinfo.emails as $key => $item}
+                                <TR id="email{$key}">
+                                    <TD class="nobr">
+                                        {if !$item@first}<HR>{/if}
+                                        {trans("Enter e-mail address (optional)")}:
+                                        <INPUT class="form-control form-control-sm" type="email" value="{$item.email}" name="customerdata[emails][{$key}][email]">
+
+                                        {trans("Enter contact name/description (optional)")}:
+                                        <INPUT type="text" value="{$item.name}" name="customerdata[emails][{$key}][name]">
+                                        <hr>
+                                        <div class="form-group">
+                                            {trans("Use e-mail for")}:
+                                            <div class="btn-group">
+                                                <label class="btn btn-sm btn-secondary" {tip text="Check if sent electronic invoices on this email"}>
+                                                    <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_INVOICES)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}
+                                                </label>
+                                                <label class="btn btn-sm btn-secondary" {tip text="Check if send notification" trigger="chknotification"}>
+                                                    <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_NOTIFICATIONS}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_NOTIFICATIONS)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}
+                                                </label>
+                                                <label class="btn btn-sm btn-secondary" {tip text="Check if send tech notification" trigger="chknotification"}>
+                                                    <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_TECHNICAL}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_TECHNICAL)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_TECHNICAL]}
+                                                </label>
+                                                <label class="btn btn-sm btn-secondary" {tip text="Not visible by the customer in electronic Customer Service Representative" trigger="edisabled"}>
+                                                    <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_DISABLED)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </TD>
+                                </TR>
+                            {/foreach}
+                        </table>
+                        <INPUT type="hidden" id="emailscount" value="{count($customerinfo.emails)}">
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("Alternative bank accounts")} <A class="btn btn-sm btn-primary" href="javascript:newaccount()">{trans("Add contact field")}</A></div>
+                    <div class="card-block">
+                        <table class="table table-sm table-striped table-hover">
+                            {foreach $customerinfo.accounts as $key => $item}
+                                <TR id="account{$key}">
+                                    <TD>
+                                        {if !$item@first}<HR>{/if}
+                                        {trans("Enter bank account (optional)")}
+                                        <INPUT class="form-control form-control-sm" type="text" value="{$item.account}" name="customerdata[accounts][{$key}][account]">
+                                        {trans("Enter contact name/description (optional)")}
+                                        <INPUT class="form-control form-control-sm" type="text" value="{$item.name}" name="customerdata[accounts][{$key}][name]">
+                                        <hr>
+                                        <div class="form-group">
+                                            {trans("Use bank account for")}:
+                                            <div class="btn-group">
+                                                <label class="btn btn-sm btn-secondary" {tip text="Check if bank account should be visible on invoice"}>
+                                                    <input type="checkbox" autocomplete="off" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[accounts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_INVOICES)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}
+                                                </label>
+                                                <label class="btn btn-sm btn-secondary" {tip text="Check if bank account should be disabled" trigger="edisabled"}>
+                                                    <input type="checkbox" autocomplete="off" TYPE="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[accounts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_DISABLED)} checked{/if}> {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </TD>
+                                </TR>
+                            {/foreach}
+                        </table>
+                        <INPUT type="hidden" id="accountscount" value="{count($customerinfo.accounts)}">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("IM")}</div>
+                    <div class="card-block">
+                        <div class="form-group">
+                            {assign var=gg value=$smarty.const.IM_GG}{trans("Gadu-Gadu")}
+                            <INPUT class="form-control form-control-sm" type="text" name="customerdata[uid][{$gg}]" value="{if $customerinfo.uid.$gg}{$customerinfo.uid.$gg}{/if}" {tip text="Enter Gadu-Gadu ID (optional)" trigger="gg"}>
+                        </div>
+                        <div class="form-group">
+                            {assign var=yahoo value=$smarty.const.IM_YAHOO}{trans("Yahoo")}
+                            <INPUT class="form-control form-control-sm" type="text" name="customerdata[uid][{$yahoo}]" value="{if $customerinfo.uid.$yahoo}{$customerinfo.uid.$yahoo}{/if}" {tip text="Enter Yahoo Messenger ID (optional)" trigger="yahoo"}>
+                        </div>
+                        <div class="form-group">
+                            {assign var=skype value=$smarty.const.IM_SKYPE}{trans("Skype")}
+                            <INPUT class="form-control form-control-sm" type="text" name="customerdata[uid][{$skype}]" value="{if $customerinfo.uid.$skype}{$customerinfo.uid.$skype}{/if}" {tip text="Enter Skype ID (optional)" trigger="skype"}>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("Finances")}</div>
+                    <div class="card-block">
+                        <div class="form-group">
+                            {trans("Deadline:")}
+                            <SELECT class="form-control form-control-sm" name="customerdata[paytime]" {tip text="Select default deadline in days" trigger="paytime"}>
+                                <OPTION value="-1"{if !isset($customerinfo.paytime) || $customerinfo.paytime==-1} selected{/if}>- {trans("default")} -</OPTION>
+                                <OPTION value="0"{if isset($customerinfo.paytime) && $customerinfo.paytime==0} selected{/if}>0</OPTION>
+                                <OPTION value="7"{if $customerinfo.paytime==7} selected{/if}>7</OPTION>
+                                <OPTION value="10"{if $customerinfo.paytime==10} selected{/if}>10</OPTION>
+                                <OPTION value="14"{if $customerinfo.paytime==14} selected{/if}>14</OPTION>
+                                <OPTION value="21"{if $customerinfo.paytime==21} selected{/if}>21</OPTION>
+                                <OPTION value="30"{if $customerinfo.paytime==30} selected{/if}>30</OPTION>
+                            </SELECT>
+                        </div>
+                        <div class="form-group">
+                            {trans("Payment type:")}
+                            <SELECT class="form-control form-control-sm" name="customerdata[paytype]" {tip text="Select default invoices payment type" trigger="paytype"}>
+                                <OPTION value=""{if !$customerinfo.paytype} selected{/if}>- {trans("default")} -</OPTION>
+                                    {foreach from=$_PAYTYPES item=item key=key}
+                                    <OPTION value="{$key}"{if $customerinfo.paytype==$key} selected{/if}>{$item}</OPTION>
+                                    {/foreach}
+                            </SELECT>
+                        </div>
+                        <div class="form-group">
+                            {trans("Cutoff suspending:")}
+                            <div class="input-group">
+                                <INPUT class="form-control form-control-sm" type="text" name="customerdata[cutoffstop]" id="cutoffstop" {if $customerinfo.cutoffstop}value="{$customerinfo.cutoffstop}"{/if} placeholder="{trans('Select date of cutoff suspending (optional)')}" {tip class="calendar"  trigger="cutoffstop"}>
+                                <span class="input-group-addon"><i class="fa fa-calendar fa-fw fa"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header lead">{trans("Agrements")}</div>
+                    <div class="card-block">
+                        {block name="customerdata-options"}
+                            <div class="checkbox">
+                                <label for="chkconsent">
+                                    <INPUT type="checkbox" name="customerdata[consentdate]" value="{$smarty.now}" id="chkconsent"{if $customerinfo.consentdate} checked{/if}>
+                                    &nbsp;{trans("Consent to personal data processing:")}
+                                </label>
+                                <label for="chkeinvoice">
+                                    <INPUT type="checkbox" name="customerdata[einvoice]" value="1" id="chkeinvoice"{if $customerinfo.einvoice} checked{/if}>
+                                    &nbsp;{trans("Cancellation of a traditional invoice (agreement on an electronic invoice):")}
+                                </label>
+                                <label for="chkinvoicenotice" {tip text="Consent to invoices delivery via e-mail:" trigger="invoicenotice"}>
+                                    <INPUT type="checkbox" name="customerdata[invoicenotice]" value="1" id="chkinvoicenotice"{if $customerinfo.invoicenotice} checked{/if}>
+                                    &nbsp;{trans("Consent to invoices delivery via e-mail:")}
+                                </label>
+                                <label for="chkmailingnotice">
+                                    <INPUT type="checkbox" name="customerdata[mailingnotice]" value="1" id="chkmailingnotice"{if $customerinfo.mailingnotice} checked{/if}>
+                                    &nbsp;{trans("Consent to messages delivery via e-mail or sms:")}
+                                </label>
+                            </div>
+                        {/block}
+                    </div>
+                </div>
+
+            {/block}
+        </div>
+        <div class="col-md-6">
+            {block name="customerdata-rightcolumn"}
+                <div class="card">
+                    <div class="card-header">
+                        {trans("Enter additional information (optional)")}
+                        <label for="info_label" class="btn btn-sm btn-secondary">{trans("visual editor")}
+                            <input type="checkbox" id="info_label" onclick="javascript:toggle_visual_editor('info');"{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'} checked{/if}>
+                        </label>
+                    </div>
+                    <div class="card-block">
+                        <textarea class="form-control" rows="5" cols="60" name="customerdata[info]" id="info">{$customerinfo.info|escape}</textarea>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        {trans("Enter notice contents (optional)")}
+                        <label for="message_label" class="btn btn-sm btn-secondary">{trans("visual editor")}
+                            <input type="checkbox" id="message_label" onclick="javascript:toggle_visual_editor('message');"{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'} checked{/if}>
+                        </label>
+                    </div>
+                    <div class="card-block">
+                        <textarea class="form-control" rows="5" cols="60" name="customerdata[message]" id="message">{$customerinfo.message|escape}</textarea>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        {trans("Enter notes (optional)")}
+                        <label for="notes_label" class="btn btn-sm btn-secondary">{trans("visual editor")}
+                            <input type="checkbox" id="notes_label" onclick="javascript:toggle_visual_editor('notes');"{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'} checked{/if}>
+                        </label>
+                    </div>
+                    <div class="card-block">
+                        <textarea class="form-control" rows="5" cols="60" name="customerdata[notes]" id="notes">{$customerinfo.notes|escape}</textarea>
+                    </div>
+                </div>
+
+            {/block}
+        </div>
+    </div>
+
+    <A class="btn btn-danger" href="javascript:document.customeredit.submit();" accesskey="S">{trans("Submit")}</A>
+    <A class="btn btn-secondary" href="?m=customerinfo&amp;id={$customerinfo.id}">{trans("Cancel")}</A>
+        <hr>
+</form>
+
 <SCRIPT type="text/javascript">
 <!--
-	function randomize()
-	{
-		if (document.customeredit.elements['customerdata[pin]'].value != '')
-			if (!confirm('{trans("Are you sure, you want to generate new PIN?")}'))
-				return;
+    document.forms['customeredit'].elements['customerdata[lastname]'].focus();
 
-		var r = 0;
-		do
-			r = Math.floor(Math.random()*1000000-1);
-		while (r<1000);
-		document.customeredit.elements['customerdata[pin]'].value = r;
-	}
-
-	function newcontact()
-	{
-		var contactscountelem = document.getElementById('contactscount');
-		var nr = contactscountelem.value;
-		var lastcontactelem = document.getElementById('contact' + (nr - 1));
-		var newrow = lastcontactelem.parentNode.insertRow(lastcontactelem.rowIndex + 1);
-		newrow.className = 'light';
-		newrow.id = 'contact' + nr;
-		var newcell = newrow.insertCell(0);
-		newcell.style.whiteSpace = 'nowrap';
-		newcell.innerHTML = '<HR><INPUT TYPE="text" size="16" value="" name="customerdata[contacts][' + nr + '][phone]"'
-				+ ' onmouseover="popup(\'{trans("Enter contact phone")}\')" onmouseout="pophide()">'
-			+ '<label><INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_MOBILE}"'
-				+ ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_MOBILE]}</label>'
-			+ '<label><INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_FAX}"'
-				+ ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_FAX]}</label>'
-			+ '<label onmouseover="popup(\'{trans("Check if send notification")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_NOTIFICATIONS}"'
-				+ ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}</label>'
-			+ '<label onmouseover="popup(\'{trans("Not visible by the customer in electronic Customer Service Representative")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_DISABLED}"'
-				+ ' name="customerdata[contacts][' + nr + '][type][]"> {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}</label>'
-			+ '<BR><INPUT TYPE="text" size="68" value="" name="customerdata[contacts][' + nr + '][name]"'
-				+ ' onmouseover="popup(\'{trans("Enter contact name/description (optional)")}\')" onmouseout="pophide()">';
-		contactscountelem.value = parseInt(nr) + 1;
-	}
-
-	function newemail() {
-		var emailscountelem = document.getElementById('emailscount');
-		var nr = emailscountelem.value;
-		var lastemailelem = document.getElementById('email' + (nr - 1));
-		var newrow = lastemailelem.parentNode.insertRow(lastemailelem.rowIndex + 1);
-		newrow.className = 'light';
-		newrow.id = 'email' + nr;
-		var newcell = newrow.insertCell(0);
-		newcell.style.whiteSpace = 'nowrap';
-		newcell.innerHTML = '<HR><INPUT TYPE="text" size="23" value="" name="customerdata[emails][' + nr + '][email]"'  
-				+ ' onmouseover="popup(\'{trans("Enter e-mail address (optional)")}\')" onmouseout="pophide()">'
-			+ '<label onmouseover="popup(\'{trans("Check if sent electronic invoices on this email")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[emails][' + nr + '][type][]">'
-				+ ' {$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}</label>'
-			+ '<label onmouseover="popup(\'{trans("Check if send notification")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_NOTIFICATIONS}" name="customerdata[emails][' + nr + '][type][]">'
-				+ ' {$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}</label>'
-			+ '<label onmouseover="popup(\'{trans("Check if send technical notification")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_TECHNICAL}" name="customerdata[emails][' + nr + '][type][]">'
-				+ ' {$_CONTACTTYPES[$smarty.const.CONTACT_TECHNICAL]}</label>'
-			+ '<label onmouseover="popup(\'{trans("Not visible by the customer in electronic Customer Service Representative")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[emails][' + nr + '][type][]">'
-				+ ' {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}</label>'
-			+ '<BR><INPUT TYPE="text" size="68" value="" name="customerdata[emails][' + nr + '][name]"'
-				+ ' onmouseover="popup(\'{trans("Enter contact name/description (optional)")}\')" onmouseout="pophide()">';
-		emailscountelem.value = parseInt(nr) + 1;
-	}
-
-	function newaccount() {
-		var accountscountelem = document.getElementById('accountscount');
-		var nr = accountscountelem.value;
-		var lastaccountelem = document.getElementById('account' + (nr - 1));
-		var newrow = lastaccountelem.parentNode.insertRow(lastaccountelem.rowIndex + 1);
-		newrow.className = 'light';
-		newrow.id = 'account' + nr;
-		var newcell = newrow.insertCell(0);
-		newcell.style.whiteSpace = 'nowrap';
-		newcell.innerHTML = '<HR><INPUT TYPE="text" size="50" value="" name="customerdata[accounts][' + nr + '][account]"'
-				+ ' onmouseover="popup(\'{trans("Enter bank account (optional)")}\')" onmouseout="pophide()">'
-			+ '<label onmouseover="popup(\'{trans("Check if bank account should be visible on invoice")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[accounts][' + nr + '][type][]">'
-				+ ' {$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}</label>'
-			+ '<label onmouseover="popup(\'{trans("Check if bank account should be disabled")}\')" onmouseout="pophide()">'
-				+ '<INPUT type="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[accounts][' + nr + '][type][]">'
-				+ ' {$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}</label>'
-			+ '<BR><INPUT TYPE="text" size="68" value="" name="customerdata[accounts][' + nr + '][name]"'
-				+ ' onmouseover="popup(\'{trans("Enter contact name/description (optional)")}\')" onmouseout="pophide()">';
-		accountscountelem.value = parseInt(nr) + 1;
-	}
-//-->
-</SCRIPT>
-<FORM name="customeredit" id="customeredit" method="post" action="?m=customeredit&amp;id={$customerinfo.id}{if $recover}&amp;action=recover{/if}">
-<p style="display: none;">
-<INPUT type="hidden" name="customerdata[id]" value="{$customerinfo.id}">
-<INPUT type="submit" class="hiddenbtn">
-</p>
-<TABLE class="lmsbox">
-	<THEAD>
-	<TR>
-		<TD style="width: 100%;" class="nobr">
-			<TABLE width="100%" cellpadding="1">
-				<TR>
-					<TD style="width: 1%;">
-						<TABLE width="100%" cellpadding="1">
-							<TR>
-								<TD style="width: 1%;" class="bold">{trans("Name/Surname:")}</TD>
-								<TD style="width: 99%;">
-									<INPUT type="text" size="50" name="customerdata[lastname]" value="{$customerinfo.lastname|escape}" required {tip text="Enter first/lastname of customer" trigger="lastname" bold=1}>
-								</TD>
-							</TR>
-							<TR>
-								<TD style="width: 1%;" class="bold">{trans("First name:")}</TD>
-								<TD style="width: 99%;">
-									<INPUT type="text" size="50" name="customerdata[name]" value="{$customerinfo.name|escape}" required {tip text="Enter first name of customer (optional)" trigger="name" bold=1}>
-								</TD>
-							</TR>
-						</TABLE>
-					</TD>
-					<TD style="width: 99%;">
-						<TABLE width="100%" cellpadding="1">
-							<TR>
-								<TD style="width: 1%;" class="bold nobr">
-									{trans("External system identifier:")}
-								</TD>
-								<TD style="width: 99%;">
-									<input type="text" size="20" maxlength="20" name="customerdata[extid]" value="{$customerinfo.extid}" {tip text="Enter customer identifier in external system (optional)" trigger="extid"}>
-								</TD>
-							</TR>
-						</TABLE>
-					</TD>
-				</TR>
-			</TABLE>
-		</TD>
-	</TR>
-	</THEAD>
-	<TBODY>
-	<TR>
-		<TD style="width: 100%;" class="container">
-			<TABLE width="100%" cellpadding="0">
-				<TR>
-					<TD style="width: 50%;" class="valign-top">
-						<TABLE width="100%" cellpadding="3">
-						{block name="customereditbox-leftcolumn"}
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/{$_CSTATUSES[$customerinfo.status].img}" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<SELECT size="1" name="customerdata[status]" {tip text="Select customer state" trigger="status"}>
-				{foreach $_CSTATUSES as $statusidx => $status}
-				<OPTION value="{$statusidx}"{if $customerinfo.status == $statusidx} selected{/if}>{$status.singularlabel}</OPTION>
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	{if $divisions}
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/division.gif" alt="">
-		</TD>
-		<TD style="width: 99%;" class="nobr">
-			<SELECT size="1" name="customerdata[divisionid]" {tip text="Select division" trigger="divisionid"}>
-				{foreach from=$divisions item=item}
-				{if !$item.status || $item.id == $customerinfo.divisionid}
-				<OPTION value="{$item.id}"{if $customerinfo.divisionid == $item.id} SELECTED{/if}>{$item.shortname}</OPTION>
-				{/if}
-				{/foreach}
-			</SELECT>
-		</TD>
-	</TR>
-	{/if}
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/folder.gif" alt="">
-		</TD>
-		<TD style="width: 99%;" class="nobr">
-			<INPUT type="radio" name="customerdata[type]" value="0" id="private" {tip text="Select legal personality type" trigger="type"}{if $customerinfo.type == $smarty.const.CTYPES_PRIVATE} CHECKED{/if}><label for="private">{assign var='type' value=$smarty.const.CTYPES_PRIVATE}{$_CTYPES.$type}</label>
-			<INPUT type="radio" name="customerdata[type]" value="1" id="company" {tip text="Select legal personality type" trigger="type"}{if $customerinfo.type == $smarty.const.CTYPES_COMPANY} CHECKED{/if}><label for="company">{assign var='type' value=$smarty.const.CTYPES_COMPANY}{$_CTYPES.$type}</label>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="valign-top"></TD>
-		<TD style="width: 99%;">
-			<table width="100%" cellpadding="1">
-				<tr>
-					<td style="width: 1%;">
-						<fieldset style="width: 1%;" class="nobr">
-							<legend class="bold"><IMG src="img/home.gif" alt=""> {trans("Address")}</legend>
-			<TABLE width="100%" cellpadding="1">
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Street:")}</TD>
-					<TD style="width: 99%;"><INPUT type="text" name="customerdata[street]" id="street" value="{$customerinfo.street}" size="30" required {tip text="Enter street name" trigger="street"}></TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Building:")}</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" name="customerdata[building]" id="building" value="{$customerinfo.building}" size="8" {tip text="Enter building number" trigger="building"}>
-						{trans("Apartment:")}
-						<INPUT type="text" name="customerdata[apartment]" id="flat" value="{$customerinfo.apartment}" size="8" {tip text="Enter apartment number" trigger="apartment"}>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("City:")}</TD>
-					<TD style="width: 99%;"><INPUT type="text" name="customerdata[city]" id="city" value="{$customerinfo.city}" size="30" {tip text="Enter city"}></TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Zip:")}</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" name="customerdata[zip]" id="zip" value="{$customerinfo.zip}" size="10" {tip text="Enter zip code" trigger="zip"}>
-						{if $customerinfo.zipwarning}
-						<INPUT type="HIDDEN" name="customerdata[zipwarning]" value="1">
-						{/if}
-					</TD>
-				</TR>
-				{if $cstateslist}
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("State:")}</TD>
-					<TD style="width: 99%;">
-						<SELECT name="customerdata[stateid]" {tip text="Select country state (optional)" trigger="stateid"}>
-							<OPTION value="0"></OPTION>
-							{foreach from=$cstateslist item=item key=key}
-							<OPTION value="{$key}"{if $key==$customerinfo.stateid} SELECTED{/if}>{$item.name}</OPTION>
-							{/foreach}
-						</SELECT>
-					</TD>
-				</TR>
-				{/if}
-				{if $countrieslist}
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Country:")}</TD>
-					<TD style="width: 99%;">
-						<SELECT name="customerdata[countryid]" {tip text="Select country (optional)" trigger="countryid"}>
-							<OPTION value="0"></OPTION>
-							{foreach from=$countrieslist item=item key=key}
-							<OPTION value="{$key}"{if $key==$customerinfo.countryid} SELECTED{/if}>{t}{$item.name}{/t}</OPTION>
-							{/foreach}
-						</SELECT>
-					</TD>
-				</TR>
-				{/if}
-			</TABLE>
-			<script type="text/javascript">
-			<!--
-				new AutoSuggest(document.getElementById('customeredit'),document.getElementById('street'),'?m=customeradd&ajax=1&mode=street&what=',0);
-				new AutoSuggest(document.getElementById('customeredit'),document.getElementById('zip'),'?m=customeradd&ajax=1&mode=zip&what=',0);
-				new AutoSuggest(document.getElementById('customeredit'),document.getElementById('city'),'?m=customeradd&ajax=1&mode=city&what=',0);
-			//-->
-			</script>
-						</fieldset>
-					</td>
-					<td style="width: 99%;">
-						<fieldset style="width: 1%;" class="nobr">
-							<legend class="bold"><IMG src="img/post.gif" alt=""> {trans("Postal address")}</legend>
-			<TABLE width="100%" cellpadding="1">
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Name:")}</TD>
-					<TD style="width: 99%;"><INPUT type="text" name="customerdata[post_name]" id="post_name" value="{$customerinfo.post_name}" size="30" {tip text="Enter name (optional)" trigger="post_name"}></TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Street:")}</TD>
-					<TD style="width: 99%;"><INPUT type="text" name="customerdata[post_street]" id="post_street" value="{$customerinfo.post_street}" size="30" {tip text="Enter street name (optional)" trigger="post_street"}></TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Building:")}</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" name="customerdata[post_building]" id="post_building" value="{$customerinfo.post_building}" size="8" {tip text="Enter building number (optional)" trigger="post_building"}>
-						{trans("Apartment:")}
-						<INPUT type="text" name="customerdata[post_apartment]" id="post_apartment" value="{$customerinfo.post_apartment}" size="8" {tip text="Enter apartment number (optional)" trigger="post_apartment"}>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("City:")}</TD>
-					<TD style="width: 99%;"><INPUT type="text" name="customerdata[post_city]" id="post_city" value="{$customerinfo.post_city}" size="30" {tip text="Enter city (optional)" trigger="post_city"}></TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Zip:")}</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" name="customerdata[post_zip]" id="post_zip" value="{$customerinfo.post_zip}" size="10" {tip text="Enter zip code (optional)" trigger="post_zip"}>
-						{if $customerinfo.post_zipwarning}
-						<INPUT type="HIDDEN" name="customerdata[post_zipwarning]" value="1">
-						{/if}
-					</TD>
-				</TR>
-				{if $cstateslist}
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("State:")}</TD>
-					<TD style="width: 99%;">
-						<SELECT name="customerdata[post_stateid]" {tip text="Select country state (optional)" trigger="post_stateid"}>
-							<OPTION value="0"></OPTION>
-							{foreach from=$cstateslist item=item key=key}
-							<OPTION value="{$key}"{if $key==$customerinfo.post_stateid} SELECTED{/if}>{$item.name}</OPTION>
-							{/foreach}
-						</SELECT>
-					</TD>
-				</TR>
-				{/if}
-				{if $countrieslist}
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("Country:")}</TD>
-					<TD style="width: 99%;">
-						<SELECT name="customerdata[post_countryid]" {tip text="Select country (optional)" trigger="post_countryid"}>
-							<OPTION value="0"></OPTION>
-							{foreach from=$countrieslist item=item key=key}
-							<OPTION value="{$key}"{if $key==$customerinfo.post_countryid} SELECTED{/if}>{t}{$item.name}{/t}</OPTION>
-							{/foreach}
-						</SELECT>
-					</TD>
-				</TR>
-				{/if}
-			</TABLE>
-			<script type="text/javascript">
-			<!--
-				new AutoSuggest(document.getElementById('customeredit'),document.getElementById('post_street'),'?m=customeradd&ajax=1&mode=street&what=',0);
-				new AutoSuggest(document.getElementById('customeredit'),document.getElementById('post_zip'),'?m=customeradd&ajax=1&mode=zip&what=',0);
-				new AutoSuggest(document.getElementById('customeredit'),document.getElementById('post_city'),'?m=customeradd&ajax=1&mode=city&what=',0);
-			//-->
-			</script>
-						</fieldset>
-					</td>
-				<tr>
-			</table>
-		</td>
-	</TR>
-	<TR>
-		<TD style="width: 1%;"></TD>
-		<TD style="width: 99%;" class="nobr">
-			<fieldset style="width: 1%;" class="nobr">
-				<legend class="bold"><IMG src="img/phone.gif" alt=""> {trans("Contact phones")}</legend>
-				<table>
-					{foreach $customerinfo.contacts as $key => $item}
-					<TR id="contact{$key}">
-						<TD>
-							{if !$item@first}<HR>{/if}
-							<INPUT type="tel" size="16" value="{$item.phone}" name="customerdata[contacts][{$key}][phone]" {tip text="Enter contact phone" trigger="contact`$key`"}>
-							<label>
-								<INPUT type="checkbox" value="{$smarty.const.CONTACT_MOBILE}" name="customerdata[contacts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_MOBILE)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_MOBILE]}
-							</label>
-							<label>
-								<INPUT type="checkbox" value="{$smarty.const.CONTACT_FAX}" name="customerdata[contacts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_FAX)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_FAX]}
-							</label>
-							<label {tip text="Check if send notification"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_NOTIFICATIONS}" name="customerdata[contacts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_NOTIFICATIONS)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}
-							</label>
-							<label {tip text="Not visible by the customer in electronic Customer Service Representative" trigger="edisabled"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[contacts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_DISABLED)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}
-							</label>
-							<BR>
-							<INPUT type="text" size="68" value="{$item.name}" name="customerdata[contacts][{$key}][name]" {tip text="Enter contact name/description (optional)"}>
-						</TD>
-					</TR>
-					{/foreach}
-					<TR>
-						<TD>
-							<INPUT type="hidden" id="contactscount" value="{count($customerinfo.contacts)}">
-							<A href="javascript:newcontact()">{trans("Add contact field")} &raquo;&raquo;&raquo;</A>
-						</TD>
-					</TR>
-				</table>
-			</fieldset>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;"></TD>
-		<TD style="width: 99%;" class="nobr">
-			<fieldset style="width: 1%;" class="nobr">
-				<legend class="bold"><IMG src="img/mail.gif" alt=""> {trans("Email addresses")}</legend>
-				<table>
-					{foreach $customerinfo.emails as $key => $item}
-					<TR id="email{$key}">
-						<TD>
-							{if !$item@first}<HR>{/if}
-							<INPUT type="email" size="23" value="{$item.email}" name="customerdata[emails][{$key}][email]" {tip text="Enter e-mail address (optional)" trigger="email`$key`"}>
-							<label {tip text="Check if sent electronic invoices on this email"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_INVOICES)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}
-							</label>
-							<label {tip text="Check if send notification" trigger="chknotification"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_NOTIFICATIONS}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_NOTIFICATIONS)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_NOTIFICATIONS]}
-							</label>
-							<label {tip text="Check if send technical notification"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_TECHNICAL}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_TECHNICAL)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_TECHNICAL]}
-							</label>
-							<label {tip text="Not visible by the customer in electronic Customer Service Representative" trigger="edisabled"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[emails][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_DISABLED)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}
-							</label>
-							<BR>
-							<INPUT type="text" size="68" value="{$item.name}" name="customerdata[emails][{$key}][name]" {tip text="Enter contact name/description (optional)"}>
-						</TD>
-					</TR>
-					{/foreach}
-					<TR>
-						<TD>
-							<INPUT type="hidden" id="emailscount" value="{count($customerinfo.emails)}">
-							<A href="javascript:newemail()">{trans("Add contact field")} &raquo;&raquo;&raquo;</A>
-						</TD>
-					</TR>
-				</table>
-			</fieldset>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;"></TD>
-		<TD style="width: 99%;" class="nobr">
-			<fieldset style="width: 1%;" class="nobr">
-				<legend class="bold"><IMG src="img/card.gif" alt=""> {trans("Alternative bank accounts")}</legend>
-				<table>
-					{foreach $customerinfo.accounts as $key => $item}
-					<TR id="account{$key}">
-						<TD>
-							{if !$item@first}<HR>{/if}
-							<INPUT type="text" size="50" value="{$item.account}" name="customerdata[accounts][{$key}][account]" {tip text="Enter bank account (optional)" trigger="account`$key`"}>
-							<label {tip text="Check if bank account should be visible on invoice"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_INVOICES}" name="customerdata[accounts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_INVOICES)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_INVOICES]}
-							</label>
-							<label {tip text="Check if bank account should be disabled" trigger="edisabled"}>
-								<INPUT TYPE="checkbox" value="{$smarty.const.CONTACT_DISABLED}" name="customerdata[accounts][{$key}][type][]"{if ($item.type & $smarty.const.CONTACT_DISABLED)} checked{/if}>
-								{$_CONTACTTYPES[$smarty.const.CONTACT_DISABLED]}
-							</label>
-							<BR>
-							<INPUT type="text" size="68" value="{$item.name}" name="customerdata[accounts][{$key}][name]" {tip text="Enter contact name/description (optional)"}>
-						</TD>
-					</TR>
-					{/foreach}
-					<TR>
-						<TD>
-							<INPUT type="hidden" id="accountscount" value="{count($customerinfo.accounts)}">
-							<A href="javascript:newaccount()">{trans("Add contact field")} &raquo;&raquo;&raquo;</A>
-						</TD>
-					</TR>
-				</table>
-			</fieldset>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/gg.gif" alt="Gadu-Gadu">
-		</TD>
-		<TD style="width: 99%;">
-			{assign var=gg value=$smarty.const.IM_GG}
-			<INPUT type="text" name="customerdata[uid][{$gg}]" value="{if $customerinfo.uid.$gg}{$customerinfo.uid.$gg}{/if}" size="20" {tip text="Enter Gadu-Gadu ID (optional)" trigger="gg"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/yim.gif" alt="Yahoo">
-		</TD>
-		<TD style="width: 99%">
-			{assign var=yahoo value=$smarty.const.IM_YAHOO}
-			<INPUT type="text" name="customerdata[uid][{$yahoo}]" value="{if $customerinfo.uid.$yahoo}{$customerinfo.uid.$yahoo}{/if}" size="20" {tip text="Enter Yahoo Messenger ID (optional)" trigger="yahoo"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/skype.gif" alt="Skype">
-		</TD>
-		<TD style="width: 99%;">
-			{assign var=skype value=$smarty.const.IM_SKYPE}
-			<INPUT type="text" name="customerdata[uid][{$skype}]" value="{if $customerinfo.uid.$skype}{$customerinfo.uid.$skype}{/if}" size="20" {tip text="Enter Skype ID (optional)" trigger="skype"}>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/pin.gif" alt="">
-		</TD>
-		<TD style="width: 98%;">
-			<INPUT type="number" pattern="{literal}.{4,6}{/literal}" required name="customerdata[pin]" value="{if $customerinfo.pin}{$customerinfo.pin}{/if}" size="6" title="{trans("Enter 4 to 6 digits PIN number (optional)")}" {tip text="Enter 4 to 6 digits PIN number (optional)" trigger="pin"}>&nbsp;
-			<A href="javascript:randomize()" {tip text="Generate PIN"}>&raquo;&raquo;&raquo;</A>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="valign-top">
-			<IMG src="img/serialnumber.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<TABLE width="100%">
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("ICN")}:</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" value="{$customerinfo.icn}" name="customerdata[icn]" size="30" {tip text="Enter Identity Card Number (optional)" trigger="icn"}>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("SSN")}:</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" name="customerdata[ssn]" value="{$customerinfo.ssn}" size="30" {tip text="Enter Social Security Number (optional)" trigger="ssn"}>
-						{if $customerinfo.ssnwarning}
-						<INPUT type="hidden" name="customerdata[ssnwarning]" value="1">
-						{/if}
-					</TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("TEN")}:</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" name="customerdata[ten]" value="{$customerinfo.ten}" size="30" {tip text="Enter Tax Exempt Number (optional)" trigger="ten"}>
-						{if $customerinfo.tenwarning}
-						<INPUT type="hidden" name="customerdata[tenwarning]" value="1">
-						{/if}
-					</TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("REGON")}:</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" value="{$customerinfo.regon}" name="customerdata[regon]" size="30" {tip text="Enter Business Registration Number (optional)" trigger="regon"}>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;" class="nobr">{trans("RBE")}:</TD>
-					<TD style="width: 99%;">
-						<INPUT type="text" value="{$customerinfo.rbe}" name="customerdata[rbe]" size="30" {tip text="Enter National Court Register / Register of Business Entities Number (optional)" trigger="rbe"}>
-					</TD>
-				</TR>
-			</TABLE>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="valign-top">
-			<IMG src="img/options.gif" alt="">
-		</TD>
-		<TD style="width: 98%;">
-			<TABLE>
-				<TR>
-					<TD>
-						{trans("Deadline:")}
-					</TD>
-					<TD>
-						<SELECT name="customerdata[paytime]" {tip text="Select default deadline in days" trigger="paytime"}>
-							<OPTION value="-1"{if $customerinfo.paytime==-1} selected{/if}>- {trans("default")} -</OPTION>
-							<OPTION value="0"{if $customerinfo.paytime==0} selected{/if}>0</OPTION>
-							<OPTION value="7"{if $customerinfo.paytime==7} selected{/if}>7</OPTION>
-							<OPTION value="10"{if $customerinfo.paytime==10} selected{/if}>10</OPTION>
-							<OPTION value="14"{if $customerinfo.paytime==14} selected{/if}>14</OPTION>
-							<OPTION value="21"{if $customerinfo.paytime==21} selected{/if}>21</OPTION>
-							<OPTION value="30"{if $customerinfo.paytime==30} selected{/if}>30</OPTION>
-						</SELECT>
-					</TD>
-				</TR>
-				<TR>
-					<TD>
-						{trans("Payment type:")}
-					</TD>
-					<TD>
-						<SELECT name="customerdata[paytype]" {tip text="Select default invoices payment type" trigger="paytype"}>
-							<OPTION value=""{if !$customerinfo.paytype} selected{/if}>- {trans("default")} -</OPTION>
-							{foreach from=$_PAYTYPES item=item key=key}
-							<OPTION value="{$key}"{if $customerinfo.paytype==$key} selected{/if}>{$item}</OPTION>
-							{/foreach}
-						</SELECT>
-					</TD>
-				</TR>
-				<TR>
-					<TD>
-						{trans("Cutoff suspending:")}
-					</TD>
-					<TD>
-						<INPUT type="text" name="customerdata[cutoffstop]" id="cutoffstop" {if $customerinfo.cutoffstop}value="{$customerinfo.cutoffstop}"{/if} size="10" {tip class="calendar" text="Select date of cutoff suspending (optional)" trigger="cutoffstop"}>
-					</TD>
-				</TR>
-			</TABLE>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;" class="valign-top">
-			<IMG src="img/options.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<TABLE cellpadding="0">
-				{block name="customereditbox-options"}
-				<TR>
-					<TD>
-						<label for="chkconsent">{trans("Consent to personal data processing:")}</label>
-					</TD>
-					<TD>
-						<INPUT type="checkbox" name="customerdata[consentdate]" id="chkconsent" value="{$smarty.now}"{if $customerinfo.consentdate} checked{/if}>
-					</TD>
-				</TR>
-				<TR>
-					<TD>
-						<label for="chkeinvoice">{trans("Cancellation of a traditional invoice (agreement on an electronic invoice):")}</label>
-					</TD>
-					<TD>
-						<INPUT type="checkbox" name="customerdata[einvoice]" id="chkeinvoice" value="1"{if $customerinfo.einvoice} checked{/if}>
-					</TD>
-				</TR>
-				<TR {tip text="Consent to invoices delivery via e-mail:" trigger="invoicenotice"}>
-					<TD>
-						<label for="chkinvoicenotice">{trans("Consent to invoices delivery via e-mail:")}</label>
-					</TD>
-					<TD>
-						<INPUT type="checkbox" name="customerdata[invoicenotice]" id="chkinvoicenotice" value="1"{if $customerinfo.invoicenotice} checked{/if}>
-					</TD>
-				</TR>
-				<TR>
-					<TD>
-						<label for="chkmailingnotice">{trans("Consent to messages delivery via e-mail or sms:")}</label>
-					</TD>
-					<TD>
-						<INPUT type="checkbox" name="customerdata[mailingnotice]" id="chkmailingnotice" value="1"{if $customerinfo.mailingnotice} checked{/if}>
-					</TD>
-				</TR>
-				{/block}
-			</TABLE>
-		</TD>
-	</TR>
-						{/block}
-						</TABLE>
-					</TD>
-					<TD style="width: 50%;" class="valign-top">
-						<TABLE width="100%" cellpadding="3">
-						{block name="customereditbox-rightcolumn"}
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/info1.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<input type="checkbox" id="info_label" onclick="javascript:toggle_visual_editor('info');"{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'} checked{/if}>
-			<label for="info_label">{trans("visual editor")}</label><br>
-			<TEXTAREA name="customerdata[info]" id="info" COLS="60" ROWS="10" {tip text="Enter additional information (optional)"}>{$customerinfo.info|escape}</TEXTAREA>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/warningon.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<input type="checkbox" id="message_label" onclick="javascript:toggle_visual_editor('message');"{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'} checked{/if}>
-			<label for="message_label">{trans("visual editor")}</label><br>
-			<TEXTAREA name="customerdata[message]" id="message" COLS="60" ROWS="10" {tip text="Enter notice contents (optional)"}>{$customerinfo.message|escape}</TEXTAREA>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/note.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<input type="checkbox" id="notes_label" onclick="javascript:toggle_visual_editor('notes');"{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'} checked{/if}>
-			<label for="notes_label">{trans("visual editor")}</label><br>
-			<TEXTAREA name="customerdata[notes]" id="notes" COLS="60" ROWS="10" {tip text="Enter notes (optional)"}>{$customerinfo.notes|escape}</TEXTAREA>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/money.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<span class="bold">{trans("Balance:")}</span>
-			{if $customerinfo.balance < 0}<span class="alert">{$customerinfo.balance|money_format}</span>{else}{$customerinfo.balance|money_format}{/if}
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 1%;">
-			<IMG src="img/users.gif" alt="">
-		</TD>
-		<TD style="width: 99%;">
-			<span class="bold">{trans("Created:")}</span> {$customerinfo.createdby}, {$customerinfo.creationdateh}<BR>
-			<span class="bold">{trans("Modified:")}</span> {if $customerinfo.moddate}{$customerinfo.modifiedby}, {$customerinfo.moddateh}{else}-{/if}
-		</TD>
-	</TR>
-						{/block}
-						</TABLE>
-					</TD>
-				</TR>
-			</TABLE>
-		</TD>
-	</TR>
-	<TR>
-		<TD style="width: 100%;" class="text-right">
-			<A href="javascript:document.customeredit.submit();" accesskey="S">{trans("Submit")} <IMG src="img/save.gif" alt=""></A>
-			<A href="?m=customerinfo&amp;id={$customerinfo.id}">{trans("Cancel")} <IMG src="img/cancel.gif" alt=""></A>
-		</TD>
-	</TR>
-	</TBODY>
-</TABLE>
-</FORM>
-<SCRIPT type="text/javascript">
-<!--
-document.forms['customeredit'].elements['customerdata[lastname]'].focus();
-
-tinymce_init('{$_ui_language}');
-{if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'}
-toggle_visual_editor('info');
-toggle_visual_editor('message');
-toggle_visual_editor('notes');
-{/if}
+    tinymce_init('{$_ui_language}');
+    {if ConfigHelper::getConfig('phpui.default_editor') == 'wysiwyg'}
+    toggle_visual_editor('info');
+    toggle_visual_editor('message');
+    toggle_visual_editor('notes');
+    {/if}
 //-->
 </SCRIPT>
