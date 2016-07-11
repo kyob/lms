@@ -27,11 +27,11 @@
         <TBODY>
             {section name=customergroups loop=$customergrouplist}
                 <TR>
-                    <TD onClick="return self.location.href = '?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
+                    <td>
                         <a href="?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}">{$customergrouplist[customergroups].name}</a> <span class="text-muted">({$customergrouplist[customergroups].id|string_format:"%04d"})</span><br>
                         {if $customergrouplist[customergroups].description}{$customergrouplist[customergroups].description}{/if}
                     </TD>
-                    <TD onClick="return self.location.href = '?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}';">
+                    <td>
                         {$customergrouplist[customergroups].customerscount}
                     </TD>
                     <TD>

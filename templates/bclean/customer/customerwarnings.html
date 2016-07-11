@@ -73,9 +73,9 @@
                                 <OPTION value="{$key}"{if $item.warning} class="red"{/if}{if isset($selected.$key)} selected{/if}>{$item.customername|truncate:40:"...":true} ({$key|string_format:"%04d"})</OPTION>
                                 {/foreach}
                         </SELECT>
-                        
+
                         <br><br>
-                        
+
                         <label><A href="javascript:SelectAllCustomers2()">{trans("Select All<!masculine>")}</A></label>
                         <INPUT class="from-control form-control-sm" type="checkbox" name="customers" OnClick="javascript:SelectAllCustomers()">
                     </div>
@@ -114,13 +114,19 @@
                                 <input class="form-control form-control-sm" type="radio" name="setwarnings[tmploper]" id="msgtmplradionone" value="1" onClick="javascript:document.getElementById('msgtmplname').style.display = 'none';" checked>
                                 {trans("no operation on message template")}
                             </label>
-                        </div><br>
+                        </div>
+
+                        <br>
+
                         <div class="radio">
                             <label for="msgtmplradioupdate">
                                 <input class="form-control form-control-sm" type="radio" name="setwarnings[tmploper]" id="msgtmplradioupdate" value="2" onClick="javascript:document.getElementById('msgtmplname').style.display = 'none';">
                                 {trans("message template update")}
                             </label>
-                        </div><br>
+                        </div>
+
+                        <br>
+
                         <div class="radio">
                             <label for="msgtmplradionew">
                                 <input class="form-control form-control-sm" type="radio" name="setwarnings[tmploper]" id="msgtmplradionew" value="3" onClick="javascript:document.getElementById('msgtmplname').style.display = '';">
@@ -133,9 +139,9 @@
 
                         <INPUT class="from-control form-control-sm" type="checkbox" name="setwarnings[warnon]" id="warnon" OnClick="switchbox(this);"{if $warnon} checked{/if}><A href="javascript:switchbox1()">{trans("Enable")}</A>
                         / <INPUT class="from-control form-control-sm" type="checkbox" name="setwarnings[warnoff]" id="warnoff" OnClick="switchbox(this);"{if $warnoff} checked{/if}><A href="javascript:switchbox2()">{trans("Disable")}</A>
-                        
+
                         <hr>
-                        
+
                         <A  class="btn btn-sm btn-danger" href="javascript:document.setwarnings.submit()" accesskey="s">{trans("Submit")}</A>
                     </div>
                 </div>
