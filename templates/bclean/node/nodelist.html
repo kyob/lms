@@ -19,6 +19,7 @@
             <OPTION VALUE="4"{if $listdata.state == 4} SELECTED{/if}>{trans("without tariff")}</OPTION>
             <OPTION VALUE="5"{if $listdata.state == 5} SELECTED{/if}>{trans("TERRIT not specified")}</OPTION>
             <OPTION VALUE="6"{if $listdata.state == 6} SELECTED{/if}>{trans("Net Device not specified")}</OPTION>
+            <OPTION VALUE="7"{if $listdata.state == 7} SELECTED{/if}>{trans("with warning")}</OPTION>
         </SELECT>
         &nbsp;
         {trans("Network:")}
@@ -149,8 +150,8 @@
             </TR>
         {sectionelse}
             <TR>
-                <TD colspan="5" class="empty-table">
-                    <p>{trans("No such nodes in database.")}</p>
+                <TD colspan="7">
+                    {trans("No such nodes in database.")}
                 </TD>
             </TR>
         {/section}
