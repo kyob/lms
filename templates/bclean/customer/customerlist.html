@@ -111,7 +111,7 @@
             <tbody>
                 {section name=customerlist loop=$customerlist}
                     {block name="customerlist-list-row"}
-                        <tr{if $customerlist[customerlist].account && !$customerlist[customerlist].nodeac}class="blend"{/if}>
+                        <tr{if $customerlist[customerlist].account && !$customerlist[customerlist].nodeac} class="blend"{/if}>
                         <td>
                             {* $_CSTATUSES[$customerlist[customerlist].status].img *}
                             {if $customerlist[customerlist].info}
@@ -119,14 +119,14 @@
                             {/if}
                             {if $customerlist[customerlist].account}
                                 {if !$customerlist[customerlist].online}
-                                    <i class="fa fa-user fa-fw text-success" aria-hidden="true" {tip a=$customerlist[customerlist].id dynpopup='?m=nodelistshort&amp;id=$a' sticky=1}></i>
+                                    <i class="fa fa-user fa-fw text-success" aria-hidden="true"></i>
                                 {else}
-                                    <i class="fa fa-user fa-fw text-muted" aria-hidden="true" {tip a=$customerlist[customerlist].id dynpopup='?m=nodelistshort&amp;id=$a' sticky=1}></i>
+                                    <i class="fa fa-user fa-fw text-muted" aria-hidden="true"></i>
                                 {/if}
                             {/if}
                         </td>
                         <TD>
-                            <A href="?m=customerinfo&amp;id={$customerlist[customerlist].id}" {tip a=$customerlist[customerlist].id dynpopup='?m=customerinfoshort&amp;id=$a'}>{$customerlist[customerlist].customername|escape}</A> <span class="text-muted">({$customerlist[customerlist].id|string_format:"%04d"})</span><BR>
+                            <A href="?m=customerinfo&amp;id={$customerlist[customerlist].id}">{$customerlist[customerlist].customername|escape}</A> <span class="text-muted">({$customerlist[customerlist].id|string_format:"%04d"})</span><BR>
                             {$customerlist[customerlist].address}{if $customerlist[customerlist].city != ""},{/if} {$customerlist[customerlist].zip} {$customerlist[customerlist].city}{if $customerlist[customerlist].country != ""}, {t}{$customerlist[customerlist].country}{/t}{/if}
                         </TD>
                         <TD>
