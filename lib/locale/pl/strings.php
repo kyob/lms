@@ -2745,6 +2745,8 @@ $_LANG['Enter access start date in YYYY/MM/DD format. If you don\'t want to defi
 $_LANG['Enter access end date in YYYY/MM/DD format. If you don\'t want to define \'To\' date leave this field empty'] = 'Wprowadź datę do której ważność konta powinna obowiązywać lub zostaw to pole puste. Data powinna być w formacie RRRR/MM/DD';
 $_LANG['Last modification time:'] = 'Czas ostatniej modyfikacji:';
 $_LANG['Last modified by:'] = 'Ostatnio zmodyfikował:';
+$_LANG['Closed by'] = 'Zamknięte przez';
+$_LANG['Closed time'] = 'Czas zamknięcia';
 
 $_LANG['current:'] = 'aktualnie:';
 
@@ -3328,6 +3330,7 @@ $_LANG['Are you sure, you want to move tariffs to selected tag?'] = 'Czy jesteś
 $_LANG['Tags list'] = 'Lista etykiet';
 $_LANG['New tag'] = 'Nowa etykieta';
 $_LANG['Add tag'] = 'Dodaj etykietę';
+$_LANG['Edit tag'] = 'Edytuj etykietę';
 $_LANG['Reset tags'] = 'Resetuj etykiety';
 $_LANG['There are no tags in database.'] = 'Nie ma etykiet w bazie danych.';
 $_LANG['Tag with assigned tariffs cannont be deleted!'] = 'Etykieta z przypisanymi taryfami nie może zostać usunięta!';
