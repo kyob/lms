@@ -55,33 +55,33 @@
     <H1>{$layout.pagetitle}</H1>
 
     <fieldset class="form-group">
-        <form class="form-inline" METHOD="GET" ACTION="?m={$layout.module}" NAME="choosefilter">
-            <INPUT type="submit" class="hiddenbtn">
+        <form class="form-inline" method="get" action="?m={$layout.module}" name="choosefilter">
+            <input type="submit" class="hiddenbtn">
             <INPUT TYPE="HIDDEN" NAME="m" VALUE="tarifflist">
             {*<INPUT TYPE="HIDDEN" NAME="page" VALUE="1">*}
 
             {trans("Type:")}
-            <SELECT class="form-control form-control-sm" NAME="t" ONCHANGE="document.choosefilter.submit();">
+            <select class="form-control form-control-sm" name="t" onchange="document.choosefilter.submit();">
                 <OPTION value="0"{if !$listdata.type} SELECTED{/if}>{trans("- all -")}</OPTION>
                     {foreach from=$_TARIFFTYPES item=item key=key}
                     <OPTION value="{$key}" {if $listdata.type == $key} SELECTED {/if}>{$item}</OPTION>
                     {/foreach}
             </SELECT>
             {trans("Promotion:")}
-            <SELECT class="form-control form-control-sm" NAME="p" ONCHANGE="document.choosefilter.submit();">
+            <select class="form-control form-control-sm" name="p" onchange="document.choosefilter.submit();">
                 <OPTION value="0"{if !$listdata.promotionid} SELECTED{/if}>{trans("- all -")}</OPTION>
                     {section name=promotions loop=$promotions}
                     <OPTION value="{$promotions[promotions].id}" {if $listdata.promotionid == $promotions[promotions].id} SELECTED {/if}>{$promotions[promotions].name|truncate:50:"...":true}</OPTION>
                     {/section}
             </SELECT>
             {trans("Status:")}
-            <SELECT class="form-control form-control-sm" NAME="s" ONCHANGE="document.choosefilter.submit();">
+            <select class="form-control form-control-sm" name="s" onchange="document.choosefilter.submit();">
                 <OPTION value=""{if !$listdata.state} SELECTED{/if}>{trans("- all -")}</OPTION>
                 <OPTION value="1"{if $listdata.state == 1} SELECTED{/if}>{trans("enabled")}</OPTION>
                 <OPTION value="2"{if $listdata.state == 2} SELECTED{/if}>{trans("disabled")}</OPTION>
             </SELECT>
             {trans("Group:")}
-            <SELECT class="form-control form-control-sm" NAME="g" ONCHANGE="document.choosefilter.submit();">
+            <select class="form-control form-control-sm" name="g" onchange="document.choosefilter.submit();">
                 <OPTION value="0"{if !$listdata.customergroupid} SELECTED{/if}>{trans("- all -")}</OPTION>
                     {section name=customergroups loop=$customergroups}
                     <OPTION value="{$customergroups[customergroups].id}" {if $listdata.customergroupid == $customergroups[customergroups].id} SELECTED {/if}>{$customergroups[customergroups].name|truncate:50:"...":true}</OPTION>
@@ -92,8 +92,8 @@
     </fieldset>
 
     <div class="table-responsive">
-        <TABLE class="table table-striped table-hover table-sm table-bordered">
-            <THEAD class="thead-inverse">
+        <table class="table table-striped table-hover table-sm table-bordered">
+            <thead class="thead-inverse">
                 <TR {tip text="Click on column name to change sorting order"}>
                     <th>
                         <A href="?m=tarifflist&amp;o=name{if $listdata.direction == "asc" && $listdata.order == "name"},desc{/if}"><B>{trans("Name:")}</B></A> {if $listdata.order == "name"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if} /
@@ -123,16 +123,13 @@
                     <th>
                         <B>{t a=$listdata.total}Total: $a{/t}</B>
                     </th>
-                </TR>
-            </THEAD>
-            <TBODY class="ping">
+                </tr>
+            </thead>
+            <tbody class="ping">
                 {section name=tariffs loop=$tarifflist}
-                    <TR data-tags="{foreach $tarifftaglist as $item}{if $tarifflist[tariffs].id == $item.tariff_id}{if $item.tag_name}{$item.tag_name} {/if}{/if}{/foreach}" class="highlight {cycle}{if $tarifflist[tariffs].disabled == 1 && !$listdata.state} blend{/if}">
+                    <TR data-tags="{foreach $tarifftaglist as $item}{if $tarifflist[tariffs].id == $item.tariff_id}{if $item.tag_name}{$item.tag_name} {/if}{/if}{/foreach}"{if $tarifflist[tariffs].disabled == 1 && !$listdata.state} class="text-muted"{/if}>
                         <TD>
                             <a href="?m=tariffinfo&amp;id={$tarifflist[tariffs].id}"><strong>{$tarifflist[tariffs].name}</strong></a> <span class="text-muted">({$tarifflist[tariffs].id|string_format:"%04d"})</span>
-                                    {if $tarifflist[tariffs].description}
-                                <br>{$tarifflist[tariffs].description}
-                            {/if}
                             <br/>
                             {foreach $tarifftaglist as $item}
                                 {if $tarifflist[tariffs].id == $item.tariff_id}
@@ -142,28 +139,28 @@
                                 {/if}
                             {/foreach}                            
                         </TD>
-                        <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';" class="nobr">
+                        <TD>
                         {if $tarifflist[tariffs].downrate}{$tarifflist[tariffs].downrate}{else}-{/if}
                         {if $tarifflist[tariffs].downrate_n}({$tarifflist[tariffs].downrate_n}){/if} 
                         ({if $tarifflist[tariffs].downceil}{$tarifflist[tariffs].downceil}{else}-{/if}
                         {if $tarifflist[tariffs].downceil_n}({$tarifflist[tariffs].downceil_n}){/if})
                     </TD>
-                    <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';" class="nobr">
+                    <TD>
 
                     {if $tarifflist[tariffs].uprate}{$tarifflist[tariffs].uprate}{else}-{/if}
                     {if $tarifflist[tariffs].uprate_n}({$tarifflist[tariffs].uprate_n}){/if} 
                     ({if $tarifflist[tariffs].upceil}{$tarifflist[tariffs].upceil}{else}-{/if}
                     {if $tarifflist[tariffs].upceil_n}({$tarifflist[tariffs].upceil_n}){/if})
                 </TD>
-                <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';" class="nobr">
+                <TD>
                     <B>{$tarifflist[tariffs].value|money_format}</B><BR>
                         {$tarifflist[tariffs].tax}
                 </TD>
-                <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';" NOWRAP>
+                <TD>
                     {$tarifflist[tariffs].customerscount|default:0}
                     ({$tarifflist[tariffs].count|default:0},{$tarifflist[tariffs].activecount|default:0})
                 </TD>
-                <TD onClick="return self.location.href = '?m=tariffinfo&amp;id={$tarifflist[tariffs].id}';">
+                <TD>
                     {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_summaries')}
                         {$tarifflist[tariffs].income|money_format}
                     {/if}
@@ -200,8 +197,8 @@
             </TR>
         {sectionelse}
             <TR>
-                <TD COLSPAN="8" class="empty-table">
-                    <p>{trans("No such subscriptions in database.")}</p>
+                <TD COLSPAN="8">
+                    {trans("No such subscriptions in database.")}
                 </TD>
             </TR>
         {/section}
