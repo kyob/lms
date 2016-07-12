@@ -4,18 +4,29 @@
     <h1>{$layout.pagetitle}</h1>
     <div class="card">
         <div class="card-header">
-            {trans("Title")}: <strong>{$event.title}</strong>
+            {trans("Title")}: <strong>{$event.title}</strong> {if $event.closed==1}<label class="label label-danger">{trans("CLOSED")}</label>{/if}
         </div>
         <div class="card-block">
-            <ul>
-                <li>
-                    {trans("Begin time:")}
+            {if $event.description}
+                <p>
+                    <strong>{trans("Description:")}</strong> {$event.description|replace:"\n":"<BR>"}
+                </p>
+            {/if}
+            {if $event.note}
+                <p>
+                    <strong>{trans("Note:")}</strong> {$event.note|replace:"\n":"<BR>"}
+                </p>
+            {/if}
+
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <strong>{trans("Begin time:")}</strong>
                     {$event.date|date_format:"%x (%A)"}
                     {math equation="floor(x/100)" x=$event.begintime format="%02d"}:{math equation="x % 100" x=$event.begintime format="%02d"}
                 </li>
                 {if $event.begintime != $event.endtime || $event.enddate > $event.date}
-                    <li>
-                        {trans("End time:")}
+                    <li class="list-inline-item">
+                        <strong>{trans("End time:")}</strong>
                         {if $event.enddate}
                             {$event.enddate|date_format:"%x (%A)"}
                         {else}
@@ -24,68 +35,77 @@
                         {math equation="floor(x/100)" x=$event.endtime format="%02d"}:{math equation="x % 100" x=$event.endtime format="%02d"}
                     </li>
                 {/if}
-                <li>
-                    {trans("Created by:")} <A href="?m=userinfo&id={$event.userid}">{$event.username}</A>
+            </ul>
+
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <strong>{trans("Type:")}</strong> {$_EVENTTYPES[$event.type]}
                 </li>
-                {if $event.creationdate != 0}
-                    <li>
-                        {trans("Creation time:")} {$event.creationdate|date_format:"%x (%X)"}
-                    </li>
-                {/if}
-                {if $event.moduserid != 0}
-                    <li>
-                        {trans("Last modified by:")} <A href="?m=userinfo&id={$event.moduserid}">{$event.modusername}</A>
-                    </li>
-                {/if}
-                {if $event.moddate != 0}
-                    <li>
-                        {trans("Last modification time:")}{$event.moddate|date_format:"%x (%X)"}
-                    </li>
-                {/if}
-                {if $event.closeduserid != 0}
-                    <li>
-                        {trans("Closed by")}: <A href="?m=userinfo&id={$event.closeduserid}">{$event.closedusername}</A>
-                    </li>
-                {/if}
-                {if $event.closeddate != 0}
-                    <li>
-                        {trans("Closed time")}: {$event.closeddate|date_format:"%x (%X)"}
-                    </li>
-                {/if}
-                {if $event.description}
-                    <li>
-                        {trans("Description:")} {$event.description|replace:"\n":"<BR>"}
-                    </li>
-                {/if}
-                <li>
-                    {trans("Type:")} {$_EVENTTYPES[$event.type]}
-                </li>
-                <li>
-                    {trans("Status:")}
+                <li class="list-inline-item">
+                    <strong>{trans("Status:")}</strong>
                     {if $event.private}
                         {trans("private")}
                     {else}
                         {trans("public")}
                     {/if}
-                </li>                
-                <li>
-                    {trans("Customer:")} <A href="?m=customerinfo&id={$event.customerid}">{$event.customername}</A>
                 </li>
-                <li>{trans("Location:")}
+            </ul>
+
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <strong>{trans("Customer:")}</strong> <A href="?m=customerinfo&id={$event.customerid}">{$event.customername}</A>
+                </li>
+                <li class="list-inline-item">
+                    <strong>{trans("Location:")}</strong>
                     {if isset($event.location)}
                         {$event.location}
                     {else}
                         {$event.customerlocation}
                     {/if}
                 </li>
-                {if $event.note}
-                    <li>
-                        {trans("Note:")} {$event.note|replace:"\n":"<BR>"}
+            </ul>
+
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <strong>{trans("Created by:")}</strong> <A href="?m=userinfo&id={$event.userid}">{$event.username}</A>
+                </li>
+                {if $event.creationdate != 0}
+                    <li class="list-inline-item">
+                        <strong>{trans("Creation time:")}</strong> {$event.creationdate|date_format:"%x (%X)"}
                     </li>
                 {/if}
+            </ul>
+
+            <ul class="list-inline">
+                {if $event.moduserid != 0}
+                    <li class="list-inline-item">
+                        <strong>{trans("Last modified by:")}</strong> <A href="?m=userinfo&id={$event.moduserid}">{$event.modusername}</A>
+                    </li>
+                {/if}
+                {if $event.moddate != 0}
+                    <li class="list-inline-item">
+                        <strong>{trans("Last modification time:")}</strong> {$event.moddate|date_format:"%x (%X)"}
+                    </li>
+                {/if}
+            </ul>
+
+            <ul class="list-inline">
+                {if $event.closeduserid != 0}
+                    <li class="list-inline-item">
+                        <strong>{trans("Closed by")}:</strong> <A href="?m=userinfo&id={$event.closeduserid}">{$event.closedusername}</A>
+                    </li>
+                {/if}
+                {if $event.closeddate != 0}
+                    <li class="list-inline-item">
+                        <strong>{trans("Closed time")}:</strong> {$event.closeddate|date_format:"%x (%X)"}
+                    </li>
+                {/if}
+            </ul>
+
+            <ul class="list-inline">
                 {if $event.userlist}
-                    <li>
-                        {trans("Users:")}
+                    <li class="list-inline-item">
+                        <strong>{trans("Users:")}</strong>
                         {foreach $event.userlist as $user}
                             <A href="?m=userinfo&id={$user.id}">{$user.name}</A><BR>
                             {/foreach}
