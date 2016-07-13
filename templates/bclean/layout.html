@@ -24,7 +24,7 @@
 
         $(document).ready(function () {
 //popovers global
-  $('[data-toggle="popover"]').popover()
+            $('[data-toggle="popover"]').popover()
 
 
 //keep the current tab active on page reload in Bootstrap
@@ -115,9 +115,15 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading{$menuID}">
                                     <i class="fa fa-fw {$menuitem.fa}"></i>
-                                    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
-                                        {$menuitem.name}
-                                    </a>
+                                    {if $menuitem.submenu}
+                                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{$menuID}" aria-expanded="false" aria-controls="collapse{$menuID}">
+                                            {$menuitem.name}
+                                        </a>
+                                    {else}
+                                        <a href="{$menuitem.link|replace:"&":"&amp;"}">
+                                            {$menuitem.name}
+                                        </a>
+                                    {/if}
                                 </div>
                                 {if $menuitem.submenu}
                                     <div id="collapse{$menuID}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{$menuID}">
