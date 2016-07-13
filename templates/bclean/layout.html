@@ -21,7 +21,18 @@
     <script type="text/javascript" src="img/common.js"></script>
     <script type="text/javascript" src="img/autosuggest.js"></script>
     <script>
+
         $(document).ready(function () {
+
+//keep the current tab active on page reload in Bootstrap
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('#customerinfomenu a[href="' + activeTab + '"]').tab('show');
+            }
+
 
             //customeradd
             $('#cutoffstop').datepicker({
@@ -39,6 +50,8 @@
                 autoclose: true
             });
 
+
+// local storage ???
             var lastState = localStorage.getItem('lastState');
 
             if (!lastState) {
@@ -69,6 +82,7 @@
             });
 
         });
+
     </script>
 
     <style>
