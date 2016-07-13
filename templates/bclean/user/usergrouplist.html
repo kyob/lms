@@ -1,18 +1,15 @@
-<!--
- @author Maciej_Wawryk
--->
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-    <h1>{$layout.pagetitle} <a class="btn btn-success" href="?m=usergroupadd"><i class="fa fa-fw fa-plus-circle"></i> {trans("Add new group")}</a></h1>
-    <table class="table table-bordered table-striped table-hover">
+    <h1>{$layout.pagetitle} ({$listdata.total|default:"0"}) <a class="btn btn-sm btn-success" href="?m=usergroupadd"><i class="fa fa-fw fa-plus-circle"></i> {trans("Add new group")}</a></h1>
+    <table class="table table-sm table-bordered table-striped table-hover">
         <thead class="thead-inverse">
             <tr>
                 <th>
                     {trans("Name")} / {trans("ID")} / {trans("Description")}
                 </th>
                 <th>{trans("Members")}</th>
-                <th>{t a=$listdata.total|default:"0"}Total: $a{/t}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +33,7 @@
             </tr>
         {sectionelse}
             <tr>
-                <td colspan="4">
+                <td colspan="3">
                     {trans("There are no such groups in database.")}
                 </td>
             </tr>

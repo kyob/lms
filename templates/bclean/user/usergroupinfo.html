@@ -1,23 +1,21 @@
-<!--
- @author Maciej_Wawryk
--->
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-    <h1>{$layout.pagetitle}</h1>
+    <h1>{$layout.pagetitle} ({$usergroup.count|default:"0"}) <a class="btn btn-sm btn-secondary" href="?m=usergrouplist"><i class="fa fa-fw fa-list"></i> {trans("Users group list")}</a></h1>
     <div class="card">
         <div class="card-header">
-            <strong>{$usergroup.name} <span class="text-muted">({$usergroup.id|string_format:"%04d"})</span></strong> <span class="pull-xs-right">{trans("Members Count")}: {$usergroup.count}</span>
+            <strong>{$usergroup.name}</strong>
         </div>
         <div class="card-block">
             {if $usergroup.description}
                 {$usergroup.description|replace:"\n":"<br>"}
             {/if}
-            <hr>
-            <a class="btn btn-sm btn-primary" href="?m=usergroupedit&amp;id={$usergroup.id}{if $membersnetid}&amp;membersnetid={$membersnetid}{/if}{if $othersnetid}&amp;othersnetid={$othersnetid}{/if}" accesskey="E">{trans("Edit")}</a>
-            {if $usergroup.count == 0}
-            <a class="btn btn-sm btn-danger" href="?m=usergroupdel&amp;id={$usergroup.id}" onclick="return confirmLink(this, '{trans("Are you sure, you want to delete that group?")}');">{trans("Delete")}</a>
-            {/if}
+            <div class="card-footer">
+                <a class="btn btn-sm btn-primary" href="?m=usergroupedit&amp;id={$usergroup.id}{if $membersnetid}&amp;membersnetid={$membersnetid}{/if}{if $othersnetid}&amp;othersnetid={$othersnetid}{/if}" accesskey="E">{trans("Edit")}</a>
+                {if $usergroup.count == 0}
+                    <a class="btn btn-sm btn-danger" href="?m=usergroupdel&amp;id={$usergroup.id}" onclick="return confirmLink(this, '{trans("Are you sure, you want to delete that group?")}');">{trans("Delete")}</a>
+                {/if}
+            </div>
         </div>
     </div>
     {include file="user/usergroupassignments.html"}

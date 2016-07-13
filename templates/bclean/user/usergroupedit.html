@@ -1,6 +1,3 @@
-<!--
- @author Maciej_Wawryk
--->
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
@@ -10,7 +7,7 @@
             <input type="submit" class="hiddenbtn">
             <div class="card-header">
                 <strong>{trans("Name")}</strong>
-                <input class="form-control"  type="text" value="{$usergroup.name}" name="usergroup[name]" required>
+                <input class="form-control form-control-sm"  type="text" value="{$usergroup.name}" name="usergroup[name]" required>
                 <b>&nbsp;({$usergroup.id|string_format:"%04d"})</b>                    
             </div>
             <div class="card-block">
@@ -24,7 +21,7 @@
                     <input type="hidden" name="m" value="usergroupmove">
                     <input type="hidden" name="from" value="{$usergroup.id}">
                     <a class="btn btn-sm btn-primary" href="javascript:document.tmove.submit();" onclick="return confirm('{trans("Are you sure, you want to move members to selected group?")}')">{trans("Move members to group:")}</a>
-                    <select class="form-control" name="to" {tip text="Select group to which you want to move members"}>
+                    <select class="form-control form-control-sm" name="to" {tip text="Select group to which you want to move members"}>
                         {foreach from=$usergroups item=item}
                             {if $item.id != $usergroup.id}
                                 <option value="{$item.id}">{$item.name}</option>
