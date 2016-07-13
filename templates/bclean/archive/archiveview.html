@@ -7,168 +7,163 @@
         {$xajax}
     <SCRIPT type="text/javascript">
 <!--
-	function filter() {
-		document.page.action = "?m=archiveview";
-		document.page.target = "";
-		document.page.submit();
-	}
+        function filter() {
+            document.page.action = "?m=archiveview";
+            document.page.target = "";
+            document.page.submit();
+        }
 
-	function clear_filter() {
-		xjx.$('datefrom').value = '';
-		xjx.$('dateto').value = '';
-		xjx.$('user').selectedIndex = 0;
-		xjx.$('resourcetype').selectedIndex = 0;
-                xjx.$('resourceid').value = '';
-                xjx.$('propertyvalue').value = '';
-                filter();
-            }
+        function clear_filter() {
+            xjx.$('datefrom').value = '';
+            xjx.$('dateto').value = '';
+            xjx.$('user').selectedIndex = 0;
+            xjx.$('resourcetype').selectedIndex = 0;
+            xjx.$('resourceid').value = '';
+            xjx.$('propertyvalue').value = '';
+            filter();
+        }
 
-            function GetPropertyNames(params) {
-                var restype = xjx.$('resourcetype');
-                var propname = xjx.$('propertyname');
-                var propvalue = xjx.$('propertyvalue');
-                if (restype.selectedIndex) {
-                    propname.disabled = true;
-                    propvalue.disabled = true;
-                    xajax_GetPropertyNames(restype.options[restype.selectedIndex].value, params);
-                }
+        function GetPropertyNames(params) {
+            var restype = xjx.$('resourcetype');
+            var propname = xjx.$('propertyname');
+            var propvalue = xjx.$('propertyvalue');
+            if (restype.selectedIndex) {
+                propname.disabled = true;
+                propvalue.disabled = true;
+                xajax_GetPropertyNames(restype.options[restype.selectedIndex].value, params);
             }
+        }
 
-            function GetPropertyValues(propvalue) {
-                var restype = xjx.$('resourcetype');
-                var propname = xjx.$('propertyname');
-                xajax_GetPropertyValues(restype.options[restype.selectedIndex].value,
-                        propname.options[propname.selectedIndex].value, propvalue);
-            }
+        function GetPropertyValues(propvalue) {
+            var restype = xjx.$('resourcetype');
+            var propname = xjx.$('propertyname');
+            xajax_GetPropertyValues(restype.options[restype.selectedIndex].value,
+                    propname.options[propname.selectedIndex].value, propvalue);
+        }
 //-->
-</SCRIPT>
-<FORM class="form-inline" method="post" name="page" action="">
-    <INPUT type="submit" class="hiddenbtn">
+    </SCRIPT>
+    <FORM class="form-inline" method="post" name="page" action="">
+        <INPUT type="submit" class="hiddenbtn">
 
-    <div class="form-group ">
-        <label for="datefrom">{trans("From:")}</label>
-        <input class="form-control form-control-sm calendar" type="text" name="datefrom" id="datefrom" value="{$listdata.datefrom|date_format:"Y/m/d"}" placeholder="{trans("yyyy/mm/dd")}" {tip  text="Enter date in 'yyyy/mm/dd' format (empty field means current date) or click to choose it from calendar" trigger="datefrom"}>
-    </div>
+        <div class="form-group ">
+            <label for="datefrom">{trans("From:")}</label>
+            <input class="form-control form-control-sm calendar" type="text" name="datefrom" id="datefrom" value="{$listdata.datefrom|date_format:"Y/m/d"}" placeholder="{trans("yyyy/mm/dd")}" {tip  text="Enter date in 'yyyy/mm/dd' format (empty field means current date) or click to choose it from calendar" trigger="datefrom"}>
+        </div>
 
-    <div class="form-group">
-        <label for="dateto">{trans("To:")}</label>
-        <input class="form-control form-control-sm calendar" type="text" name="dateto" id="dateto" value="{$listdata.dateto|date_format:"Y/m/d"}" placeholder="{trans("yyyy/mm/dd")}" {tip text="Enter date in 'yyyy/mm/dd' format (empty field means current date) or click to choose it from calendar" trigger="datefrom"}>
-    </div>
+        <div class="form-group">
+            <label for="dateto">{trans("To:")}</label>
+            <input class="form-control form-control-sm calendar" type="text" name="dateto" id="dateto" value="{$listdata.dateto|date_format:"Y/m/d"}" placeholder="{trans("yyyy/mm/dd")}" {tip text="Enter date in 'yyyy/mm/dd' format (empty field means current date) or click to choose it from calendar" trigger="datefrom"}>
+        </div>
 
+        <div class="form-group">
+            <label for="user">{trans("User:")}</label>
+            <SELECT class="form-control form-control-sm" name="user" id="user">
+                <OPTION value="0"{if $listdata.user == "0"} SELECTED{/if}>{trans("- all -")}</OPTION>
+                    {foreach $listdata.users as $idx => $user}
+                    <OPTION value="{$idx}"{if $listdata.user == "{$idx}"} SELECTED{/if}>{$user.login}</OPTION>
+                    {/foreach}
+            </SELECT>
+        </div>
 
-    <div class="form-group">
-        <label for="user">{trans("User:")}</label>
-        <SELECT class="form-control form-control-sm" name="user" id="user">
-            <OPTION value="0"{if $listdata.user == "0"} SELECTED{/if}>{trans("- all -")}</OPTION>
-                {foreach $listdata.users as $idx => $user}
-                <OPTION value="{$idx}"{if $listdata.user == "{$idx}"} SELECTED{/if}>{$user.login}</OPTION>
-                {/foreach}
-        </SELECT>&nbsp;
-    </div>
+        <div class="form-group">
+            <label for="resourcetype">{trans("Resource Type:")}</label>
+            <SELECT class="form-control form-control-sm" name="resourcetype" id="resourcetype" onchange="javascript:GetPropertyNames(null);">
+                <OPTION value="0"{if $listdata.resourcetype == "0"} SELECTED{/if}>{trans("- all -")}</OPTION>
+                    {foreach $_SYSLOG_RESOURCES as $idx => $resourcetype}
+                    <OPTION value="{$idx}"{if $listdata.resourcetype == "{$idx}"} SELECTED{/if}>{$resourcetype}</OPTION>
+                    {/foreach}
+            </SELECT>
+        </div>
 
+        <div class="form-group">
+            <label for="resourceid">{trans("Resource ID:")}</label>
+            <input class="form-control form-control-sm" type="text" name="resourceid" id="resourceid" value="{if $listdata.resourceid}{$listdata.resourceid}{/if}" {tip text="Enter resource ID (empty means any ID)" trigger="resourceid"}>	
+        </div>
 
-    <div class="form-group">
-        <label for="resourcetype">{trans("Resource Type:")}</label>
-        <SELECT class="form-control form-control-sm" name="resourcetype" id="resourcetype" onchange="javascript:GetPropertyNames(null);">
-            <OPTION value="0"{if $listdata.resourcetype == "0"} SELECTED{/if}>{trans("- all -")}</OPTION>
-                {foreach $_SYSLOG_RESOURCES as $idx => $resourcetype}
-                <OPTION value="{$idx}"{if $listdata.resourcetype == "{$idx}"} SELECTED{/if}>{$resourcetype}</OPTION>
-                {/foreach}
-        </SELECT>
-    </div>
+        <div class="form-group">
+            <label for="propertyname">{trans("Property Name:")}</label>
+            <SELECT class="form-control form-control-sm" name="propertyname" id="propertyname" onchange="javascript:GetPropertyValues();">
+                <OPTION value=""{if $listdata.propertyname == "0"} SELECTED{/if}>{trans("- all -")}</OPTION>
+            </SELECT>
+        </div>
 
+        <div class="form-group">
+            <label for="propertyvalue">{trans("Property Value:")}</label>
+            <input class="form-control form-control-sm" type="text" name="propertyvalue" id="propertyvalue" value="{if $listdata.propertyvalue}{$listdata.propertyvalue}{/if}" {tip text="Enter property value (empty means any value)" trigger="propertyvalue"}>
+        </div>
 
-    <div class="form-group">
-        <label for="resourceid">{trans("Resource ID:")}</label>
-        <input class="form-control form-control-sm" type="text" name="resourceid" id="resourceid" value="{if $listdata.resourceid}{$listdata.resourceid}{/if}" {tip text="Enter resource ID (empty means any ID)" trigger="resourceid"}>	
-    </div>
+        <a class="btn btn-sm btn-secondary" href="javascript:clear_filter();">{trans("Clear")} <i class="fa fa-eraser" aria-hidden="true"></i></a>
+        <A class="btn btn-sm btn-primary" href="javascript:filter();" accesskey="s">{trans("Search")} <i class="fa fa-search" aria-hidden="true"></i></A>
+    </FORM>
 
-    <div class="form-group">
-        <label for="propertyname">{trans("Property Name:")}</label>
-        <SELECT class="form-control form-control-sm" name="propertyname" id="propertyname" onchange="javascript:GetPropertyValues();">
-            <OPTION value=""{if $listdata.propertyname == "0"} SELECTED{/if}>{trans("- all -")}</OPTION>
-        </SELECT>
-    </div>
+    <nav>
+        <ul class="pager">
+            {if $listdata.page}<li><A href="?m=archiveview&amp;page={$listdata.page - 1}">{trans("Next")}</A></li>{/if}
+            {if $listdata.prev}<li><A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")}</A></li>{/if}
+        </ul>
+    </nav>
 
-
-    <div class="form-group">
-    <label for="propertyvalue">{trans("Property Value:")}</label>
-    <input class="form-control form-control-sm" type="text" name="propertyvalue" id="propertyvalue" value="{if $listdata.propertyvalue}{$listdata.propertyvalue}{/if}" {tip text="Enter property value (empty means any value)" trigger="propertyvalue"}>
-    </div>
-
-    <a href="javascript:clear_filter();">{trans("Clear")} <i class="fa fa-eraser" aria-hidden="true"></i></a>
-    <A href="javascript:filter();" accesskey="s">{trans("Search")} <i class="fa fa-search" aria-hidden="true"></i></A>
-</FORM>
-
-<nav>
-  <ul class="pager">
-      {if $listdata.page}<li><A href="?m=archiveview&amp;page={$listdata.page - 1}">{trans("Next")}</A></li>{/if}
-      {if $listdata.prev}<li><A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")}</A></li>{/if}
-  </ul>
-</nav>
-
-
-    <TABLE class="table table-bordered table-hover table-striped table-sm">
-        <thead class="thead-inverse">
-        <TR>
-            <th>
-                {trans("Date:")}
-            </th>
-            <th>
-                {trans("User:")}
-            </th>
-            <th>
-                {trans("Module:")}
-            </th>
-            <th>
-                {trans("Operations:")}
-            </th>
+    <div class="table-responsive">
+        <TABLE class="table table-bordered table-hover table-striped table-sm">
+            <thead class="thead-inverse">
+                <TR>
+                    <th>
+                        {trans("Date:")}
+                    </th>
+                    <th>
+                        {trans("User:")}
+                    </th>
+                    <th>
+                        {trans("Module:")}
+                    </th>
+                    <th>
+                        {trans("Operations:")}
+                    </th>
+                </TR>
+            </thead>
+            {if $transactions}
+                {foreach $transactions as $tr}
+                    <tr>
+                        <td>
+                            {$tr.time|date_format:"Y.m.d H:i:s"}
+                        </td>
+                        <td>
+                            <a href="?m=userinfo&amp;id={$tr.userid}">{$tr.login}</a>
+                        </td>
+                        <td>
+                            {$tr.module}
+                        </td>
+                        <td>
+                            {if $tr.messages}
+                                {if count($tr.messages) > 10}{$start = 9 - count($tr.messages)}...<br>
+                            {else}{$start=-1}{/if}
+                            {section name=messages loop=$tr.messages start=$start step=-1}
+                                {$message = $tr.messages[messages]}
+                                <span class="bold">{$_SYSLOG_RESOURCES[$message.resource]}: <span style="{$_SYSLOG_OPERATIONS_STYLES[$message.operation]}">{$_SYSLOG_OPERATIONS[$message.operation]}</span></span>
+                            {foreach $message.keys as $key => $msgkey}{$key}: {if $msgkey.value}<a href="?m=archiveinfo&amp;type={$msgkey.type}&amp;id={$msgkey.value}&amp;date={$tr.time}">{/if}{$msgkey.value}{if $msgkey.value}</a>{/if}{if !$msgkey@last}, {/if}{/foreach}
+                        {foreach $message.data as $key => $value}{$key}: {$value}{if !$value@last}, {/if}{/foreach}
+                        {if !$messages@last}<br>{/if}
+                    {/section}
+                {/if}
+            </TD>
         </TR>
-        </thead>
-
-
-        {if $transactions}
-            {foreach $transactions as $tr}
-                <tr>
-                    <td>
-                        {$tr.time|date_format:"Y.m.d H:i:s"}
-                    </td>
-                    <td>
-                        <a href="?m=userinfo&amp;id={$tr.userid}">{$tr.login}</a>
-                    </td>
-                    <td>
-                        {$tr.module}
-                    </td>
-                    <td>
-                        {if $tr.messages}
-                            {if count($tr.messages) > 10}{$start = 9 - count($tr.messages)}...<br>
-                        {else}{$start=-1}{/if}
-                        {section name=messages loop=$tr.messages start=$start step=-1}
-                            {$message = $tr.messages[messages]}
-					<span class="bold">{$_SYSLOG_RESOURCES[$message.resource]}: <span style="{$_SYSLOG_OPERATIONS_STYLES[$message.operation]}">{$_SYSLOG_OPERATIONS[$message.operation]}</span></span>
-                        {foreach $message.keys as $key => $msgkey}{$key}: {if $msgkey.value}<a href="?m=archiveinfo&amp;type={$msgkey.type}&amp;id={$msgkey.value}&amp;date={$tr.time}">{/if}{$msgkey.value}{if $msgkey.value}</a>{/if}{if !$msgkey@last}, {/if}{/foreach}
-                    {foreach $message.data as $key => $value}{$key}: {$value}{if !$value@last}, {/if}{/foreach}
-                    {if !$messages@last}<br>{/if}
-                {/section}
-            {/if}
-        </TD>
-    </TR>
-{/foreach}
-</TBODY>
+    {/foreach}
+    </TBODY>
 </TABLE>
+</div>
 
 <nav>
-  <ul class="pager">
-      {if $listdata.page}<li><A href="?m=archiveview&amp;page={$listdata.page - 1}">{trans("Next")}</A></li>{/if}
-      {if $listdata.prev}<li><A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")}</A></li>{/if}
-  </ul>
+    <ul class="pager">
+        {if $listdata.page}<li><A href="?m=archiveview&amp;page={$listdata.page - 1}">{trans("Next")}</A></li>{/if}
+        {if $listdata.prev}<li><A href="?m=archiveview&amp;page={$listdata.page + 1}">{trans("Previous")}</A></li>{/if}
+    </ul>
 </nav>
 {else}
     {trans("No such transactions in database.")}
 {/if}
 <SCRIPT type="text/javascript">
 <!--
-GetPropertyNames( { propertyname: '{$listdata.propertyname}', propertyvalue: '{$listdata.propertyvalue}' } );
+    GetPropertyNames( { propertyname: '{$listdata.propertyname}', propertyvalue: '{$listdata.propertyvalue}' } );
 //-->
 </SCRIPT>
 {/block}
