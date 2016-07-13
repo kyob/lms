@@ -3,97 +3,164 @@
 {block name=module_content}
 
 
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {trans("Alarms")}
+        </div>
+        <div class="card-block">
+            {if $sysinfo.loadavg.0 > 1}
+                <a class="btn btn-sm btn-danger">
+                    {trans("CPU load")}: <strong>{$sysinfo.loadavg.0}</strong>
+                </a>
+            {elseif ($sysinfo.loadavg.0 >= 0.5 and $sysinfo.loadavg.0 <= 1)}
+                <a class="btn btn-sm btn-warning">
+                    {trans("CPU load")}: <strong>{$sysinfo.loadavg.0}</strong>
+                </a>
+            {else}
+                <a class="btn btn-sm btn-secondary">
+                    {trans("CPU load")}: <strong>{$sysinfo.loadavg.0}</strong>
+                </a>                
+            {/if}
 
-    {if $sysinfo.loadavg.0 > 1}
-        <div class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation-triangle fa-lg fa-fw"></i> {trans("CPU load")}: <strong>{$sysinfo.loadavg.0}</strong>
+            {if $customerschanges>2}
+                <a class="btn btn-sm btn-danger" href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")} <strong>{$customerschanges}</strong></a>
+            {elseif ($customerschanges >= 1 and $customerschanges <= 2)}
+                <a class="btn btn-sm btn-warning" href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")} <strong>{$customerschanges}</strong></a>
+            {else}
+                <a class="btn btn-sm btn-secondary" href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")} <strong>{$customerschanges}</strong></a>
+            {/if}
+
+
+            <a class="btn btn-sm btn-secondary" href="?m=eventlist&day=13&month=7&year=2016">{trans("New tasks for today waiting to close")}: <strong>{$customerschanges}</strong></a>
+
+
+            <a class="btn btn-sm btn-secondary" href="?m=documentlist&s=0">{trans("Documents waiting to aprove")}: <strong>{$customerschanges}</strong></a>
+
         </div>
-    {elseif ($sysinfo.loadavg.0 >= 0.5 and $sysinfo.loadavg.0 <= 1)}
-        <div class="alert alert-warning" role="alert">
-            <i class="fa fa-exclamation-triangle fa-lg fa-fw"></i> {trans("CPU load")}: <strong>{$sysinfo.loadavg.0}</strong>
+    </div>
+
+
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-users fa-fw" aria-hidden="true"></i> {trans("Customers")}
         </div>
-    {else}
+        <div class="card-block">
+            {foreach $_CSTATUSES as $statusidx => $status}
+                <a class="btn btn-sm btn-secondary" href="?m=customerlist&amp;s={$statusidx}">{$alias=$status.alias}{$status.summarylabel} <strong>{$customerstats.$alias}</strong></a>
+            {/foreach}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-desktop fa-fw" aria-hidden="true"></i> {trans("Nodes")}
+        </div>
+        <div class="card-block">
+            <a class="btn btn-sm btn-secondary" href="?m=nodelist&amp;s=3">{trans("Online")}: <strong>{$nodestats.online}</strong></a>
+            <a class="btn btn-sm btn-secondary" href="?m=nodelist&amp;s=1">{trans("Connected<!nodes>")}: <strong>{$nodestats.connected}</strong></a>
+            <a class="btn btn-sm btn-{if $nodestats.withwarning>0}warning{else}secondary{/if}" href="?m=nodelist&amp;s=7">{trans("With warning")}: <strong>{$nodestats.withwarning}</strong></a>
+            <a class="btn btn-sm btn-{if $nodestats.disconnected>0}danger{else}secondary{/if}" href="?m=nodelist&amp;s=2">{trans("Disconnected")}: <strong>{$nodestats.disconnected}</strong></a>
+            <a class="btn btn-sm btn-secondary" href="?m=nodelist&amp;s=5">{trans("TERRIT not specified")}: <strong>{$nodestats.withoutterryt}</strong></a>
+            <a class="btn btn-sm btn-secondary" href="?m=nodelist&amp;s=6">{trans("Net Device not specified")}: <strong>{$nodestats.withoutnetdev}</strong></a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-ticket fa-fw" aria-hidden="true"></i> {trans("Tickets")}
+        </div>
+        <div class="card-block">
+            {foreach from=$rtstats item=rtcategorystats}
+                <p>{trans("Category")}: <strong>{$rtcategorystats.name}</strong>
+                    <a class="btn btn-sm btn-{if $rtcategorystats.new>0}danger{else}secondary{/if}" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=0&amp;o=lastmodified,desc">{trans("New:")} <strong>{$rtcategorystats.new|default:"0"}</strong></a>
+                    <a class="btn btn-sm btn-{if $rtcategorystats.new>0}primary{else}secondary{/if}" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=1&amp;o=lastmodified,desc">{trans("Opened:")} <strong>{$rtcategorystats.opened|default:"0"}</strong></a>
+                    <a class="btn btn-sm btn-{if $rtcategorystats.dead>0}danger{else}secondary{/if}" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=3&amp;o=lastmodified,desc">{trans("Dead:")} <strong>{$rtcategorystats.dead|default:"0"}</strong></a>
+                    <a class="btn btn-sm btn-{if $rtcategorystats.unresolved>0}warning{else}secondary{/if}" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=-1&amp;o=lastmodified,desc">{trans("Unresolved:")} <strong>{$rtcategorystats.unresolved|default:"0"}</strong></a>
+                </p>
+            {/foreach}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-line-chart fa-fw" aria-hidden="true"></i> {trans("Summaries")}
+        </div>
+        <div class="card-block">
+            <a class="btn btn-sm btn-secondary" href="?m=customerlist&amp;s=0">{trans("Total customers")}: {$customerstats.total}</a>
+            {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
+                <a class="btn btn-sm btn-secondary" href="?m=customerlist&amp;s=52" title="{trans("Total debt amount")}: -{$customerstats.debtvalue|money_format}">{trans("Customers in debt")}: {$customerstats.debt}</a>
+            {/if}
+            <a class="btn btn-sm btn-secondary " href="?m=nodelist">{trans("Total nodes")}: {$nodestats.total}</a>
+        </div>
+    </div>
+
+
+    <!--
+                <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <h3 class="card-header">
+                        <i class="fa fa-users fa-fw" aria-hidden="true"></i> {trans("Customers")}
+                    </h3>
+                    <div class="card-block">
+    {foreach $_CSTATUSES as $statusidx => $status}
+        <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s={$statusidx}"><h4 class="font-weight-bold m-a-0 p-a-0">{$alias=$status.alias} {$customerstats.$alias}</h4><small>{$status.summarylabel}</small></a>
+    {/foreach}
+</div>
+</div>
+</div>
+<div class="col-sm-6">
+<div class="card">
+<h3 class="card-header">
+    <i class="fa fa-desktop fa-fw" aria-hidden="true"></i> {trans("Nodes")}
+</h3>
+<div class="card-block">
+    <a class="btn btn-sm btn-primary text-center" href="?m=nodelist&amp;s=3"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.online}</h4><small>{trans("Online")}</small></a>
+    <a class="btn btn-sm btn-success text-center" href="?m=nodelist&amp;s=1"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.connected}</h4><small>{trans("Connected<!nodes>")}</small></a>
+    <a class="btn btn-sm btn-warning text-center" href="?m=nodelist&amp;s=7"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.withwarning}</h4><small>{trans("With warning")}</small></a>
+    <a class="btn btn-sm btn-danger text-center" href="?m=nodelist&amp;s=2"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.disconnected}</h4><small>{trans("Disconnected")}</small></a>
+    <a class="btn btn-sm btn-secondary text-center" href="?m=nodelist&amp;s=5"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.withoutterryt}</h4><small>{trans("TERRIT not specified")}</small></a>
+    <a class="btn btn-sm btn-secondary text-center" href="?m=nodelist&amp;s=6"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.withoutnetdev}</h4><small>{trans("Net Device not specified")}</small></a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-6">
+<div class="card">
+<h3 class="card-header">
+    <i class="fa fa-ticket fa-fw" aria-hidden="true"></i> {trans("Tickets")}
+</h3>
+<div class="card-block">
+    {foreach from=$rtstats item=rtcategorystats}
+        <p>{trans("Category")}: <strong>{$rtcategorystats.name}</strong></p>
+        <a class="btn btn-sm btn-{if $rtcategorystats.new>0}danger{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=0&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.new|default:"0"}</h4><small>{trans("New:")}</small></a>
+        <a class="btn btn-sm btn-{if $rtcategorystats.new>0}primary{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=1&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.opened|default:"0"}</h4><small>{trans("Opened:")}</small></a>
+        <a class="btn btn-sm btn-{if $rtcategorystats.dead>0}danger{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=3&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.dead|default:"0"}</h4><small>{trans("Dead:")}</small></a>
+        <a class="btn btn-sm btn-{if $rtcategorystats.unresolved>0}warning{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=-1&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.unresolved|default:"0"}</h4><small>{trans("Unresolved:")}</small></a>
+        <hr>
+    {/foreach}
+</div>
+</div>
+</div>
+<div class="col-sm-6">
+<div class="card">
+<h3 class="card-header">
+    <i class="fa fa-line-chart fa-fw" aria-hidden="true"></i> {trans("Summaries")}
+</h3>
+<div class="card-block">
+    <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s=0"><h4 class="font-weight-bold m-a-0 p-a-0">{$customerstats.total}</h4><small>{trans("Total customers")}</small></a>
+    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
+<a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s=52" title="{trans("Total debt amount")}: -{$customerstats.debtvalue|money_format}"><h4 class="font-weight-bold m-a-0 p-a-0">{$customerstats.debt}</h4><small>{trans("Customers in debt")}</small></a>
     {/if}
-
-
-
-    {if $customerschanges>0}
-        <div class="alert alert-info" role="alert">
-            <i class="fa fa-info-circle fa-lg fa-fw"></i> <a class="alert-link" href="?m=userpanel&module=info&f=changes">{trans("Changes of customers waiting for approval:")} <strong>{$customerschanges}</strong></a>
-        </div>
-    {/if}
-
-    <div class="row m-b-1">
-        <div class="col-sm-12">
-            <a class="btn btn-sm btn-primary text-center" href="#"><h1>7</h1>{trans("New tasks for today!")}</a>
-            <a class="btn btn-sm btn-primary text-center" href="#"><h1>3</h1>{trans("Documents not approved!")}</a>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <h3 class="card-header">
-                    <i class="fa fa-users fa-fw" aria-hidden="true"></i> {trans("Customers")}
-                </h3>
-                <div class="card-block">
-                    {foreach $_CSTATUSES as $statusidx => $status}
-                        <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s={$statusidx}"><h4 class="font-weight-bold m-a-0 p-a-0">{$alias=$status.alias} {$customerstats.$alias}</h4><small>{$status.summarylabel}</small></a>
-                    {/foreach}
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <h3 class="card-header">
-                    <i class="fa fa-desktop fa-fw" aria-hidden="true"></i> {trans("Nodes")}
-                </h3>
-                <div class="card-block">
-                    <a class="btn btn-sm btn-primary text-center" href="?m=nodelist&amp;s=3"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.online}</h4><small>{trans("Online")}</small></a>
-                    <a class="btn btn-sm btn-success text-center" href="?m=nodelist&amp;s=1"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.connected}</h4><small>{trans("Connected<!nodes>")}</small></a>
-                    <a class="btn btn-sm btn-warning text-center" href="?m=nodelist&amp;s=7"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.withwarning}</h4><small>{trans("With warning")}</small></a>                   
-                    <a class="btn btn-sm btn-danger text-center" href="?m=nodelist&amp;s=2"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.disconnected}</h4><small>{trans("Disconnected")}</small></a>
-                    <a class="btn btn-sm btn-secondary text-center" href="?m=nodelist&amp;s=5"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.withoutterryt}</h4><small>{trans("TERRIT not specified")}</small></a>
-                    <a class="btn btn-sm btn-secondary text-center" href="?m=nodelist&amp;s=6"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.withoutnetdev}</h4><small>{trans("Net Device not specified")}</small></a>
-                </div>
-            </div>
-        </div>                
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <h3 class="card-header">
-                    <i class="fa fa-ticket fa-fw" aria-hidden="true"></i> {trans("Tickets")}
-                </h3>
-                <div class="card-block">
-                    {foreach from=$rtstats item=rtcategorystats}
-                        <p>{trans("Category")}: <strong>{$rtcategorystats.name}</strong></p>
-                        <a class="btn btn-sm btn-{if $rtcategorystats.new>0}danger{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=0&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.new|default:"0"}</h4><small>{trans("New:")}</small></a>
-                        <a class="btn btn-sm btn-{if $rtcategorystats.new>0}primary{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=1&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.opened|default:"0"}</h4><small>{trans("Opened:")}</small></a>
-                        <a class="btn btn-sm btn-{if $rtcategorystats.dead>0}danger{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=3&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.dead|default:"0"}</h4><small>{trans("Dead:")}</small></a>
-                        <a class="btn btn-sm btn-{if $rtcategorystats.unresolved>0}warning{else}secondary{/if} text-center" href="?m=rtqueueview&amp;catid={$rtcategorystats.id}&amp;s=-1&amp;o=lastmodified,desc"><h4 class="font-weight-bold m-a-0 p-a-0">{$rtcategorystats.unresolved|default:"0"}</h4><small>{trans("Unresolved:")}</small></a>
-                        <hr>
-                    {/foreach}
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <h3 class="card-header">
-                    <i class="fa fa-line-chart fa-fw" aria-hidden="true"></i> {trans("Summaries")}
-                </h3>
-                <div class="card-block">
-                    <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s=0"><h4 class="font-weight-bold m-a-0 p-a-0">{$customerstats.total}</h4><small>{trans("Total customers")}</small></a>
-                            {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}
-                        <a class="btn btn-sm btn-secondary text-center" href="?m=customerlist&amp;s=52" title="{trans("Total debt amount")}: -{$customerstats.debtvalue|money_format}"><h4 class="font-weight-bold m-a-0 p-a-0">{$customerstats.debt}</h4><small>{trans("Customers in debt")}</small></a>
-                            {/if}
-                    <a class="btn btn-sm btn-secondary text-center" href="?m=nodelist"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.total}</h4><small>{trans("Total nodes")}</small></a>
-                </div>
-            </div>
-        </div>                
-    </div>
-
+<a class="btn btn-sm btn-secondary text-center" href="?m=nodelist"><h4 class="font-weight-bold m-a-0 p-a-0">{$nodestats.total}</h4><small>{trans("Total nodes")}</small></a>
+</div>
+</div>
+</div>
+</div>
+    -->
 
     {block name="extra-panel"}
     {/block}
