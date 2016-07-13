@@ -21,52 +21,54 @@
         //-->
     </script>
     <FORM class="form-inline" method="post" action="?m=dbnew" name="statsitem">
-        <INPUT type="submit" class="hiddenbtn">
-        <TABLE class="table table-bordered table-striped table-hover">
-            <THEAD class="thead-inverse">
-                <TR>
-                    <th>
-                        {trans("Creation time:")}
-                    </th>
-                    <th>
-                        {trans("Size:")}
-                    </th>
-                    <th>
-                        {t a=$dblist.total}Total: $a{/t}
-                    </th>
-                </TR>
-            </THEAD>
-            <TBODY>
-                {section name=dblist loop=$dblist.time}
-                    <TR class="{if $dblist.dbv[dblist] != $layout.dbschversion} text-muted{/if}"  >
-                        <TD onClick="return self.location.href = '?m=dbview&amp;db={$dblist.name[dblist]}&amp;file=/lms-{$dblist.time[dblist]|date_format:"%Y%m%d-%H%M%S"}.sql{if $dblist.type[dblist]=="gz"}.gz{elseif $dblist.type[dblist]=="plain"}{/if}';">
-                            {$dblist.time[dblist]|date_format:"%x %X (%A)"}
-                        </TD>
-                        <TD onClick="return self.location.href = '?m=dbview&amp;db={$dblist.name[dblist]}&amp;file=/lms-{$dblist.time[dblist]|date_format:"%Y%m%d-%H%M%S"}.sql{if $dblist.type[dblist]=="gz"}.gz{elseif $dblist.type[dblist]=="plain"}{/if}';">
-                            {if $dblist.type[dblist]=="gz"}
-                                <i class="fa fa-fw fa-compress"></i>
-                            {else}
-                                <i class="fa fa-fw fa-expand"></i>
-                            {/if}
-                            {($dblist.size[dblist]/1048576)|string_format:"%d"} {trans("MB")}
-                        </TD>
-                        <TD>
-                            {if $dblist.dbv[dblist] == $layout.dbschversion}
-                                <a class="btn btn-sm btn-success" href="?m=dbrecover&amp;db={$dblist.name[dblist]}{if $dblist.type[dblist]=="gz"}&amp;gz=1{elseif $dblist.type[dblist]=="plain"}{/if}" onClick="return confirmLink(this, '{trans("Are you sure, you want to restore this database backup?")}\n{trans("WARNING! It will backup current database content automatically")}')" title="{trans("Restore")}"><i class="fa fa-fw fa-refresh"></i></A>
-                                {/if}
-                            <a class="btn btn-sm btn-danger" href="?m=dbdel&amp;db={$dblist.name[dblist]}" onClick="return confirmLink(this, '{trans("Are you sure, you want to delete this database backup?")}')" title="{trans("Delete")}"><i class="fa fa-fw fa-trash"></i></A>
-                            <a class="btn btn-sm btn-primary" href="?m=dbview&amp;db={$dblist.name[dblist]}&amp;file=/lms-{$dblist.time[dblist]|date_format:"%Y%m%d-%H%M%S"}.sql{if $dblist.type[dblist]=="gz"}.gz{elseif $dblist.type[dblist]=="plain"}{/if}" title="{trans("Save")}"><i class="fa fa-fw fa-save"></i></A>
-                        </TD>
-                    </TR>
-                {sectionelse}
+        <INPUT type="submit" class="hidden-xs-up">
+        <div class="table-responsive">
+            <TABLE class="table table-sm table-bordered table-striped table-hover">
+                <THEAD class="thead-inverse">
                     <TR>
-                        <TD colspan="3">
-                            {trans("Database backups currently not found.")}
-                        </TD>
+                        <th>
+                            {trans("Creation time:")}
+                        </th>
+                        <th>
+                            {trans("Size:")}
+                        </th>
+                        <th>
+                            {t a=$dblist.total}Total: $a{/t}
+                        </th>
                     </TR>
-                {/section}
-            </TBODY>
-        </TABLE>
+                </THEAD>
+                <TBODY>
+                    {section name=dblist loop=$dblist.time}
+                        <TR class="{if $dblist.dbv[dblist] != $layout.dbschversion} text-muted{/if}"  >
+                            <TD onClick="return self.location.href = '?m=dbview&amp;db={$dblist.name[dblist]}&amp;file=/lms-{$dblist.time[dblist]|date_format:"%Y%m%d-%H%M%S"}.sql{if $dblist.type[dblist]=="gz"}.gz{elseif $dblist.type[dblist]=="plain"}{/if}';">
+                                {$dblist.time[dblist]|date_format:"%x %X (%A)"}
+                            </TD>
+                            <TD onClick="return self.location.href = '?m=dbview&amp;db={$dblist.name[dblist]}&amp;file=/lms-{$dblist.time[dblist]|date_format:"%Y%m%d-%H%M%S"}.sql{if $dblist.type[dblist]=="gz"}.gz{elseif $dblist.type[dblist]=="plain"}{/if}';">
+                                {if $dblist.type[dblist]=="gz"}
+                                    <i class="fa fa-fw fa-compress"></i>
+                                {else}
+                                    <i class="fa fa-fw fa-expand"></i>
+                                {/if}
+                                {($dblist.size[dblist]/1048576)|string_format:"%d"} {trans("MB")}
+                            </TD>
+                            <TD>
+                                {if $dblist.dbv[dblist] == $layout.dbschversion}
+                                    <a class="btn btn-sm btn-success" href="?m=dbrecover&amp;db={$dblist.name[dblist]}{if $dblist.type[dblist]=="gz"}&amp;gz=1{elseif $dblist.type[dblist]=="plain"}{/if}" onClick="return confirmLink(this, '{trans("Are you sure, you want to restore this database backup?")}\n{trans("WARNING! It will backup current database content automatically")}')" title="{trans("Restore")}"><i class="fa fa-fw fa-refresh"></i></A>
+                                    {/if}
+                                <a class="btn btn-sm btn-danger" href="?m=dbdel&amp;db={$dblist.name[dblist]}" onClick="return confirmLink(this, '{trans("Are you sure, you want to delete this database backup?")}')" title="{trans("Delete")}"><i class="fa fa-fw fa-trash"></i></A>
+                                <a class="btn btn-sm btn-primary" href="?m=dbview&amp;db={$dblist.name[dblist]}&amp;file=/lms-{$dblist.time[dblist]|date_format:"%Y%m%d-%H%M%S"}.sql{if $dblist.type[dblist]=="gz"}.gz{elseif $dblist.type[dblist]=="plain"}{/if}" title="{trans("Save")}"><i class="fa fa-fw fa-save"></i></A>
+                            </TD>
+                        </TR>
+                    {sectionelse}
+                        <TR>
+                            <TD colspan="3">
+                                {trans("Database backups currently not found.")}
+                            </TD>
+                        </TR>
+                    {/section}
+                </TBODY>
+            </TABLE>
+        </div
         {trans("Create new")}
         <A class="btn btn-sm btn-secondary" href="javascript:createBackup(false);">{trans("uncompressed")}</A> /
         <A class="btn btn-sm btn-warning" href="javascript:createBackup(true);">{trans("compressed")}</A>
