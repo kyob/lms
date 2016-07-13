@@ -23,6 +23,9 @@
     <script>
 
         $(document).ready(function () {
+//popovers global
+  $('[data-toggle="popover"]').popover()
+
 
 //keep the current tab active on page reload in Bootstrap
             $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
