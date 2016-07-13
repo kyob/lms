@@ -1,0 +1,27 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+    <h1>{$layout.pagetitle}</h1>
+    <form class="form-inline" method="post" name="tarifftagadd" action="?m=tarifftagadd">
+        <input type="submit" class="hiddenbtn">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>{trans("Name:")}</th>
+                    <th><input class="form-control" type="text" name="tarifftagadd[name]" value="{$tarifftagadd.name}" required></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{trans("Description:")}</td>
+                    <td><textarea class="form-control" name="tarifftagadd[description]" cols="50" rows="5" placeholder="{trans('Enter additional information (optional)')}">{$tarifftagadd.description}</textarea></td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-danger" href="javascript:document.tarifftagadd.submit();" accesskey="s">{trans("Submit")}</a>
+        <a class="btn btn-secondary" href="?m=tarifftaglist">{trans("Cancel")}</a>
+    </form>
+    <script type="text/javascript">
+        document.forms['tarifftagadd'].elements['tarifftagadd[name]'].focus();
+    </script>
+{/block}

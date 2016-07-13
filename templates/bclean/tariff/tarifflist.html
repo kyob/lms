@@ -51,7 +51,7 @@
                 items[i].setAttribute('data-toggle', 'on');
             }
         }
-    </script>    
+    </script>
     <H1>{$layout.pagetitle}</H1>
 
     <fieldset class="form-group">
@@ -87,7 +87,7 @@
                     <OPTION value="{$customergroups[customergroups].id}" {if $listdata.customergroupid == $customergroups[customergroups].id} SELECTED {/if}>{$customergroups[customergroups].name|truncate:50:"...":true}</OPTION>
                     {/section}
             </SELECT>
-            <button class="btn btn-sm btn-secondary" data-filter="ping" data-reset="true">{trans("Reset tags")}</button>            
+            <button class="btn btn-sm btn-secondary" data-filter="ping" data-reset="true">{trans("Reset tags")}</button>
         </FORM>
     </fieldset>
 
@@ -96,32 +96,84 @@
             <thead class="thead-inverse">
                 <TR {tip text="Click on column name to change sorting order"}>
                     <th>
-                        <A href="?m=tarifflist&amp;o=name{if $listdata.direction == "asc" && $listdata.order == "name"},desc{/if}"><B>{trans("Name:")}</B></A> {if $listdata.order == "name"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if} /
-                        <A href="?m=tarifflist&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}">{trans("ID:")}</A> {if $listdata.order == "id"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if} /
-                        <A href="?m=tarifflist&amp;o=description{if $listdata.direction == "asc" && $listdata.order == "description"},desc{/if}">{trans("Description:")}</A> {if $listdata.order == "description"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=name{if $listdata.direction == "asc" && $listdata.order == "name"},desc{/if}">
+                            {trans("Name")}
+                            {if $listdata.order == "name"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=id{if $listdata.direction == "asc" && $listdata.order == "id"},desc{/if}">
+                            {trans("ID")}
+                            {if $listdata.order == "id"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=description{if $listdata.direction == "asc" && $listdata.order == "description"},desc{/if}">
+                            {trans("Description")}
+                            {if $listdata.order == "description"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
                     </th>
                     <th>
-                        <A href="?m=tarifflist&amp;o=downrate{if $listdata.direction == "asc" && $listdata.order == "downrate"},desc{/if}">{trans("Downrate:")}</A> {if $listdata.order == "downrate"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if} /
-                        <A href="?m=tarifflist&amp;o=downceil{if $listdata.direction == "asc" && $listdata.order == "downceil"},desc{/if}">{trans("Downceil:")}</A> {if $listdata.order == "downceil"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=downrate{if $listdata.direction == "asc" && $listdata.order == "downrate"},desc{/if}">
+                            {trans("Downrate")}
+                            {if $listdata.order == "downrate"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=downceil{if $listdata.direction == "asc" && $listdata.order == "downceil"},desc{/if}">
+                            {trans("Downceil")}
+                            {if $listdata.order == "downceil"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
                     </th>
                     <th>
-                        <A href="?m=tarifflist&amp;o=uprate{if $listdata.direction == "asc" && $listdata.order == "uprate"},desc{/if}">{trans("Uprate")}:</A> {if $listdata.order == "uprate"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if} /
-                        <A href="?m=tarifflist&amp;o=upceil{if $listdata.direction == "asc" && $listdata.order == "upceil"},desc{/if}">{trans("Upceil:")}</A> {if $listdata.order == "upceil"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=uprate{if $listdata.direction == "asc" && $listdata.order == "uprate"},desc{/if}">
+                            {trans("Uprate")}
+                            {if $listdata.order == "uprate"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=upceil{if $listdata.direction == "asc" && $listdata.order == "upceil"},desc{/if}">
+                            {trans("Upceil")}
+                            {if $listdata.order == "upceil"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
                     </th>
                     <th>
-                        <A href="?m=tarifflist&amp;o=value{if $listdata.direction == "asc" && $listdata.order == "value"},desc{/if}"><B>{trans("Value:")}</B></A> {if $listdata.order == "value"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}<BR>
-                                {trans("Tax:")}
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=value{if $listdata.direction == "asc" && $listdata.order == "value"},desc{/if}">
+                            {trans("Value")}
+                            {if $listdata.order == "value"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>                        
+                        <A class="btn btn-sm btn-secondary" href=#">
+                            {trans("Tax")}
+                        </A>
                     </th>
                     <th>
-                        <A href="?m=tarifflist&amp;o=count{if $listdata.direction == "asc" && $listdata.order == "count"},desc{/if}">{trans("Assigned:")}</A> {if $listdata.order == "count"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
+                        <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=count{if $listdata.direction == "asc" && $listdata.order == "count"},desc{/if}">
+                            {trans("Assigned")}
+                            {if $listdata.order == "count"}
+                                <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                            {/if}
+                        </A>
                     </th>
                     <th>
                         {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_summaries')}
-                            <A href="?m=tarifflist&amp;o=income{if $listdata.direction == "asc" && $listdata.order == "income"},desc{/if}">{trans("Avg. monthly income:")}</A> {if $listdata.order == "income"}<IMG SRC="img/{if $listdata.direction == "desc"}asc{else}desc{/if}_order.gif" alt="">{/if}
-                            {/if}
+                            <A class="btn btn-sm btn-primary" href="?m=tarifflist&amp;o=income{if $listdata.direction == "asc" && $listdata.order == "income"},desc{/if}">
+                                {trans("Avg. monthly income")}
+                                {if $listdata.order == "income"}
+                                    <i class="fa fa-sort-{if $listdata.direction == "desc"}asc{else}desc{/if}" aria-hidden="true"></i>
+                                {/if}
+                            </A>
+                        {/if}
                     </th>
                     <th>
-                        <B>{t a=$listdata.total}Total: $a{/t}</B>
+                        {t a=$listdata.total}Total: $a{/t}
                     </th>
                 </tr>
             </thead>
@@ -137,18 +189,18 @@
                                         <span class="label label-default" data-filter="ping" data-filter-tag="{$item.tag_name}">{$item.tag_name}</span>
                                     {/if}
                                 {/if}
-                            {/foreach}                            
+                            {/foreach}
                         </TD>
                         <TD>
                         {if $tarifflist[tariffs].downrate}{$tarifflist[tariffs].downrate}{else}-{/if}
-                        {if $tarifflist[tariffs].downrate_n}({$tarifflist[tariffs].downrate_n}){/if} 
+                        {if $tarifflist[tariffs].downrate_n}({$tarifflist[tariffs].downrate_n}){/if}
                         ({if $tarifflist[tariffs].downceil}{$tarifflist[tariffs].downceil}{else}-{/if}
                         {if $tarifflist[tariffs].downceil_n}({$tarifflist[tariffs].downceil_n}){/if})
                     </TD>
                     <TD>
 
                     {if $tarifflist[tariffs].uprate}{$tarifflist[tariffs].uprate}{else}-{/if}
-                    {if $tarifflist[tariffs].uprate_n}({$tarifflist[tariffs].uprate_n}){/if} 
+                    {if $tarifflist[tariffs].uprate_n}({$tarifflist[tariffs].uprate_n}){/if}
                     ({if $tarifflist[tariffs].upceil}{$tarifflist[tariffs].upceil}{else}-{/if}
                     {if $tarifflist[tariffs].upceil_n}({$tarifflist[tariffs].upceil_n}){/if})
                 </TD>
@@ -177,22 +229,22 @@
                     {if $tarifflist[tariffs].customers}
                         <a class="btn btn-sm btn-danger" href="javascript:alert('{trans("Subscription with assigned customers cannot be deleted!")}');" title="{trans("Delete")}" onClick="return confirmLink(this, '{trans("Are you sure, you want to delete that tariff?")}');">
                             <i class="fa fa-fw fa-trash-o"></i>
-                        </a>                             
+                        </a>
                     {else}
                         <a class="btn btn-sm btn-danger" href="?m=tariffdel&amp;id={$tarifflist[tariffs].id}" title="{trans("Delete")}" onClick="return confirmLink(this, '{trans("Are you sure, you want to delete that tariff?")}');">
                             <i class="fa fa-fw fa-trash-o"></i>
-                        </a>                                  
+                        </a>
                     {/if}
 
                     <a class="btn btn-sm btn-secondary" href="?m=tariffedit&amp;id={$tarifflist[tariffs].id}" title="{trans("Edit")}">
                         <i class="fa fa-fw fa-edit"></i>
-                    </a>  
+                    </a>
                     <a class="btn btn-sm btn-warning" href="?m=tariffadd&amp;id={$tarifflist[tariffs].id}" title="{trans("Clone")}">
                         <i class="fa fa-fw fa-clone"></i>
-                    </a>  
+                    </a>
                     <a class="btn btn-sm btn-info" href="?m=tariffinfo&amp;id={$tarifflist[tariffs].id}" title="{trans("Info")}">
                         <i class="fa fa-fw fa-info"></i>
-                    </a>                                        
+                    </a>
                 </TD>
             </TR>
         {sectionelse}

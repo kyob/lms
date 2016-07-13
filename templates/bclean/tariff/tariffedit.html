@@ -1,114 +1,114 @@
 {extends file="layout.html"}
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
-<!-- //$Id$ //-->
-<SCRIPT type="text/javascript">
-<!--
-	function checklimit(elem)
-	{
-		document.forms['tariff'].elements['tariff[' + elem.id + ']'].style.display = elem.checked ? 'none' : '';
-	}
-//-->
-</SCRIPT>
-<H1>{$layout.pagetitle}</H1>
-<FORM METHOD="POST" NAME="tariff" ACTION="?m=tariffedit&id={$tariff.id}">
-<INPUT type="submit" class="hiddenbtn">
-<TABLE class="lmsbox">
-    <THEAD>
-	<TR>
-		<TD WIDTH="1%">
-			<IMG SRC="img/money.gif" alt="">
-		</TD>
-		<TD WIDTH="1%" NOWRAP>
-			<B>{trans("Name:")}</B>
-		</TD>
-		<TD WIDTH="98%">
-			<INPUT TYPE="TEXT" VALUE="{$tariff.name|escape}" NAME="tariff[name]" size="45" required {tip trigger="name" text="Enter name" bold=1}>
-			<B>&nbsp;({$tariff.id|string_format:"%04d"})</B>
-		</TD>
-	</TR>
-    </THEAD>
-    <TBODY>
-	<TR>
-	    <TD WIDTH="100%" COLSPAN="3" CLASS="container">
-		<TABLE WIDTH="100%" CELLPADDING="0">
-		    <TR>
-			<TD WIDTH="50%" style="vertical-align:top;">
-			    <TABLE WIDTH="100%" CELLPADDING="3">
-				<TR>
-				    <TD WIDTH="1%">
-					<IMG SRC="img/value.gif" alt="">
-				    </TD>
-				    <TD WIDTH="1%"><B>{trans("Value:")}</B></TD>
-				    <TD WIDTH="98%">
-					    <INPUT TYPE="TEXT" VALUE="{$tariff.value}" SIZE="8" NAME="tariff[value]" {tip text="Enter value" trigger="value"}>
-			            <SELECT size="1" name="tariff[period]" {tip text="Select time period of tariff accounting"}>
-            				<OPTION value=""{if $tariff.period == $key} SELECTED{/if}>{trans("undefined")}</OPTION>
-				            {foreach from=$_PERIODS key=key item=item}{if $key != $smarty.const.DISPOSABLE}
-            				<OPTION value="{$key}"{if $tariff.period == $key} SELECTED{/if}>{$item}</OPTION>
-			            	{/if}{/foreach}
-			            </SELECT>
-				    </TD>
-				</TR>
-				<TR>
-				    <TD WIDTH="1%">
-					<IMG SRC="img/tax.gif" alt="">
-				    </TD>
-				    <TD WIDTH="1%" nowrap><B>{trans("Tax:")}</B></TD>
-				    <TD WIDTH="98%">
-					<SELECT SIZE="1" NAME="tariff[taxid]" {tip text="Select Tax rate" trigger="taxid"}>
-					{foreach item=tax from=$taxeslist}
-					    <OPTION VALUE="{$tax.id}"{if $tariff.taxid == $tax.id} selected{/if}>{$tax.label}</OPTION>
-					{/foreach}
-					</SELECT>
-				    </TD>
-				</TR>
-				<TR>
-				    <TD WIDTH="1%">
-					<IMG SRC="img/money.gif" alt="">
-				    </TD>
-				    <TD WIDTH="1%" nowrap><B>{trans("Type:")}</B></TD>
-				    <TD WIDTH="98%">
-					<SELECT SIZE="1" NAME="tariff[type]" {tip text="Select tariff type" trigger="type"}>
-					{foreach item=item from=$_TARIFFTYPES key=key}
-					    <OPTION VALUE="{$key}"{if $tariff.type == $key} selected{/if}>{$item}</OPTION>
-					{/foreach}
-					</SELECT>
-				    </TD>
-				</TR>
-				<TR>
-					<TD style="width: 1%;">
-						<IMG SRC="img/money.gif" alt="">
-					</TD>
-					<TD style="width: 1%;" class="bold nobr">
-						{trans("Numbering Plan:")}
-					</TD>
-					<TD style="width: 98%;">
-						<SELECT name="tariff[numberplanid]" {tip text="Select numbering plan"}>
-							<OPTION value=""{if !$tariff.numberplanid} selected{/if}>- {trans("default")} -</OPTION>
-							{foreach $numberplanlist as $plan}
-							{assign var=period value=$plan.period}
-							<OPTION value="{$plan.id}"{if $plan.id=$tariff.numberplanid} selected{/if}>{$plan.template} ({$_NUM_PERIODS.$period})</OPTION>
-							{/foreach}
-						</SELECT>
-					</TD>
-				</TR>
-				<TR>
-				    <TD WIDTH="1%">
-					<IMG SRC="img/class.gif" alt="">
-				    </TD>
-				    <TD WIDTH="1%"><B>{trans("Product ID:")}</B></TD>
-				    <TD WIDTH="98%">
-					<INPUT TYPE="TEXT" VALUE="{$tariff.prodid}" SIZE="8" NAME="tariff[prodid]" {tip text="Enter Product ID number (optional)" trigger="prodid"}>
-				    </TD>
-				</TR>
-				<TR>
-				    <TD WIDTH="1%">
-					<IMG SRC="img/info1.gif" alt="">
-				    </TD>
-				    <TD WIDTH="1%"><B>{trans("Description:")}</B></TD>
-				    <TD WIDTH="98%">
-				        <TEXTAREA NAME="tariff[description]" ROWS="4" COLS="50" {tip text="Enter additional information (optional)"}>{$tariff.description}</TEXTAREA>
+    <!-- //$Id$ //-->
+    <SCRIPT type="text/javascript">
+        <!--
+            function checklimit(elem)
+        {
+            document.forms['tariff'].elements['tariff[' + elem.id + ']'].style.display = elem.checked ? 'none' : '';
+        }
+        //-->
+    </SCRIPT>
+    <H1>{$layout.pagetitle}</H1>
+    <FORM METHOD="POST" NAME="tariff" ACTION="?m=tariffedit&id={$tariff.id}">
+        <INPUT type="submit" class="hiddenbtn">
+        <TABLE class="lmsbox">
+            <THEAD>
+                <TR>
+                    <TD WIDTH="1%">
+                        <IMG SRC="img/money.gif" alt="">
+                    </TD>
+                    <TD WIDTH="1%" NOWRAP>
+                        <B>{trans("Name:")}</B>
+                    </TD>
+                    <TD WIDTH="98%">
+                        <INPUT TYPE="TEXT" VALUE="{$tariff.name|escape}" NAME="tariff[name]" size="45" required {tip trigger="name" text="Enter name" bold=1}>
+                        <B>&nbsp;({$tariff.id|string_format:"%04d"})</B>
+                    </TD>
+                </TR>
+            </THEAD>
+            <TBODY>
+                <TR>
+                    <TD WIDTH="100%" COLSPAN="3" CLASS="container">
+                        <TABLE WIDTH="100%" CELLPADDING="0">
+                            <TR>
+                                <TD WIDTH="50%" style="vertical-align:top;">
+                                    <TABLE WIDTH="100%" CELLPADDING="3">
+                                        <TR>
+                                            <TD WIDTH="1%">
+                                                <IMG SRC="img/value.gif" alt="">
+                                            </TD>
+                                            <TD WIDTH="1%"><B>{trans("Value:")}</B></TD>
+                                            <TD WIDTH="98%">
+                                                <INPUT TYPE="TEXT" VALUE="{$tariff.value}" SIZE="8" NAME="tariff[value]" {tip text="Enter value" trigger="value"}>
+                                                <SELECT size="1" name="tariff[period]" {tip text="Select time period of tariff accounting"}>
+                                                    <OPTION value=""{if $tariff.period == $key} SELECTED{/if}>{trans("undefined")}</OPTION>
+                                                        {foreach from=$_PERIODS key=key item=item}{if $key != $smarty.const.DISPOSABLE}
+                                                            <OPTION value="{$key}"{if $tariff.period == $key} SELECTED{/if}>{$item}</OPTION>
+                                                        {/if}{/foreach}
+                                                </SELECT>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD WIDTH="1%">
+                                                <IMG SRC="img/tax.gif" alt="">
+                                            </TD>
+                                            <TD WIDTH="1%" nowrap><B>{trans("Tax:")}</B></TD>
+                                            <TD WIDTH="98%">
+                                                <SELECT SIZE="1" NAME="tariff[taxid]" {tip text="Select Tax rate" trigger="taxid"}>
+                                                    {foreach item=tax from=$taxeslist}
+                                                        <OPTION VALUE="{$tax.id}"{if $tariff.taxid == $tax.id} selected{/if}>{$tax.label}</OPTION>
+                                                        {/foreach}
+                                                </SELECT>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD WIDTH="1%">
+                                                <IMG SRC="img/money.gif" alt="">
+                                            </TD>
+                                            <TD WIDTH="1%" nowrap><B>{trans("Type:")}</B></TD>
+                                            <TD WIDTH="98%">
+                                                <SELECT SIZE="1" NAME="tariff[type]" {tip text="Select tariff type" trigger="type"}>
+                                                    {foreach item=item from=$_TARIFFTYPES key=key}
+                                                        <OPTION VALUE="{$key}"{if $tariff.type == $key} selected{/if}>{$item}</OPTION>
+                                                        {/foreach}
+                                                </SELECT>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD style="width: 1%;">
+                                                <IMG SRC="img/money.gif" alt="">
+                                            </TD>
+                                            <TD style="width: 1%;" class="bold nobr">
+                                                {trans("Numbering Plan:")}
+                                            </TD>
+                                            <TD style="width: 98%;">
+                                                <SELECT name="tariff[numberplanid]" {tip text="Select numbering plan"}>
+                                                    <OPTION value=""{if !$tariff.numberplanid} selected{/if}>- {trans("default")} -</OPTION>
+                                                        {foreach $numberplanlist as $plan}
+                                                            {assign var=period value=$plan.period}
+                                                        <OPTION value="{$plan.id}"{if $plan.id=$tariff.numberplanid} selected{/if}>{$plan.template} ({$_NUM_PERIODS.$period})</OPTION>
+                                                        {/foreach}
+                                                </SELECT>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD WIDTH="1%">
+                                                <IMG SRC="img/class.gif" alt="">
+                                            </TD>
+                                            <TD WIDTH="1%"><B>{trans("Product ID:")}</B></TD>
+                                            <TD WIDTH="98%">
+                                                <INPUT TYPE="TEXT" VALUE="{$tariff.prodid}" SIZE="8" NAME="tariff[prodid]" {tip text="Enter Product ID number (optional)" trigger="prodid"}>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD WIDTH="1%">
+                                                <IMG SRC="img/info1.gif" alt="">
+                                            </TD>
+                                            <TD WIDTH="1%"><B>{trans("Description:")}</B></TD>
+                                            <TD WIDTH="98%">
+                                                <TEXTAREA NAME="tariff[description]" ROWS="4" COLS="50" {tip text="Enter additional information (optional)"}>{$tariff.description}</TEXTAREA>
 				    </TD>
 				</TR>
 			    </TABLE>
@@ -122,7 +122,7 @@
 				    <TD WIDTH="1%" NOWRAP><B>{trans("Upload rate:")}</B></TD>
 				    <TD WIDTH="98%" NOWRAP>
 					<INPUT TYPE="TEXT" VALUE="{if $tariff.uprate}{$tariff.uprate}{/if}" SIZE="6" NAME="tariff[uprate]" {tip text="Enter minimal warranted upload value (optional)" trigger="uprate"}>
-					{trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.uprate_n}{$tariff.uprate_n}{/if}" SIZE="6" NAME="tariff[uprate_n]" {tip text="Enter minimal warranted upload value (optional)" trigger="uprate_n"}> kbit/s
+                                                {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.uprate_n}{$tariff.uprate_n}{/if}" SIZE="6" NAME="tariff[uprate_n]" {tip text="Enter minimal warranted upload value (optional)" trigger="uprate_n"}> kbit/s
 				    </TD>
 				</TR>
 				<TR>
@@ -131,7 +131,7 @@
 				    <TD WIDTH="1%" NOWRAP><B>{trans("Upload ceil:")}</B></TD>
 				    <TD WIDTH="98%" NOWRAP>
 				        <INPUT TYPE="TEXT" VALUE="{if $tariff.upceil}{$tariff.upceil}{/if}" SIZE="6" NAME="tariff[upceil]" {tip text="Enter maximum upload value (optional)" trigger="upceil"}>
-				        {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.upceil_n}{$tariff.upceil_n}{/if}" SIZE="6" NAME="tariff[upceil_n]" {tip text="Enter maximum upload value (optional)" trigger="upceil_n"}> kbit/s
+                                                {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.upceil_n}{$tariff.upceil_n}{/if}" SIZE="6" NAME="tariff[upceil_n]" {tip text="Enter maximum upload value (optional)" trigger="upceil_n"}> kbit/s
 				    </TD>
 				</TR>
 				<TR>
@@ -141,7 +141,7 @@
 				    <TD WIDTH="1%" NOWRAP><B>{trans("Download rate:")}</B></TD>
 				    <TD WIDTH="98%" NOWRAP>
 					<INPUT TYPE="TEXT" VALUE="{if $tariff.downrate}{$tariff.downrate}{/if}" SIZE="6" NAME="tariff[downrate]" {tip text="Enter minimal warranted download value (optional)" trigger="downrate"}>
-					{trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.downrate_n}{$tariff.downrate_n}{/if}" SIZE="6" NAME="tariff[downrate_n]" {tip text="Enter minimal warranted download value (optional)" trigger="downrate_n"}> kbit/s
+                                                {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.downrate_n}{$tariff.downrate_n}{/if}" SIZE="6" NAME="tariff[downrate_n]" {tip text="Enter minimal warranted download value (optional)" trigger="downrate_n"}> kbit/s
 				    </TD>
 				</TR>
 				<TR>
@@ -150,7 +150,7 @@
 				    <TD WIDTH="1%" NOWRAP><B>{trans("Download ceil:")}</B></TD>
 				    <TD WIDTH="98%" NOWRAP>
 					<INPUT TYPE="TEXT" VALUE="{if $tariff.downceil}{$tariff.downceil}{/if}" SIZE="6" NAME="tariff[downceil]" {tip text="Enter maximum download value (optional)" trigger="downceil"}>
-					{trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.downceil_n}{$tariff.downceil_n}{/if}" SIZE="6" NAME="tariff[downceil_n]" {tip text="Enter maximum download value (optional)" trigger="downceil_n"}> kbit/s
+                                                {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.downceil_n}{$tariff.downceil_n}{/if}" SIZE="6" NAME="tariff[downceil_n]" {tip text="Enter maximum download value (optional)" trigger="downceil_n"}> kbit/s
 				    </TD>
 				</TR>
 				<TR>
@@ -160,7 +160,7 @@
 				    <TD WIDTH="1%" NOWRAP><B>{trans("Connection limit:")}</B></TD>
 				    <TD WIDTH="98%">
 					<INPUT TYPE="TEXT" VALUE="{if $tariff.climit}{$tariff.climit}{/if}" SIZE="6" NAME="tariff[climit]" {tip text="Enter limit of simultaneous connections (optional)" trigger="climit"}> 
-					{trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.climit_n}{$tariff.climit_n}{/if}" SIZE="6" NAME="tariff[climit_n]" {tip text="Enter limit of simultaneous connections (optional)" trigger="climit_n"}>
+                                                {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.climit_n}{$tariff.climit_n}{/if}" SIZE="6" NAME="tariff[climit_n]" {tip text="Enter limit of simultaneous connections (optional)" trigger="climit_n"}>
 				    </TD>
 				</TR>
 				<TR>
@@ -169,7 +169,7 @@
 				    <TD WIDTH="1%" NOWRAP><B>{trans("Packet limit:")}</B></TD>
 				    <TD WIDTH="98%">
 					<INPUT TYPE="TEXT" VALUE="{if $tariff.plimit}{$tariff.plimit}{/if}" SIZE="6" NAME="tariff[plimit]" {tip text="Enter limit of packets in time unit (optional)" trigger="plimit"}> 
-					{trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.plimit_n}{$tariff.plimit_n}{/if}" SIZE="6" NAME="tariff[plimit_n]" {tip text="Enter limit of packets in time unit (optional)" trigger="plimit_n"}>
+                                                {trans("night:")} <INPUT TYPE="TEXT" VALUE="{if $tariff.plimit_n}{$tariff.plimit_n}{/if}" SIZE="6" NAME="tariff[plimit_n]" {tip text="Enter limit of packets in time unit (optional)" trigger="plimit_n"}>
 				    </TD>
 				</TR>
 				<TR>
@@ -296,8 +296,8 @@
 </TABLE>
 </FORM>
 <SCRIPT type="text/javascript">
-<!--
-document.forms['tariff'].elements['tariff[name]'].focus();
-//-->
-</SCRIPT>
+    <!--
+    document.forms['tariff'].elements['tariff[name]'].focus();
+    //-->
+    </SCRIPT>
 {/block}

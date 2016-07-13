@@ -1,0 +1,55 @@
+{extends file="layout.html"}
+{block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
+{block name=module_content}
+    <h1>{$layout.pagetitle} <a class="btn btn-success" href="?m=tarifftagadd"><i class="fa fa-fw fa-plus-circle"></i>{trans("Add tag")}</a></h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-sm table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>{trans("Name:")}<br>{trans("Description:")}</th>
+                    <th>{trans("ID:")}</th>
+                    <th>{trans("Tariffs:")}</th>
+                    <th>{t a=$listdata.total|default:"0"}Total: $a{/t}</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-right bold nobr">{trans("Total:")}</td>
+                    <td class="text-right bold">{$listdata.totalcount|default:"0"}</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tfoot>
+            <tbody>
+                {section name=tarifftags loop=$tarifftaglist}
+                    <tr>
+                        <td>
+                            <a href="?m=tarifftaginfo&amp;id={$tarifftaglist[tarifftags].id}">{$tarifftaglist[tarifftags].name}</a><br>
+                        {if $tarifftaglist[tarifftags].description}{$tarifftaglist[tarifftags].description}{/if}
+                    </td>
+                    <td onClick="return self.location.href = '?m=tarifftaginfo&amp;id={$tarifftaglist[tarifftags].id}';">
+                        ({$tarifftaglist[tarifftags].id|string_format:"%04d"})
+                    </td>
+                    <td onClick="return self.location.href = '?m=tarifftaginfo&amp;id={$tarifftaglist[tarifftags].id}';">
+                        {$tarifftaglist[tarifftags].tariffscount}
+                    </td>
+                    <td>
+                        {if $tarifftaglist[tarifftags].tariffscount}
+                            <a href="javascript:alert('{trans("Tag with assigned tariffs cannont be deleted!")}');">
+                            {else}
+                                <a href="?m=tarifftagdel&amp;id={$tarifftaglist[tarifftags].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to remove this tag?")}');">
+                                {/if}
+                                <img src="img/delete.gif" alt="[ {trans("Delete")} ]" title="[ {trans("Delete")} ]"></a>
+                            <a href="?m=tarifftagedit&amp;id={$tarifftaglist[tarifftags].id}"><img src="img/edit.gif" alt="[ {trans("Edit")} ]" title="[ {trans("Edit")} ]"></a>
+                            <a href="?m=tarifftaginfo&amp;id={$tarifftaglist[tarifftags].id}"><img src="img/info.gif" alt="[ {trans("Info")} ]" title="[ {trans("Info")} ]"></a>
+                    </td>
+                </tr>
+            {sectionelse}
+                <tr>
+                    <td colspan="4" class="empty-table">
+                        {trans("There are no tags in database.")}
+                    </td>
+                </tr>
+            {/section}
+        </tbody>
+    </TABLE>
+{/block}
