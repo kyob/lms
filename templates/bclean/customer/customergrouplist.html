@@ -2,54 +2,48 @@
 {block name=title}::: LMS :{$layout.pagetitle|striphtml} :::{/block}
 {block name=module_content}
     <!--// $Id$ //-->
-    <H1>{$layout.pagetitle}</H1>
+    <H1>{$layout.pagetitle} ({$listdata.total|default:"0"})</H1>
     <table class="table table-bordered table-striped table-hover">
         <thead class="thead-inverse">
             <TR>
                 <th>
-                    {trans("Name:")} / {trans("ID:")} / {trans("Description:")}
+                    <button type="button" class="btn btn-sm btn-secondary" disabled>{trans("Name")}</button>
+                    <button type="button" class="btn btn-sm btn-secondary" disabled>{trans("ID")}</button>
+                    <button type="button" class="btn btn-sm btn-secondary" disabled>{trans("Description")}</button>
                 </th>
                 <th>
-                    {trans("Members:")}
+                    <button type="button" class="btn btn-sm btn-secondary" disabled>{trans("Members:")} ({$listdata.totalcount|default:"0"})</button>
                 </th>
                 <th>
-                    {t a=$listdata.total|default:"0"}Total: $a{/t}
                 </th>
             </TR>
         </THEAD>
-        <TFOOT>
-            <TR>
-                <TD colspan="3">
-                    {trans("Total")}: {$listdata.totalcount|default:"0"}
-                </TD>
-            </TR>
-        </TFOOT>
         <TBODY>
             {section name=customergroups loop=$customergrouplist}
                 <TR>
                     <td>
                         <a href="?m=customergroupinfo&amp;id={$customergrouplist[customergroups].id}">{$customergrouplist[customergroups].name}</a> <span class="text-muted">({$customergrouplist[customergroups].id|string_format:"%04d"})</span><br>
-                        {if $customergrouplist[customergroups].description}{$customergrouplist[customergroups].description}{/if}
-                    </TD>
-                    <td>
-                        {$customergrouplist[customergroups].customerscount}
-                    </TD>
-                    <TD>
-                        {if $customergrouplist[customergroups].customerscount}
-                            <A class="btn btn-sm btn-secondary" href="javascript:alert('{trans("Group with members cannot be deleted!")}');" title="{trans('Delete')}"><i class="fa fa-fw fa-trash"></i></a>
-                            {else}
-                            <A class="btn btn-sm btn-danger" href="?m=customergroupdel&amp;id={$customergrouplist[customergroups].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to remove this group?")}');" title="{trans('Delete')}"><i class="fa fa-fw fa-trash"></i></a>
-                            {/if}
-                        <A class="btn btn-sm btn-primary" href="?m=customergroupedit&amp;id={$customergrouplist[customergroups].id}" title="{trans('Edit')}"><i class="fa fa-fw fa-edit"></i></A>
-                    </TD>
-                </TR>
-            {sectionelse}
-                <TR>
-                    <TD colspan="3">
-                        {trans("There are no such groups in database.")}
-                    </TD>
-                </TR>
-            {/section}
-        </TBODY>
-    </TABLE>
+                    {if $customergrouplist[customergroups].description}{$customergrouplist[customergroups].description}{/if}
+                </TD>
+                <td>
+                    {$customergrouplist[customergroups].customerscount}
+                </TD>
+                <TD>
+                    {if $customergrouplist[customergroups].customerscount}
+                        <A class="btn btn-sm btn-secondary" href="javascript:alert('{trans("Group with members cannot be deleted!")}');" title="{trans('Delete')}"><i class="fa fa-fw fa-trash"></i></a>
+                        {else}
+                        <A class="btn btn-sm btn-danger" href="?m=customergroupdel&amp;id={$customergrouplist[customergroups].id}" onClick="return confirmLink(this, '{trans("Are you sure, you want to remove this group?")}');" title="{trans('Delete')}"><i class="fa fa-fw fa-trash"></i></a>
+                        {/if}
+                    <A class="btn btn-sm btn-primary" href="?m=customergroupedit&amp;id={$customergrouplist[customergroups].id}" title="{trans('Edit')}"><i class="fa fa-fw fa-edit"></i></A>
+                </TD>
+            </TR>
+        {sectionelse}
+            <TR>
+                <TD colspan="3">
+                    {trans("There are no such groups in database.")}
+                </TD>
+            </TR>
+        {/section}
+    </TBODY>
+</TABLE>
 {/block}

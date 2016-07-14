@@ -609,10 +609,13 @@
                 {/block}
             </div>
         </div>
-        <hr>
-        <A class="btn btn-danger" href="javascript:document.customeradd.submit();" accesskey="S">{trans("Submit")}</A>
-        <A class="btn btn-secondary" href="?m=customerlist">{trans("Cancel")}</A>
-        <label for="customeradd_reuse" class="btn btn-info pull-md-right">{trans("Display this form again, when this customer is saved")} <INPUT  type="checkbox" name="customeradd[reuse]" id="customeradd_reuse" value="ON" {if $customeradd.reuse}checked{/if}></label>
+        <div class="card">
+            <div class="card-footer">
+                <A class="btn btn-danger" href="javascript:document.customeradd.submit();" accesskey="S">{trans("Submit")}</A>
+                <A class="btn btn-secondary" href="?m=customerlist">{trans("Cancel")}</A>
+                <label for="customeradd_reuse" class="btn btn-info pull-md-right">{trans("Display this form again, when this customer is saved")} <INPUT  type="checkbox" name="customeradd[reuse]" id="customeradd_reuse" value="ON" {if $customeradd.reuse}checked{/if}></label>
+            </div>
+        </div>
     </form>
 
 

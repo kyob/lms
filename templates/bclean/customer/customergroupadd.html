@@ -12,10 +12,12 @@
             <div class="card-block">
                 {trans("Description:")}<br>
                 <textarea class="form-control form-control-sm" name="customergroupadd[description]" cols="50" rows="5" {tip text="Enter additional information (optional)"}>{$customergroupadd.description}</textarea>
-                <hr>
+
+            </div>
+            <div class="card-footer">
                 <a class="btn btn-sm btn-danger" href="javascript:document.customergroupadd.submit();" accesskey="s">{trans("Submit")}</a>
                 <a class="btn btn-sm btn-secondary" href="?m=customergrouplist">{trans("Cancel")}</a>
-            </div>
+            </div>            
         </div>
     </form>
     <script type="text/javascript">
