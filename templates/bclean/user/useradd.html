@@ -18,9 +18,9 @@
 
                 {trans("Position:")}
                 <INPUT class="form-control form-control-sm" type="text" name="useradd[position]" value="{$useradd.position}" placeholder="{trans("Enter user position (optional)")}">
-                
+
                 <hr>
-                
+
                 {trans("E-mail:")}
                 <INPUT class="form-control form-control-sm" type="email" name="useradd[email]" value="{$useradd.email}" placeholder="{trans("Enter e-mail address (optional)")}">
 
@@ -34,9 +34,9 @@
                 <INPUT class="form-control form-control-sm" type="checkbox" name="useradd[ntype][]" value="{$smarty.const.MSG_MAIL}" id="ntypemail"{if ($useradd.ntype & $smarty.const.MSG_MAIL)} checked{/if}>
                 <label for="ntypesms">{trans("sms")}</label>
                 <INPUT class="form-control form-control-sm" type="checkbox" name="useradd[ntype][]" value="{$smarty.const.MSG_SMS}" id="ntypesms"{if ($useradd.ntype & $smarty.const.MSG_SMS)} checked{/if}>                    
-                
+
                 <hr>
-                
+
                 {trans("Account active:")}
                 <label for="accessyes">{trans("yes")}</label>
                 <input class="form-control form-control-sm" type="radio" name="useradd[access]" value="1" id="accessyes" {if !isset($useradd.access) || $useradd.access=='1'} checked{/if}>
@@ -79,12 +79,11 @@
 
                 {trans("Groups:")}
                 {include file="multiselect.html" selected=$useradd.selected available_tip="Enabled<!plural>:" selected_tip="Disabled<!plural>:"}
-
-                <hr>
-
+            </div>
+            <div class="card-footer">
                 <A class="btn btn-sm btn-danger" href="javascript:document.useradd.submit();" accesskey="s">{trans("Submit")}</A>
                 <A class="btn btn-sm btn-secondary" href="?m=userlist">{trans("Cancel")}</A>
-            </div>
+            </div>                
         </div>
     </FORM>
     <SCRIPT type="text/javascript">
