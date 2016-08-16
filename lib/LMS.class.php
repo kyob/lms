@@ -281,7 +281,7 @@ class LMS
             $res = $this->DBDump(ConfigHelper::getConfig('directories.backup_dir') . DIRECTORY_SEPARATOR . $filename, FALSE, $stats);
         }
         if ($this->SYSLOG)
-            $this->SYSLOG->AddMessage(SYSLOG_RES_DBBACKUP, SYSLOG_OPER_ADD, array('filename' => $filename), null);
+            $this->SYSLOG->AddMessage(SYSLOG::RES_DBBACKUP, SYSLOG::OPER_ADD, array('filename' => $filename));
         return $res;
     }
 
@@ -440,9 +440,9 @@ class LMS
         return $manager->GetCashByID($id);
     }
 
-	public function CashImportParseFile($filename, $contents, $patterns) {
+	public function CashImportParseFile($filename, $contents, $patterns, $quiet = true) {
 		$manager = $this->getCashManager();
-		return $manager->CashImportParseFile($filename, $contents, $patterns);
+		return $manager->CashImportParseFile($filename, $contents, $patterns, $quiet);
 	}
 
 	public function CashImportCommit() {
@@ -2228,6 +2228,16 @@ class LMS
         $manager = $this->getVoipAccountManager();
         return $manager->voipAccountUpdate($voipaccountdata);
     }
+    
+    public function getVoipBillings(array $params)
+    {
+    	$manager = $this->getVoipAccountManager();
+        return $manager->getVoipBillings($params);
+    }
+    
+	/**
+	 * End VoIP functions
+	 */
 
     public function GetCustomerVoipAccounts($id)
     {

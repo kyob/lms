@@ -3,7 +3,6 @@
 {block name=module_content}
 <!--// $Id$ //-->
 <H1>{$layout.pagetitle}</H1>
-{include file="calendar_js.html"}
 <SCRIPT type="text/javascript">
 	<!--
 	function DeleteMarked()
@@ -130,6 +129,7 @@
                                 <OPTION value="address"{if $listdata.cat == "address"} SELECTED{/if}>{trans("address")}</OPTION>
                                 <OPTION value="documented"{if $listdata.cat == "documented"} SELECTED{/if}>{trans("with document")}</OPTION>
                                 <OPTION value="notdocumented"{if $listdata.cat == "notdocumented"} SELECTED{/if}>{trans("without document")}</OPTION>
+                                <OPTION value="cashimport"{if $listdata.cat == "cashimport"} selected{/if}>{trans("cash import file")}</OPTION>
                         </SELECT>
                         {trans("Group:")}
                         <SELECT size="1" name="group">
@@ -187,13 +187,13 @@
 		<TD class="text-right nobr">
 			{if $balancelist[balancelist].docid}
 				{if $balancelist[balancelist].doctype==$smarty.const.DOC_INVOICE}
-				<A HREF="?m=invoice&id={$balancelist[balancelist].docid}" target="_BLANK"><IMG SRC="img/print.gif" ALT="[ {trans("Invoice")} ]" {tip a=$balancelist[balancelist].docid dynpopup='?m=number&id=$a'}></A>
+				<A HREF="?m=invoice&id={$balancelist[balancelist].docid}" class="docnumber" data-resourceid="{$balancelist[balancelist].docid}" rel="external"><IMG SRC="img/print.gif" ALT="[ {trans("Invoice")} ]"></A>
 				{elseif $balancelist[balancelist].doctype==$smarty.const.DOC_CNOTE}
-				<A HREF="?m=invoice&id={$balancelist[balancelist].docid}" target="_BLANK"><IMG SRC="img/printn.gif" ALT="[ {trans("Credit note")} ]" {tip a=$balancelist[balancelist].docid dynpopup='?m=number&id=$a'}></A>
+				<A HREF="?m=invoice&id={$balancelist[balancelist].docid}" class="docnumber" data-resourceid="{$balancelist[balancelist].docid}" rel="external"><IMG SRC="img/printn.gif" ALT="[ {trans("Credit note")} ]"></A>
 				{elseif $balancelist[balancelist].doctype==$smarty.const.DOC_RECEIPT}
-				<A HREF="?m=receipt&id={$balancelist[balancelist].docid}" target="_BLANK"><IMG SRC="img/printr.gif" ALT="[ {trans("Cash receipt")} ]" {tip a=$balancelist[balancelist].docid dynpopup='?m=number&id=$a'}></A>
+				<A HREF="?m=receipt&id={$balancelist[balancelist].docid}" class="docnumber" data-resourceid="{$balancelist[balancelist].docid}" rel="external"><IMG SRC="img/printr.gif" ALT="[ {trans("Cash receipt")} ]"></A>
 				{elseif $balancelist[balancelist].doctype==$smarty.const.DOC_DNOTE}
-				<A HREF="?m=note&id={$balancelist[balancelist].docid}" target="_BLANK"><IMG SRC="img/printd.gif" ALT="[ {trans("Debit note")} ]" {tip a=$balancelist[balancelist].docid dynpopup='?m=number&id=$a'}></A>
+				<A HREF="?m=note&id={$balancelist[balancelist].docid}" class="docnumber" data-resourceid="{$balancelist[balancelist].docid}" rel="external"><IMG SRC="img/printd.gif" ALT="[ {trans("Debit note")} ]"></A>
 				{/if}
 			{/if}
 			<INPUT TYPE="checkbox" NAME="marks[{$balancelist[balancelist].id}]" VALUE="{$balancelist[balancelist].id}">

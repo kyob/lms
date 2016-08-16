@@ -128,16 +128,12 @@ try {
 
 // Include required files (including sequence is important)
 
+require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'common.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'language.php');
 include_once(LIB_DIR . DIRECTORY_SEPARATOR . 'definitions.php');
 require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'unstrip.php');
-require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'common.php');
-require_once(LIB_DIR . DIRECTORY_SEPARATOR . 'SYSLOG.class.php');
 
-if (ConfigHelper::checkConfig('phpui.logging') && class_exists('SYSLOG'))
-	$SYSLOG = new SYSLOG($DB);
-else
-	$SYSLOG = null;
+$SYSLOG = SYSLOG::getInstance();
 
 // Initialize Session, Auth and LMS classes
 
@@ -165,7 +161,7 @@ if ($import_file != 'php://stdin' && !is_readable($import_file))
 	die("Couldn't read contents from $import_file file!" . PHP_EOL);
 $contents = file_get_contents($import_file);
 
-$LMS->CashImportParseFile($import_filename, $contents, $patterns);
+$LMS->CashImportParseFile($import_filename, $contents, $patterns, false);
 if (ConfigHelper::checkConfig('cashimport.autocommit'))
 	$LMS->CashImportCommit();
 

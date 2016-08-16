@@ -47,12 +47,11 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 	 * Parses import file
 	 *
 	 * @global LMS $LMS
-	 * @global array $SYSLOG_RESOURCE_KEYS
 	 * @param array $file Import file information
 	 * @return array Invalid import file rows
 	 */
-	public function CashImportParseFile($filename, $contents, $patterns) {
-		global $LMS, $SYSLOG_RESOURCE_KEYS;
+	public function CashImportParseFile($filename, $contents, $patterns, $quiet = true) {
+		global $LMS;
 
 		$file = preg_split('/\r?\n/', $contents);
 		$patterns_cnt = isset($patterns) ? sizeof($patterns) : 0;
@@ -100,12 +99,13 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 			}
 
 			$name = isset($matches[$pattern['pname']]) ? trim($matches[$pattern['pname']]) : '';
+			$customername = preg_replace('/[\s]{2,}/', ' ', $name);
 			$lastname = isset($matches[$pattern['plastname']]) ? trim($matches[$pattern['plastname']]) : '';
 			$comment = isset($matches[$pattern['pcomment']]) ? trim($matches[$pattern['pcomment']]) : '';
 			$time = isset($matches[$pattern['pdate']]) ? trim($matches[$pattern['pdate']]) : '';
-			$value = str_replace(',','.', isset($matches[$pattern['pvalue']]) ? trim($matches[$pattern['pvalue']]) : '');
-			$srcaccount = isset($matches[$pattern['srcaccount']]) ? trim($matches[$pattern['srcaccount']]) : '';
-			$dstaccount = isset($matches[$pattern['dstaccount']]) ? trim($matches[$pattern['dstaccount']]) : '';
+			$value = str_replace(',','.', isset($matches[$pattern['pvalue']]) ? preg_replace('/[\s]/', '', $matches[$pattern['pvalue']]) : '');
+			$srcaccount = isset($matches[$pattern['srcaccount']]) ? preg_replace('/[\s]/', '', $matches[$pattern['srcaccount']]) : '';
+			$dstaccount = isset($matches[$pattern['dstaccount']]) ? preg_replace('/[\s]/', '', $matches[$pattern['dstaccount']]) : '';
 
 			if (!$pattern['pid']) {
 				if (!empty($pattern['pid_regexp']))
@@ -182,6 +182,14 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 
 			if (!empty($pattern['comment_replace']))
 				$comment = preg_replace($pattern['comment_replace']['from'], $pattern['comment_replace']['to'], $comment);
+			$cid = $id;
+			if (empty($cid))
+				$cid = '-';
+			foreach (array('srcaccount', 'dstaccount', 'customername', 'cid') as $replace_symbol) {
+				$variable = $$replace_symbol;
+				$variable = empty($variable) ? trans('none') : $variable;
+				$comment = str_replace('%'. $replace_symbol . '%', $variable, $comment);
+			}
 
 			$customer = trim($lastname.' '.$name);
 			$comment = trim($comment);
@@ -201,18 +209,17 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 						$args = array(
 							'name' => $filename,
 							'idate' => time(),
-							$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_USER] => $this->auth->id,
+							SYSLOG::RES_USER => $this->auth->id,
 						);
 						$this->db->Execute('INSERT INTO sourcefiles (name, idate, userid)
 							VALUES (?, ?, ?)', array_values($args));
 						$sourcefileid = $this->db->GetLastInsertID('sourcefiles');
 						if ($sourcefileid && $this->syslog) {
-							$args[$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_SOURCEFILE]] = $sourcefileid;
+							$args[SYSLOG::RES_SOURCEFILE] = $sourcefileid;
 							$syslog_records[] = array(
-								'resource' => SYSLOG_RES_SOURCEFILE,
-								'operation' => SYSLOG_OPER_ADD,
+								'resource' => SYSLOG::RES_SOURCEFILE,
+								'operation' => SYSLOG::OPER_ADD,
 								'args' => $args,
-								'keys' => array($SYSLOG_RESOURCE_KEYS[SYSLOG_RES_SOURCEFILE], $SYSLOG_RESOURCE_KEYS[SYSLOG_RES_USER]),
 							);
 						}
 					}
@@ -228,27 +235,21 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 						'time' => $time,
 						'value' => $value,
 						'customer' => $customer,
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CUST] => $id,
+						SYSLOG::RES_CUST => $id,
 						'comment' => $comment,
 						'hash' => $hash,
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHSOURCE] => $sourceid,
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_SOURCEFILE] => $sourcefileid,
+						SYSLOG::RES_CASHSOURCE => $sourceid,
+						SYSLOG::RES_SOURCEFILE => $sourcefileid,
 					);
 					$res = $this->db->Execute('INSERT INTO cashimport (date, value, customer,
 						customerid, description, hash, sourceid, sourcefileid)
 						VALUES (?, ?, ?, ?, ?, ?, ?, ?)', array_values($args));
 					if ($res && $this->sylog) {
-						$args[$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHIMPORT]] = $this->db->GetLastInsertID('cashimport');
+						$args[SYSLOG::RES_CASHIMPORT] = $this->db->GetLastInsertID('cashimport');
 						$syslog_records[] = array(
-							'resource' => SYSLOG_RES_CASHIMPORT,
-							'operation' => SYSLOG_OPER_ADD,
+							'resource' => SYSLOG::RES_CASHIMPORT,
+							'operation' => SYSLOG::OPER_ADD,
 							'args' => $args,
-							'keys' => array(
-								$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHIMPORT],
-								$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CUST],
-								$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHSOURCE],
-								$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_SOURCEFILE],
-							),
 						);
 					}
 
@@ -273,21 +274,23 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 			if ($error['sum']) {
 				$this->db->Execute('DELETE FROM cashimport WHERE sourcefileid = ?', array($sourcefileid));
 				$this->db->Execute('DELETE FROM sourcefiles WHERE id = ?', array($sourcefileid));
-			} elseif (!empty($syslog_records))
-				foreach ($syslog_records as $syslog_record)
-					$this->syslog->AddMessage($syslog_record['resource'], $syslog_record['operation'],
-						$syslog_record['args'], $syslog_record['keys']);
+			} else {
+				if (!$quiet)
+					printf("File %s: %d records." . PHP_EOL, $filename, count($data));
+				if (!empty($syslog_records))
+					foreach ($syslog_records as $syslog_record)
+						$this->syslog->AddMessage($syslog_record['resource'], $syslog_record['operation'],
+							$syslog_record['args']);
+			}
 
 		return $error;
 	}
 
 	/**
 	 * Commits cash imports located in database
-	 *
-	 * @global array $SYSLOG_RESOURCE_KEYS
 	 */
 	public function CashImportCommit() {
-		global $SYSLOG_RESOURCE_KEYS;
+		global $LMS;
 
 		$imports = $this->db->GetAll('SELECT i.*, f.idate
 			FROM cashimport i
@@ -300,6 +303,7 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 
 			$finance_manager = new LMSFinanceManager($this->db, $this->auth, $this->cache, $this->syslog);
 
+			$cashimports = array();
 			foreach ($imports as $import) {
 
 				$this->db->BeginTrans();
@@ -356,13 +360,11 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 										if (!empty($docids))
 											foreach ($docids as $docid) {
 												$args = array(
-													$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_DOC],
-													$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CUST],
+													SYSLOG::RES_DOC,
+													SYSLOG::RES_CUST,
 													'closed' => 1,
 												);
-												$this->syslog->AddMessage(SYSLOG_RES_DOC, SYSLOG_OPER_UPDATE, $args,
-													array($SYSLOG_RESOURCE_KEYS[SYSLOG_RES_DOC],
-														$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CUST]));
+												$this->syslog->AddMessage(SYSLOG::RES_DOC, SYSLOG::OPER_UPDATE, $args);
 											}
 									}
 
@@ -373,22 +375,25 @@ class LMSCashManager extends LMSManager implements LMSCashManagerInterface
 				}
 
 				$this->db->Execute('UPDATE cashimport SET closed = 1 WHERE id = ?', array($import['id']));
+
 				if ($this->syslog) {
 					$args = array(
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHIMPORT] => $import['id'],
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHSOURCE] => $import['sourceid'],
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_SOURCEFILE] => $import['sourcefileid'],
-						$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CUST] => $import['customerid'],
+						SYSLOG::RES_CASHIMPORT => $import['id'],
+						SYSLOG::RES_CASHSOURCE => $import['sourceid'],
+						SYSLOG::RES_SOURCEFILE => $import['sourcefileid'],
+						SYSLOG::RES_CUST => $import['customerid'],
 						'closed' => 1,
 					);
-					$this->syslog->AddMessage(SYSLOG_RES_CASHIMPORT, SYSLOG_OPER_UPDATE, $args,
-						array($SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHIMPORT], $SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CASHSOURCE],
-							$SYSLOG_RESOURCE_KEYS[SYSLOG_RES_SOURCEFILE], $SYSLOG_RESOURCE_KEYS[SYSLOG_RES_CUST]));
+					$this->syslog->AddMessage(SYSLOG::RES_CASHIMPORT, SYSLOG::OPER_UPDATE, $args);
 				}
 				$finance_manager->AddBalance($balance);
 
 				$this->db->CommitTrans();
+
+				if ($this->db->GetOne('SELECT closed FROM cashimport WHERE id = ?', array($import['id'])))
+					$cashimports[] = $import;
 			}
+			$LMS->executeHook('cashimport_after_commit', array('cashimports' => $cashimports));
 		}
 	}
 }

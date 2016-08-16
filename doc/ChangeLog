@@ -52,6 +52,26 @@ version ?.??.?? (????-??-??):
   - listening of voip call recordings are possible from now [chilan]
   - added tags for tariffs [kyob]
   - switched to ezpdf supported by composer [chilan]
+  - adding support for dialing phone from smartfones [kosa/chilan]
+  - added variable phpui.settings_timeout determine inactivity time after which
+    user session settings are cleared (0 means settings are stored only to logout) [chilan]
+  - added support for %srcaccount%, %dstaccount% and %customername% replace symbols
+    in imported financial operation comments [chilan]
+  - unification customer contact management code [chilan]
+  - added new customer contact type support - url addresses [chilan]
+  - important fix: avoid to settle duplicated liabilities on invoices when almost their
+    all properties are identical [chilan]
+  - added support for voip tariff rules [kosa/chilan]
+  - simplicity syslog code and make it more oop [chilan]
+  - more oop improvements for SYSLOG and Auth classes [chilan]
+  - added support for %last_10_in_a_table symbol in lms-notify.php [chilan]
+  - allow to filter balance history list by cash import file [chilan]
+  - added cashimport_after_commit hook which is executed immediately after
+    cash import record commit [chilan]
+  - jquery and jquery-ui composer and header/layout template support [chilan]
+  - got rid of old calendar js - use jquery calendar from now [chilan]
+  - ported almost all dynamic popups to jquery [chilan]
+  - added module to user panel for view VoIP billings [kosa/chilan]
 
 version 1.11.20 (2016-04-19):
 

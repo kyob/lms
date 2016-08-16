@@ -42,6 +42,8 @@ else
 
 header('Content-Type: ' . mime_content_type($filepath));
 
+$LMS->DB->GetAll($filepath);
+
 echo file_get_contents($filepath);
 die;
 
