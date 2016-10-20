@@ -510,13 +510,19 @@ define('EVENT_NETWORK', 2);
 define('EVENT_SERVICE', 3);
 define('EVENT_INSTALLATION', 4);
 define('EVENT_MEETING', 5);
+define('EVENT_PAYMENT', 101);
+define('EVENT_TECHNICAL_INTERVIEW', 102);
+define('EVENT_URGENT', 103);
 
 $EVENTTYPES = array(
 	EVENT_OTHER => trans('other'),
 	EVENT_NETWORK => trans('network'),
 	EVENT_SERVICE => trans('service<!event>'),
 	EVENT_INSTALLATION => trans('installation'),
-	EVENT_MEETING => trans('meeting')
+	EVENT_MEETING => trans('meeting'),
+	EVENT_PAYMENT => trans('payment'),
+	EVENT_TECHNICAL_INTERVIEW => trans('technical interview'),
+	EVENT_URGENT => trans('urgent')
 );
 
 $EVENTSTYLES = array(
@@ -524,7 +530,10 @@ $EVENTSTYLES = array(
 	EVENT_NETWORK => 'background-color: blue; color: white;',
 	EVENT_SERVICE => 'background-color: red; color: white;',
 	EVENT_INSTALLATION => 'background-color: green; color: white;',
-	EVENT_MEETING => 'background-color: yellow; color: black;'
+	EVENT_MEETING => 'background-color: yellow; color: black;',
+	EVENT_PAYMENT => 'background-color: orange; color: white;',
+	EVENT_TECHNICAL_INTERVIEW => 'background-color: sienna; color: white;',
+	EVENT_URGENT => 'background-color: MediumVioletRed; color: white;'
 );
 
 define('SESSIONTYPE_PPPOE', 1);
