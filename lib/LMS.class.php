@@ -2087,6 +2087,29 @@ class LMS
 
                 $errors[] = 'Smsapi error: message has not been sent!';
                 continue 2;
+			case 'mail2sms':
+				$args = array(
+					'link' => 'https://sms-gw.alfa-system.pl/',
+					'numer' => $number,
+					'wiadomosc' => $message,
+				);
+
+				$url = $args['link'] . '?n=' . $args['numer'] . '&w='. rawurlencode($args['wiadomosc']);
+
+				$curl = curl_init();
+				curl_setopt($curl, CURLOPT_URL, $url);
+
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($curl, CURLOPT_HEADER, 0);
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+				if (!curl_exec($curl)) {
+					die('Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl));
+				}
+
+				curl_close($curl);
+
+				return MSG_SENT;
             default:
                 $errors[] = trans('Unknown SMS service!');
                 continue 2;
