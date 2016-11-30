@@ -26,6 +26,14 @@
 		visualEditor: '{trans("visual editor")}',
 		selectionAny: '{trans("- any -")}'
 	}
+
+	{if ConfigHelper::checkValue(ConfigHelper::getConfig('phpui.disable_mobile_tooltips', true))}
+	$(function() {
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+			$('[title]').removeAttr('title');
+		}
+	});
+	{/if}
 //-->
 </script>
 <script type="text/javascript" src="img/jquery.js"></script>
