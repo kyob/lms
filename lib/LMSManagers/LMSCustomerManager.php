@@ -789,7 +789,17 @@ class LMSCustomerManager extends LMSManager implements LMSCustomerManagerInterfa
      */
     public function getCustomerNetDevNodes($id, $count = null)
     {
-        return $this->customerNodesProvider( $id, 'netdev', $count );
+        $tmp = $this->customerNodesProvider( $id, 'netdev', $count );
+
+        if (!$tmp)
+            return null;
+
+        $netdevs = array();
+        foreach ($tmp as $v) {
+            $netdevs[ $v['id'] ] = $v;
+        }
+
+        return $netdevs;
     }
 
     protected function customerNodesProvider( $customer_id, $type = '', $count = null ) {

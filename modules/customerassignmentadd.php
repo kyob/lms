@@ -380,9 +380,25 @@ if (!empty($tmp_promo_list)) {
     }
 }
 
+// -----
+// remove duplicated customer nodes
+// -----
+
+$netdevnodes = $LMS->getCustomerNetDevNodes($customer['id']);
+
+if ($customernodes) {
+	foreach ($customernodes as $v) {
+		if (isset($netdevnodes[$v['id']]))
+			unset($netdevnodes[$v['id']]);
+    }
+}
+
+$SMARTY->assign('customernetdevnodes' , $netdevnodes);
+
+// -----
+
 $SMARTY->assign('assignment'          , $a);
 $SMARTY->assign('customernodes'       , $customernodes);
-$SMARTY->assign('customernetdevnodes' , $LMS->getCustomerNetDevNodes($customer['id']));
 $SMARTY->assign('customervoipaccs'    , $LMS->getCustomerVoipAccounts($customer['id']));
 $SMARTY->assign('promotionschemanames', $schemas_only_names);
 $SMARTY->assign('promotionschemas'    , $schemas);
